@@ -1,0 +1,30 @@
+name: collect-lines-and-injuries
+# Every 30 minutes: ESPN schedules + betting lines (NFL, NCAAF, NBA, CBB, MLB, NHL) and NBA/NFL injury lists,
+# plus the newest official NBA injury report PDF. Only changed snapshots are committed.
+on:
+  schedule:
+    - cron: "7,37 * * * *"
+  workflow_dispatch: {}
+permissions:
+  contents: write
+concurrency:
+  group: collect
+  cancel-in-progress: false
+jobs:
+  collect:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with: { python-version: "3.12" }
+      - run: pip install requests==2.32.3
+      - run: python scripts/fetch_espn.py --days 7
+      - run: python scripts/fetch_nba_injury_pdfs.py
+      - name: commit
+        run: |
+          git config user.name "data-bot"
+          git config user.email "data-bot@users.noreply.github.com"
+          git add -A data
+          git diff --cached --quiet || git commit -m "data: $(date -u +%Y-%m-%dT%H:%MZ)"
+          git pull --rebase --autostash && git push

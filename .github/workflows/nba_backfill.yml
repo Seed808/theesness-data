@@ -1,0 +1,27 @@
+name: nba-injury-backfill
+# Run once by hand: downloads one official report per day (evening slots) for a date range.
+on:
+  workflow_dispatch:
+    inputs:
+      start: { description: "First date (YYYY-MM-DD)", required: true, default: "2025-10-21" }
+      end:   { description: "Last date (YYYY-MM-DD)", required: true, default: "2026-04-12" }
+      slots: { description: "Eastern times to try, HH:MM comma-separated", required: true, default: "17:00,17:30,18:00,18:30" }
+permissions:
+  contents: write
+jobs:
+  backfill:
+    runs-on: ubuntu-latest
+    timeout-minutes: 240
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with: { python-version: "3.12" }
+      - run: pip install requests==2.32.3
+      - run: python scripts/fetch_nba_injury_pdfs.py --start ${{ inputs.start }} --end ${{ inputs.end }} --slots ${{ inputs.slots }}
+      - name: commit
+        run: |
+          git config user.name "data-bot"
+          git config user.email "data-bot@users.noreply.github.com"
+          git add -A data
+          git diff --cached --quiet || git commit -m "nba injury backfill ${{ inputs.start }}..${{ inputs.end }}"
+          git pull --rebase --autostash && git push

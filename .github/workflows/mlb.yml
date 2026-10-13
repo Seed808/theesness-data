@@ -1,0 +1,31 @@
+name: mlb-statcast-and-schedule
+# Daily at 08:13 UTC (about 10 PM Hawaii / 4 AM Eastern, after the last games finish).
+on:
+  schedule:
+    - cron: "13 8 * * *"
+  workflow_dispatch:
+    inputs:
+      statcast_from:
+        description: "Backfill Statcast from this date (YYYY-MM-DD). Leave empty for the daily update."
+        required: false
+permissions:
+  contents: write
+concurrency:
+  group: mlb
+jobs:
+  mlb:
+    runs-on: ubuntu-latest
+    timeout-minutes: 300
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with: { python-version: "3.12" }
+      - run: pip install -r requirements.txt
+      - run: python scripts/fetch_mlb.py ${{ inputs.statcast_from && format('--statcast-from {0}', inputs.statcast_from) || '' }}
+      - name: commit
+        run: |
+          git config user.name "data-bot"
+          git config user.email "data-bot@users.noreply.github.com"
+          git add -A data
+          git diff --cached --quiet || git commit -m "mlb: $(date -u +%Y-%m-%dT%H:%MZ)"
+          git pull --rebase --autostash && git push
