@@ -1,2 +1,7 @@
-  0%|          | 0/1 [00:00<?, ?it/s]100%|██████████| 1/1 [00:00<00:00,  9.56it/s]100%|██████████| 1/1 [00:00<00:00,  9.53it/s]
+  0%|          | 0/1 [00:00<?, ?it/s]100%|██████████| 1/1 [00:00<00:00,  4.72it/s]100%|██████████| 1/1 [00:00<00:00,  4.72it/s]
+/home/runner/work/theesness-data/theesness-data/scripts/fetch_mlb.py:90: FutureWarning: The behavior of DataFrame concatenation with empty or all-NA entries is deprecated. In a future version, this will no longer exclude empty or all-NA columns when determining the result dtypes. To retain the old behavior, exclude the relevant entries before the concat operation.
+  part = pd.concat([old[~old["game_pk"].isin(part["game_pk"])], part])
+/home/runner/work/theesness-data/theesness-data/scripts/fetch_mlb.py:90: FutureWarning: The behavior of DataFrame concatenation with empty or all-NA entries is deprecated. In a future version, this will no longer exclude empty or all-NA columns when determining the result dtypes. To retain the old behavior, exclude the relevant entries before the concat operation.
+  part = pd.concat([old[~old["game_pk"].isin(part["game_pk"])], part])
 statcast 2026-10-13..2026-10-13: Savant returned nothing
+fallback 849813: 70 plate appearances from the MLB live feed (Savant not posted yet)
