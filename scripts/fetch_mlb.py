@@ -138,6 +138,16 @@ def schedule(days):
             (ROOT / "schedule" / f"{d.isoformat()}.first.json").write_text(p.read_text())
 
 
+def players(seasons):
+    """id -> full name for every MLB player in each season (Statcast names only the pitcher)."""
+    for y in seasons:
+        r = requests.get("https://statsapi.mlb.com/api/v1/sports/1/players", params={"season": y}, timeout=60)
+        r.raise_for_status()
+        names = {str(p["id"]): p["fullName"] for p in r.json().get("people", [])}
+        (ROOT / f"players_{y}.json").write_text(json.dumps(names, separators=(",", ":")))
+        print(f"players {y}: {len(names)}")
+
+
 def main(statcast_from: str | None):
     today = (datetime.now(timezone.utc) - timedelta(hours=10)).date()
     # through today (Hawaii date): finished games only, so a same-day rerun picks up tonight's finals
@@ -147,6 +157,7 @@ def main(statcast_from: str | None):
         statcast_days(today - timedelta(days=2), today)
     fill_missing(today - timedelta(days=3), today)
     schedule([today + timedelta(days=k) for k in (-1, 0, 1, 2)])
+    players([today.year - 1, today.year])
 
 
 if __name__ == "__main__":
