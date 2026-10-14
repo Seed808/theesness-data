@@ -39,8 +39,13 @@ def statcast_days(d0: date, d1: date):
     while d <= d1:
         chunk_end = min(d + timedelta(days=6), d1)
         df = statcast(start_dt=d.isoformat(), end_dt=chunk_end.isoformat(), verbose=False)
+        n_raw = 0 if df is None else len(df)
         if df is not None and len(df):
-            df = df[df["game_pk"].isin(final_games(d - timedelta(days=1), chunk_end + timedelta(days=1)))]
+            fg = final_games(d - timedelta(days=1), chunk_end + timedelta(days=1))
+            print(f"statcast {d}..{chunk_end}: {n_raw} pitches from Savant, games {sorted(df['game_pk'].unique().tolist())}, final per MLB API {sorted(fg)}")
+            df = df[df["game_pk"].isin(fg)]
+        else:
+            print(f"statcast {d}..{chunk_end}: Savant returned nothing")
         if df is not None and len(df):
             df = df[[c for c in COLS if c in df.columns]].copy()
             df["game_date"] = pd.to_datetime(df["game_date"]).dt.date.astype(str)
