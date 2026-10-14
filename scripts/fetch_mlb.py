@@ -25,13 +25,22 @@ COLS = ["game_pk", "game_date", "game_type", "home_team", "away_team", "inning",
 API = "https://statsapi.mlb.com/api/v1/schedule"
 
 
+def final_games(d0: date, d1: date) -> set[int]:
+    """gamePks the MLB Stats API marks Final between d0 and d1 (a game in progress is never saved)."""
+    r = requests.get(API, params={"sportId": 1, "startDate": d0.isoformat(), "endDate": d1.isoformat()}, timeout=60)
+    r.raise_for_status()
+    return {g["gamePk"] for d in r.json().get("dates", []) for g in d["games"]
+            if g["status"].get("abstractGameState") == "Final"}
+
+
 def statcast_days(d0: date, d1: date):
-    from pybaseball import cache, statcast
-    cache.enable()
+    from pybaseball import statcast
     d = d0
     while d <= d1:
         chunk_end = min(d + timedelta(days=6), d1)
         df = statcast(start_dt=d.isoformat(), end_dt=chunk_end.isoformat(), verbose=False)
+        if df is not None and len(df):
+            df = df[df["game_pk"].isin(final_games(d - timedelta(days=1), chunk_end + timedelta(days=1)))]
         if df is not None and len(df):
             df = df[[c for c in COLS if c in df.columns]].copy()
             df["game_date"] = pd.to_datetime(df["game_date"]).dt.date.astype(str)
@@ -60,10 +69,11 @@ def schedule(days):
 
 def main(statcast_from: str | None):
     today = (datetime.now(timezone.utc) - timedelta(hours=10)).date()
+    # through today (Hawaii date): finished games only, so a same-day rerun picks up tonight's finals
     if statcast_from:
-        statcast_days(date.fromisoformat(statcast_from), today - timedelta(days=1))
+        statcast_days(date.fromisoformat(statcast_from), today)
     else:
-        statcast_days(today - timedelta(days=2), today - timedelta(days=1))
+        statcast_days(today - timedelta(days=2), today)
     schedule([today + timedelta(days=k) for k in (-1, 0, 1, 2)])
 
 
