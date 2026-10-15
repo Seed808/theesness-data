@@ -50,7 +50,7 @@ jobs:
         run: |
           git config user.name "data-bot"
           git config user.email "data-bot@users.noreply.github.com"
-          git add -A model/ledger model/site_listing.txt model/build_log.txt
+          git add -A model/ledger; git add -A model/site_listing.txt model/build_log.txt 2>/dev/null || true
           git diff --cached --quiet || git commit -m "picks: $(date -u +%Y-%m-%dT%H:%MZ)"
           git pull --rebase --autostash && git push
       - uses: actions/upload-pages-artifact@v3
