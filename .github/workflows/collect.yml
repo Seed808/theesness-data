@@ -22,6 +22,7 @@ jobs:
       - run: python scripts/fetch_espn.py --days 7
       - run: python scripts/fetch_nba_injury_pdfs.py
       - run: python scripts/fetch_mlb_schedule.py
+      - run: python scripts/fetch_espn_depth.py 2>&1 | tee data/espn/nfl/depth_last_run.log
       - name: commit
         run: |
           git config user.name "data-bot"
