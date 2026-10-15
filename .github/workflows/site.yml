@@ -38,16 +38,19 @@ jobs:
           curl -sSfL -o $W/nflverse/nfldata/data/teams.csv https://raw.githubusercontent.com/nflverse/nfldata/master/data/teams.csv
       - name: build
         run: |
+          set -o pipefail
           W=$(dirname "$GITHUB_WORKSPACE")
-          cd model && python run_all.py --data $W/data_raw --nfldata $W/nflverse/nfldata/data --out $W/site --ledger ledger | tail -c 2000
+          cd $GITHUB_WORKSPACE/model
+          python run_all.py --data $W/data_raw --nfldata $W/nflverse/nfldata/data --out $W/site --ledger ledger 2>&1 | tail -c 20000 > $GITHUB_WORKSPACE/model/build_log.txt
           cp -r $W/site $GITHUB_WORKSPACE/_site
           touch $GITHUB_WORKSPACE/_site/.nojekyll
-          (date -u; find $GITHUB_WORKSPACE/_site -maxdepth 2 | sed "s|$GITHUB_WORKSPACE/||" | sort | head -60; du -sh $GITHUB_WORKSPACE/_site) > model/site_listing.txt
+          (date -u; find $GITHUB_WORKSPACE/_site -maxdepth 2 | sed "s|$GITHUB_WORKSPACE/||" | sort | head -60; du -sh $GITHUB_WORKSPACE/_site) > $GITHUB_WORKSPACE/model/site_listing.txt
       - name: commit ledger
+        if: always()
         run: |
           git config user.name "data-bot"
           git config user.email "data-bot@users.noreply.github.com"
-          git add -A model/ledger model/site_listing.txt
+          git add -A model/ledger model/site_listing.txt model/build_log.txt
           git diff --cached --quiet || git commit -m "picks: $(date -u +%Y-%m-%dT%H:%MZ)"
           git pull --rebase --autostash && git push
       - uses: actions/upload-pages-artifact@v3
