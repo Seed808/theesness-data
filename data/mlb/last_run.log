@@ -1,11 +1,14 @@
-  0%|          | 0/3 [00:00<?, ?it/s]/opt/hostedtoolcache/Python/3.12.15/x64/lib/python3.12/site-packages/pybaseball/datahelpers/postprocessing.py:59: FutureWarning: errors='ignore' is deprecated and will raise in a future version. Use to_datetime without passing `errors` and catch exceptions explicitly instead
-  data_copy[column] = data_copy[column].apply(pd.to_datetime, errors='ignore', format=date_format)
- 33%|███▎      | 1/3 [00:00<00:00,  6.89it/s]/opt/hostedtoolcache/Python/3.12.15/x64/lib/python3.12/site-packages/pybaseball/datahelpers/postprocessing.py:59: FutureWarning: errors='ignore' is deprecated and will raise in a future version. Use to_datetime without passing `errors` and catch exceptions explicitly instead
+  0%|          | 0/3 [00:00<?, ?it/s] 33%|███▎      | 1/3 [00:00<00:00,  7.86it/s]/opt/hostedtoolcache/Python/3.12.15/x64/lib/python3.12/site-packages/pybaseball/datahelpers/postprocessing.py:59: FutureWarning: errors='ignore' is deprecated and will raise in a future version. Use to_datetime without passing `errors` and catch exceptions explicitly instead
   data_copy[column] = data_copy[column].apply(pd.to_datetime, errors='ignore', format=date_format)
 /opt/hostedtoolcache/Python/3.12.15/x64/lib/python3.12/site-packages/pybaseball/datahelpers/postprocessing.py:59: FutureWarning: errors='ignore' is deprecated and will raise in a future version. Use to_datetime without passing `errors` and catch exceptions explicitly instead
   data_copy[column] = data_copy[column].apply(pd.to_datetime, errors='ignore', format=date_format)
-100%|██████████| 3/3 [00:00<00:00, 11.51it/s]100%|██████████| 3/3 [00:00<00:00, 10.77it/s]
-statcast 2026-10-12..2026-10-14: 1132 pitches from Savant, games [849811, 849812, 849813, 849820], final per MLB API [849809, 849811, 849812, 849813, 849820]
-statcast 2026-10-12..2026-10-14: 1132 pitches
+100%|██████████| 3/3 [00:00<00:00, 13.46it/s]100%|██████████| 3/3 [00:00<00:00, 12.54it/s]
+/opt/hostedtoolcache/Python/3.12.15/x64/lib/python3.12/site-packages/pybaseball/statcast.py:85: FutureWarning: The behavior of DataFrame concatenation with empty or all-NA entries is deprecated. In a future version, this will no longer exclude empty or all-NA columns when determining the result dtypes. To retain the old behavior, exclude the relevant entries before the concat operation.
+  final_data = pd.concat(dataframe_list, axis=0).convert_dtypes(convert_string=False)
+/home/runner/work/theesness-data/theesness-data/scripts/fetch_mlb.py:90: FutureWarning: The behavior of DataFrame concatenation with empty or all-NA entries is deprecated. In a future version, this will no longer exclude empty or all-NA columns when determining the result dtypes. To retain the old behavior, exclude the relevant entries before the concat operation.
+  part = pd.concat([old[~old["game_pk"].isin(part["game_pk"])], part])
+statcast 2026-10-13..2026-10-15: 558 pitches from Savant, games [849811, 849813], final per MLB API [849811, 849812, 849813, 849818, 849820]
+statcast 2026-10-13..2026-10-15: 558 pitches
+fallback 849818: 61 plate appearances from the MLB live feed (Savant not posted yet)
 players 2025: 1470
 players 2026: 1511
