@@ -1,0 +1,59 @@
+name: build-site
+# Every 30 minutes: re-project every game that has not started with the newest roster, injuries and lines,
+# update picks until kickoff, grade finished games, and publish the site to GitHub Pages.
+on:
+  schedule:
+    - cron: "19,49 * * * *"
+  workflow_dispatch: {}
+permissions:
+  contents: write
+  pages: write
+  id-token: write
+concurrency:
+  group: site
+  cancel-in-progress: false
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    timeout-minutes: 40
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with: { python-version: "3.12" }
+      - run: pip install pandas==2.2.3 numpy==2.1.3 scipy==1.14.1 pyarrow==18.1.0 requests==2.32.3
+      - name: data
+        run: |
+          set -e
+          W=$(dirname "$GITHUB_WORKSPACE")
+          mkdir -p $W/data_raw/nfl $W/nflverse/nfldata/data
+          cp -r model/data_static/ncaaf model/data_static/nba model/data_static/cbb model/data_static/sam $W/data_raw/
+          cp model/data_static/nfl_games_stub.csv $W/data_raw/nfl/games.csv
+          R=https://github.com/nflverse/nflverse-data/releases/download
+          for y in 2024 2025 2026; do curl -sSfL -o $W/data_raw/nfl/play_by_play_$y.parquet $R/pbp/play_by_play_$y.parquet; done
+          for y in 2025 2026; do
+            curl -sSfL -o $W/data_raw/nfl/injuries_$y.parquet $R/injuries/injuries_$y.parquet
+            curl -sSfL -o $W/data_raw/nfl/roster_weekly_$y.parquet $R/weekly_rosters/roster_weekly_$y.parquet
+          done
+          curl -sSfL -o $W/nflverse/nfldata/data/games.csv https://raw.githubusercontent.com/nflverse/nfldata/master/data/games.csv
+          curl -sSfL -o $W/nflverse/nfldata/data/teams.csv https://raw.githubusercontent.com/nflverse/nfldata/master/data/teams.csv
+      - name: build
+        run: |
+          W=$(dirname "$GITHUB_WORKSPACE")
+          cd model && python run_all.py --data $W/data_raw --nfldata $W/nflverse/nfldata/data --out $W/site --ledger ledger | tail -c 2000
+          cp -r $W/site $GITHUB_WORKSPACE/_site
+      - name: commit ledger
+        run: |
+          git config user.name "data-bot"
+          git config user.email "data-bot@users.noreply.github.com"
+          git add -A model/ledger
+          git diff --cached --quiet || git commit -m "picks: $(date -u +%Y-%m-%dT%H:%MZ)"
+          git pull --rebase --autostash && git push
+      - uses: actions/upload-pages-artifact@v3
+        with: { path: _site }
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    environment: { name: github-pages, url: "${{ steps.d.outputs.page_url }}" }
+    steps:
+      - id: d
+        uses: actions/deploy-pages@v4
