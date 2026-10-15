@@ -1,0 +1,26 @@
+/home/runner/work/theesness-data/theesness-data/model/edgemodels/sports/football.py:102: FutureWarning: Downcasting object dtype arrays on .fillna, .ffill, .bfill is deprecated and will change in a future version. Call result.infer_objects(copy=False) instead. To opt-in to the future behavior, set `pd.set_option('future.no_silent_downcasting', True)`
+  "neutral_site": p["neutral_site"].fillna(False).astype(bool),
+/home/runner/work/theesness-data/theesness-data/model/run_all.py:476: FutureWarning: The behavior of DataFrame concatenation with empty or all-NA entries is deprecated. In a future version, this will no longer exclude empty or all-NA columns when determining the result dtypes. To retain the old behavior, exclude the relevant entries before the concat operation.
+  cbt = pd.concat([C.backtest(2025, list(range(4, 15))).assign(date="2025"), C.backtest(2026, [3, 4, 5, 6]).assign(date="2026")])
+/home/runner/work/theesness-data/theesness-data/model/run_all.py:291: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
+  sl["date"] = pd.to_datetime(sl["date"], errors="coerce").dt.strftime("%A, %B %-d").fillna("Date not in feed")
+/home/runner/work/theesness-data/theesness-data/model/run_all.py:291: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
+  sl["date"] = pd.to_datetime(sl["date"], errors="coerce").dt.strftime("%A, %B %-d").fillna("Date not in feed")
+/home/runner/work/theesness-data/theesness-data/model/run_all.py:291: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
+  sl["date"] = pd.to_datetime(sl["date"], errors="coerce").dt.strftime("%A, %B %-d").fillna("Date not in feed")
+/home/runner/work/theesness-data/theesness-data/model/run_all.py:291: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
+  sl["date"] = pd.to_datetime(sl["date"], errors="coerce").dt.strftime("%A, %B %-d").fillna("Date not in feed")
+/home/runner/work/theesness-data/theesness-data/model/run_all.py:291: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
+  sl["date"] = pd.to_datetime(sl["date"], errors="coerce").dt.strftime("%A, %B %-d").fillna("Date not in feed")
+/home/runner/work/theesness-data/theesness-data/model/run_all.py:291: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
+  sl["date"] = pd.to_datetime(sl["date"], errors="coerce").dt.strftime("%A, %B %-d").fillna("Date not in feed")
+Traceback (most recent call last):
+  File "/home/runner/work/theesness-data/theesness-data/model/run_all.py", line 722, in <module>
+    r = run(Path(a.data), Path(a.nfldata), Path(a.out), Path(a.ledger))
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/runner/work/theesness-data/theesness-data/model/run_all.py", line 661, in run
+    sh = hk.add_xg(sh, hk.fit_xg(sh))
+                       ^^^^^^^^^^^^^
+  File "/home/runner/work/theesness-data/theesness-data/model/edgemodels/sports/hockey.py", line 68, in fit_xg
+    from sklearn.linear_model import LogisticRegression
+ModuleNotFoundError: No module named 'sklearn'
