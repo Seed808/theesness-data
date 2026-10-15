@@ -1,11 +1,14 @@
-  0%|          | 0/3 [00:00<?, ?it/s] 33%|███▎      | 1/3 [00:00<00:00,  3.41it/s]/opt/hostedtoolcache/Python/3.12.15/x64/lib/python3.12/site-packages/pybaseball/datahelpers/postprocessing.py:59: FutureWarning: errors='ignore' is deprecated and will raise in a future version. Use to_datetime without passing `errors` and catch exceptions explicitly instead
+  0%|          | 0/3 [00:00<?, ?it/s] 33%|███▎      | 1/3 [00:00<00:00,  9.82it/s]/opt/hostedtoolcache/Python/3.12.15/x64/lib/python3.12/site-packages/pybaseball/datahelpers/postprocessing.py:59: FutureWarning: errors='ignore' is deprecated and will raise in a future version. Use to_datetime without passing `errors` and catch exceptions explicitly instead
   data_copy[column] = data_copy[column].apply(pd.to_datetime, errors='ignore', format=date_format)
 /opt/hostedtoolcache/Python/3.12.15/x64/lib/python3.12/site-packages/pybaseball/datahelpers/postprocessing.py:59: FutureWarning: errors='ignore' is deprecated and will raise in a future version. Use to_datetime without passing `errors` and catch exceptions explicitly instead
   data_copy[column] = data_copy[column].apply(pd.to_datetime, errors='ignore', format=date_format)
-100%|██████████| 3/3 [00:00<00:00,  7.56it/s]100%|██████████| 3/3 [00:00<00:00,  6.73it/s]
+100%|██████████| 3/3 [00:00<00:00, 11.14it/s]100%|██████████| 3/3 [00:00<00:00, 10.97it/s]
 /opt/hostedtoolcache/Python/3.12.15/x64/lib/python3.12/site-packages/pybaseball/statcast.py:85: FutureWarning: The behavior of DataFrame concatenation with empty or all-NA entries is deprecated. In a future version, this will no longer exclude empty or all-NA columns when determining the result dtypes. To retain the old behavior, exclude the relevant entries before the concat operation.
   final_data = pd.concat(dataframe_list, axis=0).convert_dtypes(convert_string=False)
-statcast 2026-10-12..2026-10-14: 837 pitches from Savant, games [849812, 849813, 849820], final per MLB API [849809, 849812, 849813, 849820]
+/home/runner/work/theesness-data/theesness-data/scripts/fetch_mlb.py:90: FutureWarning: The behavior of DataFrame concatenation with empty or all-NA entries is deprecated. In a future version, this will no longer exclude empty or all-NA columns when determining the result dtypes. To retain the old behavior, exclude the relevant entries before the concat operation.
+  part = pd.concat([old[~old["game_pk"].isin(part["game_pk"])], part])
+statcast 2026-10-12..2026-10-14: 837 pitches from Savant, games [849812, 849813, 849820], final per MLB API [849809, 849811, 849812, 849813, 849820]
 statcast 2026-10-12..2026-10-14: 837 pitches
+fallback 849811: 74 plate appearances from the MLB live feed (Savant not posted yet)
 players 2025: 1470
 players 2026: 1511
