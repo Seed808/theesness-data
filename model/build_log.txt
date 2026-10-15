@@ -14,13 +14,356 @@
   sl["date"] = pd.to_datetime(sl["date"], errors="coerce").dt.strftime("%A, %B %-d").fillna("Date not in feed")
 /home/runner/work/theesness-data/theesness-data/model/run_all.py:291: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
   sl["date"] = pd.to_datetime(sl["date"], errors="coerce").dt.strftime("%A, %B %-d").fillna("Date not in feed")
-Traceback (most recent call last):
-  File "/home/runner/work/theesness-data/theesness-data/model/run_all.py", line 722, in <module>
-    r = run(Path(a.data), Path(a.nfldata), Path(a.out), Path(a.ledger))
-        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "/home/runner/work/theesness-data/theesness-data/model/run_all.py", line 661, in run
-    sh = hk.add_xg(sh, hk.fit_xg(sh))
-                       ^^^^^^^^^^^^^
-  File "/home/runner/work/theesness-data/theesness-data/model/edgemodels/sports/hockey.py", line 68, in fit_xg
-    from sklearn.linear_model import LogisticRegression
-ModuleNotFoundError: No module named 'sklearn'
+{
+ "built_at": "2026-10-15T22:37:39+00:00",
+ "nfl_key_numbers": {
+  "source": "nflverse games 2010-2025, 4363 games, closing spread as expectation",
+  "top": [
+   {
+    "margin": 3,
+    "weight": 2.687529878986892
+   },
+   {
+    "margin": 38,
+    "weight": 2.067242485480769
+   },
+   {
+    "margin": 35,
+    "weight": 2.0106954158647357
+   },
+   {
+    "margin": 31,
+    "weight": 1.978398508323249
+   },
+   {
+    "margin": 7,
+    "weight": 1.7663919913184858
+   },
+   {
+    "margin": 28,
+    "weight": 1.7459164695216642
+   },
+   {
+    "margin": 34,
+    "weight": 1.5354974750205879
+   },
+   {
+    "margin": 24,
+    "weight": 1.4853741664463254
+   }
+  ]
+ },
+ "nfl_backtest": {
+  "summary": [
+   {
+    "label": "All picks",
+    "W": 150,
+    "L": 147,
+    "P": 6,
+    "pct": 0.5050505050505051,
+    "units": -10.6
+   },
+   {
+    "label": "Edge 3.0+",
+    "W": 43,
+    "L": 45,
+    "P": 2,
+    "pct": 0.48863636363636365,
+    "units": -5.9
+   },
+   {
+    "label": "Edge 6.0+",
+    "W": 7,
+    "L": 7,
+    "P": 0,
+    "pct": 0.5,
+    "units": -0.6
+   },
+   {
+    "label": "Edge 10.0+",
+    "W": 0,
+    "L": 4,
+    "P": 0,
+    "pct": 0.0,
+    "units": -4.0
+   }
+  ],
+  "accuracy": {
+   "games": 303,
+   "model_mae": 10.255445544554455,
+   "model_sd": 13.098033894526703,
+   "market_mae": 9.935643564356436,
+   "market_sd": 12.502357874353967,
+   "lined": 303
+  }
+ },
+ "nfl_questionable_active_rate": 0.6791044776119403,
+ "nfl_pickbook": {
+  "locked": 0,
+  "updated": 0,
+  "held": 0
+ },
+ "nfl_locked_now": 0,
+ "nfl_chain_ok": true,
+ "nfl_2026_replay": [
+  {
+   "label": "All picks",
+   "W": 39,
+   "L": 34,
+   "P": 6,
+   "pct": 0.5342465753424658,
+   "units": 1.5
+  },
+  {
+   "label": "Edge 3.0+",
+   "W": 13,
+   "L": 8,
+   "P": 1,
+   "pct": 0.6190476190476191,
+   "units": 3.8
+  },
+  {
+   "label": "Edge 6.0+",
+   "W": 0,
+   "L": 1,
+   "P": 0,
+   "pct": 0.0,
+   "units": -1.0
+  },
+  {
+   "label": "Edge 10.0+",
+   "W": 0,
+   "L": 1,
+   "P": 0,
+   "pct": 0.0,
+   "units": -1.0
+  }
+ ],
+ "nfl_live": [
+  {
+   "label": "All picks",
+   "W": 0,
+   "L": 0,
+   "P": 0,
+   "pct": NaN,
+   "units": 0.0
+  },
+  {
+   "label": "Edge 3.0+",
+   "W": 0,
+   "L": 0,
+   "P": 0,
+   "pct": NaN,
+   "units": 0.0
+  },
+  {
+   "label": "Edge 6.0+",
+   "W": 0,
+   "L": 0,
+   "P": 0,
+   "pct": NaN,
+   "units": 0.0
+  },
+  {
+   "label": "Edge 10.0+",
+   "W": 0,
+   "L": 0,
+   "P": 0,
+   "pct": NaN,
+   "units": 0.0
+  }
+ ],
+ "ncaaf_backtest": {
+  "summary": [
+   {
+    "label": "All picks",
+    "W": 819,
+    "L": 786,
+    "P": 23,
+    "pct": 0.5102803738317757,
+    "units": -41.5
+   },
+   {
+    "label": "Edge 3.0+",
+    "W": 622,
+    "L": 556,
+    "P": 15,
+    "pct": 0.5280135823429541,
+    "units": 9.5
+   },
+   {
+    "label": "Edge 6.0+",
+    "W": 418,
+    "L": 361,
+    "P": 10,
+    "pct": 0.5365853658536586,
+    "units": 19.0
+   },
+   {
+    "label": "Edge 10.0+",
+    "W": 215,
+    "L": 176,
+    "P": 5,
+    "pct": 0.5498721227621484,
+    "units": 19.5
+   }
+  ],
+  "accuracy": {
+   "games": 1678,
+   "model_mae": 14.102860548271751,
+   "model_sd": 18.122847113416253,
+   "market_mae": 11.801597051597051,
+   "market_sd": 15.030748581180159,
+   "lined": 1628
+  }
+ },
+ "ncaaf_2026_replay": [
+  {
+   "label": "All picks",
+   "W": 379,
+   "L": 362,
+   "P": 6,
+   "pct": 0.5114709851551957,
+   "units": -17.5
+  },
+  {
+   "label": "Edge 3.0+",
+   "W": 296,
+   "L": 272,
+   "P": 3,
+   "pct": 0.5211267605633803,
+   "units": -2.9
+  },
+  {
+   "label": "Edge 6.0+",
+   "W": 219,
+   "L": 200,
+   "P": 1,
+   "pct": 0.522673031026253,
+   "units": -0.9
+  },
+  {
+   "label": "Edge 10.0+",
+   "W": 140,
+   "L": 119,
+   "P": 0,
+   "pct": 0.5405405405405406,
+   "units": 8.3
+  }
+ ],
+ "ncaaf_locked_now": 0,
+ "ncaaf_chain_ok": true,
+ "nba_backtest": {
+  "summary": [
+   {
+    "label": "All picks",
+    "W": 494,
+    "L": 541,
+    "P": 8,
+    "pct": 0.47729468599033814,
+    "units": -91.9
+   },
+   {
+    "label": "Edge 2.5+",
+    "W": 226,
+    "L": 268,
+    "P": 4,
+    "pct": 0.4574898785425101,
+    "units": -62.5
+   },
+   {
+    "label": "Edge 5.0+",
+    "W": 96,
+    "L": 94,
+    "P": 3,
+    "pct": 0.5052631578947369,
+    "units": -6.7
+   },
+   {
+    "label": "Edge 8.0+",
+    "W": 27,
+    "L": 28,
+    "P": 2,
+    "pct": 0.4909090909090909,
+    "units": -3.5
+   }
+  ],
+  "accuracy": {
+   "games": 1048,
+   "model_mae": 11.48807251908397,
+   "model_sd": 14.7141506424855,
+   "market_mae": 10.88686481303931,
+   "market_sd": 13.96647154710555,
+   "lined": 1043
+  }
+ },
+ "cbb_backtest": {
+  "accuracy": {
+   "games": 3446,
+   "model_mae": 10.193934997098086,
+   "model_sd": 11.600958054643893
+  }
+ },
+ "mlb_backtest": {
+  "apr14_sep28": {
+   "games": 2186,
+   "winner_pct": 0.5535224153705398,
+   "log_loss": 0.6832026618490485,
+   "log_loss_home_rate_only": 0.6918805834642537,
+   "brier": 0.24508970908623054,
+   "total_mae": 3.518377027353694,
+   "total_mae_league_avg": 3.5489156229151826,
+   "margin_mae": 3.488257842773194,
+   "avg_proj_total": 8.857375189025287,
+   "avg_actual_total": 8.970265324794145
+  },
+  "jul_sep": {
+   "games": 1148,
+   "winner_pct": 0.568815331010453,
+   "log_loss": 0.6773858372164776,
+   "log_loss_home_rate_only": 0.6910681981294204,
+   "brier": 0.2422570554224739,
+   "total_mae": 3.5594811548811816,
+   "total_mae_league_avg": 3.557946557564132,
+   "margin_mae": 3.445713236428236,
+   "avg_proj_total": 8.87073023294106,
+   "avg_actual_total": 8.931184668989546
+  }
+ },
+ "mlb_locked_now": 0,
+ "mlb_chain_ok": true,
+ "mlb_live": [
+  {
+   "label": "All picks",
+   "W": 1,
+   "L": 0,
+   "P": 0,
+   "pct": 1.0,
+   "units": 1.4
+  },
+  {
+   "label": "Edge 3.0+",
+   "W": 0,
+   "L": 0,
+   "P": 0,
+   "pct": NaN,
+   "units": 0.0
+  },
+  {
+   "label": "Edge 5.0+",
+   "W": 0,
+   "L": 0,
+   "P": 0,
+   "pct": NaN,
+   "units": 0.0
+  },
+  {
+   "label": "Edge 8.0+",
+   "W": 0,
+   "L": 0,
+   "P": 0,
+   "pct": NaN,
+   "units": 0.0
+  }
+ ]
+}
