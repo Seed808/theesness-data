@@ -14,10 +14,8 @@
   sl["date"] = pd.to_datetime(sl["date"], errors="coerce").dt.strftime("%A, %B %-d").fillna("Date not in feed")
 /home/runner/work/theesness-data/theesness-data/model/run_all.py:322: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
   sl["date"] = pd.to_datetime(sl["date"], errors="coerce").dt.strftime("%A, %B %-d").fillna("Date not in feed")
-/home/runner/work/theesness-data/theesness-data/model/edgemodels/core/ledger.py:76: FutureWarning: The behavior of DataFrame concatenation with empty or all-NA entries is deprecated. In a future version, this will no longer exclude empty or all-NA columns when determining the result dtypes. To retain the old behavior, exclude the relevant entries before the concat operation.
-  out = pd.concat([led, pd.DataFrame(new)], ignore_index=True)
 {
- "built_at": "2026-10-16T19:31:33+00:00",
+ "built_at": "2026-10-16T19:43:51+00:00",
  "nfl_key_numbers": {
   "source": "nflverse games 2010-2025, 4363 games, closing spread as expectation",
   "top": [
@@ -261,7 +259,7 @@
    "units": 4.6
   }
  ],
- "ncaaf_locked_now": 49,
+ "ncaaf_locked_now": 1,
  "ncaaf_chain_ok": true,
  "nba_backtest": {
   "summary": [
@@ -317,10 +315,10 @@
  "mlb_backtest": {
   "apr14_sep28": {
    "games": 2186,
-   "winner_pct": 0.5498627630375115,
-   "log_loss": 0.6835754990165988,
+   "winner_pct": 0.5521500457456542,
+   "log_loss": 0.6833391952077207,
    "log_loss_home_rate_only": 0.6918805834642537,
-   "brier": 0.24527915204711806,
+   "brier": 0.24516470062328455,
    "total_mae": 3.518377027353694,
    "total_mae_league_avg": 3.5489156229151826,
    "margin_mae": 3.488257842773194,
@@ -329,10 +327,10 @@
   },
   "jul_sep": {
    "games": 1148,
-   "winner_pct": 0.5662020905923345,
-   "log_loss": 0.6775687465970056,
+   "winner_pct": 0.5653310104529616,
+   "log_loss": 0.6777940338603858,
    "log_loss_home_rate_only": 0.6910681981294204,
-   "brier": 0.2423606650152439,
+   "brier": 0.242475203016115,
    "total_mae": 3.5594811548811816,
    "total_mae_league_avg": 3.557946557564132,
    "margin_mae": 3.445713236428236,
