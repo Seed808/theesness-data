@@ -182,6 +182,15 @@ def first_lock_date(*paths) -> str:
 
 
 
+
+NO_EDGE = 0.5   # points: a model within half a point of the line takes no side (shown as NO EDGE, not graded)
+
+
+def no_edge_map(cards):
+    return {c["game_id"]: (f'model line {c["model_line"]:+.1f} vs market {c["market_line"]:+.1f} (home team), '
+                           f'{c["edge"]:.1f} points apart, under {NO_EDGE}')
+            for c in cards if c.get("market_line") is not None and c.get("edge") is not None and c["edge"] < NO_EDGE}
+
 def espn_ncaaf_slate(repo: Path, week: int):
     """(slate, finals) for one college week from the collected ESPN scoreboards: first line seen per game,
     finals from the newest snapshot."""
@@ -408,7 +417,8 @@ def run(data: Path, nfldata: Path, out: Path, ledger_dir: Path):
                             "injury_report": f"nflverse Week 6 report + ESPN injury list"}
     # picks update until kickoff: newest roster + newest line; the last version before kickoff is graded
     led = Ledger(ledger_dir / "nfl_locks.csv")
-    sync_stats = pickbook.sync(led, cards, kick, ledger_dir / "cards" / "nfl", now, _clean, "nfl", held=held)
+    sync_stats = pickbook.sync(led, cards, kick, ledger_dir / "cards" / "nfl", now, _clean, "nfl", held=held,
+                               no_edge=no_edge_map(cards))
     report["nfl_pickbook"] = sync_stats
     n_new = sync_stats["locked"] + sync_stats["updated"]
     fin = games[games["season"] == 2026][["game_id", "away_score", "home_score"]]
@@ -537,7 +547,7 @@ def run(data: Path, nfldata: Path, out: Path, ledger_dir: Path):
                             "elo": f'{c["away"]} {el.get("away") or 0:.0f} · {c["home"]} {el.get("home") or 0:.0f} '
                                    f'({elo_src.get((2026, LIVE_W), "")})'}
     syncable = [c for c in ccards if c["game_id"] not in fcs and c["game_id"] not in voided_ids]
-    csync = pickbook.sync(cled, syncable, ckick, carch, now, _clean, "ncaaf")
+    csync = pickbook.sync(cled, syncable, ckick, carch, now, _clean, "ncaaf", no_edge=no_edge_map(syncable))
     n_new = csync["locked"] + csync["updated"]
     by_id = {c["game_id"]: c for c in syncable}
     carch.mkdir(parents=True, exist_ok=True)

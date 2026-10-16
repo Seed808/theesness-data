@@ -209,8 +209,21 @@ def fit_ratings(tg: pd.DataFrame, cfg: FootballConfig, prior: FootballRatings | 
     for m, (val, w) in METRICS.items():
         po = pdf = None
         if prior is not None and m in prior.ratings:
-            po = prior.ratings[m].off * cfg.prior_keep
-            pdf = prior.ratings[m].deff * cfg.prior_keep
+            po = prior.ratings[m].off.copy()
+            pdf = prior.ratings[m].deff.copy()
+            # Teams that moved up to FBS (e.g. North Dakota State, Sacramento State in 2026): last season's
+            # rating is relative to the lower-division group, so add that season's group term to put it on
+            # the FBS scale. Without this NDSU's FCS pass defence (-0.285) was carried in as elite FBS defence.
+            cur_lower = set(tg.loc[tg["off_lower"] == 1, "off"]) | set(tg.loc[tg["def_lower"] == 1, "def"])
+            moved_up = [t for t in prior.lower if t not in cur_lower and t in set(tg["off"])]
+            pc = prior.ratings[m].covariates
+            for t in moved_up:
+                if t in po.index:
+                    po[t] += pc.get("off_lower", 0.0)
+                if t in pdf.index:
+                    pdf[t] += pc.get("def_lower", 0.0)
+            po = po * cfg.prior_keep
+            pdf = pdf * cfg.prior_keep
         out[m] = solve_adjusted(tg.rename(columns={"off": "o", "def": "d"}), val, "o", "d",
                                 weight=w, covariates=covs, prior_off=po, prior_def=pdf,
                                 prior_weight=cfg.prior_plays[m], prior_weight_def=cfg.prior_plays[m] * cfg.def_prior_mult)
@@ -393,39 +406,55 @@ NFL_SAM = FootballConfig("nfl", prior_keep=0.5, garbage_wp=(0.0, 1.0), def_prior
                                                              "pass_rate": 120, "db_rate": 120, "plays": 3, "ypt": 120, "ypc": 120}.items()})
 
 
-# ---------------------------------------------------------------- college, Sam-style with Elo
-# Sam's college pages add an "Elo / track record" term (Washington @ Purdue, Wk 7 2026: 8.2 pts for a
-# 277-point Elo gap) and shrink ratings toward last season. Weights below were fitted to his full Week 7
-# 2026 board (59 FBS games, team scores) using our ratings at prior_keep=1.0 and Elo from cfb_elo:
-# leave-one-game-out error 0.96 pts on the margin, 1.1 pts on the total.
-CFB_SAM_WEIGHTS = {"const": 27.739, "home": 5.357, "elo": 0.0357, "pass_epa": 2.907, "pass_sr": 2.621,
-                   "rush_epa": 5.579, "rush_sr": 15.160, "plays": -0.0032, "db_rate": 0.875}
-CFB_LABELS = {"pass_epa": "Passing game", "pass_sr": "Pass consistency", "rush_epa": "Running game",
-              "rush_sr": "Rush consistency", "plays": "Pace", "db_rate": "Pass rate"}
-NCAAF_SAM = replace(NCAAF, prior_keep=1.0, engine="cfb_sam", home_field=CFB_SAM_WEIGHTS["home"])
+# ---------------------------------------------------------------- college, Sam's formula with Elo
+# Decoded from Sam's 62 Week 7 2026 college game pages (ratings table + margin bars + projected scores),
+# not fitted to outcomes. Each team's score before calibration:
+#   27.23 + 8.015*(0.493 + pass rate)*pass EPA + 18.59*(0.507 - pass rate)*rush EPA
+#         + 8.86*pass success + 13.04*rush success          (each = team offence + opponent defence, vs avg)
+# margin before calibration = difference + 4.4 home + 0.0297 per Elo point
+#   (bar fits: max error 0.16 / 0.33 / 0.06 / 0.06 pts; Elo 0.0296-0.0299 on all 58 FBS games; home 4.4 on all)
+# Sam's "calibration": final margin = 1.089 x margin + 0.596 (59 games, mean error 0.04 pts, max 0.11).
+# Total = sum of the two pre-calibration team scores (mean error 0.08 pts).
+CFB_SAM_WEIGHTS = {"const": 27.23, "home": 4.4, "elo": 0.0297, "pass_epa": 8.015, "rush_epa": 18.59,
+                   "pass_sr": 8.86, "rush_sr": 13.04, "pass_base": 0.493, "cal_mult": 1.089, "cal_add": 0.596}
+CFB_LABELS = {"pass_epa": "Passing game", "rush_epa": "Running game", "pass_sr": "Pass consistency",
+              "rush_sr": "Rush consistency"}
+# Rating settings chosen by matching Sam's published Week 7 team ratings (124 teams x 8 numbers, 72+18 settings tried):
+# full last-season rating as the prior, at twice the default prior weight.
+NCAAF_SAM = replace(NCAAF, prior_keep=1.0, engine="cfb_sam", home_field=CFB_SAM_WEIGHTS["home"],
+                    prior_plays={k: v * 2 for k, v in NCAAF.prior_plays.items()})
+
+
+def _mv(fr, m, o, d):
+    r = fr.ratings[m]
+    v = r.off.get(o, 0.0) + r.deff.get(d, 0.0)
+    if o in fr.lower:
+        v += r.covariates.get("off_lower", 0.0)
+    if d in fr.lower:
+        v += r.covariates.get("def_lower", 0.0)
+    return v
 
 
 def project_game_cfb(fr: "FootballRatings", cfg: FootballConfig, game: dict, qb_adj: dict | None = None,
                      weights: dict = CFB_SAM_WEIGHTS) -> GameProjection:
+    w = weights
     qb_adj = qb_adj or {}
     he, ae = game.get("home_elo"), game.get("away_elo")
     ed = float(he) - float(ae) if he is not None and ae is not None and not (np.isnan(he) or np.isnan(ae)) else 0.0
     parts = {}
     for side, o, d, sgn in (("home", game["home"], game["away"], 1), ("away", game["away"], game["home"], -1)):
-        p = {}
-        for m, lab in CFB_LABELS.items():
-            r = fr.ratings[m]
-            v = r.off.get(o, 0.0) + r.deff.get(d, 0.0)
-            if o in fr.lower:
-                v += r.covariates.get("off_lower", 0.0)
-            if d in fr.lower:
-                v += r.covariates.get("def_lower", 0.0)
-            if m == "pass_epa":
-                v += qb_adj.get(o, 0.0)
-            p[lab] = weights[m] * v
-        p["Elo / track record"] = sgn * 0.5 * weights["elo"] * ed
-        parts[side] = p
-    situ = {} if game.get("neutral_site") else {"Home field": weights["home"]}
-    ex = {"inputs": _sam_inputs(fr, game, qb_adj), "elo": {"away": ae, "home": he}}
+        pr = _mv(fr, "pass_rate", o, d)
+        pe = _mv(fr, "pass_epa", o, d) + qb_adj.get(o, 0.0)
+        parts[side] = {
+            "Passing game": w["pass_epa"] * (w["pass_base"] + pr) * pe,
+            "Running game": w["rush_epa"] * (1 - w["pass_base"] - pr) * _mv(fr, "rush_epa", o, d),
+            "Pass consistency": w["pass_sr"] * _mv(fr, "pass_sr", o, d),
+            "Rush consistency": w["rush_sr"] * _mv(fr, "rush_sr", o, d),
+            "Elo / track record": sgn * 0.5 * w["elo"] * ed,
+        }
+    situ = {} if game.get("neutral_site") else {"Home field": w["home"]}
+    pre = sum(parts["home"].values()) - sum(parts["away"].values()) + sum(situ.values())
+    situ["Calibration"] = (w["cal_mult"] - 1) * pre + w["cal_add"]
+    ex = {"inputs": _sam_inputs(fr, game, qb_adj), "elo": {"away": ae, "home": he}, "pre_calibration_margin": round(pre, 2)}
     return GameProjection(cfg.league, str(game["game_id"]), str(game.get("date", "")), game["away"], game["home"],
-                          weights["const"], parts["away"], parts["home"], situ, extra=ex)
+                          w["const"], parts["away"], parts["home"], situ, extra=ex)

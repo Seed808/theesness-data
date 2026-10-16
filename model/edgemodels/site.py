@@ -132,6 +132,8 @@ def _pick_text(c, names):
     if c.get("void"):
         team = names.get(c[c["pick"]], c[c["pick"]])
         return f'<s>{e(team)} {fmt_line(c["pick_line"])}</s> <span class="res-PUSH"><b>VOID</b></span>'
+    if c.get("no_edge"):
+        return f'<span class="res-PUSH"><b>NO EDGE</b></span> <span class="eyebrow">({_f(c["edge"])})</span>'
     team = names.get(c[c["pick"]], c[c["pick"]])
     return f"{e(team)} {fmt_line(c['pick_line'])} <span class=\"eyebrow\">({_f(c['edge'])})</span>"
 
@@ -494,6 +496,7 @@ def game_page(c: dict, names: dict) -> str:
             f'<p class="eyebrow">{e(str(c.get("date", "")))} {e(str(c.get("kickoff") or ""))} {("· " + e(c["venue"])) if c.get("venue") else ""}</p>'
             + (f'<p class="note" style="border-left:3px solid var(--edge);padding-left:10px">{e(c["note"])}</p>' if c.get("note") else "")
             + (f'<p class="note" style="border-left:3px solid var(--loss);padding-left:10px"><b>HOLD.</b> {e(c["hold"])}</p>' if c.get("hold") else "")
+            + (f'<p class="note" style="border-left:3px solid var(--edge);padding-left:10px"><b>NO EDGE.</b> {e(c["no_edge"])}</p>' if c.get("no_edge") else "")
             + f'<h2>The number</h2>{num}{tiles}'
             f'<h2>Projected score</h2><div class="scorebig"><div><div class="eyebrow">{e(a)}</div><div class="n">{_f(c["proj_away"])}</div></div>'
             f'<div class="eyebrow">at</div><div class="r"><div class="eyebrow">{e(h)}</div><div class="n">{_f(c["proj_home"])}</div></div></div>{total_txt}'

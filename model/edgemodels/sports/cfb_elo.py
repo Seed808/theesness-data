@@ -20,7 +20,7 @@ import numpy as np
 import pandas as pd
 
 K, H, D = 2.45, 20.2, 28.53
-FCS_ELO = 700.0      # teams CFBD does not rate (FCS). Fitted to Sam's Wk 7 FCS games (Clemson, Texas A&M, Stanford);
+FCS_ELO = 865.0      # FCS teams (not in the FBS Elo file). Implied by Sam's Wk 7 FCS games: 845 / 868 / 882;
                      # display only, FBS-vs-FCS games are never locked
 
 

@@ -33,11 +33,12 @@ def current_rows(led: Ledger) -> dict:
 
 
 def sync(led: Ledger, cards: list[dict], kickoff_utc: dict, arch: Path, now: datetime, clean, sport: str,
-         rows_for=None, held: dict | None = None) -> dict:
+         rows_for=None, held: dict | None = None, no_edge: dict | None = None) -> dict:
     """cards: freshly projected cards (latest roster + line). kickoff_utc: game_id -> UTC kickoff.
     rows_for(card) -> lock rows (default: the card itself). held: game_id -> reason (starter not confirmed).
     Returns {"locked": n, "updated": n, "held": n}; updates cards in place (current version, history attached)."""
     held = held or {}
+    no_edge = no_edge or {}     # game_id -> reason: model within NO_EDGE points of the line, no side taken
     arch.mkdir(parents=True, exist_ok=True)
     rows_for = rows_for or (lambda c: [dict(c, sport=sport)])
     stats = {"locked": 0, "updated": 0, "held": 0}
@@ -68,6 +69,16 @@ def sync(led: Ledger, cards: list[dict], kickoff_utc: dict, arch: Path, now: dat
                     cur_p.unlink()
                 stats["held"] += 1
             c["hold"], c["history"] = held[gid], hist
+            continue
+        if gid in no_edge:
+            if gid in cur:
+                led.void(gid, f"No edge: {no_edge[gid]}", ko, kind="hold")
+                hist.append({"at": stamp, "event": "no edge", "why": no_edge[gid],
+                             "model_line": c.get("model_line"), "market_line": c.get("market_line")})
+                hist_p.write_text(json.dumps(hist))
+                if cur_p.exists():
+                    cur_p.unlink()
+            c["no_edge"], c["history"] = no_edge[gid], hist
             continue
         new_rows = [r for r in rows_for(c) if r.get("market_line") is not None]
         if not new_rows:
