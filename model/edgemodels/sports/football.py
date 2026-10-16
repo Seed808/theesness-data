@@ -8,7 +8,7 @@ Pipeline
 """
 from __future__ import annotations
 
-from dataclasses import dataclass, field
+from dataclasses import dataclass, field, replace
 
 import numpy as np
 import pandas as pd
@@ -391,3 +391,41 @@ NFL_SAM = FootballConfig("nfl", prior_keep=0.5, garbage_wp=(0.0, 1.0), def_prior
                          home_field=SAM_WEIGHTS["home"],
                          prior_plays={k: v * 2 for k, v in {"pass_epa": 150, "rush_epa": 120, "pass_sr": 150, "rush_sr": 120,
                                                              "pass_rate": 120, "db_rate": 120, "plays": 3, "ypt": 120, "ypc": 120}.items()})
+
+
+# ---------------------------------------------------------------- college, Sam-style with Elo
+# Sam's college pages add an "Elo / track record" term (Washington @ Purdue, Wk 7 2026: 8.2 pts for a
+# 277-point Elo gap) and shrink ratings toward last season. Weights below were fitted to his full Week 7
+# 2026 board (59 FBS games, team scores) using our ratings at prior_keep=1.0 and Elo from cfb_elo:
+# leave-one-game-out error 0.96 pts on the margin, 1.1 pts on the total.
+CFB_SAM_WEIGHTS = {"const": 27.739, "home": 5.357, "elo": 0.0357, "pass_epa": 2.907, "pass_sr": 2.621,
+                   "rush_epa": 5.579, "rush_sr": 15.160, "plays": -0.0032, "db_rate": 0.875}
+CFB_LABELS = {"pass_epa": "Passing game", "pass_sr": "Pass consistency", "rush_epa": "Running game",
+              "rush_sr": "Rush consistency", "plays": "Pace", "db_rate": "Pass rate"}
+NCAAF_SAM = replace(NCAAF, prior_keep=1.0, engine="cfb_sam", home_field=CFB_SAM_WEIGHTS["home"])
+
+
+def project_game_cfb(fr: "FootballRatings", cfg: FootballConfig, game: dict, qb_adj: dict | None = None,
+                     weights: dict = CFB_SAM_WEIGHTS) -> GameProjection:
+    qb_adj = qb_adj or {}
+    he, ae = game.get("home_elo"), game.get("away_elo")
+    ed = float(he) - float(ae) if he is not None and ae is not None and not (np.isnan(he) or np.isnan(ae)) else 0.0
+    parts = {}
+    for side, o, d, sgn in (("home", game["home"], game["away"], 1), ("away", game["away"], game["home"], -1)):
+        p = {}
+        for m, lab in CFB_LABELS.items():
+            r = fr.ratings[m]
+            v = r.off.get(o, 0.0) + r.deff.get(d, 0.0)
+            if o in fr.lower:
+                v += r.covariates.get("off_lower", 0.0)
+            if d in fr.lower:
+                v += r.covariates.get("def_lower", 0.0)
+            if m == "pass_epa":
+                v += qb_adj.get(o, 0.0)
+            p[lab] = weights[m] * v
+        p["Elo / track record"] = sgn * 0.5 * weights["elo"] * ed
+        parts[side] = p
+    situ = {} if game.get("neutral_site") else {"Home field": weights["home"]}
+    ex = {"inputs": _sam_inputs(fr, game, qb_adj), "elo": {"away": ae, "home": he}}
+    return GameProjection(cfg.league, str(game["game_id"]), str(game.get("date", "")), game["away"], game["home"],
+                          weights["const"], parts["away"], parts["home"], situ, extra=ex)

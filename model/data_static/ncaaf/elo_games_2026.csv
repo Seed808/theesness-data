@@ -1,0 +1,808 @@
+game_id,week,home,away,home_elo,away_elo,home_score,away_score,neutral_site
+401856634,1,Alabama,East Carolina,1738.0,1562.0,48,10,False
+401856635,1,Arkansas,North Alabama,1547.0,,31,14,False
+401856636,1,Auburn,Baylor,1613.0,1506.0,17,16,True
+401856637,1,Florida,Florida Atlantic,1562.0,1285.0,66,21,False
+401856658,1,Georgia,Tennessee State,1871.0,,63,3,False
+401856659,1,Kentucky,Youngstown State,1476.0,,45,13,False
+401856660,1,LSU,Clemson,1616.0,1670.0,51,10,False
+401856661,1,Ole Miss,Louisville,1839.0,1666.0,41,38,True
+401856662,1,Mississippi State,UL Monroe,1478.0,1177.0,62,13,False
+401856663,1,Missouri,Arkansas-Pine Bluff,1666.0,,54,14,False
+401856664,1,Oklahoma,UTEP,1706.0,1256.0,51,0,False
+401856665,1,South Carolina,Kent State,1631.0,1167.0,57,0,False
+401856666,1,Tennessee,Furman,1691.0,,56,9,False
+401856667,1,Texas,Texas State,1784.0,1570.0,59,7,False
+401856668,1,Texas A&M,Missouri State,1748.0,1385.0,50,0,False
+401856669,1,Vanderbilt,Austin Peay,1753.0,,28,9,False
+401856670,2,Utah,Arkansas,1817.0,1547.0,43,10,False
+401856671,2,Auburn,Southern Miss,1613.0,1350.0,43,8,False
+401856672,2,Florida,Campbell,1669.0,,52,3,False
+401856673,2,Georgia,Western Kentucky,1871.0,1327.0,70,20,False
+401856674,2,Kentucky,Alabama,1476.0,1823.0,17,45,False
+401856676,2,Ole Miss,Charlotte,1837.0,1182.0,41,9,False
+401856677,2,Minnesota,Mississippi State,1510.0,1584.0,13,38,False
+401856678,2,Kansas,Missouri,1510.0,1666.0,21,38,False
+401856679,2,Michigan,Oklahoma,1686.0,1799.0,17,10,False
+401856680,2,South Carolina,Towson,1763.0,,45,9,False
+401856681,2,Georgia Tech,Tennessee,1553.0,1691.0,24,45,False
+401856682,2,Texas,Ohio State,1913.0,1986.0,24,23,False
+401856683,2,Texas A&M,Arizona State,1849.0,1572.0,48,20,False
+401856684,2,Vanderbilt,Delaware,1753.0,1404.0,35,26,False
+401856685,3,Alabama,Florida State,1859.0,1557.0,50,36,False
+401856686,3,Arkansas,Georgia,1490.0,1948.0,17,45,False
+401856687,3,Auburn,Florida,1678.0,1658.0,39,44,False
+401856688,3,Ole Miss,LSU,1851.0,1794.0,32,24,False
+401856689,3,Missouri,Troy,1691.0,1420.0,27,17,False
+401856690,3,Oklahoma,New Mexico,1783.0,1558.0,14,6,False
+401856691,3,South Carolina,Mississippi State,1742.0,1642.0,34,41,False
+401856692,3,Tennessee,Kennesaw State,1729.0,1327.0,42,9,False
+401856693,3,Texas,UTSA,1916.0,1525.0,30,6,False
+401856694,3,Texas A&M,Kentucky,1890.0,1440.0,21,31,False
+401856695,3,Vanderbilt,NC State,1746.0,1506.0,35,31,False
+401856696,4,Alabama,South Carolina,1863.0,1721.0,49,18,False
+401856697,4,Arkansas,Tulsa,1466.0,1271.0,34,6,False
+401856698,4,Auburn,Vanderbilt,1668.0,1742.0,21,15,False
+401856699,4,Florida,Ole Miss,1668.0,1859.0,52,28,False
+401856700,4,Georgia,Oklahoma,1972.0,1782.0,41,13,False
+401856702,4,LSU,Texas A&M,1786.0,1824.0,35,6,False
+401856703,4,Mississippi State,Missouri,1663.0,1690.0,31,24,False
+401856704,4,Tennessee,Texas,1771.0,1935.0,17,20,False
+401856705,5,Georgia,Vanderbilt,2023.0,1731.0,38,14,False
+401856706,5,LSU,McNeese,1736.0,,63,14,False
+401856707,5,Mississippi State,Alabama,1674.0,1929.0,23,56,False
+401856708,5,Missouri,Florida,1679.0,1751.0,45,17,False
+401856709,5,South Carolina,Kentucky,1655.0,1553.0,34,35,False
+401856710,5,Tennessee,Auburn,1776.0,1679.0,24,14,False
+401856711,5,Texas A&M,Arkansas,1742.0,1516.0,34,7,False
+401856712,6,Alabama,Georgia,1991.0,2052.0,17,20,False
+401856713,6,Arkansas,Tennessee,1472.0,1786.0,17,24,False
+401856714,6,Florida,South Carolina,1669.0,1649.0,19,38,False
+401856715,6,Kentucky,LSU,1559.0,1868.0,35,34,False
+401856716,6,Missouri,Texas A&M,1761.0,1786.0,27,6,False
+401856717,6,Oklahoma,Texas,1731.0,1930.0,27,24,True
+401856718,6,Vanderbilt,Ole Miss,1702.0,1776.0,17,52,False
+401856766,1,TCU,North Carolina,1613.0,1380.0,10,15,True
+401856767,1,UCF,Bethune-Cookman,1465.0,,73,6,False
+401856768,1,Utah,Idaho,1817.0,,66,14,False
+401856769,1,Kansas,Long Island University,1510.0,,51,6,False
+401856770,1,Texas Tech,Abilene Christian,1870.0,,33,10,False
+401856771,1,Kansas State,Nicholls,1616.0,,71,3,False
+401856772,1,Tulsa,Oklahoma State,1240.0,1240.0,24,10,False
+401856773,1,Arizona,Northern Arizona,1625.0,,35,7,False
+401856774,1,Arizona State,Morgan State,1572.0,,70,7,False
+401856775,1,BYU,Utah Tech,1666.0,,63,7,False
+401856776,1,Georgia Tech,Colorado,1563.0,1396.0,13,14,False
+401856777,1,Cincinnati,Boston College,1480.0,1406.0,34,15,False
+401856778,1,Houston,Oregon State,1508.0,1266.0,33,20,False
+401856779,1,Iowa State,Southeast Missouri State,1586.0,,38,10,False
+401856780,1,West Virginia,Coastal Carolina,1360.0,1275.0,31,24,False
+401856781,2,Kansas State,Washington State,1616.0,1601.0,34,7,False
+401856782,2,Oklahoma State,Oregon,1212.0,1873.0,39,31,False
+401856783,2,Oregon State,Texas Tech,1260.0,1870.0,24,35,False
+401856784,2,Baylor,Prairie View A&M,1509.0,,44,3,False
+401856785,2,Colorado,Weber State,1404.0,,52,21,False
+401856786,2,Cincinnati,Western Carolina,1516.0,,62,10,False
+401856787,2,Houston,Southern,1521.0,,77,6,False
+401856788,2,Iowa,Iowa State,1847.0,1586.0,16,13,False
+401856789,2,TCU,Grambling,1598.0,,63,7,False
+401856790,2,Pittsburgh,UCF,1681.0,1465.0,12,13,False
+401856791,2,West Virginia,UT Martin,1365.0,,52,7,False
+401856792,3,Kansas State,Tulane,1684.0,1528.0,31,20,False
+401856793,3,Arizona,Northern Illinois,1608.0,1266.0,42,17,False
+401856795,3,Colorado State,BYU,1336.0,1683.0,23,41,False
+401856796,3,Northwestern,Colorado,1549.0,1406.0,41,7,False
+401856797,3,Cincinnati,Miami (OH),1516.0,1259.0,35,31,False
+401856798,3,Iowa State,Bowling Green,1588.0,1227.0,55,7,False
+401856799,3,TCU,Arkansas State,1595.0,1353.0,31,7,False
+401856800,3,UCF,Georgia State,1468.0,1287.0,44,30,False
+401856801,3,Utah,Utah State,1874.0,1381.0,33,0,False
+401856802,3,Virginia,West Virginia,1655.0,1365.0,27,38,True
+401856803,3,Oklahoma State,Murray State,1247.0,,59,0,False
+401856804,4,Washington State,Arizona,1533.0,1634.0,24,34,False
+401856805,4,Texas Tech,Sam Houston,1841.0,1161.0,49,14,False
+401856806,4,Georgia Southern,Houston,1358.0,1518.0,28,42,False
+401856807,5,Kansas,Middle Tennessee,1481.0,1290.0,55,0,False
+401856808,6,Arizona State,Hawai'i,1429.0,1373.0,30,12,False
+401856810,2,BYU,Arizona,1666.0,1625.0,28,17,False
+401856811,3,Texas Tech,Houston,1845.0,1514.0,28,26,False
+401856812,3,Kansas,Arizona State,1485.0,1531.0,17,24,True
+401856813,4,Baylor,Colorado,1534.0,1330.0,23,13,False
+401856814,4,Cincinnati,Kansas State,1512.0,1692.0,31,26,False
+401856815,4,UCF,TCU,1481.0,1629.0,21,13,False
+401856816,4,Iowa State,Utah,1683.0,1907.0,17,31,False
+401856817,5,Arizona State,Baylor,1535.0,1537.0,19,55,False
+401856818,5,TCU,BYU,1607.0,1692.0,10,17,False
+401856819,5,Houston,UCF,1535.0,1503.0,27,17,False
+401856820,5,Arizona,Cincinnati,1646.0,1525.0,34,7,False
+401856821,5,Colorado,Texas Tech,1327.0,1860.0,7,29,False
+401856822,5,Iowa State,West Virginia,1672.0,1352.0,45,42,False
+401856823,6,West Virginia,Arizona,1355.0,1702.0,31,52,False
+401856824,6,Oklahoma State,UCF,1330.0,1488.0,42,28,False
+401856825,6,Kansas State,Houston,1679.0,1550.0,16,35,False
+401856826,6,BYU,Iowa State,1699.0,1669.0,24,10,False
+401856827,6,Utah,Kansas,1918.0,1625.0,41,24,False
+401856881,4,West Virginia,Oklahoma State,1408.0,1274.0,24,41,False
+401858201,1,Stanford,Hawai'i,1390.0,1472.0,37,27,False
+401858202,1,Virginia,NC State,1591.0,1570.0,34,8,False
+401858204,1,Wake Forest,Akron,1520.0,925.0,38,16,False
+401858206,1,Stanford,Miami,1413.0,1842.0,6,45,False
+401858207,1,Pittsburgh,Miami (OH),1576.0,1364.0,59,14,False
+401858208,1,Syracuse,New Hampshire,1288.0,,66,3,False
+401858209,1,Duke,Tulane,1581.0,1555.0,17,3,False
+401858210,1,California,UCLA,1406.0,1381.0,24,45,False
+401858211,1,Virginia Tech,VMI,1421.0,,73,3,False
+401858212,1,Florida State,SMU,1551.0,1734.0,24,27,False
+401858213,2,Miami,Florida A&M,1930.0,,77,7,False
+401858214,2,Boston College,Rutgers,1370.0,1381.0,28,21,False
+401858215,2,Louisville,Villanova,1668.0,,59,13,False
+401858216,2,Syracuse,California,1288.0,1349.0,18,21,False
+401858217,2,Illinois,Duke,1595.0,1607.0,27,31,False
+401858218,2,North Carolina,East Tennessee State,1395.0,,35,3,False
+401858219,2,Clemson,Georgia Southern,1541.0,1376.0,22,7,False
+401858220,2,Virginia,Norfolk State,1652.0,,59,3,False
+401858221,2,Virginia Tech,Old Dominion,1421.0,1336.0,44,21,False
+401858222,2,NC State,Richmond,1509.0,,73,0,False
+401858223,2,SMU,UC Davis,1734.0,,56,10,False
+401858224,2,Purdue,Wake Forest,1318.0,1516.0,36,38,False
+401858225,3,Pittsburgh,Syracuse,1678.0,1287.0,27,13,False
+401858226,3,Wake Forest,Miami,1508.0,1901.0,20,33,False
+401858227,3,Boston College,Maine,1379.0,,22,16,False
+401858228,3,Georgia Tech,Mercer,1503.0,,44,11,False
+401858229,3,Clemson,North Carolina,1558.0,1398.0,28,20,False
+401858230,3,Louisville,SMU,1668.0,1728.0,41,31,False
+401858231,3,Duke,Stanford,1613.0,1354.0,35,7,False
+401858232,3,Maryland,Virginia Tech,1495.0,1468.0,26,35,False
+401858233,3,California,Wagner,1353.0,,49,7,False
+401858234,4,California,Clemson,1350.0,1560.0,10,24,False
+401858236,4,Pittsburgh,Bucknell,1687.0,,59,0,False
+401858237,4,Florida State,Central Arkansas,1544.0,,34,7,False
+401858238,4,Miami,Central Michigan,1895.0,1291.0,52,3,False
+401858239,4,Virginia,Delaware,1612.0,1414.0,42,3,False
+401858240,4,Stanford,Georgia Tech,1311.0,1515.0,34,27,False
+401858241,4,SMU,Missouri State,1706.0,1281.0,34,24,False
+401858242,4,Boston College,Virginia Tech,1380.0,1489.0,14,21,False
+401858243,4,Louisville,Wake Forest,1690.0,1514.0,27,30,False
+401858244,4,Duke,William & Mary,1667.0,,62,7,False
+401858245,5,Virginia Tech,Pittsburgh,1494.0,1675.0,33,35,False
+401858246,5,SMU,Boston College,1695.0,1375.0,25,16,False
+401858247,5,UNLV,California,1491.0,1338.0,39,31,False
+401858248,5,NC State,Louisville,1514.0,1674.0,31,28,False
+401858249,5,Clemson,Miami,1572.0,1962.0,13,41,False
+401858250,5,North Carolina,Notre Dame,1396.0,2084.0,26,37,False
+401858251,5,Wake Forest,Stanford,1530.0,1333.0,57,3,False
+401858252,5,UConn,Syracuse,1470.0,1290.0,41,42,False
+401858253,5,Florida State,Virginia,1553.0,1698.0,38,7,False
+401858254,6,Louisville,Florida State,1671.0,1656.0,44,20,False
+401858255,6,Georgia Tech,Duke,1493.0,1656.0,28,25,False
+401858256,6,Pittsburgh,North Carolina,1668.0,1426.0,17,21,False
+401858257,6,Notre Dame,Stanford,2054.0,1194.0,58,7,False
+401858258,6,Virginia,Syracuse,1595.0,1300.0,28,25,False
+401858259,6,California,Virginia Tech,1335.0,1501.0,25,25,False
+401858260,6,NC State,Wake Forest,1517.0,1669.0,14,38,False
+401858422,1,Minnesota,Eastern Illinois,1510.0,,59,7,False
+401858423,1,Rutgers,Massachusetts,1479.0,978.0,21,37,False
+401858424,1,Illinois,UAB,1563.0,1443.0,42,23,False
+401858425,1,Indiana,North Texas,2064.0,1639.0,52,16,False
+401858426,1,Iowa,Northern Illinois,1791.0,1322.0,40,0,False
+401858427,1,Maryland,Hampton,1424.0,,62,0,False
+401858428,1,Michigan,Western Michigan,1690.0,1530.0,13,12,False
+401858429,1,Michigan State,Toledo,1439.0,1597.0,30,21,False
+401858430,1,Nebraska,Ohio,1538.0,1372.0,49,21,False
+401858431,1,Northwestern,South Dakota State,1549.0,,34,18,False
+401858432,1,Ohio State,Ball State,1925.0,1173.0,56,3,False
+401858433,1,Oregon,Boise State,1880.0,1562.0,34,27,False
+401858434,1,Penn State,Marshall,1802.0,1478.0,45,0,False
+401858435,1,Purdue,Indiana State,1318.0,,44,19,False
+401858436,1,USC,Fresno State,1752.0,1532.0,39,0,False
+401858437,1,Washington,Washington State,1744.0,1619.0,24,10,False
+401858438,1,Notre Dame,Wisconsin,1995.0,1501.0,41,13,True
+401858439,2,Indiana,Howard,2132.0,,55,0,False
+401858440,2,Michigan State,Eastern Michigan,1468.0,1353.0,35,7,False
+401858441,2,Nebraska,Bowling Green,1592.0,1340.0,56,7,False
+401858442,2,Temple,Penn State,1312.0,1891.0,9,27,False
+401858443,2,UCLA,San Diego State,1438.0,1518.0,28,10,False
+401858444,2,UConn,Maryland,1484.0,1424.0,14,38,False
+401858445,2,USC,Louisiana,1835.0,1389.0,49,30,False
+401858446,2,Washington,Utah State,1762.0,1376.0,16,14,False
+401858447,2,Wisconsin,Western Illinois,1455.0,,36,9,False
+401858448,3,Illinois,Southern Illinois,1587.0,,48,10,False
+401858449,3,Indiana,Western Kentucky,2113.0,1250.0,38,0,False
+401858450,3,Michigan,UTEP,1702.0,1163.0,52,17,False
+401858451,3,Minnesota,Akron,1452.0,929.0,41,7,False
+401858452,3,Nebraska,North Dakota,1715.0,,34,7,False
+401858453,3,Notre Dame,Michigan State,2070.0,1528.0,27,10,False
+401858454,3,Ohio State,Kent State,1983.0,1056.0,59,3,False
+401858455,3,Oregon,Portland State,1838.0,,84,0,False
+401858456,3,Penn State,Buffalo,1880.0,1341.0,55,13,False
+401858457,3,Rutgers,USC,1371.0,1837.0,35,42,False
+401858458,3,UCLA,Purdue,1487.0,1326.0,52,38,False
+401858459,3,Washington,Eastern Washington,1752.0,,48,16,False
+401858460,3,Wisconsin,Eastern Michigan,1475.0,1293.0,54,10,False
+401858461,4,Indiana,Northwestern,2121.0,1625.0,29,23,False
+401858462,4,Maryland,UCLA,1474.0,1502.0,3,54,False
+401858463,4,Michigan,Iowa,1735.0,1845.0,19,20,False
+401858464,4,Michigan State,Nebraska,1537.0,1705.0,13,31,False
+401858465,4,Ohio State,Illinois,2032.0,1589.0,42,19,False
+401858466,4,Penn State,Wisconsin,1933.0,1580.0,20,24,False
+401858467,4,Purdue,Notre Dame,1311.0,2061.0,10,49,False
+401858468,4,Rutgers,Howard,1373.0,,58,7,False
+401858469,4,USC,Oregon,1817.0,1811.0,27,41,False
+401858470,4,Washington,Minnesota,1757.0,1484.0,24,27,False
+401858471,3,Iowa,Northern Iowa,1841.0,,55,0,False
+401858472,5,Illinois,Purdue,1577.0,1288.0,17,24,False
+401858473,5,Iowa,Ohio State,1841.0,2044.0,14,31,False
+401858474,5,Minnesota,Michigan,1506.0,1739.0,20,14,False
+401858475,5,Nebraska,Maryland,1732.0,1316.0,48,23,False
+401858476,5,Northwestern,Penn State,1640.0,1901.0,34,13,False
+401858477,5,Rutgers,Indiana,1391.0,2106.0,15,47,False
+401858478,5,USC,Washington,1784.0,1735.0,25,21,False
+401858479,5,Wisconsin,Michigan State,1612.0,1510.0,31,3,False
+401858480,6,Michigan State,Illinois,1449.0,1539.0,37,38,False
+401858481,6,Nebraska,Indiana,1751.0,2114.0,17,20,False
+401858482,6,Northwestern,Ball State,1720.0,1065.0,45,14,False
+401858483,6,Ohio State,Maryland,2064.0,1297.0,45,16,False
+401858484,6,Oregon,UCLA,1844.0,1660.0,15,17,False
+401858485,6,Penn State,USC,1821.0,1785.0,23,31,False
+401858486,6,Purdue,Minnesota,1326.0,1526.0,41,13,False
+401858487,6,Washington,Iowa,1734.0,1821.0,24,41,False
+401859184,2,Notre Dame,Rice,2021.0,1196.0,52,0,False
+401860878,1,Colorado State,Wyoming,1273.0,1363.0,35,13,False
+401860879,1,San Diego State,Portland State,1518.0,,53,20,False
+401860880,1,Utah State,Idaho State,1376.0,,17,29,False
+401860881,2,Boise State,Memphis,1569.0,1566.0,38,21,False
+401860882,2,Colorado State,Southern Utah,1327.0,,58,24,False
+401860883,2,Fresno State,Sacramento State,1449.0,1466.0,49,3,False
+401860884,2,Texas State,UTSA,1441.0,1522.0,26,31,False
+401860885,3,Boise State,South Dakota,1606.0,,38,24,False
+401860886,3,Oregon State,Montana,1259.0,,52,17,False
+401860887,3,San Diego State,James Madison,1469.0,1776.0,13,26,False
+401860888,3,San José State,Fresno State,1413.0,1591.0,10,26,False
+401860889,3,Texas State,North Texas,1438.0,1699.0,49,35,False
+401860890,3,Washington State,Duquesne,1536.0,,48,7,False
+401860891,4,Fresno State,Rice,1611.0,1162.0,38,24,False
+401860892,4,Texas State,Incarnate Word,1475.0,,63,10,False
+401860893,4,Toledo,San Diego State,1561.0,1468.0,41,16,False
+401860894,4,Utah State,Troy,1348.0,1421.0,21,10,False
+401860895,4,UTEP,Oregon State,1130.0,1285.0,7,33,False
+401860896,4,UTSA,Colorado State,1506.0,1327.0,59,45,False
+401860897,4,Western Michigan,Boise State,1519.0,1609.0,7,32,False
+401860898,5,Boise State,Utah State,1665.0,1374.0,37,18,False
+401860899,5,Colorado State,Oregon State,1314.0,1337.0,32,68,False
+401860900,5,San Diego State,Texas State,1415.0,1491.0,31,29,False
+401860901,6,Fresno State,Boise State,1645.0,1681.0,31,38,False
+401860902,6,Oregon State,San Diego State,1418.0,1417.0,66,14,False
+401860921,5,Washington State,Fresno State,1521.0,1604.0,6,26,False
+401860922,6,Utah State,Washington State,1358.0,1480.0,17,16,False
+401861962,1,UConn,Lafayette,1484.0,,56,7,False
+401861963,3,Southern Miss,UConn,1285.0,1413.0,20,48,False
+401861964,6,Temple,UConn,1365.0,1460.0,20,34,False
+401861970,4,Miami (OH),UConn,1263.0,1474.0,24,21,False
+401862693,1,UNLV,Memphis,1581.0,1526.0,21,27,False
+401862694,1,Charlotte,The Citadel,1182.0,,41,43,False
+401862695,1,Memphis,Arkansas State,1541.0,1378.0,42,24,False
+401862696,1,Navy,Towson,1550.0,,42,15,False
+401862697,1,Rice,Houston Christian,1196.0,,31,3,False
+401862698,1,Temple,Rhode Island,1312.0,,38,14,False
+401862699,1,South Florida,Florida International,1682.0,1382.0,19,9,False
+401862700,1,UTSA,UT Rio Grande Valley,1522.0,,45,16,False
+401862701,1,Army,Bryant,1527.0,,59,3,False
+401862702,2,Army,South Florida,1527.0,1679.0,30,28,False
+401862703,2,Florida Atlantic,Navy,1189.0,1550.0,38,30,False
+401862705,2,North Texas,UNLV,1590.0,1589.0,44,6,False
+401862707,2,Sam Houston,Tulsa,1164.0,1268.0,17,23,False
+401862708,2,UAB,UL Monroe,1411.0,1071.0,26,20,False
+401862710,3,Old Dominion,East Carolina,1289.0,1462.0,17,20,False
+401862771,3,Florida Atlantic,Florida International,1226.0,1409.0,16,10,False
+401862772,3,Memphis,UT Martin,1529.0,,45,21,False
+401862773,3,Rice,Western Michigan,1147.0,1534.0,21,28,False
+401862774,3,Toledo,Temple,1568.0,1323.0,49,48,False
+401862775,3,Tulsa,East Texas A&M,1277.0,,42,0,False
+401862776,3,Louisiana,UAB,1387.0,1403.0,21,14,False
+401862777,3,South Florida,Delaware State,1682.0,,59,17,False
+401862778,4,UAB,Navy,1393.0,1513.0,24,20,False
+401862779,4,Temple,Army,1330.0,1530.0,17,21,False
+401862780,4,Charlotte,Louisiana,1169.0,1397.0,7,34,False
+401862781,4,East Carolina,North Carolina Central,1462.0,,42,9,False
+401862782,4,UL Monroe,Florida Atlantic,1079.0,1243.0,17,45,False
+401862783,4,North Texas,Houston Christian,1662.0,,63,14,False
+401862784,4,Tulane,Southern Miss,1520.0,1224.0,24,21,False
+401862785,4,Bowling Green,South Florida,1132.0,1676.0,6,14,False
+401862786,5,Tulsa,North Texas,1221.0,1646.0,44,45,False
+401862787,5,Charlotte,Memphis,1123.0,1526.0,8,59,False
+401862788,5,Rice,UTSA,1169.0,1519.0,14,16,False
+401862790,5,Florida Atlantic,Texas Southern,1314.0,,66,10,False
+401862791,5,Air Force,Navy,1429.0,1506.0,14,9,False
+401862792,5,South Florida,Temple,1652.0,1336.0,13,17,False
+401862793,5,UAB,Samford,1400.0,,33,14,False
+401862794,6,UTSA,South Florida,1504.0,1623.0,31,24,False
+401862795,6,Army,Tulane,1522.0,1517.0,20,17,False
+401862796,6,North Texas,Charlotte,1629.0,1022.0,50,10,False
+401862797,6,East Carolina,Rice,1456.0,1184.0,28,12,False
+401862798,6,Memphis,UAB,1627.0,1400.0,38,13,False
+401862799,6,Navy,Tulsa,1498.0,1238.0,34,26,False
+401864424,1,Delaware,Merrimack,1404.0,,42,7,False
+401864425,1,Kennesaw State,West Georgia,1373.0,,47,0,False
+401864432,1,Nevada,Western Kentucky,1351.0,1438.0,49,14,False
+401864443,3,Middle Tennessee,Nevada,1277.0,1462.0,30,20,False
+401864494,1,USC,San José State,1747.0,1411.0,42,26,False
+401864495,1,Eastern Michigan,San José State,1360.0,1406.0,21,27,False
+401864496,1,Air Force,Duquesne,1424.0,,34,0,False
+401864497,1,Hawai'i,UNLV,1449.0,1566.0,6,21,False
+401864498,1,New Mexico,Central Michigan,1496.0,1321.0,38,7,False
+401864499,1,North Dakota State,Fordham,1562.0,,38,0,False
+401864500,2,Nevada,Montana State,1451.0,,7,20,False
+401864502,2,Air Force,North Dakota State,1424.0,1566.0,32,38,False
+401864503,2,Northern Illinois,Illinois State,1245.0,,24,28,False
+401864504,2,San José State,Cal Poly,1407.0,,30,20,False
+401864505,2,UTEP,Texas Southern,1143.0,,51,10,False
+401864506,2,Wyoming,Northern Colorado,1309.0,,21,13,False
+401864507,3,Sacramento State,North Dakota State,1324.0,1567.0,10,31,False
+401864508,3,Central Michigan,Wyoming,1259.0,1300.0,24,10,False
+401864509,4,Nevada,Air Force,1441.0,1423.0,33,37,False
+401864510,4,Wyoming,Hawai'i,1268.0,1432.0,27,10,False
+401864511,4,Georgia State,Northern Illinois,1274.0,1240.0,35,14,False
+401864512,4,Akron,UNLV,897.0,1480.0,10,38,False
+401864513,5,Hawai'i,San José State,1378.0,1393.0,16,20,False
+401864514,5,New Mexico,UTEP,1589.0,1078.0,61,7,False
+401864515,5,North Dakota State,Wyoming,1594.0,1322.0,28,0,False
+401864516,6,Northern Illinois,Air Force,1194.0,1437.0,7,28,False
+401864517,6,UTEP,Nevada,984.0,1435.0,13,30,False
+401864518,6,UNLV,North Dakota State,1494.0,1636.0,13,7,False
+401864519,6,San José State,Wyoming,1398.0,1280.0,13,16,False
+401864570,1,Florida State,New Mexico State,1537.0,1281.0,34,17,False
+401864571,2,East Carolina,App State,1477.0,1310.0,24,27,False
+401864572,4,NC State,App State,1510.0,1324.0,41,31,False
+401864574,3,App State,Charlotte,1325.0,1168.0,26,21,False
+401864575,2,Tulane,South Alabama,1529.0,1390.0,28,24,False
+401864576,4,Kentucky,South Alabama,1506.0,1393.0,45,21,False
+401864577,1,North Dakota State,Jacksonville State,1500.0,1494.0,33,7,False
+401864578,2,Hawai'i,New Mexico State,1426.0,1267.0,29,19,False
+401864579,4,New Mexico State,New Mexico,1261.0,1559.0,12,42,False
+401865252,2,New Mexico,Mercyhurst,1564.0,,70,7,False
+401866408,1,Eastern Michigan,Sacramento State,1326.0,1500.0,28,17,False
+401866409,1,Buffalo,UAlbany,1365.0,,21,17,False
+401866410,1,Bowling Green,Tarleton State,1340.0,,13,20,False
+401866411,1,Sacramento State,Mississippi Valley State,1476.0,,52,0,False
+401866412,2,Akron,Robert Morris,905.0,,45,10,False
+401866413,2,Ball State,Stony Brook,1076.0,,41,17,False
+401866414,2,Florida International,Buffalo,1385.0,1365.0,33,20,False
+401866415,2,Central Michigan,Colgate,1253.0,,13,10,False
+401866416,2,Kent State,Wofford,1035.0,,36,15,False
+401866417,2,Miami (OH),Holy Cross,1252.0,,45,7,False
+401866418,2,Ohio,Jacksonville State,1318.0,1428.0,29,27,False
+401866419,2,Toledo,Central Connecticut,1576.0,,63,10,False
+401866420,2,Massachusetts,Sacred Heart,1049.0,,37,10,False
+401866421,2,Western Michigan,Monmouth,1534.0,,49,14,False
+401866422,3,Liberty,Ball State,1697.0,1112.0,51,15,False
+401866423,3,South Alabama,Ohio,1391.0,1320.0,41,36,False
+401866424,3,Massachusetts,Stonehill,1049.0,,36,14,False
+401866425,4,Kent State,Ball State,1007.0,1081.0,26,13,False
+401866426,4,Buffalo,Robert Morris,1262.0,,31,28,False
+401866427,4,Eastern Michigan,Lindenwood,1182.0,,29,3,False
+401866428,4,Ohio,Stonehill,1318.0,,35,7,False
+401866429,4,Sacramento State,Massachusetts,1297.0,1076.0,6,35,False
+401866430,5,Central Michigan,Akron,1224.0,886.0,41,17,False
+401866431,5,Ball State,Toledo,1049.0,1614.0,31,39,False
+401866432,5,Buffalo,Western Michigan,1288.0,1463.0,17,20,False
+401866433,5,Massachusetts,Eastern Michigan,1188.0,1188.0,14,38,False
+401866434,5,Kent State,Ohio,1039.0,1318.0,10,13,False
+401866435,6,Akron,Eastern Michigan,862.0,1252.0,23,25,False
+401866436,6,Bowling Green,Sacramento State,1170.0,1185.0,38,10,False
+401866437,6,Toledo,Buffalo,1598.0,1294.0,8,23,False
+401866438,6,Ohio,Central Michigan,1307.0,1248.0,31,14,False
+401866439,6,Western Michigan,Kent State,1457.0,1050.0,38,7,False
+401866440,6,Massachusetts,Miami (OH),1124.0,1253.0,19,20,False
+401866477,5,Miami (OH),Bowling Green,1267.0,1156.0,20,24,False
+401866532,1,Towson,Maine,,,18,21,
+401866613,1,Hampton,Virginia Lynchburg,,,45,0,
+401866614,1,Elon,Glenville State,,,42,7,
+401866615,1,Delaware State,Stony Brook,,,41,34,
+401866616,1,UAlbany,New Hampshire,,,28,14,
+401866617,1,Merrimack,Rhode Island,,,7,34,
+401866618,1,North Carolina A&T,Morgan State,,,7,17,
+401866619,1,Stonehill,Bryant,,,6,24,
+401866620,1,East Tennessee State,Campbell,,,37,49,
+401866621,1,Tennessee Tech,Monmouth,,,38,14,
+401866622,1,Stony Brook,Lindenwood,,,36,32,
+401866623,1,Georgia State,North Carolina A&T,1241.0,,59,10,False
+401866624,1,Monmouth,Sacred Heart,,,31,24,
+401866626,1,Davidson,Elon,,,0,38,
+401866627,1,App State,Maine,1310.0,,55,3,False
+401866628,2,Rhode Island,Elon,,,31,10,
+401866629,2,Hampton,Bryant,,,3,31,
+401866630,2,Maine,Merrimack,,,14,23,
+401866631,2,New Hampshire,Stonehill,,,42,35,
+401866632,2,Long Island University,UAlbany,,,13,35,
+401866633,2,North Carolina Central,North Carolina A&T,,,30,22,
+401866634,3,Stony Brook,Rhode Island,,,56,24,
+401866635,3,UAlbany,Monmouth,,,20,28,
+401866636,3,Campbell,North Carolina A&T,,,42,14,
+401866637,3,Elon,Sacred Heart,,,24,21,
+401866638,3,Bryant,Princeton,,,21,14,
+401866639,3,New Hampshire,Harvard,,,7,31,
+401866640,3,Towson,Morgan State,,,26,41,
+401866641,3,Norfolk State,Hampton,,,42,21,
+401866642,4,Sacred Heart,New Hampshire,,,20,13,
+401866643,4,Elon,Maine,,,43,17,
+401866644,4,North Carolina A&T,Rhode Island,,,22,18,
+401866645,4,Hampton,Campbell,,,20,44,
+401866646,4,Princeton,UAlbany,,,22,0,
+401866647,4,Dartmouth,Monmouth,,,28,31,
+401866648,4,Fordham,Stony Brook,,,16,31,
+401866649,4,Delaware State,Towson,,,33,28,
+401866650,5,New Hampshire,Elon,,,30,23,
+401866651,5,Monmouth,Towson,,,41,40,
+401866652,5,Maine,Sacred Heart,,,16,24,
+401866653,5,Bryant,North Carolina A&T,,,31,30,
+401866654,5,Rhode Island,Brown,,,13,10,
+401866655,5,UAlbany,Delaware State,,,28,3,
+401866656,5,Hampton,Howard,,,13,27,
+401866657,5,North Carolina Central,Campbell,,,31,38,
+401866658,6,North Carolina A&T,New Hampshire,,,30,27,
+401866659,6,Towson,Stony Brook,,,24,31,
+401866660,6,Sacred Heart,Stonehill,,,7,28,
+401866661,6,Elon,Wofford,,,0,16,
+401866662,6,Brown,Bryant,,,28,13,
+401867684,1,UT Martin,Chicago State,,,42,7,
+401867685,2,Chicago State,Kentucky Christian,,,78,7,
+401867686,3,Butler,Chicago State,,,47,20,
+401867687,4,Chicago State,Norfolk State,,,21,43,
+401867688,5,Tarleton State,Chicago State,,,56,21,
+401867692,1,William & Mary,Delaware State,,,22,15,
+401867796,2,LSU,Louisiana Tech,1745.0,1454.0,45,14,False
+401867804,3,Baylor,Louisiana Tech,1506.0,1405.0,36,19,False
+401867805,3,New Haven,Brown,,,10,20,
+401867806,4,Brown,Harvard,,,10,14,
+401867817,3,Columbia,Lafayette,,,40,37,
+401867818,4,Georgetown,Columbia,,,24,20,
+401867819,5,Columbia,Princeton,,,7,35,
+401867826,3,Colgate,Cornell,,,20,7,
+401867827,4,Cornell,Yale,,,38,25,
+401867828,5,Georgetown,Cornell,,,14,35,
+401867829,6,Cornell,Harvard,,,29,41,
+401867834,3,Lehigh,Dartmouth,,,24,20,
+401867835,5,Dartmouth,Pennsylvania,,,14,10,
+401867836,6,Yale,Dartmouth,,,28,7,
+401867840,5,Harvard,Colgate,,,20,17,
+401867845,1,Western Illinois,Illinois State,,,10,41,
+401867846,3,Illinois State,Eastern Illinois,,,49,13,
+401867847,4,Northern Iowa,Illinois State,,,28,21,
+401867848,5,Illinois State,South Dakota State,,,14,31,
+401867855,1,Indiana State,Southeast Missouri State,,,21,23,
+401867856,2,Eastern Illinois,Indiana State,,,35,42,
+401867857,3,Indiana State,Valparaiso,,,39,16,
+401867858,4,Indiana State,North Dakota,,,35,42,
+401867859,5,South Dakota,Indiana State,,,44,14,
+401867860,6,Indiana State,Youngstown State,,,24,57,
+401867865,1,Murray State,Eastern Illinois,,,14,28,
+401867866,1,Middle Tennessee,Murray State,1276.0,,38,14,False
+401867867,2,Murray State,Valparaiso,,,27,18,
+401867868,4,Murray State,Southern Illinois,,,6,46,
+401867869,5,North Dakota,Murray State,,,55,28,
+401867874,1,North Dakota,Long Island University,,,42,21,
+401867875,1,North Dakota,St. Thomas (MN),,,62,26,
+401867876,2,Portland State,North Dakota,,,23,47,
+401867877,6,Northern Iowa,North Dakota,,,24,17,
+401867882,1,South Dakota,Central Connecticut,,,59,20,
+401867883,1,Northern Colorado,South Dakota,,,23,38,
+401867884,2,South Dakota,Eastern Washington,,,41,23,
+401867885,4,Youngstown State,South Dakota,,,47,28,
+401867886,6,South Dakota,Southern Illinois,,,31,10,
+401867889,1,Samford,Southern Illinois,,,18,22,
+401867890,2,Southern Illinois,Southeast Missouri State,,,34,20,
+401867891,5,Southern Illinois,Youngstown State,,,16,28,
+401867894,1,Youngstown State,Mercyhurst,,,43,10,
+401867895,2,Youngstown State,Duquesne,,,70,13,
+401867896,3,South Dakota State,Youngstown State,,,27,20,
+401867898,3,Montana State,Central Connecticut,,,35,30,
+401867899,5,Central Connecticut,Wagner,,,45,14,
+401867907,6,Central Connecticut,American International,,,51,14,
+401867908,3,Long Island University,Villanova,,,16,20,
+401867909,4,Florida International,Long Island University,1397.0,,20,3,False
+401867910,5,Long Island University,Mercyhurst,,,27,24,
+401867911,6,Duquesne,Long Island University,,,15,17,
+401867916,1,Wagner,Robert Morris,,,7,28,
+401867917,1,Robert Morris,West Virginia State,,,29,9,
+401867918,5,Robert Morris,Norfolk State,,,33,31,
+401867919,6,Morgan State,Robert Morris,,,28,27,
+401867924,1,New Haven,Stonehill,,,3,21,
+401867928,1,Wagner,Southern Connecticut State,,,31,7,
+401867929,2,James Madison,Wagner,1776.0,,87,3,False
+401867930,6,Wagner,Princeton,,,13,28,
+401867935,1,Howard,Alabama A&M,,,24,31,
+401867939,1,Florida A&M,South Carolina State,,,13,31,
+401867953,2,Delaware State,Bowie State,,,21,6,
+401867960,6,Pennsylvania,Howard,,,24,20,
+401867966,2,Morgan State,Virginia Lynchburg,,,55,0,
+401867967,5,Villanova,Morgan State,,,35,38,
+401867972,1,Norfolk State,Winston-Salem State,,,56,0,
+401867973,1,Old Dominion,Norfolk State,1336.0,,31,10,False
+401867974,6,Norfolk State,Virginia Lynchburg,,,62,0,
+401867977,1,Texas Southern,North Carolina Central,,,42,30,
+401867978,1,North Carolina Central,Elizabeth City State,,,27,6,
+401867979,3,Gardner-Webb,North Carolina Central,,,44,20,
+401867980,6,North Carolina Central,William & Mary,,,14,17,
+401867982,1,South Carolina State,Savannah State,,,87,0,
+401867983,2,South Carolina State,Virginia State,,,66,6,
+401867984,3,Furman,South Carolina State,,,17,20,
+401867985,4,Bethune-Cookman,South Carolina State,,,21,31,
+401867986,5,South Carolina State,The Citadel,,,31,34,
+401867987,6,Charleston Southern,South Carolina State,,,49,39,
+401867988,1,Richmond,Bucknell,,,35,14,
+401867989,1,Bucknell,Villanova,,,16,17,
+401867990,2,VMI,Bucknell,,,3,14,
+401867991,3,Bucknell,Pennsylvania,,,7,26,
+401867992,6,Georgetown,Bucknell,,,21,14,
+401868000,1,Colgate,Holy Cross,,,35,10,
+401868001,4,Villanova,Colgate,,,21,28,
+401868007,1,Fordham,Colgate,,,14,24,
+401868008,2,Coastal Carolina,Fordham,1270.0,,45,7,False
+401868009,3,William & Mary,Fordham,,,27,52,
+401868010,5,Lehigh,Fordham,,,34,0,
+401868011,6,Fordham,Richmond,,,20,14,
+401868017,1,Georgetown,Lehigh,,,14,45,
+401868018,3,Richmond,Georgetown,,,24,21,
+401868022,1,Holy Cross,Lehigh,,,10,35,
+401868023,3,Holy Cross,Yale,,,28,38,
+401868024,4,Lafayette,Holy Cross,,,30,38,
+401868025,5,William & Mary,Holy Cross,,,14,41,
+401868028,2,Lafayette,Marist,,,13,9,
+401868029,5,Lafayette,Richmond,,,31,40,
+401868033,2,Lehigh,William & Mary,,,44,20,
+401868034,4,Pennsylvania,Lehigh,,,7,22,
+401868037,4,Richmond,Furman,,,13,9,
+401868040,1,Villanova,William & Mary,,,32,35,
+401868049,1,Lamar,Abilene Christian,,,21,14,
+401868050,2,Abilene Christian,Stephen F. Austin,,,7,26,
+401868051,3,Idaho,Abilene Christian,,,39,41,
+401868052,4,Abilene Christian,Mercer,,,17,34,
+401868053,5,Abilene Christian,West Florida,,,35,7,
+401868054,6,Abilene Christian,Central Arkansas,,,20,14,
+401868060,1,Austin Peay,Gardner-Webb,,,35,17,
+401868061,2,Austin Peay,Morehead State,,,63,7,
+401868062,3,West Florida,Austin Peay,,,16,38,
+401868063,4,Austin Peay,UT Martin,,,35,12,
+401868064,5,Austin Peay,New Haven,,,42,17,
+401868065,6,Austin Peay,Tarleton State,,,32,40,
+401868070,1,UT Martin,Central Arkansas,,,24,36,
+401868071,1,Central Arkansas,West Florida,,,14,42,
+401868072,2,Central Arkansas,Central Oklahoma,,,59,20,
+401868073,1,Cal Poly,Idaho,,,38,34,
+401868074,1,Cal Poly,Central Washington,,,24,17,
+401868075,3,Cal Poly,San Diego,,,35,38,
+401868076,4,Eastern Washington,Cal Poly,,,27,31,
+401868077,5,Cal Poly,Weber State,,,34,42,
+401868078,6,Idaho State,Cal Poly,,,24,25,
+401868084,1,Northern Arizona,Eastern Washington,,,34,27,
+401868085,1,Eastern Washington,Northern Iowa,,,34,24,
+401868086,5,UC Davis,Eastern Washington,,,52,38,
+401868087,6,Eastern Washington,Northern Colorado,,,31,22,
+401868093,2,Idaho,Lamar,,,17,23,
+401868094,5,Idaho,Montana State,,,35,34,
+401868095,6,Weber State,Idaho,,,38,27,
+401868101,1,Idaho State,VMI,,,38,10,
+401868102,2,Idaho State,San Diego,,,59,17,
+401868103,4,Southern Utah,Idaho State,,,24,28,
+401868104,5,Idaho State,Northern Arizona,,,31,38,
+401868110,1,Montana,Southern Utah,,,28,21,
+401868111,1,Montana,Drake,,,45,10,
+401868112,2,Montana,Utah Tech,,,35,14,
+401868113,4,UC Davis,Montana,,,22,62,
+401868114,5,Montana,Northern Colorado,,,36,14,
+401868115,6,Northern Arizona,Montana,,,49,44,
+401868118,1,Utah Tech,Montana State,,,0,54,
+401868119,1,Montana State,Butler,,,51,24,
+401868120,4,Montana State,Northern Arizona,,,28,14,
+401868123,2,Northern Arizona,Incarnate Word,,,38,28,
+401868124,3,Utah Tech,Northern Arizona,,,23,35,
+401868129,1,Northern Colorado,Weber State,,,29,30,
+401868130,3,Northern Colorado,Northeastern State,,,23,17,
+401868131,4,Northern Colorado,Utah Tech,,,37,13,
+401868133,3,Southeast Missouri State,Central Arkansas,,,27,9,
+401868139,1,Western Carolina,Eastern Kentucky,,,45,28,
+401868140,1,Jacksonville State,Eastern Kentucky,1432.0,,56,7,False
+401868141,2,Eastern Kentucky,Chattanooga,,,22,17,
+401868142,3,Eastern Kentucky,Dayton,,,14,17,
+401868143,5,Eastern Kentucky,North Alabama,,,16,20,
+401868144,6,Eastern Kentucky,West Georgia,,,30,20,
+401868149,1,North Alabama,Samford,,,22,10,
+401868150,2,SE Louisiana,North Alabama,,,30,25,
+401868151,3,North Alabama,Alcorn State,,,38,20,
+401868154,1,Portland State,UC Davis,,,24,31,
+401868155,4,Weber State,Portland State,,,41,44,
+401868156,6,Portland State,Utah Tech,,,30,14,
+401868158,1,Southern Utah,Weber State,,,47,42,
+401868159,3,St. Thomas (MN),Southern Utah,,,36,26,
+401868160,5,Utah Tech,Southern Utah,,,33,46,
+401868163,1,San Diego,UC Davis,,,17,49,
+401868164,3,UC Davis,Stetson,,,45,7,
+401868168,3,Weber State,Northwestern State,,,49,20,
+401868169,1,Lindenwood,Charleston Southern,,,20,17,
+401868170,1,Georgia Southern,Charleston Southern,1376.0,,32,0,False
+401868171,2,The Citadel,Charleston Southern,,,20,26,
+401868172,3,Charleston Southern,Point University,,,65,0,
+401868173,5,Charleston Southern,Gardner-Webb,,,10,12,
+401868179,4,South Dakota State,Eastern Illinois,,,42,8,
+401868180,6,Gardner-Webb,Eastern Illinois,,,7,21,
+401868186,1,Wofford,Gardner-Webb,,,17,13,
+401868187,2,Liberty,Gardner-Webb,1697.0,,24,23,False
+401868188,4,Marshall,Gardner-Webb,1397.0,,36,35,False
+401868194,1,Tennessee State,Jackson State,,,24,26,
+401868195,2,Alabama A&M,Tennessee State,,,30,3,
+401868196,3,Florida A&M,Tennessee State,,,26,29,
+401868197,5,Western Illinois,Tennessee State,,,28,21,
+401868198,6,Tennessee State,UT Martin,,,28,42,
+401868204,1,Western Illinois,Northwestern (IA),,,65,14,
+401868205,3,Western Illinois,Morehead State,,,59,2,
+401868206,4,North Alabama,Western Illinois,,,23,20,
+401868210,2,Butler,Franklin,,,52,0,
+401868211,4,Valparaiso,Butler,,,28,33,
+401868212,6,Butler,San Diego,,,41,10,
+401868219,4,Davidson,Drake,,,32,51,
+401868220,5,San Diego,Davidson,,,64,15,
+401868221,6,Presbyterian,Davidson,,,38,21,
+401868227,2,Dayton,Thomas More,,,30,7,
+401868228,5,Drake,Dayton,,,30,22,
+401868229,6,Dayton,Morehead State,,,56,28,
+401868235,1,Tarleton State,Prairie View A&M,,,49,30,
+401868236,2,McNeese,Tarleton State,,,24,27,
+401868237,3,Tarleton State,Merrimack,,,45,20,
+401868240,1,West Georgia,Chattanooga,,,10,24,
+401868241,2,Arkansas State,West Georgia,1349.0,,52,7,False
+401868242,3,East Tennessee State,West Georgia,,,35,27,
+401868243,4,West Georgia,Fort Valley State,,,49,7,
+401868245,1,UT Rio Grande Valley,UT Permian Basin,,,44,0,
+401868246,2,Nicholls,UT Rio Grande Valley,,,37,28,
+401868247,3,UT Rio Grande Valley,McNeese,,,27,10,
+401868248,5,East Texas A&M,UT Rio Grande Valley,,,20,17,
+401868249,6,UT Rio Grande Valley,SE Louisiana,,,13,3,
+401868254,1,Drake,South Dakota Mines,,,35,38,
+401868255,2,Northern Iowa,Drake,,,56,14,
+401868256,6,Valparaiso,Drake,,,21,13,
+401868261,1,New Haven,Marist,,,22,21,
+401868262,1,Marist,Franklin Pierce,,,27,18,
+401868263,4,Marist,Presbyterian,,,42,7,
+401868264,5,Stetson,Marist,,,14,28,
+401868265,6,Marist,Columbia,,,28,49,
+401868269,1,Morehead State,Kentucky Christian,,,75,24,
+401868270,5,Morehead State,Valparaiso,,,3,37,
+401868273,1,Presbyterian,UVA Wise,,,47,37,
+401868274,1,Mercer,Presbyterian,,,62,3,
+401868275,3,Western Carolina,Presbyterian,,,58,14,
+401868276,5,Presbyterian,St. Thomas (MN),,,55,21,
+401868279,1,St. Thomas (MN),Winona State,,,15,9,
+401868280,2,St. Thomas (MN),Northern Michigan,,,56,14,
+401868281,4,St. Thomas (MN),San Diego,,,50,17,
+401868282,6,St. Thomas (MN),Stetson,,,64,21,
+401868285,2,Bethune-Cookman,Stetson,,,43,18,
+401868295,5,Jackson State,Alabama A&M,,,31,28,
+401868297,1,Alabama A&M,Miles,,,38,23,
+401868298,3,Alabama A&M,Bowie State,,,45,3,
+401868299,4,Florida A&M,Alabama A&M,,,21,40,
+401868300,6,Alabama A&M,Bethune-Cookman,,,55,17,
+401868305,1,McNeese,Stephen F. Austin,,,27,38,
+401868306,1,Stephen F. Austin,East Texas A&M,,,47,7,
+401868307,3,Prairie View A&M,Stephen F. Austin,,,10,31,
+401868308,4,Stephen F. Austin,Northeastern State,,,63,14,
+401868309,5,Stephen F. Austin,Incarnate Word,,,28,26,
+401868315,1,SE Louisiana,Houston Christian,,,28,34,
+401868316,1,South Alabama,SE Louisiana,1390.0,,39,14,False
+401868317,3,UL Monroe,SE Louisiana,1076.0,,35,38,False
+401868318,4,Northwestern State,SE Louisiana,,,21,52,
+401868324,1,Alabama State,Southern,,,30,17,
+401868325,1,Alabama State,Lane College,,,34,0,
+401868326,2,Troy,Alabama State,1416.0,,34,17,False
+401868327,4,Alabama State,Mississippi Valley State,,,41,15,
+401868328,5,Bethune-Cookman,Alabama State,,,16,10,
+401868329,6,Alabama State,Florida A&M,,,27,28,
+401868336,1,Chattanooga,Tennessee Tech,,,9,24,
+401868337,3,Chattanooga,Wofford,,,41,7,
+401868338,4,The Citadel,Chattanooga,,,8,27,
+401868339,5,East Tennessee State,Chattanooga,,,14,3,
+401868340,6,Chattanooga,Samford,,,19,3,
+401868345,1,East Tennessee State,Tusculum,,,48,14,
+401868346,4,East Tennessee State,Western Carolina,,,58,31,
+401868347,6,The Citadel,East Tennessee State,,,16,34,
+401868355,2,Alcorn State,Arkansas-Pine Bluff,,,53,51,
+401868356,1,Southern Miss,Alcorn State,1350.0,,49,3,False
+401868358,4,Alcorn State,Texas Southern,,,43,40,
+401868359,5,Grambling,Alcorn State,,,63,59,
+401868360,6,Alcorn State,Arkansas Baptist,,,63,7,
+401868373,1,Furman,Anderson (SC),,,20,3,
+401868374,2,Mercer,Furman,,,13,20,
+401868375,5,Furman,Wofford,,,27,32,
+401868376,6,Tennessee Tech,Furman,,,20,15,
+401868381,5,VMI,Mercer,,,3,54,
+401868382,6,Mercer,Western Carolina,,,17,14,
+401868386,2,Tennessee Tech,Samford,,,45,19,
+401868387,4,Samford,VMI,,,45,7,
+401868390,4,Wofford,Tennessee Tech,,,38,42,
+401868391,5,Western Carolina,Tennessee Tech,,,44,20,
+401868394,1,Wofford,The Citadel,,,42,14,
+401868397,3,Davidson,VMI,,,48,41,
+401868792,1,Dayton,Fairmont State,,,43,20,
+401868934,1,Arkansas-Pine Bluff,Morehouse,,,35,15,
+401868935,3,Arkansas-Pine Bluff,Central State,,,41,35,
+401868936,5,Southern,Arkansas-Pine Bluff,,,10,41,
+401868942,3,Bethune-Cookman,Virginia Lynchburg,,,62,3,
+401868948,1,Florida A&M,Albany State,,,20,7,
+401868952,1,Grambling,Clark Atlanta,,,49,7,
+401868953,1,Grambling,Central State,,,48,26,
+401868954,4,Grambling,Prairie View A&M,,,14,21,
+401868955,6,Grambling,Jackson State,,,45,38,
+401868958,1,Jackson State,Edward Waters,,,66,14,
+401868959,3,Jackson State,Tuskegee,,,41,7,
+401868960,4,Jackson State,Southern,,,35,17,
+401868962,1,Nicholls,Mississippi Valley State,,,44,10,
+401868963,2,Mississippi Valley State,Lincoln (PA),,,31,20,
+401868964,3,Mississippi Valley State,Delta State,,,6,21,
+401868965,5,Mississippi Valley State,Prairie View A&M,,,28,27,
+401868966,6,Texas Southern,Mississippi Valley State,,,34,38,
+401868967,1,Prairie View A&M,Texas Southern,,,52,14,
+401868968,6,Prairie View A&M,Southern,,,14,28,
+401868970,1,Southern,Kentucky State,,,34,15,
+401868971,3,Southern,Louisiana Christian,,,50,31,
+401869127,1,Howard,Richmond,,,21,28,
+401869128,1,Northwestern State,Louisiana Christian,,,37,42,
+401869129,1,Louisiana Tech,Northwestern State,1454.0,,80,6,False
+401869130,2,East Texas A&M,Northwestern State,,,38,14,
+401869131,5,Lamar,Northwestern State,,,42,14,
+401869136,1,McNeese,Texas Wesleyan,,,52,0,
+401869137,4,McNeese,East Texas A&M,,,27,24,
+401869142,1,Louisiana,Lamar,1389.0,,38,7,False
+401869143,4,Nicholls,Lamar,,,18,49,
+401869144,6,Lamar,Incarnate Word,,,38,35,
+401869147,3,Incarnate Word,Houston Christian,,,56,48,
+401869150,2,Houston Christian,Arkansas Baptist,,,88,0,
+401869151,5,Houston Christian,Nicholls,,,16,2,
+401869156,1,Chicago State,Roosevelt,,,28,44,
+401869842,5,Louisiana Tech,Army,1377.0,1524.0,31,29,False
+401869843,6,App State,Old Dominion,1320.0,1197.0,3,10,False
+401869931,4,Arkansas State,Kennesaw State,1319.0,1285.0,17,14,False
+401869932,5,Louisiana,Arkansas State,1443.0,1320.0,23,20,False
+401869933,6,Arkansas State,South Alabama,1321.0,1354.0,49,62,False
+401869940,3,Delaware,Coastal Carolina,1411.0,1270.0,22,14,False
+401869941,4,Coastal Carolina,Liberty,1267.0,1728.0,17,34,False
+401869942,5,Coastal Carolina,Georgia Southern,1270.0,1341.0,24,37,False
+401869943,6,Marshall,Coastal Carolina,1363.0,1262.0,21,27,False
+401869948,3,Jacksonville State,Georgia Southern,1426.0,1359.0,31,27,False
+401869949,6,Georgia Southern,James Madison,1349.0,1821.0,24,27,False
+401869955,2,Kennesaw State,Georgia State,1373.0,1241.0,17,31,False
+401869956,5,Georgia State,Old Dominion,1320.0,1279.0,42,10,False
+401869960,1,James Madison,Liberty,1770.0,1703.0,20,13,False
+401869961,4,Old Dominion,James Madison,1295.0,1777.0,20,46,False
+401869962,5,James Madison,Marshall,1793.0,1391.0,45,17,False
+401869965,6,Louisiana Tech,Louisiana,1379.0,1442.0,32,31,False
+401870745,4,Western Kentucky,Mercyhurst,1202.0,,52,7,False
+401870763,1,Troy,Sam Houston,1422.0,1162.0,24,21,False
+401870764,3,Sam Houston,Nicholls,1155.0,,59,0,False
+401870766,6,Liberty,Sam Houston,1725.0,1142.0,35,3,False
+401870790,1,New Mexico State,Mercyhurst,1259.0,,51,14,False
+401870822,2,Davidson,Dickinson,,,28,14,
+401870839,4,Duquesne,University of Rio Grande,,,53,0,
+401870840,5,Yale,Merrimack,,,41,24,
+401871045,2,Marshall,Middle Tennessee,1389.0,1276.0,28,26,False
+401871046,2,Missouri State,Lindenwood,1268.0,,48,14,False
+401871047,3,Missouri State,Marshall,1284.0,1388.0,24,30,False
+401871048,4,Jacksonville State,Middle Tennessee,1427.0,1298.0,23,13,False
+401871049,5,New Mexico State,Western Kentucky,1231.0,1242.0,34,13,False
+401871050,5,Delaware,Liberty,1328.0,1725.0,14,30,False
+401871051,6,Kennesaw State,Jacksonville State,1284.0,1435.0,26,27,False
+401871052,6,Western Kentucky,Missouri State,1191.0,1292.0,34,13,False
+401871066,6,Florida International,New Mexico State,1392.0,1282.0,22,3,False
+401871089,5,South Alabama,UL Monroe,1346.0,1022.0,52,35,False
+401871090,6,Troy,Southern Miss,1395.0,1227.0,55,34,False
+401871472,4,Southeast Missouri State,West Florida,,,17,20,
+401871473,6,Lindenwood,Southeast Missouri State,,,27,38,
+401872615,1,South Dakota State,Stetson,,,70,7,
+401872616,2,South Dakota State,New Haven,,,57,14,
+401872618,4,Merrimack,New Haven,,,17,10,
+401873620,3,Mercyhurst,Glenville State,,,49,20,
+401874035,1,West Florida,Southern Illinois,,,34,31,
+401874042,1,Mercer,East Texas A&M,,,23,25,
+401896383,1,Morehead State,Ohio Dominican,,,40,42,
+401896384,1,Davidson,Concord,,,35,41,
+401896385,1,Alcorn State,Miles,,,56,7,
+401913104,1,Incarnate Word,Oklahoma Panhandle,,,76,14,
+401917058,1,Campbell,Western Carolina,,,28,19,

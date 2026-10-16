@@ -30,6 +30,7 @@ from edgemodels.props.football_props import FootballProps
 from edgemodels.sports import basketball as bb
 from edgemodels.sports import football as fb
 from edgemodels.sports import nfl_injuries
+from edgemodels.sports import cfb_elo
 from edgemodels.sports.basketball_pipeline import BasketballModel
 from run_mlb import mlb_section
 from edgemodels.core.espn_feed import first_line_events, latest_events, latest_line_events
@@ -467,12 +468,42 @@ def run(data: Path, nfldata: Path, out: Path, ledger_dir: Path):
     home_tiles.append(("nfl", rp_summ, "Week 6 board is live"))
 
     # ------------------------------------------------------------------ NCAAF
-    cplays = {y: fb.standardize(pd.read_parquet(data / f"ncaaf/play_by_play_{y}.parquet"), "ncaaf") for y in (2025, 2026)}
+    cplays = {y: fb.standardize(pd.read_parquet(data / f"ncaaf/play_by_play_{y}.parquet"), "ncaaf", fb.NCAAF_SAM) for y in (2025, 2026)}
     cs = pd.concat([slate_from_plays(fb.team_games(cplays[2025]), w) for w in sorted(cplays[2025]["week"].unique())])
     cs = cs.dropna(subset=["spread_home", "home_score"])
     ncaaf_dist = MarginDist.fit(-cs["spread_home"], cs["home_score"] - cs["away_score"],
                                 source=f"cfbfastR 2025, {len(cs)} games, closing spread as expectation")
-    C = FootballModel("ncaaf", cplays, margin_dists={2026: ncaaf_dist})
+    # Elo ("track record", as on Sam's college pages): CFBD pregame Elo from the play-by-play, carried forward
+    # past the last play-by-play week with ESPN finals (see edgemodels/sports/cfb_elo.py)
+    elo_games = {y: pd.read_csv(data / f"ncaaf/elo_games_{y}.csv") for y in (2025, 2026)}
+    _elo_cache = {}
+
+    elo_src = {}
+
+    def cfb_elo_fn(season, week):
+        if (season, week) not in _elo_cache:
+            got = cfb_elo.cfbd_week(data.parent / "theesness-data", season, week)
+            elo_src[(season, week)] = (f"CollegeFootballData Elo through Week {int(elo_games[season]['week'].max())}, "
+                                       "carried forward with final scores")
+            later = []
+            if season == 2026:
+                for w in range(int(elo_games[2026]["week"].max()) + 1, week):
+                    wsl, wfin = espn_ncaaf_slate(data.parent / "theesness-data", w)
+                    for r in wsl.itertuples():
+                        if r.game_id in wfin:
+                            a, h = wfin[r.game_id]
+                            later.append({"week": w, "home": r.home, "away": r.away, "home_score": h,
+                                          "away_score": a, "neutral_site": r.neutral_site})
+            carried = cfb_elo.elo_before(elo_games[season], week, later)
+            if got:
+                # CFBD's own numbers win; a team CFBD names differently keeps the carried-forward value
+                elo_src[(season, week)] = f"CollegeFootballData Elo going into Week {week}"
+                report.setdefault("cfbd_elo_unmatched", sorted(set(carried) - set(got)))
+                carried = {**carried, **got}
+            _elo_cache[(season, week)] = carried
+        return _elo_cache[(season, week)]
+
+    C = FootballModel("ncaaf", cplays, cfg=fb.NCAAF_SAM, margin_dists={2026: ncaaf_dist}, elo_fn=cfb_elo_fn)
     cbt = pd.concat([C.backtest(2025, list(range(4, 15))).assign(date="2025"), C.backtest(2026, [3, 4, 5, 6]).assign(date="2026")])
     cacc = accuracy(cbt)
     csumm, cgraded = bt_summary(cbt, EDGE_TIERS["ncaaf"])
@@ -501,7 +532,10 @@ def run(data: Path, nfldata: Path, out: Path, ledger_dir: Path):
     voided_ids = set(cvoids_all.loc[cvoids_all["kind"] == "void", "game_id"].astype(str)) if len(cvoids_all) else set()
     ckick = {r.game_id: r.kickoff_utc for r in cslate_live.itertuples()}
     for c in ccards:
-        c["inputs_used"] = {"line": "ESPN/DraftKings, newest snapshot with a line"}
+        el = c.get("elo") or {}
+        c["inputs_used"] = {"line": "ESPN/DraftKings, newest snapshot with a line",
+                            "elo": f'{c["away"]} {el.get("away") or 0:.0f} · {c["home"]} {el.get("home") or 0:.0f} '
+                                   f'({elo_src.get((2026, LIVE_W), "")})'}
     syncable = [c for c in ccards if c["game_id"] not in fcs and c["game_id"] not in voided_ids]
     csync = pickbook.sync(cled, syncable, ckick, carch, now, _clean, "ncaaf")
     n_new = csync["locked"] + csync["updated"]

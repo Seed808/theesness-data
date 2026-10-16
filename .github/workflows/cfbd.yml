@@ -1,0 +1,33 @@
+name: cfbd-college-elo
+# Daily at 18:07 UTC (8:07 AM Hawaii) and Sunday 12:07 UTC (after Saturday's games); also on demand.
+on:
+  schedule:
+    - cron: "7 18 * * *"
+    - cron: "7 12 * * 0"
+  workflow_dispatch:
+permissions:
+  contents: write
+concurrency:
+  group: cfbd
+jobs:
+  cfbd:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with: { python-version: "3.12" }
+      - run: pip install requests==2.32.3
+      - run: |
+          mkdir -p data/cfbd
+          python scripts/fetch_cfbd.py 2>&1 | tee data/cfbd/last_run.log
+        env:
+          CFBD_API_KEY: ${{ secrets.CFBD_API_KEY }}
+      - name: commit
+        if: always()
+        run: |
+          git config user.name "data-bot"
+          git config user.email "data-bot@users.noreply.github.com"
+          git add -A data/cfbd
+          git diff --cached --quiet || git commit -m "cfbd: $(date -u +%Y-%m-%dT%H:%MZ)"
+          for i in 1 2 3 4 5; do git pull --rebase --autostash && git push && break; git rebase --abort 2>/dev/null; sleep $((i*7)); done

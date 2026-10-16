@@ -10,6 +10,7 @@ import numpy as np
 import pandas as pd
 
 from . import football as fb
+from . import cfb_elo
 
 
 def _week_key(df):
@@ -20,10 +21,11 @@ class FootballModel:
     """Holds a league's standardized plays across seasons and builds any week."""
 
     def __init__(self, league: str, plays_by_season: dict[int, pd.DataFrame], cfg: fb.FootballConfig | None = None,
-                 margin_dists: dict | None = None):
+                 margin_dists: dict | None = None, elo_fn=None):
         """margin_dists: {season: MarginDist} fitted only on games before that season
         (key-number pricing); missing season -> bell curve."""
         self.margin_dists = margin_dists or {}
+        self.elo_fn = elo_fn        # (season, week) -> {team: Elo going into that week}; college engine only
         self.league = league
         self.cfg = cfg or (fb.NFL if league == "nfl" else fb.NCAAF)
         self.plays = {s: p for s, p in plays_by_season.items()}
@@ -86,7 +88,15 @@ class FootballModel:
                     a["adj"] = qbs.attrs["replacement"] - a["in_numbers_epa_db"]
                 qa[team] = a["adj"]
                 qb_rows.append(a)
-            gp = (fb.project_game_sam(fr, cfg, g, qa) if cfg.engine == "sam" else fb.project_game(fr, pm, cfg, g, qa))
+            if cfg.engine == "cfb_sam":
+                if self.elo_fn is not None and g.get("home_elo") is None:
+                    el = self.elo_fn(season, week)
+                    g["home_elo"], g["away_elo"] = el.get(g["home"], cfb_elo.FCS_ELO), el.get(g["away"], cfb_elo.FCS_ELO)
+                gp = fb.project_game_cfb(fr, cfg, g, qa)
+            elif cfg.engine == "sam":
+                gp = fb.project_game_sam(fr, cfg, g, qa)
+            else:
+                gp = fb.project_game(fr, pm, cfg, g, qa)
             card = gp.card(_num(g.get("spread_home")), _num(g.get("total")),
                            margin_sd or cfg.margin_sd, total_sd or cfg.total_sd, self.margin_dists.get(season))
             card["qb"] = qb_rows
@@ -96,6 +106,8 @@ class FootballModel:
             card["venue"] = g.get("venue", "")
             card["records"] = g.get("records", {})
             card["ratings"] = _rating_rows(fr, g["away"], g["home"])
+            if cfg.engine == "cfb_sam":
+                card["elo"] = {"away": g.get("away_elo"), "home": g.get("home_elo")}
             cards.append(card)
         return cards
 

@@ -406,6 +406,7 @@ def _inputs(c, names):
                 if iu.get("qb") else "<tr><th>Team</th><th>Starter used</th><th>Check</th><th>Source 1</th><th>Source 2</th><th>Lineup</th></tr>")
         out += (f'<h2>Inputs used</h2>' + (f'<div class="tbl"><table>{head}{rows}</table></div>' if rows else "")
                 + f'<p class="note">Line: {e(str(iu.get("line") or "—"))}.'
+                + (f' Elo: {e(iu["elo"])}.' if iu.get("elo") else "")
                 + (f' Injuries: {e(iu["injury_report"])}.' if iu.get("injury_report") else "")
                 + ' A starter is used only when the sources agree (or the injury report settles it); otherwise the game is on HOLD and has no pick.</p>')
     hist = c.get("history") or []
