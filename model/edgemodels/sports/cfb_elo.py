@@ -87,6 +87,17 @@ def save_games(pbp_path: Path, out_csv: Path) -> None:
 def cfbd_week(repo: Path, year: int, week: int) -> dict[str, float] | None:
     """CFBD's own Elo going into `week` (data/cfbd/elo_{year}_wk{week}.json from scripts/fetch_cfbd.py)."""
     import json
+    gp = Path(repo) / "data" / "cfbd" / f"games_{year}.json"
+    if gp.exists():
+        # pregame Elo on each game of that week: the exact numbers Sam's pages show (Washington 1702, Purdue 1425)
+        out = {}
+        for g in json.loads(gp.read_text()):
+            if g.get("week") == week and g.get("seasonType", "regular") == "regular":
+                for side in ("home", "away"):
+                    if g.get(f"{side}PregameElo") is not None:
+                        out[g[f"{side}Team"]] = float(g[f"{side}PregameElo"])
+        if out:
+            return out
     p = Path(repo) / "data" / "cfbd" / f"elo_{year}_wk{week}.json"
     if not p.exists():
         return None

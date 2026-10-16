@@ -26,8 +26,9 @@ def main():
     games = get("/games", year=year, seasonType="regular", division="fbs")
     (OUT / f"games_{year}.json").write_text(json.dumps(games))
     # the next week to be played = earliest week with an unfinished game
-    open_weeks = sorted({g["week"] for g in games if not g.get("completed")})
-    weeks = sorted({w for w in open_weeks[:1]})
+    now = datetime.now(timezone.utc).isoformat()
+    upcoming = sorted({g["week"] for g in games if not g.get("completed") and (g.get("startDate") or "") >= now[:10]})
+    weeks = upcoming[:1]
     for w in weeks:
         elo = get("/ratings/elo", year=year, week=w)      # CFBD: ratings as of the start of that week
         (OUT / f"elo_{year}_wk{w}.json").write_text(json.dumps(elo))
