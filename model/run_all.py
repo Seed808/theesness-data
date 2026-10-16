@@ -183,6 +183,7 @@ def first_lock_date(*paths) -> str:
 
 
 
+NCAAF_MODEL = "v2 · live from Oct 16, 2026"
 NO_EDGE = 0.5   # points: a model within half a point of the line takes no side (shown as NO EDGE, not graded)
 
 
@@ -605,7 +606,7 @@ def run(data: Path, nfldata: Path, out: Path, ledger_dir: Path):
                  and not c.get("no_edge")]
     big = max(with_line, key=lambda c: c.get("edge") or 0) if with_line else None
     stats = [{"k": "Live locked record", "v": f'{clive_summ[0]["W"]}-{clive_summ[0]["L"]}-{clive_summ[0]["P"]}',
-              "s": f'{len(clive)} picks locked, Week {LIVE_W}', "href": "record.html"},
+              "s": f'Model {NCAAF_MODEL} · {len(clive)} picks locked', "href": "record.html"},
              {"k": f"2026 replay, Wk 1–{LIVE_W - 1}", "v": f'{crp_summ[0]["W"]}-{crp_summ[0]["L"]}-{crp_summ[0]["P"]}',
               "s": f'{crp_summ[1]["W"]}-{crp_summ[1]["L"]} on 3+ edges · not live', "href": "record.html"},
              {"k": "Model disagrees 3+", "v": str(sum((c.get("edge") or 0) >= 3 for c in ccards)), "s": "points off the market this week"}]
@@ -622,8 +623,10 @@ def run(data: Path, nfldata: Path, out: Path, ledger_dir: Path):
         site.write(out, f"ncaaf/game/{c['game_id']}.html", site.page(f"{c['away']} at {c['home']}", site.game_page(c, cnames), 2, "ncaaf"))
     site.write(out, "ncaaf/record.html", site.page("NCAAF Model Record", site.record_page("ncaaf", "NCAAF record",
         "Live and replayed records are kept apart.", [
-            {"title": "Live locked record", "note": f"Started {first_lock_date(ledger_dir / 'ncaaf_locks.csv')}. Every pick "
-             "written to the hash-chained lock file before kickoff, against the first line ESPN showed, never re-priced.",
+            {"title": f"Live locked record · model {NCAAF_MODEL}", "note": "Every pick is written to the hash-chained lock file "
+             "and updates with the newest line and data until kickoff; the last version before kickoff is graded. Model v2 "
+             "(Sam's college formula + CollegeFootballData Elo) replaced v1 on Oct 16, 2026 before public release; v1's "
+             "picks (1-4) are archived in the ledger, not counted here.",
              "summary": clive_summ, "graded": clive[clive["result"] != "VOID"].to_dict("records")},
             {"title": "Voided", "note": "Locked picks voided before kickoff, with the reason. Each void is a separate "
              "hash-chained entry citing the original lock; the lock row is never edited. Voids are not in any record. "
