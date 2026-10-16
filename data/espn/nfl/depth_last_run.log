@@ -1,1 +1,9 @@
-depth charts: 32 teams; endpoints used: {'site': 32} ; sample: {'ARI': [{'id': '2578570', 'name': 'Jacoby Brissett'}, {'id': '4038524', 'name': 'Gardner Minshew II'}], 'ATL': [{'id': '4360423', 'name': 'Michael Penix Jr.'}, {'id': '4241479', 'name': 'Tua Tagovailoa'}], 'BAL': [{'id': '3916387', 'name': 'Lamar Jackson'}, {'id': '4035671', 'name': 'Tyler Huntley'}]}
+Traceback (most recent call last):
+  File "/home/runner/work/theesness-data/theesness-data/scripts/fetch_espn_depth.py", line 65, in <module>
+    teams = get(f"{SITE}/teams")["sports"][0]["leagues"][0]["teams"]
+            ^^^^^^^^^^^^^^^^^^^^
+  File "/home/runner/work/theesness-data/theesness-data/scripts/fetch_espn_depth.py", line 23, in get
+    r.raise_for_status()
+  File "/opt/hostedtoolcache/Python/3.12.15/x64/lib/python3.12/site-packages/requests/models.py", line 1024, in raise_for_status
+    raise HTTPError(http_error_msg, response=self)
+requests.exceptions.HTTPError: 404 Client Error: Not Found for url: https://site.api.espn.com/apis/site/v2/sports/football/nfl/teams
