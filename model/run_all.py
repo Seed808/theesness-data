@@ -191,6 +191,36 @@ def no_edge_map(cards):
                            f'{c["edge"]:.1f} points apart, under {NO_EDGE}')
             for c in cards if c.get("market_line") is not None and c.get("edge") is not None and c["edge"] < NO_EDGE}
 
+
+def espn_home_spread(c: dict, o: dict, abbr_map: dict | None = None):
+    """Home team's spread from an ESPN competition + odds entry. ESPN's text ("BUF -6.5") sometimes uses a
+    different abbreviation than the team record ("BUFF"; also "AF" vs "AFA"), which flipped two college lines on
+    2026-10-16. The odds' own favourite flags decide first; the text abbreviation is only a fallback."""
+    det = o.get("details")
+    if not det:
+        return None
+    if det == "EVEN":
+        return 0.0
+    try:
+        fav, num = det.rsplit(" ", 1)
+        n = abs(float(num))
+    except ValueError:
+        return None
+    hf = (o.get("homeTeamOdds") or {}).get("favorite")
+    af = (o.get("awayTeamOdds") or {}).get("favorite")
+    if hf is True and af is not True:
+        return -n
+    if af is True and hf is not True:
+        return n
+    m = abbr_map or {}
+    ab = {x["homeAway"]: m.get(x["team"].get("abbreviation"), x["team"].get("abbreviation")) for x in c["competitors"]}
+    f = m.get(fav, fav)
+    if f == ab.get("home"):
+        return -n
+    if f == ab.get("away"):
+        return n
+    return None                      # cannot tell who is favoured: no line rather than a guess
+
 def espn_ncaaf_slate(repo: Path, week: int):
     """(slate, finals) for one college week from the collected ESPN scoreboards: first line seen per game,
     finals from the newest snapshot."""
@@ -211,15 +241,7 @@ def espn_ncaaf_slate(repo: Path, week: int):
             c = ev["competitions"][0]
             t = {x["homeAway"]: x["team"]["location"] for x in c["competitors"]}
             o = (c.get("odds") or [{}])[0]
-            det = o.get("details")
-            sh = None
-            if det == "EVEN":
-                sh = 0.0
-            elif det:
-                fav, num = det.rsplit(" ", 1)
-                abbr = {x["homeAway"]: x["team"].get("abbreviation") for x in c["competitors"]}
-                # ESPN gives the favourite's line with its sign ("UGA -20.5"); spread_home is the home team's line
-                sh = float(num) if fav == abbr.get("home") else -float(num)
+            sh = espn_home_spread(c, o)
             ko = pd.Timestamp(ev["date"])
             rows.append({"game_id": str(ev["id"]), "date": (ko - pd.Timedelta(hours=10)).strftime("%A, %B %-d"),
                          "kickoff": (ko - pd.Timedelta(hours=10)).strftime("%-I:%M %p HST"), "kickoff_utc": str(ko),
@@ -274,11 +296,9 @@ def espn_lines_nfl(repo: Path, dates) -> dict:
             det, tot = o.get("details"), o.get("overUnder")
             if not det:
                 continue
-            if det == "EVEN":
-                sh = 0.0
-            else:
-                fav, num = det.rsplit(" ", 1)
-                sh = float(num) if ESPN_ABBR.get(fav, fav) == teams.get("home") else -float(num)
+            sh = espn_home_spread(c, o, ESPN_ABBR)
+            if sh is None:
+                continue
             when = (pd.Timestamp(seen.replace("Z", ""), tz="UTC") - pd.Timedelta(hours=10)).strftime("%b %-d %-I:%M %p HST") if seen else ""
             out[(teams.get("away"), teams.get("home"))] = (sh, float(tot) if tot is not None else None, when)
     return out
@@ -461,7 +481,7 @@ def run(data: Path, nfldata: Path, out: Path, ledger_dir: Path):
     site.write(out, "nfl/index.html", site.page("NFL Model Board", site.board(
         "nfl", "Week 6 projections", "Locked against the line seen at build time and graded after each game. "
         "Past weeks, including every locked pick and its result, are in the tabs above.",
-        cards, names, rec, stats, nav=nav), 1, "nfl"))
+        cards, names, rec, stats, nav=nav, tier_record=summ), 1, "nfl"))
     for c in cards:
         site.write(out, f"nfl/game/{c['game_id']}.html", site.page(f"{names[c['away']]} at {names[c['home']]}", site.game_page(c, names), 2, "nfl"))
     site.write(out, "nfl/record.html", site.page("NFL Model Record", site.record_page("nfl", "NFL record",
@@ -581,7 +601,8 @@ def run(data: Path, nfldata: Path, out: Path, ledger_dir: Path):
     cvoid_rows = clive[clive["result"] == "VOID"]
     clive_summ = record_summary(clive[clive["result"].isin(["WIN", "LOSS", "PUSH"])], EDGE_TIERS["ncaaf"])
     report.update(ncaaf_locked_now=n_new, ncaaf_chain_ok=cled.verify_chain())
-    with_line = [c for c in ccards if c.get("market_line") is not None]
+    with_line = [c for c in ccards if c.get("market_line") is not None and c["game_id"] not in fcs and not c.get("void")
+                 and not c.get("no_edge")]
     big = max(with_line, key=lambda c: c.get("edge") or 0) if with_line else None
     stats = [{"k": "Live locked record", "v": f'{clive_summ[0]["W"]}-{clive_summ[0]["L"]}-{clive_summ[0]["P"]}',
               "s": f'{len(clive)} picks locked, Week {LIVE_W}', "href": "record.html"},
@@ -593,9 +614,10 @@ def run(data: Path, nfldata: Path, out: Path, ledger_dir: Path):
     nav = site.week_nav([(x, f"Wk {x}") for x in replay_weeks] + [("live", f"Wk {LIVE_W} · live")], "live",
                         lambda x: "index.html" if x == "live" else f"week/{x}.html")
     site.write(out, "ncaaf/index.html", site.page("NCAAF Model Board", site.board(
-        "ncaaf", f"Week {LIVE_W} projections", f"FBS games. Ratings from every play of Weeks 1–{LIVE_W - 1}, opponent-adjusted and "
-        "shrunk toward 2025. Each pick is locked against the first line ESPN showed and graded after the final; games that "
-        "kicked off before the slate was loaded are shown but not locked.", ccards, cnames, None, stats, nav=nav), 1, "ncaaf"))
+        "ncaaf", f"Week {LIVE_W} projections", f"FBS games. Sam's college formula: opponent-adjusted ratings from every play of "
+        f"Weeks 1–{LIVE_W - 1} (shrunk toward 2025) plus CollegeFootballData Elo. Picks update with the newest line and data until "
+        "kickoff; the last version before kickoff is graded. NO EDGE = model within 0.5 points of the line (no side, not graded). "
+        "Highlighted cards have a gap of 3+ points, darker 6+.", ccards, cnames, None, stats, nav=nav, tier_record=csumm), 1, "ncaaf"))
     for c in ccards:
         site.write(out, f"ncaaf/game/{c['game_id']}.html", site.page(f"{c['away']} at {c['home']}", site.game_page(c, cnames), 2, "ncaaf"))
     site.write(out, "ncaaf/record.html", site.page("NCAAF Model Record", site.record_page("ncaaf", "NCAAF record",

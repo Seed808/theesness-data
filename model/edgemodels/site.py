@@ -58,6 +58,13 @@ h2{font-family:var(--display);font-weight:600;font-size:22px;letter-spacing:.04e
 .board{display:grid;grid-template-columns:repeat(auto-fill,minmax(310px,1fr));gap:10px}
 .game{background:var(--panel);border:1px solid var(--rule);padding:12px 14px;display:flex;flex-direction:column;gap:8px;min-width:0}
 .game.hot{border-color:var(--edge);box-shadow:inset 3px 0 0 var(--edge)}
+.game.hot2{box-shadow:inset 6px 0 0 var(--edge);background:color-mix(in srgb,var(--edge) 7%,var(--panel))}
+.badge{display:inline-block;font-family:var(--mono);font-size:10.5px;font-weight:600;letter-spacing:.06em;padding:1px 6px;border-radius:3px;border:1px solid var(--rule);color:var(--muted);margin-right:6px;vertical-align:1px}
+.badge.gap{border-color:var(--edge);color:var(--edge)} .badge.gap2{background:var(--edge);border-color:var(--edge);color:var(--bg)}
+.badge.none{border-style:dashed}
+.upd{font-family:var(--mono);font-size:11.5px;color:var(--muted)} .upd b{color:var(--ink);font-weight:600}
+.gaps{background:var(--panel);border:1px solid var(--edge);padding:12px 14px;margin:14px 0}
+.gaps ol{margin:6px 0 4px;padding-left:22px;font-family:var(--mono);font-size:13px} .gaps li{margin:3px 0}
 .meta{font-family:var(--mono);font-size:11px;color:var(--muted);text-transform:uppercase;letter-spacing:.06em}
 .teamrow{display:grid;grid-template-columns:1fr auto;gap:8px;align-items:baseline}
 .teamrow .t{font-weight:600}
@@ -184,9 +191,86 @@ def _mlb_lines(c, names):
     return out
 
 
+
+def _gap_level(c, sport):
+    """0 none (<0.5), 1 small, 2 = tier 1 (3+ in football), 3 = tier 2 (6+), 4 = tier 3 (10+)."""
+    if sport == "mlb" or c.get("edge") is None or c.get("market_line") is None:
+        return None
+    if c.get("no_edge"):
+        return 0
+    t = EDGE_TIERS[sport]
+    ed = c["edge"]
+    return 1 + sum(ed >= x for x in t)
+
+
+def _gap_badge(c, sport):
+    if c.get("void") or c.get("hold"):
+        return ""
+    lv = _gap_level(c, sport)
+    if lv is None:
+        return ""
+    t = EDGE_TIERS[sport]
+    if lv == 0:
+        return '<span class="badge none">NO EDGE</span>'
+    if lv == 1:
+        return f'<span class="badge">GAP {_f(c["edge"])}</span>'
+    cls = "gap2" if lv >= 3 else "gap"
+    return f'<span class="badge {cls}">GAP {_f(c["edge"])} · {t[lv - 2]:g}+</span>'
+
+
+def _updated_line(c, names):
+    """'Updated 8:44 AM · was Tennessee +7.5' when the pick changed since it was first locked."""
+    hist = [h for h in (c.get("history") or []) if h.get("event") in ("locked", "update", "no edge", "hold")]
+    if len(hist) < 2:
+        return ""
+    last = hist[-1]
+    first = next((h for h in hist if h.get("event") in ("locked", "update") and h.get("pick")), None)
+    if first is None:
+        return ""
+    now_pick = None if last.get("event") in ("no edge", "hold") else last.get("pick")
+    fl = first.get("pick_line")
+    first_txt = f'{e(names.get(first["pick"], first["pick"]))} {fmt_line(fl) if isinstance(fl, (int, float)) else ""}'.strip()
+    if now_pick == first.get("pick") and last.get("pick_line") == fl:
+        what = "same pick as first posted"
+    elif now_pick == first.get("pick"):
+        what = f"first posted as {first_txt} (line moved)"
+    else:
+        what = f"first posted as {first_txt}"
+    t = pd_ts(last["at"]).split(" ", 2)[-1]
+    return f'<div class="upd"><b>Updated</b> {e(t)} HST · {what} · {len(hist)} versions</div>'
+
+
+def _gaps_box(cards, sport, names, tier_record):
+    """Top-of-board list of the largest model-vs-market gaps (tier 2+, e.g. 6+ points in football) for games
+    still to be played and eligible to lock, with the backtest record of each tier beside it."""
+    if sport == "mlb":
+        return ""
+    t1, t2 = EDGE_TIERS[sport][0], EDGE_TIERS[sport][1]
+    live = [c for c in cards if c.get("edge") is not None and not c.get("void") and not c.get("hold")
+            and not c.get("no_edge") and c.get("result") is None
+            and not any(k in str(c.get("kickoff") or "") for k in ("FCS", "started", "VOID"))]
+    n1 = sum(1 for c in live if c["edge"] >= t1)
+    big = sorted([c for c in live if c["edge"] >= t2], key=lambda c: -c["edge"])
+    if not n1:
+        return ""
+    items = "".join(f'<li><b>{e(names.get(c[c["pick"]], c[c["pick"]]))} {fmt_line(c["pick_line"])}</b> '
+                    f'<span class="eyebrow">gap {_f(c["edge"])} · {e(names.get(c["away"], c["away"]))} at '
+                    f'{e(names.get(c["home"], c["home"]))} · {e(str(c.get("kickoff") or ""))}</span></li>' for c in big)
+    recs = []
+    for r in tier_record or []:
+        for t in (t1, t2):
+            if r["label"] in (f"Edge {t}+", f"Edge {t:g}+") and (r["W"] + r["L"]):
+                recs.append(f'{t:g}+ points went {r["W"]}-{r["L"]}-{r["P"]} ({r["pct"]:.1%})')
+    rec = (" In the backtest, gaps of " + " and ".join(recs) + "; 52.4% is break-even at -110.") if recs else ""
+    return (f'<div class="gaps"><span class="eyebrow">Biggest gaps · {t2:g}+ points ({len(big)})</span>'
+            + (f'<ol>{items}</ol>' if items else '<p class="note">None this slate.</p>')
+            + f'<p class="note">{n1} games have a gap of {t1:g}+ points and are highlighted below (darker at {t2:g}+).{rec} '
+            'A big gap is a question worth asking (injury, weather, a team the ratings misread), not a signal to follow.</p></div>')
+
+
 def board(sport: str, title: str, lede: str, cards: list[dict], names: dict, records: dict | None = None,
           stats: list[dict] | None = None, nav: str = "", game_prefix: str = "game/", links: bool = True,
-          newest_first: bool = False) -> str:
+          newest_first: bool = False, tier_record: list | None = None) -> str:
     """newest_first: for boards of games already played (replays, past weeks) the latest day and latest
     game come first; live boards of upcoming games stay in schedule order."""
     tier1 = EDGE_TIERS[sport][0]
@@ -195,18 +279,21 @@ def board(sport: str, title: str, lede: str, cards: list[dict], names: dict, rec
     days: dict[str, list] = {}
     for c in cards:
         days.setdefault(c.get("date", ""), []).append(c)
-    out = [f'{nav}<h1>{e(title)}</h1><p class="lede">{e(lede)}</p><div class="tiles">{tiles}</div><div id="board"></div>']
+    out = [f'{nav}<h1>{e(title)}</h1><p class="lede">{e(lede)}</p><div class="tiles">{tiles}</div>'
+           + ("" if newest_first else _gaps_box(cards, sport, names, tier_record)) + '<div id="board"></div>']
     items = list(days.items())                 # cards arrive in schedule order
     if newest_first:
         items = [(d, cs[::-1]) for d, cs in items[::-1]]
     for d, cs in items:
         out.append(f'<section class="day"><h2>{e(d)} <span class="eyebrow">{len(cs)} game{"s" if len(cs) != 1 else ""}</span></h2><div class="board">')
         for c in cs:
-            hot = (c.get("edge") is not None and c["edge"] >= tier1 and not c.get("void") and not c.get("hold")) if sport != "mlb" else \
+            hot = (c.get("edge") is not None and c["edge"] >= tier1 and not c.get("void") and not c.get("hold") and not c.get("no_edge")) if sport != "mlb" else \
                 (c.get("ml_edge") is not None and c["ml_edge"] >= tier1 and c.get("ml_ev", 0) > 0)
             rec = (records or {})
+            lv = _gap_level(c, sport)
+            strong = hot and lv is not None and lv >= 3
             out.append(
-                f'<article class="game{" hot" if hot else ""}"><div class="meta">{e(str(c.get("kickoff") or ""))}'
+                f'<article class="game{" hot" if hot else ""}{" hot2" if strong else ""}"><div class="meta">{_gap_badge(c, sport)}{e(str(c.get("kickoff") or ""))}'
                 f'{" · " + e(c["venue"]) if c.get("venue") else ""}</div>'
                 f'<div class="teamrow"><span class="t">{e(names.get(c["away"], c["away"]))}<small>{e(rec.get(c["away"], ""))}</small></span>'
                 f'<span class="sc">{_f(c["proj_away"])}</span></div>'
@@ -217,7 +304,7 @@ def board(sport: str, title: str, lede: str, cards: list[dict], names: dict, rec
                    f'<dt>Model line</dt><dd>{_fav_text(c.get("model_line"), c, names)}</dd>'
                    f'<dt>Model pick</dt><dd class="{"pick" if hot else ""}">{_pick_text(c, names)}</dd>'
                    f'<dt>Total</dt><dd>{_f(c.get("model_total"))} model · {_f(c.get("market_total"))} market</dd>'
-                   f'{_result_line(c, names)}</dl>')
+                   f'{_result_line(c, names)}</dl>{_updated_line(c, names)}')
                 + (f'<a class="more" href="{game_prefix}{e(str(c["game_id"]))}.html">Game breakdown →</a>' if links else "")
                 + '</article>')
         out.append("</div></section>")
