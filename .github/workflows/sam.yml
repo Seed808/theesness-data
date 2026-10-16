@@ -1,0 +1,27 @@
+name: sam-snapshot
+on:
+  workflow_dispatch:
+    inputs:
+      league: { description: "ncaaf or nfl", default: "ncaaf" }
+      week: { description: "week number", default: "7" }
+permissions:
+  contents: write
+jobs:
+  snap:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with: { python-version: "3.12" }
+      - run: pip install requests==2.32.3
+      - run: python scripts/fetch_sam.py ${{ inputs.league }} ${{ inputs.week }} 2>&1 | tee sam_fetch.log
+      - name: commit
+        if: always()
+        run: |
+          git config user.name "data-bot"
+          git config user.email "data-bot@users.noreply.github.com"
+          mkdir -p data/sam && mv sam_fetch.log data/sam/last_fetch.log
+          git add -A data/sam
+          git diff --cached --quiet || git commit -m "sam snapshot: ${{ inputs.league }} wk${{ inputs.week }}"
+          for i in 1 2 3 4 5; do git pull --rebase --autostash && git push && break; git rebase --abort 2>/dev/null; sleep $((i*7)); done
