@@ -15,7 +15,7 @@
 /home/runner/work/theesness-data/theesness-data/model/run_all.py:301: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
   sl["date"] = pd.to_datetime(sl["date"], errors="coerce").dt.strftime("%A, %B %-d").fillna("Date not in feed")
 {
- "built_at": "2026-10-16T18:26:44+00:00",
+ "built_at": "2026-10-16T18:38:57+00:00",
  "nfl_key_numbers": {
   "source": "nflverse games 2010-2025, 4363 games, closing spread as expectation",
   "top": [
@@ -185,41 +185,41 @@
   "summary": [
    {
     "label": "All picks",
-    "W": 822,
-    "L": 783,
+    "W": 830,
+    "L": 775,
     "P": 23,
-    "pct": 0.5121495327102804,
-    "units": -35.7
+    "pct": 0.5171339563862928,
+    "units": -20.5
    },
    {
     "label": "Edge 3.0+",
-    "W": 566,
-    "L": 527,
+    "W": 580,
+    "L": 522,
     "P": 12,
-    "pct": 0.5178408051235133,
-    "units": -12.5
+    "pct": 0.5263157894736842,
+    "units": 5.3
    },
    {
     "label": "Edge 6.0+",
-    "W": 367,
-    "L": 308,
+    "W": 379,
+    "L": 313,
     "P": 7,
-    "pct": 0.5437037037037037,
-    "units": 25.6
+    "pct": 0.5476878612716763,
+    "units": 31.5
    },
    {
     "label": "Edge 10.0+",
-    "W": 195,
-    "L": 157,
+    "W": 190,
+    "L": 166,
     "P": 5,
-    "pct": 0.5539772727272727,
-    "units": 20.3
+    "pct": 0.5337078651685393,
+    "units": 6.7
    }
   ],
   "accuracy": {
    "games": 1678,
-   "model_mae": 13.848748510131106,
-   "model_sd": 17.803353467395265,
+   "model_mae": 13.836769964243146,
+   "model_sd": 17.800265877617168,
    "market_mae": 11.801597051597051,
    "market_sd": 15.030748581180159,
    "lined": 1628
@@ -228,38 +228,38 @@
  "ncaaf_2026_replay": [
   {
    "label": "All picks",
-   "W": 380,
-   "L": 361,
+   "W": 382,
+   "L": 359,
    "P": 6,
-   "pct": 0.5128205128205128,
-   "units": -15.5
+   "pct": 0.5155195681511471,
+   "units": -11.7
   },
   {
    "label": "Edge 3.0+",
-   "W": 275,
-   "L": 257,
+   "W": 276,
+   "L": 255,
    "P": 2,
-   "pct": 0.5169172932330827,
-   "units": -7.0
+   "pct": 0.519774011299435,
+   "units": -4.1
   },
   {
    "label": "Edge 6.0+",
-   "W": 187,
+   "W": 192,
    "L": 167,
    "P": 1,
-   "pct": 0.5282485875706214,
-   "units": 3.0
+   "pct": 0.5348189415041783,
+   "units": 7.5
   },
   {
    "label": "Edge 10.0+",
-   "W": 111,
+   "W": 103,
    "L": 89,
    "P": 1,
-   "pct": 0.555,
-   "units": 11.9
+   "pct": 0.5364583333333334,
+   "units": 4.6
   }
  ],
- "ncaaf_locked_now": 49,
+ "ncaaf_locked_now": 43,
  "ncaaf_chain_ok": true,
  "nba_backtest": {
   "summary": [
@@ -315,10 +315,10 @@
  "mlb_backtest": {
   "apr14_sep28": {
    "games": 2186,
-   "winner_pct": 0.5576395242451967,
-   "log_loss": 0.6836942780654195,
+   "winner_pct": 0.55032021957914,
+   "log_loss": 0.6836082271947286,
    "log_loss_home_rate_only": 0.6918805834642537,
-   "brier": 0.245334730586688,
+   "brier": 0.24528679463060382,
    "total_mae": 3.518377027353694,
    "total_mae_league_avg": 3.5489156229151826,
    "margin_mae": 3.488257842773194,
@@ -327,10 +327,10 @@
   },
   "jul_sep": {
    "games": 1148,
-   "winner_pct": 0.573170731707317,
-   "log_loss": 0.6784803267877814,
+   "winner_pct": 0.5609756097560976,
+   "log_loss": 0.6779199641222468,
    "log_loss_home_rate_only": 0.6910681981294204,
-   "brier": 0.24279698938371078,
+   "brier": 0.24252645056620212,
    "total_mae": 3.5594811548811816,
    "total_mae_league_avg": 3.557946557564132,
    "margin_mae": 3.445713236428236,
@@ -338,7 +338,7 @@
    "avg_actual_total": 8.931184668989546
   }
  },
- "mlb_locked_now": 0,
+ "mlb_locked_now": 1,
  "mlb_chain_ok": true,
  "mlb_live": [
   {
