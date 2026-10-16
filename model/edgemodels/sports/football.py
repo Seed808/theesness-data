@@ -421,8 +421,10 @@ CFB_LABELS = {"pass_epa": "Passing game", "rush_epa": "Running game", "pass_sr":
               "rush_sr": "Rush consistency"}
 # Rating settings chosen by matching Sam's published Week 7 team ratings (124 teams x 8 numbers, 72+18 settings tried):
 # full last-season rating as the prior, at twice the default prior weight.
+# Garbage-time cut at 1%/99% win probability (was 5%/95%): blowout teams like Alabama were losing a third of
+# their plays, which made last season count more for them; 1% matched Sam's ratings best (error 1.29 vs 1.47).
 NCAAF_SAM = replace(NCAAF, prior_keep=1.0, engine="cfb_sam", home_field=CFB_SAM_WEIGHTS["home"],
-                    prior_plays={k: v * 2 for k, v in NCAAF.prior_plays.items()})
+                    garbage_wp=(0.01, 0.99), prior_plays={k: v * 2 for k, v in NCAAF.prior_plays.items()})
 
 
 def _mv(fr, m, o, d):
