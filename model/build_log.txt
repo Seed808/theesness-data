@@ -1,21 +1,21 @@
 /home/runner/work/theesness-data/theesness-data/model/edgemodels/sports/football.py:102: FutureWarning: Downcasting object dtype arrays on .fillna, .ffill, .bfill is deprecated and will change in a future version. Call result.infer_objects(copy=False) instead. To opt-in to the future behavior, set `pd.set_option('future.no_silent_downcasting', True)`
   "neutral_site": p["neutral_site"].fillna(False).astype(bool),
-/home/runner/work/theesness-data/theesness-data/model/run_all.py:476: FutureWarning: The behavior of DataFrame concatenation with empty or all-NA entries is deprecated. In a future version, this will no longer exclude empty or all-NA columns when determining the result dtypes. To retain the old behavior, exclude the relevant entries before the concat operation.
+/home/runner/work/theesness-data/theesness-data/model/run_all.py:507: FutureWarning: The behavior of DataFrame concatenation with empty or all-NA entries is deprecated. In a future version, this will no longer exclude empty or all-NA columns when determining the result dtypes. To retain the old behavior, exclude the relevant entries before the concat operation.
   cbt = pd.concat([C.backtest(2025, list(range(4, 15))).assign(date="2025"), C.backtest(2026, [3, 4, 5, 6]).assign(date="2026")])
-/home/runner/work/theesness-data/theesness-data/model/run_all.py:291: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
+/home/runner/work/theesness-data/theesness-data/model/run_all.py:292: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
   sl["date"] = pd.to_datetime(sl["date"], errors="coerce").dt.strftime("%A, %B %-d").fillna("Date not in feed")
-/home/runner/work/theesness-data/theesness-data/model/run_all.py:291: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
+/home/runner/work/theesness-data/theesness-data/model/run_all.py:292: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
   sl["date"] = pd.to_datetime(sl["date"], errors="coerce").dt.strftime("%A, %B %-d").fillna("Date not in feed")
-/home/runner/work/theesness-data/theesness-data/model/run_all.py:291: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
+/home/runner/work/theesness-data/theesness-data/model/run_all.py:292: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
   sl["date"] = pd.to_datetime(sl["date"], errors="coerce").dt.strftime("%A, %B %-d").fillna("Date not in feed")
-/home/runner/work/theesness-data/theesness-data/model/run_all.py:291: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
+/home/runner/work/theesness-data/theesness-data/model/run_all.py:292: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
   sl["date"] = pd.to_datetime(sl["date"], errors="coerce").dt.strftime("%A, %B %-d").fillna("Date not in feed")
-/home/runner/work/theesness-data/theesness-data/model/run_all.py:291: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
+/home/runner/work/theesness-data/theesness-data/model/run_all.py:292: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
   sl["date"] = pd.to_datetime(sl["date"], errors="coerce").dt.strftime("%A, %B %-d").fillna("Date not in feed")
-/home/runner/work/theesness-data/theesness-data/model/run_all.py:291: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
+/home/runner/work/theesness-data/theesness-data/model/run_all.py:292: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
   sl["date"] = pd.to_datetime(sl["date"], errors="coerce").dt.strftime("%A, %B %-d").fillna("Date not in feed")
 {
- "built_at": "2026-10-16T17:14:47+00:00",
+ "built_at": "2026-10-16T17:22:04+00:00",
  "nfl_key_numbers": {
   "source": "nflverse games 2010-2025, 4363 games, closing spread as expectation",
   "top": [
@@ -173,45 +173,53 @@
    "units": 0.0
   }
  ],
+ "cfbd_elo_unmatched": [
+  "Air Force",
+  "Army",
+  "Hawai'i",
+  "Navy",
+  "New Mexico State",
+  "UNLV"
+ ],
  "ncaaf_backtest": {
   "summary": [
    {
     "label": "All picks",
-    "W": 819,
-    "L": 786,
+    "W": 838,
+    "L": 767,
     "P": 23,
-    "pct": 0.5102803738317757,
-    "units": -41.5
+    "pct": 0.5221183800623053,
+    "units": -5.2
    },
    {
     "label": "Edge 3.0+",
-    "W": 622,
-    "L": 556,
-    "P": 15,
-    "pct": 0.5280135823429541,
-    "units": 9.5
+    "W": 583,
+    "L": 527,
+    "P": 14,
+    "pct": 0.5252252252252252,
+    "units": 3.0
    },
    {
     "label": "Edge 6.0+",
-    "W": 418,
-    "L": 361,
-    "P": 10,
-    "pct": 0.5365853658536586,
-    "units": 19.0
+    "W": 389,
+    "L": 319,
+    "P": 7,
+    "pct": 0.5494350282485876,
+    "units": 34.6
    },
    {
     "label": "Edge 10.0+",
-    "W": 215,
-    "L": 176,
+    "W": 210,
+    "L": 178,
     "P": 5,
-    "pct": 0.5498721227621484,
-    "units": 19.5
+    "pct": 0.5412371134020618,
+    "units": 12.9
    }
   ],
   "accuracy": {
    "games": 1678,
-   "model_mae": 14.102860548271751,
-   "model_sd": 18.122847113416253,
+   "model_mae": 13.892252681764003,
+   "model_sd": 17.86576927455851,
    "market_mae": 11.801597051597051,
    "market_sd": 15.030748581180159,
    "lined": 1628
@@ -220,38 +228,38 @@
  "ncaaf_2026_replay": [
   {
    "label": "All picks",
-   "W": 379,
-   "L": 362,
+   "W": 388,
+   "L": 353,
    "P": 6,
-   "pct": 0.5114709851551957,
-   "units": -17.5
+   "pct": 0.5236167341430499,
+   "units": -0.3
   },
   {
    "label": "Edge 3.0+",
-   "W": 296,
-   "L": 272,
+   "W": 285,
+   "L": 250,
    "P": 3,
-   "pct": 0.5211267605633803,
-   "units": -2.9
+   "pct": 0.5327102803738317,
+   "units": 9.1
   },
   {
    "label": "Edge 6.0+",
-   "W": 219,
-   "L": 200,
+   "W": 202,
+   "L": 170,
    "P": 1,
-   "pct": 0.522673031026253,
-   "units": -0.9
+   "pct": 0.543010752688172,
+   "units": 13.6
   },
   {
    "label": "Edge 10.0+",
-   "W": 140,
-   "L": 119,
-   "P": 0,
-   "pct": 0.5405405405405406,
-   "units": 8.3
+   "W": 119,
+   "L": 94,
+   "P": 1,
+   "pct": 0.5586854460093896,
+   "units": 14.2
   }
  ],
- "ncaaf_locked_now": 2,
+ "ncaaf_locked_now": 52,
  "ncaaf_chain_ok": true,
  "nba_backtest": {
   "summary": [
@@ -307,10 +315,10 @@
  "mlb_backtest": {
   "apr14_sep28": {
    "games": 2186,
-   "winner_pct": 0.5558096980786825,
-   "log_loss": 0.683180081379249,
+   "winner_pct": 0.5526075022872827,
+   "log_loss": 0.6831397369279647,
    "log_loss_home_rate_only": 0.6918805834642537,
-   "brier": 0.2450877186070448,
+   "brier": 0.24507394447621222,
    "total_mae": 3.518377027353694,
    "total_mae_league_avg": 3.5489156229151826,
    "margin_mae": 3.488257842773194,
@@ -319,10 +327,10 @@
   },
   "jul_sep": {
    "games": 1148,
-   "winner_pct": 0.573170731707317,
-   "log_loss": 0.6776624038641041,
+   "winner_pct": 0.5653310104529616,
+   "log_loss": 0.6777313014662218,
    "log_loss_home_rate_only": 0.6910681981294204,
-   "brier": 0.24239313262195125,
+   "brier": 0.2424543623148955,
    "total_mae": 3.5594811548811816,
    "total_mae_league_avg": 3.557946557564132,
    "margin_mae": 3.445713236428236,
