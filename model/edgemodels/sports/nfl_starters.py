@@ -14,6 +14,7 @@ The nflverse schedule's listed starter is shown for reference only; it is not a 
 from __future__ import annotations
 
 import json
+import re
 from pathlib import Path
 
 import pandas as pd
@@ -32,9 +33,21 @@ def _espn_injury_status(repo: Path) -> dict:
     for team in d.get("injuries", []):
         for inj in team.get("injuries", []):
             a = inj.get("athlete") or {}
-            if a.get("id"):
-                out[str(a["id"])] = inj.get("status") or inj.get("type", {}).get("description")
+            aid = a.get("id")
+            if not aid:      # ESPN's injuries feed has no athlete id field; the id is in the player-card link
+                for ln in a.get("links") or []:
+                    m = re.search(r"/id/(\d+)", ln.get("href", ""))
+                    if m:
+                        aid = m.group(1)
+                        break
+            if aid:
+                out[str(aid)] = inj.get("status") or inj.get("type", {}).get("description")
+                NOTES[str(aid)] = (inj.get("shortComment") or "", inj.get("date") or "")
     return out
+
+
+NOTES: dict = {}   # espn athlete id -> (ESPN injury note, date); filled by _espn_injury_status
+START_WORDS = ("expected to start", "will start", "is starting", "set to start", "named the starter", "will make the start")
 
 
 class Starters:
@@ -50,6 +63,7 @@ class Starters:
         self.nfl_practice = dict(zip(inj["gsis_id"], inj["practice_status"]))
         espn = _espn_injury_status(repo)
         self.espn_status = {self.espn_to_gsis.get(k): v for k, v in espn.items() if self.espn_to_gsis.get(k)}
+        self.espn_note = {self.espn_to_gsis.get(k): v for k, v in NOTES.items() if self.espn_to_gsis.get(k)}
         f = repo / "data" / "espn" / "nfl" / "depth" / "latest.json"
         self.depth = json.loads(f.read_text()) if f.exists() else {"qb": {}, "fetched_at": None}
 
@@ -89,6 +103,12 @@ class Starters:
         if last_id and not espn1 and not out_last:
             return dict(info, status="confirmed", starter_id=last_id, starter=self.name.get(last_id),
                         why="last game's quarterback (no ESPN depth chart)")
+        # ESPN QB1 returning from injury: his own ESPN injury note says he starts (e.g. "Williams (hamstring) is
+        # expected to start Sunday's game ... Adam Schefter of ESPN reports") and no report has him Out/Doubtful.
+        note, when = self.espn_note.get(espn1, ("", "")) if espn1 else ("", "")
+        if espn1 and not out_espn and any(w in note.lower() for w in START_WORDS):
+            return dict(info, status="confirmed", starter_id=espn1, starter=self.name.get(espn1),
+                        why=f'ESPN QB1, and ESPN injury note ({when[:10]}): "{note}"')
         return dict(info, status="hold", starter_id=None, starter=None,
                     why=f"sources disagree: last game {self.name.get(last_id, last_id)}, ESPN QB1 {espn1_name}; "
                         "no pick until they agree or the injury report settles it")
