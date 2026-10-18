@@ -14,18 +14,364 @@
   sl["date"] = pd.to_datetime(sl["date"], errors="coerce").dt.strftime("%A, %B %-d").fillna("Date not in feed")
 /home/runner/work/theesness-data/theesness-data/model/run_all.py:322: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
   sl["date"] = pd.to_datetime(sl["date"], errors="coerce").dt.strftime("%A, %B %-d").fillna("Date not in feed")
-Traceback (most recent call last):
-  File "/home/runner/work/theesness-data/theesness-data/model/run_all.py", line 791, in <module>
-    r = run(Path(a.data), Path(a.nfldata), Path(a.out), Path(a.ledger))
-        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "/home/runner/work/theesness-data/theesness-data/model/run_all.py", line 724, in run
-    mlb_tile = mlb_section(out, data.parent / "theesness-data", ledger_dir, report, now)
-               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "/home/runner/work/theesness-data/theesness-data/model/run_mlb.py", line 291, in mlb_section
-    sync_stats = pickbook.sync(led, cards, kick, arch, now, _clean, "mlb",
-                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "/home/runner/work/theesness-data/theesness-data/model/edgemodels/core/pickbook.py", line 92, in sync
-    led.void(gid, "Update before kickoff: newer roster or line", ko, kind="update")
-  File "/home/runner/work/theesness-data/theesness-data/model/edgemodels/core/ledger.py", line 98, in void
-    raise ValueError(f"{game_id}: kickoff {kickoff_utc} has passed; a void must be recorded before kickoff")
-ValueError: 849817: kickoff 2026-10-18 21:08:00+00:00 has passed; a void must be recorded before kickoff
+{
+ "built_at": "2026-10-18T21:43:17+00:00",
+ "nfl_key_numbers": {
+  "source": "nflverse games 2010-2025, 4363 games, closing spread as expectation",
+  "top": [
+   {
+    "margin": 3,
+    "weight": 2.687529878986892
+   },
+   {
+    "margin": 38,
+    "weight": 2.067242485480769
+   },
+   {
+    "margin": 35,
+    "weight": 2.0106954158647357
+   },
+   {
+    "margin": 31,
+    "weight": 1.978398508323249
+   },
+   {
+    "margin": 7,
+    "weight": 1.7663919913184858
+   },
+   {
+    "margin": 28,
+    "weight": 1.7459164695216642
+   },
+   {
+    "margin": 34,
+    "weight": 1.5354974750205879
+   },
+   {
+    "margin": 24,
+    "weight": 1.4853741664463254
+   }
+  ]
+ },
+ "nfl_backtest": {
+  "summary": [
+   {
+    "label": "All picks",
+    "W": 150,
+    "L": 147,
+    "P": 6,
+    "pct": 0.5050505050505051,
+    "units": -10.6
+   },
+   {
+    "label": "Edge 3.0+",
+    "W": 43,
+    "L": 45,
+    "P": 2,
+    "pct": 0.48863636363636365,
+    "units": -5.9
+   },
+   {
+    "label": "Edge 6.0+",
+    "W": 7,
+    "L": 7,
+    "P": 0,
+    "pct": 0.5,
+    "units": -0.6
+   },
+   {
+    "label": "Edge 10.0+",
+    "W": 0,
+    "L": 4,
+    "P": 0,
+    "pct": 0.0,
+    "units": -4.0
+   }
+  ],
+  "accuracy": {
+   "games": 303,
+   "model_mae": 10.255445544554455,
+   "model_sd": 13.098033894526703,
+   "market_mae": 9.935643564356436,
+   "market_sd": 12.502357874353967,
+   "lined": 303
+  }
+ },
+ "nfl_questionable_active_rate": 0.7451523545706371,
+ "nfl_pickbook": {
+  "locked": 0,
+  "updated": 0,
+  "held": 0
+ },
+ "nfl_locked_now": 0,
+ "nfl_chain_ok": true,
+ "nfl_2026_replay": [
+  {
+   "label": "All picks",
+   "W": 39,
+   "L": 34,
+   "P": 6,
+   "pct": 0.5342465753424658,
+   "units": 1.5
+  },
+  {
+   "label": "Edge 3.0+",
+   "W": 13,
+   "L": 8,
+   "P": 1,
+   "pct": 0.6190476190476191,
+   "units": 3.8
+  },
+  {
+   "label": "Edge 6.0+",
+   "W": 0,
+   "L": 1,
+   "P": 0,
+   "pct": 0.0,
+   "units": -1.0
+  },
+  {
+   "label": "Edge 10.0+",
+   "W": 0,
+   "L": 1,
+   "P": 0,
+   "pct": 0.0,
+   "units": -1.0
+  }
+ ],
+ "nfl_live": [
+  {
+   "label": "All picks",
+   "W": 3,
+   "L": 4,
+   "P": 0,
+   "pct": 0.42857142857142855,
+   "units": -1.3
+  },
+  {
+   "label": "Edge 3.0+",
+   "W": 0,
+   "L": 2,
+   "P": 0,
+   "pct": 0.0,
+   "units": -2.0
+  },
+  {
+   "label": "Edge 6.0+",
+   "W": 0,
+   "L": 0,
+   "P": 0,
+   "pct": NaN,
+   "units": 0.0
+  },
+  {
+   "label": "Edge 10.0+",
+   "W": 0,
+   "L": 0,
+   "P": 0,
+   "pct": NaN,
+   "units": 0.0
+  }
+ ],
+ "cfbd_elo_unmatched": [
+  "Air Force",
+  "Army",
+  "Hawai'i",
+  "Navy",
+  "New Mexico State",
+  "UNLV"
+ ],
+ "ncaaf_backtest": {
+  "summary": [
+   {
+    "label": "All picks",
+    "W": 830,
+    "L": 775,
+    "P": 23,
+    "pct": 0.5171339563862928,
+    "units": -20.5
+   },
+   {
+    "label": "Edge 3.0+",
+    "W": 580,
+    "L": 522,
+    "P": 12,
+    "pct": 0.5263157894736842,
+    "units": 5.3
+   },
+   {
+    "label": "Edge 6.0+",
+    "W": 379,
+    "L": 313,
+    "P": 7,
+    "pct": 0.5476878612716763,
+    "units": 31.5
+   },
+   {
+    "label": "Edge 10.0+",
+    "W": 190,
+    "L": 166,
+    "P": 5,
+    "pct": 0.5337078651685393,
+    "units": 6.7
+   }
+  ],
+  "accuracy": {
+   "games": 1678,
+   "model_mae": 13.836769964243146,
+   "model_sd": 17.800265877617168,
+   "market_mae": 11.801597051597051,
+   "market_sd": 15.030748581180159,
+   "lined": 1628
+  }
+ },
+ "ncaaf_2026_replay": [
+  {
+   "label": "All picks",
+   "W": 382,
+   "L": 359,
+   "P": 6,
+   "pct": 0.5155195681511471,
+   "units": -11.7
+  },
+  {
+   "label": "Edge 3.0+",
+   "W": 276,
+   "L": 255,
+   "P": 2,
+   "pct": 0.519774011299435,
+   "units": -4.1
+  },
+  {
+   "label": "Edge 6.0+",
+   "W": 192,
+   "L": 167,
+   "P": 1,
+   "pct": 0.5348189415041783,
+   "units": 7.5
+  },
+  {
+   "label": "Edge 10.0+",
+   "W": 103,
+   "L": 89,
+   "P": 1,
+   "pct": 0.5364583333333334,
+   "units": 4.6
+  }
+ ],
+ "ncaaf_locked_now": 0,
+ "ncaaf_chain_ok": true,
+ "nba_backtest": {
+  "summary": [
+   {
+    "label": "All picks",
+    "W": 494,
+    "L": 541,
+    "P": 8,
+    "pct": 0.47729468599033814,
+    "units": -91.9
+   },
+   {
+    "label": "Edge 2.5+",
+    "W": 226,
+    "L": 268,
+    "P": 4,
+    "pct": 0.4574898785425101,
+    "units": -62.5
+   },
+   {
+    "label": "Edge 5.0+",
+    "W": 96,
+    "L": 94,
+    "P": 3,
+    "pct": 0.5052631578947369,
+    "units": -6.7
+   },
+   {
+    "label": "Edge 8.0+",
+    "W": 27,
+    "L": 28,
+    "P": 2,
+    "pct": 0.4909090909090909,
+    "units": -3.5
+   }
+  ],
+  "accuracy": {
+   "games": 1048,
+   "model_mae": 11.48807251908397,
+   "model_sd": 14.7141506424855,
+   "market_mae": 10.88686481303931,
+   "market_sd": 13.96647154710555,
+   "lined": 1043
+  }
+ },
+ "cbb_backtest": {
+  "accuracy": {
+   "games": 3446,
+   "model_mae": 10.193934997098086,
+   "model_sd": 11.600958054643893
+  }
+ },
+ "mlb_backtest": {
+  "apr14_sep28": {
+   "games": 2186,
+   "winner_pct": 0.5516925892040256,
+   "log_loss": 0.68367275263638,
+   "log_loss_home_rate_only": 0.6918805834642537,
+   "brier": 0.24532876984217747,
+   "total_mae": 3.518377027353694,
+   "total_mae_league_avg": 3.5489156229151826,
+   "margin_mae": 3.488257842773194,
+   "avg_proj_total": 8.857375189025287,
+   "avg_actual_total": 8.970265324794145
+  },
+  "jul_sep": {
+   "games": 1148,
+   "winner_pct": 0.5609756097560976,
+   "log_loss": 0.6785704060898481,
+   "log_loss_home_rate_only": 0.6910681981294204,
+   "brier": 0.24285874956445994,
+   "total_mae": 3.5594811548811816,
+   "total_mae_league_avg": 3.557946557564132,
+   "margin_mae": 3.445713236428236,
+   "avg_proj_total": 8.87073023294106,
+   "avg_actual_total": 8.931184668989546
+  }
+ },
+ "mlb_locked_now": 0,
+ "mlb_chain_ok": true,
+ "mlb_live": [
+  {
+   "label": "All picks",
+   "W": 1,
+   "L": 2,
+   "P": 0,
+   "pct": 0.3333333333333333,
+   "units": -0.6
+  },
+  {
+   "label": "Edge 3.0+",
+   "W": 0,
+   "L": 1,
+   "P": 0,
+   "pct": 0.0,
+   "units": -1.0
+  },
+  {
+   "label": "Edge 5.0+",
+   "W": 0,
+   "L": 0,
+   "P": 0,
+   "pct": NaN,
+   "units": 0.0
+  },
+  {
+   "label": "Edge 8.0+",
+   "W": 0,
+   "L": 0,
+   "P": 0,
+   "pct": NaN,
+   "units": 0.0
+  }
+ ]
+}
