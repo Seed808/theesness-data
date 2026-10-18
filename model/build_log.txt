@@ -15,7 +15,7 @@
 /home/runner/work/theesness-data/theesness-data/model/run_all.py:322: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
   sl["date"] = pd.to_datetime(sl["date"], errors="coerce").dt.strftime("%A, %B %-d").fillna("Date not in feed")
 {
- "built_at": "2026-10-18T16:44:48+00:00",
+ "built_at": "2026-10-18T17:07:47+00:00",
  "nfl_key_numbers": {
   "source": "nflverse games 2010-2025, 4363 games, closing spread as expectation",
   "top": [
@@ -100,10 +100,10 @@
  "nfl_questionable_active_rate": 0.7451523545706371,
  "nfl_pickbook": {
   "locked": 0,
-  "updated": 1,
+  "updated": 0,
   "held": 0
  },
- "nfl_locked_now": 1,
+ "nfl_locked_now": 0,
  "nfl_chain_ok": true,
  "nfl_2026_replay": [
   {
@@ -143,10 +143,10 @@
   {
    "label": "All picks",
    "W": 1,
-   "L": 0,
+   "L": 1,
    "P": 0,
-   "pct": 1.0,
-   "units": 0.9
+   "pct": 0.5,
+   "units": -0.1
   },
   {
    "label": "Edge 3.0+",
@@ -315,10 +315,10 @@
  "mlb_backtest": {
   "apr14_sep28": {
    "games": 2186,
-   "winner_pct": 0.5494053064958829,
-   "log_loss": 0.6838816652753992,
+   "winner_pct": 0.5521500457456542,
+   "log_loss": 0.6833254026551132,
    "log_loss_home_rate_only": 0.6918805834642537,
-   "brier": 0.24543432896843548,
+   "brier": 0.24516287860247027,
    "total_mae": 3.518377027353694,
    "total_mae_league_avg": 3.5489156229151826,
    "margin_mae": 3.488257842773194,
@@ -327,11 +327,11 @@
   },
   "jul_sep": {
    "games": 1148,
-   "winner_pct": 0.5662020905923345,
-   "log_loss": 0.678789085615182,
+   "winner_pct": 0.5618466898954704,
+   "log_loss": 0.6785807382307757,
    "log_loss_home_rate_only": 0.6910681981294204,
-   "brier": 0.24296999559015678,
-   "total_mae": 3.559481154881182,
+   "brier": 0.24286571575566204,
+   "total_mae": 3.5594811548811816,
    "total_mae_league_avg": 3.557946557564132,
    "margin_mae": 3.445713236428236,
    "avg_proj_total": 8.87073023294106,
