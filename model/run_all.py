@@ -750,31 +750,29 @@ def run(data: Path, nfldata: Path, out: Path, ledger_dir: Path):
     for sp_, s, note in home_tiles:
         nm, desc = site.SPORT_NAMES[sp_]
         v = f'{s[0]["W"]}-{s[0]["L"]}-{s[0]["P"]}' if s else "—"
-        tiles.append({"k": f"{nm} · {desc}", "v": v, "s": note, "href": f"{sp_}/index.html"})
+        tiles.append({"k": f"{nm}, {desc}", "v": v, "s": note, "href": f"{sp_}/index.html"})
     tiles += [mlb_tile,
-              {"k": "NHL · hockey", "v": "test", "s": "Synthetic data until the NHL API is connected", "href": "nhl/index.html"}]
-    body = (f'<h1>TheEsness Predictions</h1><p class="lede">One model, six sports. It reads play-by-play, rates every team against '
-            f'the schedule it actually faced, projects a score for every game, and puts the market\'s number beside it. '
-            f'Projections lock against the first line seen and are graded after the game.</p>'
-            f'<p class="eyebrow">Live locked record · started {start_txt}</p>'
-            f'<p style="font-family:var(--display);font-size:44px;font-weight:700;margin:4px 0">{lw}-{ll}-{lp}</p>'
-            f'<p class="note">{len(live_rows)} NFL spreads, {int((ncaaf_live["result"] != "VOID").sum())} college spreads'
-            f'{" (" + str(int((ncaaf_live["result"] == "VOID").sum())) + " voided, not counted)" if (ncaaf_live["result"] == "VOID").any() else ""} and {len(mlb_live)} MLB '
-            f'moneyline{"s" if len(mlb_live) != 1 else ""} locked; graded after each final.</p>'
-            f'<p class="eyebrow">Replayed record against the spread · NFL 2026 Wk 1–5, NCAAF 2026 Wk 1–6, NBA 2025-26 · not live</p>'
-            f'<p style="font-family:var(--display);font-size:44px;font-weight:700;margin:4px 0">{allw}-{alll}-{allp}</p>'
-            f'<p class="note">{100 * allw / (allw + alll):.1f}% · break-even at -110 is 52.4%. Out-of-sample, graded against the '
-            f'line in each public data feed. Live locks started {start_txt}.</p>'
-            '<div class="tiles">' + "".join(
+              {"k": "NHL, hockey", "v": "test", "s": "Synthetic data until the NHL API is connected", "href": "nhl/index.html"}]
+    big = 'style="font-family:var(--display);font-size:clamp(44px,13vw,64px);font-weight:800;line-height:1;margin:2px 0 6px"'
+    body = (f'<h1>Our number vs the book, every game</h1><p class="lede">We build our own line for every game from '
+            f'play-by-play efficiency, adjusted for the schedule each team actually played, and set it beside the sportsbook '
+            f'line. Picks keep updating until kickoff, and every one is graded after the final.</p>'
+            f'<div class="tiles"><div class="tile"><span class="k">Live record since {start_txt}</span><span class="v" {big}>{lw}-{ll}-{lp}</span>'
+            f'<span class="s">{len(live_rows)} NFL spreads, {int((ncaaf_live["result"] != "VOID").sum())} college spreads and '
+            f'{len(mlb_live)} MLB moneyline{"s" if len(mlb_live) != 1 else ""}</span></div>'
+            f'<div class="tile"><span class="k">Replayed against the spread (not live)</span><span class="v" {big}>{allw}-{alll}-{allp}</span>'
+            f'<span class="s">{100 * allw / (allw + alll):.1f}% on NFL 2026 Wk 1–5, college 2026 Wk 1–6 and NBA 2025-26; '
+            f'52.4% breaks even at -110</span></div></div>'
+            '<h2>Pick a sport</h2><div class="tiles">' + "".join(
                 f'<a class="tile" href="{t["href"]}"><span class="k">{site.e(t["k"])}</span><span class="v">{t["v"]}</span>'
                 f'<span class="s">{site.e(t["s"])}</span></a>' for t in tiles) + "</div>"
-            '<h2>How it works</h2><div class="tiles">'
-            '<div class="tile"><span class="k">Every play</span><span class="s">Football ratings come from expected points added per snap; '
-            'basketball from points per possession and the four factors; baseball from wOBA/xwOBA per plate appearance.</span></div>'
-            '<div class="tile"><span class="k">Adjusted for who they played</span><span class="s">Each rating is solved jointly against every '
-            'opponent on the schedule and shrunk toward last season, so early weeks do not swing wildly.</span></div>'
-            '<div class="tile"><span class="k">Locked, then graded</span><span class="s">A projection is written once against the first line '
-            'seen, hash-chained in the lock file, and graded after the final. The record is every game, not the good weeks.</span></div></div>')
+            '<h2>How a pick gets made</h2><div class="tiles">'
+            '<div class="tile"><span class="k">Start from the plays</span><span class="s">Football uses expected points and success rate on '
+            'every snap, basketball points per possession, baseball quality of contact per plate appearance.</span></div>'
+            '<div class="tile"><span class="k">Adjust for the schedule</span><span class="s">Every team is rated against the opponents it '
+            'actually faced and blended with last season, so a hot start against weak teams does not fool it.</span></div>'
+            '<div class="tile"><span class="k">Check it, then grade it</span><span class="s">Starters are confirmed from two sources before a '
+            'pick is made. Each version is saved with a timestamp, and the last one before kickoff is graded.</span></div></div>')
     site.write(out, "index.html", site.page("TheEsness Predictions", body, 0))
     site.write(out, "home.html", site.page("TheEsness Predictions", body, 0, standalone=False))
     (out / "report.json").write_text(json.dumps(_clean(report), indent=1))

@@ -331,7 +331,7 @@ def mlb_section(out: Path, repo: Path, ledger_dir: Path, report: dict, now: date
         for r in live.iloc[::-1].to_dict("records"))
     tiles = "".join(f'<div class="tile"><span class="k">{site.e(s["label"])}</span><span class="v">{s["W"]}-{s["L"]}</span>'
                     f'<span class="s">{s["units"]:+.1f} units at locked odds</span></div>' for s in live_summ)
-    body = (f'<p><a class="more" href="index.html">← Back to the board</a></p><h1>MLB record</h1>'
+    body = (f'<p><a class="more" href="index.html">Back to the board</a></p><h1>MLB record</h1>'
             f'<h2>Live locked moneylines</h2><p class="note">Started {_start(live)}. Each pick is the side the model rates above '
             f'the no-vig market, written to the hash-chained lock file before first pitch at the first price seen, '
             f'and graded on the final score. Tiers are percentage points of win probability over the market.</p>'
@@ -348,7 +348,7 @@ def mlb_section(out: Path, repo: Path, ledger_dir: Path, report: dict, now: date
             'are displayed but never locked as picks.</p>')
     site.write(out, "mlb/record.html", site.page("MLB Model Record", body, 1, "mlb"))
     (out / "mlb" / "cards.json").write_text(json.dumps(_clean(cards), indent=1))
-    return {"k": "MLB · baseball", "v": f'{live_summ[0]["W"]}-{live_summ[0]["L"]}',
+    return {"k": "MLB, baseball", "v": f'{live_summ[0]["W"]}-{live_summ[0]["L"]}',
             "s": f'{len(live)} moneylines locked · live', "href": "mlb/index.html"}
 
 
