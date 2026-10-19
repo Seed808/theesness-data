@@ -4,7 +4,12 @@ name: build-site
 on:
   schedule:
     - cron: "19,49 * * * *"
-  workflow_dispatch: {}
+  workflow_dispatch:
+    inputs:
+      test_alert:
+        description: "Send one TEST Telegram alert per live sport (no real alerts this run)"
+        type: boolean
+        default: false
 permissions:
   contents: write
   pages: write
@@ -46,12 +51,27 @@ jobs:
           cp -r $W/site $GITHUB_WORKSPACE/_site
           touch $GITHUB_WORKSPACE/_site/.nojekyll
           (date -u; find $GITHUB_WORKSPACE/_site -maxdepth 2 | sed "s|$GITHUB_WORKSPACE/||" | sort | head -60; du -sh $GITHUB_WORKSPACE/_site) > $GITHUB_WORKSPACE/model/site_listing.txt
+      - name: telegram alerts
+        if: always()
+        continue-on-error: true
+        timeout-minutes: 5
+        env:
+          TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
+          TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
+        run: |
+          W=$(dirname "$GITHUB_WORKSPACE")
+          cd $GITHUB_WORKSPACE/model
+          if [ "${{ inputs.test_alert }}" = "true" ]; then
+            python send_alerts.py --alerts $W/site/alerts.json --test 2>&1 | tee alerts_log.txt
+          else
+            python send_alerts.py --alerts $W/site/alerts.json --ledger ledger/telegram_alerts.csv 2>&1 | tee alerts_log.txt
+          fi
       - name: commit ledger
         if: always()
         run: |
           git config user.name "data-bot"
           git config user.email "data-bot@users.noreply.github.com"
-          git add -A model/ledger; for f in model/site_listing.txt model/build_log.txt; do [ -f "$f" ] && git add -f "$f"; done; true
+          git add -A model/ledger; for f in model/site_listing.txt model/build_log.txt model/alerts_log.txt; do [ -f "$f" ] && git add -f "$f"; done; true
           git diff --cached --quiet || git commit -m "picks: $(date -u +%Y-%m-%dT%H:%MZ)"
           for i in 1 2 3 4 5; do git pull --rebase --autostash && git push && break; git rebase --abort 2>/dev/null; sleep $((i*7)); done
       - uses: actions/upload-pages-artifact@v3

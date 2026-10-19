@@ -230,6 +230,21 @@ def _mlb_lines(c, names):
 
 
 
+def highlight_level(c: dict, sport: str) -> int:
+    """The board's highlight rule, in one place (the board and the Telegram alerts both use it).
+    0 = not highlighted, 1 = highlighted (gold outline), 2 = strong (solid gold; not used for MLB).
+    Football/basketball: gap in spread points vs EDGE_TIERS[sport][0] / [1]; never for NO EDGE, HOLD or VOID.
+    MLB: moneyline edge in percentage points of win chance >= EDGE_TIERS['mlb'][0] and positive value at the price."""
+    if c.get("void") or c.get("hold"):
+        return 0
+    t = EDGE_TIERS[sport]
+    if sport == "mlb":
+        return int(c.get("ml_edge") is not None and c["ml_edge"] >= t[0] and c.get("ml_ev", 0) > 0)
+    if c.get("no_edge") or c.get("edge") is None:
+        return 0
+    return 2 if c["edge"] >= t[1] else (1 if c["edge"] >= t[0] else 0)
+
+
 def _gap_level(c, sport):
     """0 none (<0.5), 1 small, 2 = tier 1 (3+ in football), 3 = tier 2 (6+), 4 = tier 3 (10+)."""
     if sport == "mlb" or c.get("edge") is None or c.get("market_line") is None:
@@ -328,11 +343,9 @@ def board(sport: str, title: str, lede: str, cards: list[dict], names: dict, rec
     for d, cs in items:
         out.append(f'<section class="day"><h2>{e(d)} <span class="eyebrow">{len(cs)} game{"s" if len(cs) != 1 else ""}</span></h2><div class="board">')
         for c in cs:
-            hot = (c.get("edge") is not None and c["edge"] >= tier1 and not c.get("void") and not c.get("hold") and not c.get("no_edge")) if sport != "mlb" else \
-                (c.get("ml_edge") is not None and c["ml_edge"] >= tier1 and c.get("ml_ev", 0) > 0)
+            hl = highlight_level(c, sport)
+            hot, strong = hl >= 1, hl >= 2
             rec = (records or {})
-            lv = _gap_level(c, sport)
-            strong = hot and lv is not None and lv >= 3
             ab = names.get(c["away"], c["away"]), names.get(c["home"], c["home"])
             out.append(
                 f'<article class="game{" hot" if hot else ""}{" hot2" if strong else ""}">'

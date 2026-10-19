@@ -21,7 +21,7 @@ from pathlib import Path
 import numpy as np
 import pandas as pd
 
-from edgemodels import site
+from edgemodels import site, alerts
 from edgemodels.core.edges import EDGE_TIERS
 from edgemodels.core.ledger import Ledger, record_summary
 from edgemodels.core.margins import MarginDist, nfl_from_nflverse
@@ -440,6 +440,7 @@ def run(data: Path, nfldata: Path, out: Path, ledger_dir: Path):
     led = Ledger(ledger_dir / "nfl_locks.csv")
     sync_stats = pickbook.sync(led, cards, kick, ledger_dir / "cards" / "nfl", now, _clean, "nfl", held=held,
                                no_edge=no_edge_map(cards))
+    alerts.collect("nfl", cards, names, kick, now)
     report["nfl_pickbook"] = sync_stats
     n_new = sync_stats["locked"] + sync_stats["updated"]
     fin = games[games["season"] == 2026][["game_id", "away_score", "home_score"]]
@@ -569,6 +570,7 @@ def run(data: Path, nfldata: Path, out: Path, ledger_dir: Path):
                                    f'({elo_src.get((2026, LIVE_W), "")})'}
     syncable = [c for c in ccards if c["game_id"] not in fcs and c["game_id"] not in voided_ids]
     csync = pickbook.sync(cled, syncable, ckick, carch, now, _clean, "ncaaf", no_edge=no_edge_map(syncable))
+    alerts.collect("ncaaf", syncable, cnames, ckick, now)        # FBS-vs-FCS and voided games are never picks
     n_new = csync["locked"] + csync["updated"]
     by_id = {c["game_id"]: c for c in syncable}
     carch.mkdir(parents=True, exist_ok=True)
@@ -776,6 +778,7 @@ def run(data: Path, nfldata: Path, out: Path, ledger_dir: Path):
     site.write(out, "index.html", site.page("TheEsness Predictions", body, 0))
     site.write(out, "home.html", site.page("TheEsness Predictions", body, 0, standalone=False))
     (out / "report.json").write_text(json.dumps(_clean(report), indent=1))
+    (out / "alerts.json").write_text(json.dumps(_clean(alerts.payload(now)), indent=1))
     return report
 
 

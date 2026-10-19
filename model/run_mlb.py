@@ -290,6 +290,8 @@ def mlb_section(out: Path, repo: Path, ledger_dir: Path, report: dict, now: date
             cards.append(c)
     sync_stats = pickbook.sync(led, cards, kick, arch, now, _clean, "mlb",
                                rows_for=lambda c: [r for r in mp.lock_rows(c) if r["market"] == "moneyline"], held=held)
+    from edgemodels import alerts
+    alerts.collect("mlb", cards, names, kick, now)
     n_new = sync_stats["locked"] + sync_stats["updated"]
     fin_all = pd.concat([_sched_finals(repo), fins[2026][["game_id", "away_score", "home_score"]]]).drop_duplicates("game_id")
     led.grade(fin_all)
