@@ -47,7 +47,8 @@ def tg_send(text: str) -> bool:
         return True
     token, chat = os.environ.get("TELEGRAM_BOT_TOKEN", "").strip(), os.environ.get("TELEGRAM_CHAT_ID", "").strip()
     if not token or not chat:
-        log("Telegram secrets not set; skipping send")
+        log("Telegram secrets not available to this workflow: TELEGRAM_BOT_TOKEN "
+            f"{'set' if token else 'MISSING'}, TELEGRAM_CHAT_ID {'set' if chat else 'MISSING'}; skipping send")
         return False
     url = f"https://api.telegram.org/bot{token}/sendMessage"
     body = {"chat_id": chat, "text": text, "parse_mode": "HTML", "disable_web_page_preview": True}
