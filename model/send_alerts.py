@@ -106,6 +106,21 @@ def message(c: dict, kind: str, prev: dict | None = None, test: bool = False) ->
     return "\n".join(lines)
 
 
+DIGEST_OVER = 5     # more new plays than this for one sport in one build -> one digest message (15 plays per message)
+
+
+def digest(sport: str, cs: list[dict], part: int, parts: int, total: int) -> str:
+    e = html.escape
+    head = f"<b>SPORTS · {e(LABEL.get(sport, sport))} · {total} new highlighted plays" + (f" ({part}/{parts})" if parts > 1 else "") + "</b>"
+    rows = []
+    for c in cs:
+        tag = "STRONG" if c.get("level", 0) >= 2 else "HL"
+        gap = f"edge {c.get('gap')} pts" if sport == "mlb" else f"gap {c.get('gap')}"
+        rows.append(f"• <b>{e(str(c.get('pick')))} {e(str(c.get('pick_line')))}</b> ({tag}, {gap})\n"
+                    f"   {e(c['away'])} @ {e(c['home'])}, {e(c['kickoff_hst'])} · <a href=\"{e(c['url'])}\">open</a>")
+    return head + "\n" + "\n".join(rows)
+
+
 def load_ledger(p: Path) -> dict:
     """game key -> list of sent rows (oldest first)."""
     out: dict = {}
@@ -170,19 +185,40 @@ def main():
         return
     led_p = Path(a.ledger)
     ledger = load_ledger(led_p)
+    todo = [(c, *decide(c, ledger.get((c["sport"], c["game_id"]), []))) for c in cards]
+    todo = [(c, k, p) for c, k, p in todo if k]
     new_rows = []
-    for c in cards:
-        kind, prev = decide(c, ledger.get((c["sport"], c["game_id"]), []))
-        if not kind:
+
+    def record(c, kind, ok):
+        new_rows.append({"sent_at": datetime.now(timezone.utc).isoformat(timespec="seconds"), "sport": c["sport"],
+                         "game_id": c["game_id"], "kind": kind, "level": c.get("level", 0),
+                         "pick": c.get("pick") or "", "pick_line": c.get("pick_line") or "", "gap": c.get("gap") or "",
+                         "telegram_ok": ok})
+
+    # many new plays at once (a new week's slate): one digest per sport instead of a message per game
+    by_sport: dict = {}
+    for c, k, p in todo:
+        if k == "new":
+            by_sport.setdefault(c["sport"], []).append(c)
+    batched = {sp for sp, cs in by_sport.items() if len(cs) > DIGEST_OVER}
+    for sp in sorted(batched):
+        cs = sorted(by_sport[sp], key=lambda c: -(c.get("gap") or 0))
+        for i in range(0, len(cs), 15):
+            chunk = cs[i:i + 15]
+            ok = tg_send(digest(sp, chunk, i // 15 + 1, (len(cs) + 14) // 15, len(cs)))
+            log(f"digest {sp} part {i // 15 + 1}: {len(chunk)} plays {'sent' if ok else 'NOT sent'}")
+            if ok:
+                for c in chunk:
+                    record(c, "new", True)
+            time.sleep(1.1)
+    for c, kind, prev in todo:
+        if kind == "new" and c["sport"] in batched:
             continue
         ok = tg_send(message(c, kind, prev))
         log(f"{kind} {c['sport']} {c['game_id']}: {'sent' if ok else 'NOT sent'}")
         if not ok and kind == "new":
             continue                                            # try again next build
-        new_rows.append({"sent_at": datetime.now(timezone.utc).isoformat(timespec="seconds"), "sport": c["sport"],
-                         "game_id": c["game_id"], "kind": kind, "level": c.get("level", 0),
-                         "pick": c.get("pick") or "", "pick_line": c.get("pick_line") or "", "gap": c.get("gap") or "",
-                         "telegram_ok": ok})
+        record(c, kind, ok)
         time.sleep(1.1)                                         # stay well under Telegram's per-chat limit
     if new_rows and not DRY:
         led_p.parent.mkdir(parents=True, exist_ok=True)

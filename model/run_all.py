@@ -222,6 +222,45 @@ def espn_home_spread(c: dict, o: dict, abbr_map: dict | None = None):
         return n
     return None                      # cannot tell who is favoured: no line rather than a guess
 
+def nfl_current_week(games: pd.DataFrame, now, season: int = 2026) -> int:
+    """The live NFL week: the earliest week that still has a game not yet over (kickoff + 4.5 h in the future).
+    Rolls to the next week on its own once the last game of the week (usually Monday night) is done."""
+    g = games[games["season"] == season].copy()
+    ko = pd.to_datetime(g["gameday"].astype(str) + " " + g["gametime"].fillna("13:00").astype(str), errors="coerce")
+    ko = ko.dt.tz_localize("America/New_York", ambiguous="NaT", nonexistent="NaT").dt.tz_convert("UTC")
+    pending = g[(ko + pd.Timedelta(hours=4.5)) > pd.Timestamp(now)]
+    return int(pending["week"].min()) if len(pending) else int(g["week"].max())
+
+
+def espn_ncaaf_events(repo: Path) -> dict:
+    """{event id: {week, kickoff_utc, completed, final (away, home)}} from the newest snapshot of every ESPN
+    college scoreboard folder."""
+    out = {}
+    base = repo / "data" / "espn" / "ncaaf" / "scoreboard"
+    for folder in sorted(base.glob("2*")):
+        if not folder.is_dir():
+            continue
+        for ev in latest_events(folder):
+            c = ev["competitions"][0]
+            done = bool(c.get("status", {}).get("type", {}).get("completed"))
+            fin = None
+            if done:
+                sc = {t["homeAway"]: float(t["score"]) for t in c["competitors"]}
+                fin = (sc["away"], sc["home"])
+            prev = out.get(str(ev["id"]), {})
+            out[str(ev["id"])] = {"week": (ev.get("week") or {}).get("number"), "kickoff_utc": ev.get("date"),
+                                  "completed": done or prev.get("completed", False), "final": fin or prev.get("final")}
+    return out
+
+
+def ncaaf_current_week(events: dict, now, default: int) -> int:
+    """The live college week: the earliest week with a game not yet over (kickoff + 5 h in the future).
+    A postponed game whose time has passed does not hold the board back."""
+    weeks = [v["week"] for v in events.values() if v["week"] and not v["completed"] and v["kickoff_utc"]
+             and pd.Timestamp(v["kickoff_utc"]) + pd.Timedelta(hours=5) > pd.Timestamp(now)]
+    return int(min(weeks)) if weeks else default
+
+
 def espn_ncaaf_slate(repo: Path, week: int):
     """(slate, finals) for one college week from the collected ESPN scoreboards: first line seen per game,
     finals from the newest snapshot."""
@@ -394,11 +433,13 @@ def run(data: Path, nfldata: Path, out: Path, ledger_dir: Path):
     acc = accuracy(bt)
     summ, graded = bt_summary(bt, EDGE_TIERS["nfl"])
     report["nfl_backtest"] = {"summary": summ, "accuracy": acc}
-    slate = nfl_slate(games, 2026, 6)
+    NFL_W = nfl_current_week(games, now)
+    report["nfl_live_week"] = NFL_W
+    slate = nfl_slate(games, 2026, NFL_W)
     repo = data.parent / "theesness-data"
     pbp26 = pd.read_parquet(data / "nfl/play_by_play_2026.parquet")
     ST = Starters(repo, pbp26, pd.read_parquet(data / "nfl/injuries_2026.parquet"),
-                  pd.read_parquet(data / "nfl/roster_weekly_2026.parquet"), 6)
+                  pd.read_parquet(data / "nfl/roster_weekly_2026.parquet"), NFL_W)
     held, starters = {}, {}
     for i, r in slate.iterrows():
         for side in ("away", "home"):
@@ -420,12 +461,12 @@ def run(data: Path, nfldata: Path, out: Path, ledger_dir: Path):
             line_seen[r["game_id"]] = f"ESPN/DraftKings, seen {fl[2]}"
         else:
             line_seen[r["game_id"]] = "nflverse schedule"
-    g6 = games[(games["season"] == 2026) & (games["week"] == 6)]
+    g6 = games[(games["season"] == 2026) & (games["week"] == NFL_W)]
     kick = {r.game_id: str(pd.Timestamp(f"{r.gameday} {r.gametime}", tz="America/New_York").tz_convert("UTC"))
             for r in g6.itertuples()}
     slate["date"] = pd.to_datetime(slate["date"]).dt.strftime("%A, %B %-d")
-    built = M.build(2026, 6)
-    cards = M.project_slate(2026, 6, slate, margin_sd=acc["model_sd"], built=built)
+    built = M.build(2026, NFL_W)
+    cards = M.project_slate(2026, NFL_W, slate, margin_sd=acc["model_sd"], built=built)
     P = FootballProps(built[4], built[0], acc["model_sd"], 13.1)
     AV = nfl_injuries.Availability(*nfl_injuries.load(2026, data / "nfl"))
     report["nfl_questionable_active_rate"] = AV.q
@@ -435,7 +476,7 @@ def run(data: Path, nfldata: Path, out: Path, ledger_dir: Path):
         sa, sh = starters[(c["game_id"], "away")], starters[(c["game_id"], "home")]
         c["starters"] = f'{sa.get("starter") or "?"} / {sh.get("starter") or "?"}'
         c["inputs_used"] = {"qb": [sa, sh], "line": line_seen.get(c["game_id"]),
-                            "injury_report": f"nflverse Week 6 report + ESPN injury list"}
+                            "injury_report": f"nflverse Week {NFL_W} report + ESPN injury list"}
     # picks update until kickoff: newest roster + newest line; the last version before kickoff is graded
     led = Ledger(ledger_dir / "nfl_locks.csv")
     sync_stats = pickbook.sync(led, cards, kick, ledger_dir / "cards" / "nfl", now, _clean, "nfl", held=held,
@@ -462,8 +503,8 @@ def run(data: Path, nfldata: Path, out: Path, ledger_dir: Path):
             attach_actuals(c, actuals)
     live_graded = live_rows[live_rows["result"].isin(["WIN", "LOSS", "PUSH"])]
     live_summ = record_summary(live_graded, EDGE_TIERS["nfl"])
-    replay_rows = season_pages(out, "nfl", "NFL", M, 2026, [1, 2, 3, 4, 5],
-                               lambda w: nfl_slate(games, 2026, w), names, acc["model_sd"], "Wk 6 · live", True, None,
+    replay_rows = season_pages(out, "nfl", "NFL", M, 2026, list(range(1, NFL_W)),
+                               lambda w: nfl_slate(games, 2026, w), names, acc["model_sd"], f"Wk {NFL_W} · live", True, None,
                                locked=live_rows, archive_dir=ledger_dir / "cards" / "nfl", props_fn=replay_props)
     rp = pd.DataFrame(replay_rows)
     rp_summ = record_summary(rp, EDGE_TIERS["nfl"])
@@ -473,15 +514,15 @@ def run(data: Path, nfldata: Path, out: Path, ledger_dir: Path):
     big = max(cards, key=lambda c: c.get("edge") or 0)
     stats = [{"k": "Live locked record", "v": f'{live_summ[0]["W"]}-{live_summ[0]["L"]}-{live_summ[0]["P"]}',
               "s": f'{len(live_rows)} picks locked, {len(live_graded)} graded', "href": "record.html"},
-             {"k": "2026 replay, Wk 1–5", "v": f'{rp_summ[0]["W"]}-{rp_summ[0]["L"]}-{rp_summ[0]["P"]}',
-              "s": f'{rp_summ[1]["W"]}-{rp_summ[1]["L"]} on 3+ edges · not live', "href": "week/5.html"},
+             {"k": f"2026 replay, Wk 1–{NFL_W - 1}", "v": f'{rp_summ[0]["W"]}-{rp_summ[0]["L"]}-{rp_summ[0]["P"]}',
+              "s": f'{rp_summ[1]["W"]}-{rp_summ[1]["L"]} on 3+ edges · not live', "href": f"week/{NFL_W - 1}.html"},
              {"k": "Model disagrees 3+", "v": str(len(hot)), "s": "points off the market this week"},
              {"k": "Biggest gap", "v": f'{big["edge"]:.1f}', "s": f'{names[big["away"]]} at {names[big["home"]]}',
               "href": f'game/{big["game_id"]}.html'}]
-    nav = site.week_nav([(x, f"Wk {x}") for x in range(1, 6)] + [("live", "Wk 6 · live")], "live",
+    nav = site.week_nav([(x, f"Wk {x}") for x in range(1, NFL_W)] + [("live", f"Wk {NFL_W} · live")], "live",
                         lambda x: "index.html" if x == "live" else f"week/{x}.html")
     site.write(out, "nfl/index.html", site.page("NFL Model Board", site.board(
-        "nfl", "Week 6 projections", "Locked against the line seen at build time and graded after each game. "
+        "nfl", f"Week {NFL_W} projections", "Locked against the line seen at build time and graded after each game. "
         "Past weeks, including every locked pick and its result, are in the tabs above.",
         cards, names, rec, stats, nav=nav, tier_record=summ), 1, "nfl"))
     for c in cards:
@@ -491,13 +532,13 @@ def run(data: Path, nfldata: Path, out: Path, ledger_dir: Path):
             {"title": "Live locked record", "note": f"Started {first_lock_date(ledger_dir / 'nfl_locks.csv')}. Every pick written to the hash-chained lock file before "
              "kickoff, against the line seen at lock time, never re-priced.", "summary": live_summ,
              "graded": live_rows.sort_values("week", ascending=False).to_dict("records")},
-            {"title": "2026 season replay, Weeks 1–5", "note": "Each week projected using only games played before it, graded "
+            {"title": f"2026 season replay, Weeks 1–{NFL_W - 1}", "note": "Each week projected using only games played before it, graded "
              "against the nflverse line. Generated today, not locked at the time, so treat it as a test.",
              "summary": rp_summ, "graded": rp.sort_values("week", ascending=False).to_dict("records")},
             {"title": "Backtest, 2025 Weeks 3–18 and 2026 Weeks 2–5", "note": "Same method over a larger sample.",
              "summary": summ, "graded": []}], names), 1, "nfl"))
     (out / "nfl" / "cards.json").write_text(json.dumps(_clean(cards), indent=1))
-    home_tiles.append(("nfl", rp_summ, "Week 6 board is live"))
+    home_tiles.append(("nfl", rp_summ, f"Week {NFL_W} board is live"))
 
     # ------------------------------------------------------------------ NCAAF
     cplays = {y: fb.standardize(pd.read_parquet(data / f"ncaaf/play_by_play_{y}.parquet"), "ncaaf", fb.NCAAF_SAM) for y in (2025, 2026)}
@@ -540,11 +581,28 @@ def run(data: Path, nfldata: Path, out: Path, ledger_dir: Path):
     cacc = accuracy(cbt)
     csumm, cgraded = bt_summary(cbt, EDGE_TIERS["ncaaf"])
     report["ncaaf_backtest"] = {"summary": csumm, "accuracy": cacc}
-    cslate = lambda w: slate_from_plays(C.tg[2026], w)
+    crepo = data.parent / "theesness-data"
+    cevents = espn_ncaaf_events(crepo)
+    PBP_LAST = int(C.tg[2026]["week"].max())
+
+    def cslate(w):
+        """Past-week slate: from the play-by-play while it covers the week, otherwise from the ESPN scoreboards."""
+        sl = slate_from_plays(C.tg[2026], w)
+        if not sl.empty or w <= PBP_LAST:
+            return sl
+        sl, _ = espn_ncaaf_slate(crepo, w)
+        if sl.empty:
+            return sl
+        fin = {k: v["final"] for k, v in cevents.items() if v.get("final")}
+        return sl.assign(date=pd.to_datetime(sl["kickoff_utc"]).dt.tz_convert("Pacific/Honolulu").dt.strftime("%Y-%m-%d"),
+                         away_score=[fin.get(g, (np.nan, np.nan))[0] for g in sl["game_id"]],
+                         home_score=[fin.get(g, (np.nan, np.nan))[1] for g in sl["game_id"]])
     cnames = {t: t for t in set(C.tg[2026]["off"])}
     # live week: slate and first-seen lines from the collected ESPN scoreboards (ESPN ids = cfbfastR game ids)
-    LIVE_W = 7
-    cslate_live, cfinal = espn_ncaaf_slate(data.parent / "theesness-data", LIVE_W)
+    LIVE_W = ncaaf_current_week(cevents, now, default=7)      # rolls on its own once the week's games are over
+    report["ncaaf_live_week"] = LIVE_W
+    cslate_live, _ = espn_ncaaf_slate(crepo, LIVE_W)
+    cfinal = {k: v["final"] for k, v in cevents.items() if v.get("final")}     # every finished game, any week
     cled = Ledger(ledger_dir / "ncaaf_locks.csv")
     clocked = cled.load()
     replay_weeks = list(range(1, LIVE_W))
@@ -600,7 +658,7 @@ def run(data: Path, nfldata: Path, out: Path, ledger_dir: Path):
     cled.grade(pd.DataFrame([{"game_id": k, "away_score": v[0], "home_score": v[1]} for k, v in cfinal.items()],
                             columns=["game_id", "away_score", "home_score"]))
     clive = cled.load_graded()
-    clive = clive.assign(week=LIVE_W)
+    clive = clive.assign(week=[cevents.get(str(g), {}).get("week") or LIVE_W for g in clive["game_id"]])
     cvoid_rows = clive[clive["result"] == "VOID"]
     clive_summ = record_summary(clive[clive["result"].isin(["WIN", "LOSS", "PUSH"])], EDGE_TIERS["ncaaf"])
     report.update(ncaaf_locked_now=n_new, ncaaf_chain_ok=cled.verify_chain())
@@ -617,8 +675,8 @@ def run(data: Path, nfldata: Path, out: Path, ledger_dir: Path):
     nav = site.week_nav([(x, f"Wk {x}") for x in replay_weeks] + [("live", f"Wk {LIVE_W} · live")], "live",
                         lambda x: "index.html" if x == "live" else f"week/{x}.html")
     site.write(out, "ncaaf/index.html", site.page("NCAAF Model Board", site.board(
-        "ncaaf", f"Week {LIVE_W} projections", f"FBS games. Sam's college formula: opponent-adjusted ratings from every play of "
-        f"Weeks 1–{LIVE_W - 1} (shrunk toward 2025) plus CollegeFootballData Elo. Picks update with the newest line and data until "
+        "ncaaf", f"Week {LIVE_W} projections", f"FBS games. Opponent-adjusted ratings from every play of "
+        f"Weeks 1–{PBP_LAST} (shrunk toward 2025) plus CollegeFootballData Elo. Picks update with the newest line and data until "
         "kickoff; the last version before kickoff is graded. NO EDGE = model within 0.5 points of the line (no side, not graded). "
         "Highlighted cards have a gap of 3+ points, darker 6+.", ccards, cnames, None, stats, nav=nav, tier_record=csumm), 1, "ncaaf"))
     for c in ccards:
@@ -627,7 +685,7 @@ def run(data: Path, nfldata: Path, out: Path, ledger_dir: Path):
         "Live and replayed records are kept apart.", [
             {"title": f"Live locked record · model {NCAAF_MODEL}", "note": "Every pick is written to the hash-chained lock file "
              "and updates with the newest line and data until kickoff; the last version before kickoff is graded. Model v2 "
-             "(Sam's college formula + CollegeFootballData Elo) replaced v1 on Oct 16, 2026 before public release; v1's "
+             "(efficiency plus CollegeFootballData Elo) replaced v1 on Oct 16, 2026 before public release; v1's "
              "picks (1-4) are archived in the ledger, not counted here.",
              "summary": clive_summ, "graded": clive[clive["result"] != "VOID"].to_dict("records")},
             {"title": "Voided", "note": "Locked picks voided before kickoff, with the reason. Each void is a separate "
@@ -763,7 +821,7 @@ def run(data: Path, nfldata: Path, out: Path, ledger_dir: Path):
             f'<span class="s">{len(live_rows)} NFL spreads, {int((ncaaf_live["result"] != "VOID").sum())} college spreads and '
             f'{len(mlb_live)} MLB moneyline{"s" if len(mlb_live) != 1 else ""}</span></div>'
             f'<div class="tile"><span class="k">Replayed against the spread (not live)</span><span class="v" {big}>{allw}-{alll}-{allp}</span>'
-            f'<span class="s">{100 * allw / (allw + alll):.1f}% on NFL 2026 Wk 1–5, college 2026 Wk 1–6 and NBA 2025-26; '
+            f'<span class="s">{100 * allw / (allw + alll):.1f}% on NFL 2026 Wk 1–{report.get("nfl_live_week", 6) - 1}, college 2026 Wk 1–{report.get("ncaaf_live_week", 7) - 1} and NBA 2025-26; '
             f'52.4% breaks even at -110</span></div></div>'
             '<h2>Pick a sport</h2><div class="tiles">' + "".join(
                 f'<a class="tile" href="{t["href"]}"><span class="k">{site.e(t["k"])}</span><span class="v">{t["v"]}</span>'
