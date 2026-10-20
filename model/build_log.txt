@@ -1,21 +1,23 @@
 /home/runner/work/theesness-data/theesness-data/model/edgemodels/sports/football.py:102: FutureWarning: Downcasting object dtype arrays on .fillna, .ffill, .bfill is deprecated and will change in a future version. Call result.infer_objects(copy=False) instead. To opt-in to the future behavior, set `pd.set_option('future.no_silent_downcasting', True)`
   "neutral_site": p["neutral_site"].fillna(False).astype(bool),
-/home/runner/work/theesness-data/theesness-data/model/run_all.py:580: FutureWarning: The behavior of DataFrame concatenation with empty or all-NA entries is deprecated. In a future version, this will no longer exclude empty or all-NA columns when determining the result dtypes. To retain the old behavior, exclude the relevant entries before the concat operation.
+/home/runner/work/theesness-data/theesness-data/model/run_all.py:609: FutureWarning: The behavior of DataFrame concatenation with empty or all-NA entries is deprecated. In a future version, this will no longer exclude empty or all-NA columns when determining the result dtypes. To retain the old behavior, exclude the relevant entries before the concat operation.
   cbt = pd.concat([C.backtest(2025, list(range(4, 15))).assign(date="2025"), C.backtest(2026, [3, 4, 5, 6]).assign(date="2026")])
-/home/runner/work/theesness-data/theesness-data/model/run_all.py:361: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
+/home/runner/work/theesness-data/theesness-data/model/run_all.py:390: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
   sl["date"] = pd.to_datetime(sl["date"], errors="coerce").dt.strftime("%A, %B %-d").fillna("Date not in feed")
-/home/runner/work/theesness-data/theesness-data/model/run_all.py:361: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
+/home/runner/work/theesness-data/theesness-data/model/run_all.py:390: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
   sl["date"] = pd.to_datetime(sl["date"], errors="coerce").dt.strftime("%A, %B %-d").fillna("Date not in feed")
-/home/runner/work/theesness-data/theesness-data/model/run_all.py:361: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
+/home/runner/work/theesness-data/theesness-data/model/run_all.py:390: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
   sl["date"] = pd.to_datetime(sl["date"], errors="coerce").dt.strftime("%A, %B %-d").fillna("Date not in feed")
-/home/runner/work/theesness-data/theesness-data/model/run_all.py:361: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
+/home/runner/work/theesness-data/theesness-data/model/run_all.py:390: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
   sl["date"] = pd.to_datetime(sl["date"], errors="coerce").dt.strftime("%A, %B %-d").fillna("Date not in feed")
-/home/runner/work/theesness-data/theesness-data/model/run_all.py:361: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
+/home/runner/work/theesness-data/theesness-data/model/run_all.py:390: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
   sl["date"] = pd.to_datetime(sl["date"], errors="coerce").dt.strftime("%A, %B %-d").fillna("Date not in feed")
-/home/runner/work/theesness-data/theesness-data/model/run_all.py:361: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
+/home/runner/work/theesness-data/theesness-data/model/run_all.py:390: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
   sl["date"] = pd.to_datetime(sl["date"], errors="coerce").dt.strftime("%A, %B %-d").fillna("Date not in feed")
+/home/runner/work/theesness-data/theesness-data/model/edgemodels/core/ledger.py:76: FutureWarning: The behavior of DataFrame concatenation with empty or all-NA entries is deprecated. In a future version, this will no longer exclude empty or all-NA columns when determining the result dtypes. To retain the old behavior, exclude the relevant entries before the concat operation.
+  out = pd.concat([led, pd.DataFrame(new)], ignore_index=True)
 {
- "built_at": "2026-10-20T01:00:56+00:00",
+ "built_at": "2026-10-20T01:39:53+00:00",
  "nfl_key_numbers": {
   "source": "nflverse games 2010-2025, 4363 games, closing spread as expectation",
   "top": [
@@ -267,46 +269,48 @@
   "summary": [
    {
     "label": "All picks",
-    "W": 494,
-    "L": 541,
+    "W": 496,
+    "L": 539,
     "P": 8,
-    "pct": 0.47729468599033814,
-    "units": -91.9
+    "pct": 0.4792270531400966,
+    "units": -88.1
    },
    {
     "label": "Edge 2.5+",
-    "W": 226,
-    "L": 268,
+    "W": 229,
+    "L": 259,
     "P": 4,
-    "pct": 0.4574898785425101,
-    "units": -62.5
+    "pct": 0.4692622950819672,
+    "units": -50.8
    },
    {
     "label": "Edge 5.0+",
-    "W": 96,
-    "L": 94,
+    "W": 93,
+    "L": 91,
     "P": 3,
-    "pct": 0.5052631578947369,
-    "units": -6.7
+    "pct": 0.5054347826086957,
+    "units": -6.5
    },
    {
     "label": "Edge 8.0+",
     "W": 27,
-    "L": 28,
+    "L": 29,
     "P": 2,
-    "pct": 0.4909090909090909,
-    "units": -3.5
+    "pct": 0.48214285714285715,
+    "units": -4.5
    }
   ],
   "accuracy": {
    "games": 1048,
-   "model_mae": 11.48807251908397,
-   "model_sd": 14.7141506424855,
+   "model_mae": 11.459828244274808,
+   "model_sd": 14.686558650179524,
    "market_mae": 10.88686481303931,
    "market_sd": 13.96647154710555,
    "lined": 1043
   }
  },
+ "nba_locked_now": 13,
+ "nba_chain_ok": true,
  "cbb_backtest": {
   "accuracy": {
    "games": 3446,
@@ -317,10 +321,10 @@
  "mlb_backtest": {
   "apr14_sep28": {
    "games": 2186,
-   "winner_pct": 0.5580969807868252,
-   "log_loss": 0.6832720493568375,
+   "winner_pct": 0.5548947849954254,
+   "log_loss": 0.6836036616113965,
    "log_loss_home_rate_only": 0.6918805834642537,
-   "brier": 0.24514236322049407,
+   "brier": 0.24528423907822508,
    "total_mae": 3.518377027353694,
    "total_mae_league_avg": 3.5489156229151826,
    "margin_mae": 3.488257842773194,
@@ -329,10 +333,10 @@
   },
   "jul_sep": {
    "games": 1148,
-   "winner_pct": 0.5653310104529616,
-   "log_loss": 0.6777313014662218,
+   "winner_pct": 0.5670731707317073,
+   "log_loss": 0.6781980785865978,
    "log_loss_home_rate_only": 0.6910681981294204,
-   "brier": 0.2424543623148955,
+   "brier": 0.24267148889372822,
    "total_mae": 3.559481154881182,
    "total_mae_league_avg": 3.557946557564132,
    "margin_mae": 3.445713236428236,
