@@ -15,7 +15,7 @@
 /home/runner/work/theesness-data/theesness-data/model/run_all.py:390: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
   sl["date"] = pd.to_datetime(sl["date"], errors="coerce").dt.strftime("%A, %B %-d").fillna("Date not in feed")
 {
- "built_at": "2026-10-20T03:16:00+00:00",
+ "built_at": "2026-10-20T03:50:47+00:00",
  "nfl_key_numbers": {
   "source": "nflverse games 2010-2025, 4363 games, closing spread as expectation",
   "top": [
@@ -261,7 +261,7 @@
    "units": 5.5
   }
  ],
- "ncaaf_locked_now": 1,
+ "ncaaf_locked_now": 0,
  "ncaaf_chain_ok": true,
  "nba_backtest": {
   "summary": [
@@ -320,9 +320,9 @@
   "apr14_sep28": {
    "games": 2186,
    "winner_pct": 0.5521500457456542,
-   "log_loss": 0.6838185869262192,
+   "log_loss": 0.6829308282995843,
    "log_loss_home_rate_only": 0.6918805834642537,
-   "brier": 0.24538702976326626,
+   "brier": 0.2449554190301921,
    "total_mae": 3.518377027353694,
    "total_mae_league_avg": 3.5489156229151826,
    "margin_mae": 3.488257842773194,
@@ -331,11 +331,11 @@
   },
   "jul_sep": {
    "games": 1148,
-   "winner_pct": 0.568815331010453,
-   "log_loss": 0.6787761706171483,
+   "winner_pct": 0.5601045296167247,
+   "log_loss": 0.6772726779710502,
    "log_loss_home_rate_only": 0.6910681981294204,
-   "brier": 0.24294306609320554,
-   "total_mae": 3.5594811548811816,
+   "brier": 0.2422103211563589,
+   "total_mae": 3.559481154881182,
    "total_mae_league_avg": 3.557946557564132,
    "margin_mae": 3.445713236428236,
    "avg_proj_total": 8.87073023294106,
@@ -348,26 +348,26 @@
   {
    "label": "All picks",
    "W": 1,
-   "L": 2,
+   "L": 3,
    "P": 0,
-   "pct": 0.3333333333333333,
-   "units": -0.6
+   "pct": 0.25,
+   "units": -1.6
   },
   {
    "label": "Edge 3.0+",
+   "W": 0,
+   "L": 2,
+   "P": 0,
+   "pct": 0.0,
+   "units": -2.0
+  },
+  {
+   "label": "Edge 5.0+",
    "W": 0,
    "L": 1,
    "P": 0,
    "pct": 0.0,
    "units": -1.0
-  },
-  {
-   "label": "Edge 5.0+",
-   "W": 0,
-   "L": 0,
-   "P": 0,
-   "pct": NaN,
-   "units": 0.0
   },
   {
    "label": "Edge 8.0+",
