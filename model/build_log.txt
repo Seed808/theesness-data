@@ -15,7 +15,7 @@
 /home/runner/work/theesness-data/theesness-data/model/run_all.py:390: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
   sl["date"] = pd.to_datetime(sl["date"], errors="coerce").dt.strftime("%A, %B %-d").fillna("Date not in feed")
 {
- "built_at": "2026-10-20T04:46:49+00:00",
+ "built_at": "2026-10-20T05:14:58+00:00",
  "nfl_key_numbers": {
   "source": "nflverse games 2010-2025, 4363 games, closing spread as expectation",
   "top": [
@@ -100,11 +100,11 @@
  "nfl_live_week": 7,
  "nfl_questionable_active_rate": 0.703601108033241,
  "nfl_pickbook": {
-  "locked": 13,
-  "updated": 0,
+  "locked": 0,
+  "updated": 1,
   "held": 0
  },
- "nfl_locked_now": 13,
+ "nfl_locked_now": 1,
  "nfl_chain_ok": true,
  "nfl_2026_replay": [
   {
@@ -261,7 +261,7 @@
    "units": 5.5
   }
  ],
- "ncaaf_locked_now": 3,
+ "ncaaf_locked_now": 0,
  "ncaaf_chain_ok": true,
  "nba_backtest": {
   "summary": [
@@ -307,7 +307,7 @@
    "lined": 1043
   }
  },
- "nba_locked_now": 2,
+ "nba_locked_now": 0,
  "nba_chain_ok": true,
  "cbb_backtest": {
   "accuracy": {
@@ -319,10 +319,10 @@
  "mlb_backtest": {
   "apr14_sep28": {
    "games": 2186,
-   "winner_pct": 0.5480329368709973,
-   "log_loss": 0.6833308200104716,
+   "winner_pct": 0.555352241537054,
+   "log_loss": 0.6828621111422948,
    "log_loss_home_rate_only": 0.6918805834642537,
-   "brier": 0.24516431758920404,
+   "brier": 0.24492515107502286,
    "total_mae": 3.518377027353694,
    "total_mae_league_avg": 3.5489156229151826,
    "margin_mae": 3.488257842773194,
@@ -331,11 +331,11 @@
   },
   "jul_sep": {
    "games": 1148,
-   "winner_pct": 0.563588850174216,
-   "log_loss": 0.6778437755400467,
+   "winner_pct": 0.568815331010453,
+   "log_loss": 0.6773486867948998,
    "log_loss_home_rate_only": 0.6910681981294204,
-   "brier": 0.24249405678353658,
-   "total_mae": 3.5594811548811816,
+   "brier": 0.24225118178353652,
+   "total_mae": 3.559481154881182,
    "total_mae_league_avg": 3.557946557564132,
    "margin_mae": 3.445713236428236,
    "avg_proj_total": 8.87073023294106,
