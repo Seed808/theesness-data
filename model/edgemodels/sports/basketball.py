@@ -33,8 +33,14 @@ class BasketballConfig:
     margin_sd: float = 12.5          # replaced by backtest residual SD
     total_sd: float = 18.0
     neutral_default: bool = False
+    engine: str = "factors"          # "factors" (four-factor breakdown) or "sam" (Sam's NBA formula)
+    home_court: float | None = None  # points to the home margin; None = fitted covariate
 
 NBA = BasketballConfig("nba")
+# Sam's NBA formula, read from his Oct 20 2026 game pages: points per 100 = league + team offence + opponent defence,
+# times the matchup pace; home court a flat 1.8 points; ratings half of last season early on ("still part last
+# year, by design"). Matches his NYK -5.0 (ours -5.1) and SAS -0.3 (ours -0.3) on opening night.
+NBA_SAM = BasketballConfig("nba", prior_keep=0.5, engine="sam", home_court=1.8)
 CBB = BasketballConfig("cbb", prior_keep=0.5, prior_poss=350, prior_games_pace=4, margin_sd=11.0, total_sd=16.0)
 
 FACTORS = ["efg", "tov", "orb", "ftr"]
@@ -189,3 +195,33 @@ def project_game(br: BasketballRatings, cfg: BasketballConfig, game: dict) -> Ga
                         parts["away"], parts["home"], situ,
                         extra={"pace": pace, "inputs": {"home": {"ortg": o_h}, "away": {"ortg": o_a}}})
     return gp
+
+
+
+def scaled_prior(prior: "BasketballRatings", k: float, through: str) -> "BasketballRatings":
+    """Ratings before a season's first game: last season's, kept at k (the rest regresses to average)."""
+    from dataclasses import replace as _r
+    sc = lambda a: _r(a, off=a.off * k, deff=a.deff * k)
+    return BasketballRatings(prior.league, sc(prior.ortg), sc(prior.pace), {f: sc(r) for f, r in prior.factors.items()},
+                             prior.factor_coef, through)
+
+
+def project_game_sam(br: BasketballRatings, cfg: BasketballConfig, game: dict) -> GameProjection:
+    """Each team scores (league + its offence + the opponent's defence) per 100 possessions at the matchup pace;
+    home court and back-to-backs are shown separately."""
+    h, a = game["home"], game["away"]
+    neutral = bool(game.get("neutral_site", cfg.neutral_default))
+    hb, ab = int(game.get("home_b2b", 0) or 0), int(game.get("away_b2b", 0) or 0)
+    pace = br.pace_matchup(h, a)
+    r = br.ortg
+    base = r.mu * pace / 100
+    eff = lambda o, d: (r.off.get(o, 0) + r.deff.get(d, 0)) * pace / 100
+    situ = {}
+    if not neutral:
+        situ["Home court"] = cfg.home_court if cfg.home_court is not None else 2 * r.covariates.get("is_home", 0) * pace / 100
+    if hb or ab:
+        situ["Back-to-back"] = (hb - ab) * (r.covariates.get("b2b", 0) - r.covariates.get("opp_b2b", 0)) * pace / 100
+    return GameProjection(cfg.league, str(game["game_id"]), str(game.get("date", "")), a, h, base,
+                          {"Efficiency": eff(a, h)}, {"Efficiency": eff(h, a)}, situ,
+                          extra={"pace": pace, "inputs": {"home": {"ortg": r.mu + r.off.get(h, 0) + r.deff.get(a, 0)},
+                                                          "away": {"ortg": r.mu + r.off.get(a, 0) + r.deff.get(h, 0)}}})

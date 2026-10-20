@@ -39,6 +39,8 @@ jobs:
             curl -sSfL -o $W/data_raw/nfl/injuries_$y.parquet $R/injuries/injuries_$y.parquet
             curl -sSfL -o $W/data_raw/nfl/roster_weekly_$y.parquet $R/weekly_rosters/roster_weekly_$y.parquet
           done
+          # this NBA season's play-by-play (sportsdataverse, updated through the season); skipped until it exists
+          curl -sSfL -o $W/data_raw/nba/play_by_play_2027.parquet https://github.com/sportsdataverse/sportsdataverse-data/releases/download/espn_nba_pbp/play_by_play_2027.parquet || rm -f $W/data_raw/nba/play_by_play_2027.parquet
           curl -sSfL -o $W/nflverse/nfldata/data/games.csv https://raw.githubusercontent.com/nflverse/nfldata/master/data/games.csv
           curl -sSfL -o $W/nflverse/nfldata/data/teams.csv https://raw.githubusercontent.com/nflverse/nfldata/master/data/teams.csv
       - name: build

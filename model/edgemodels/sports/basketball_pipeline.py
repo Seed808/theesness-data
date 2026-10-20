@@ -10,7 +10,7 @@ from . import basketball as bb
 class BasketballModel:
     def __init__(self, league: str, tg_by_season: dict[int, pd.DataFrame], cfg: bb.BasketballConfig | None = None):
         self.league = league
-        self.cfg = cfg or (bb.NBA if league == "nba" else bb.CBB)
+        self.cfg = cfg or (bb.NBA_SAM if league == "nba" else bb.CBB)
         self.tg = tg_by_season
         self._full: dict[int, bb.BasketballRatings] = {}
 
@@ -24,14 +24,19 @@ class BasketballModel:
         return self._full[season]
 
     def build(self, season, before_date):
-        t = self.tg[season]
-        t = t[t["date"] < pd.Timestamp(before_date)]
-        return bb.fit_ratings(t, self.cfg, self.season_ratings(season - 1), f"through {pd.Timestamp(before_date).date() - pd.Timedelta(days=1)}")
+        t = self.tg.get(season, pd.DataFrame())
+        through = f"through {pd.Timestamp(before_date).date() - pd.Timedelta(days=1)}"
+        if len(t):
+            t = t[t["date"] < pd.Timestamp(before_date)]
+        if len(t) == 0:                       # no games yet this season: last season, regressed
+            return bb.scaled_prior(self.season_ratings(season - 1), self.cfg.prior_keep,
+                                   f"{season - 1} season, {int(100 * self.cfg.prior_keep)}% kept (no {season} games yet)")
+        return bb.fit_ratings(t, self.cfg, self.season_ratings(season - 1), through)
 
     def project_slate(self, br, slate: pd.DataFrame, margin_sd=None, total_sd=None) -> list[dict]:
         cards = []
         for g in slate.to_dict("records"):
-            gp = bb.project_game(br, self.cfg, g)
+            gp = bb.project_game_sam(br, self.cfg, g) if self.cfg.engine == "sam" else bb.project_game(br, self.cfg, g)
             ml = g.get("spread_home")
             ml = None if ml is None or pd.isna(ml) else float(ml)
             tot = g.get("total")
