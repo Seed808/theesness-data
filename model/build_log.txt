@@ -15,7 +15,7 @@
 /home/runner/work/theesness-data/theesness-data/model/run_all.py:390: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
   sl["date"] = pd.to_datetime(sl["date"], errors="coerce").dt.strftime("%A, %B %-d").fillna("Date not in feed")
 {
- "built_at": "2026-10-20T12:59:07+00:00",
+ "built_at": "2026-10-20T13:55:03+00:00",
  "nfl_key_numbers": {
   "source": "nflverse games 2010-2025, 4363 games, closing spread as expectation",
   "top": [
@@ -261,7 +261,7 @@
    "units": 5.5
   }
  ],
- "ncaaf_locked_now": 3,
+ "ncaaf_locked_now": 1,
  "ncaaf_chain_ok": true,
  "nba_backtest": {
   "summary": [
@@ -307,7 +307,7 @@
    "lined": 1043
   }
  },
- "nba_locked_now": 0,
+ "nba_locked_now": 1,
  "nba_chain_ok": true,
  "cbb_backtest": {
   "accuracy": {
@@ -319,10 +319,10 @@
  "mlb_backtest": {
   "apr14_sep28": {
    "games": 2186,
-   "winner_pct": 0.5507776761207686,
-   "log_loss": 0.6835078702014334,
+   "winner_pct": 0.5521500457456542,
+   "log_loss": 0.6834980806501809,
    "log_loss_home_rate_only": 0.6918805834642537,
-   "brier": 0.24524598330283626,
+   "brier": 0.24523936956770354,
    "total_mae": 3.518377027353694,
    "total_mae_league_avg": 3.5489156229151826,
    "margin_mae": 3.488257842773194,
@@ -331,10 +331,10 @@
   },
   "jul_sep": {
    "games": 1148,
-   "winner_pct": 0.563588850174216,
-   "log_loss": 0.6782287416147094,
+   "winner_pct": 0.5644599303135889,
+   "log_loss": 0.6782571029931452,
    "log_loss_home_rate_only": 0.6910681981294204,
-   "brier": 0.24268907698170733,
+   "brier": 0.24268974450130662,
    "total_mae": 3.5594811548811816,
    "total_mae_league_avg": 3.557946557564132,
    "margin_mae": 3.445713236428236,
