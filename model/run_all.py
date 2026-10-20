@@ -806,6 +806,18 @@ def run(data: Path, nfldata: Path, out: Path, ledger_dir: Path):
                          "home_b2b": int((d - pd.Timedelta(days=1)) in played.get(v["home"], set())),
                          "away_b2b": int((d - pd.Timedelta(days=1)) in played.get(v["away"], set())),
                          "spread_home": v.get("spread_home"), "total": v.get("total")})
+        # injuries: newest ESPN report x each player's impact (see edgemodels/sports/nba_injuries.py)
+        from edgemodels.sports import nba_injuries as NI
+        itab, irepl = NI.load_table(data)
+        injs = NI.espn_injuries(nrepo)
+        ab2id = dict(zip(nba_raw[2026]["home_team_abbrev"], nba_raw[2026]["home_team_id"].astype(int)))
+        inj_rows = {}
+        for r in rows:
+            for side in ("home", "away"):
+                tid = ab2id.get(r[side])
+                d, lst = NI.team_adjustment(tid, injs, itab, irepl, now) if tid is not None else (0.0, [])
+                r[f"inj_{side}"] = d
+                inj_rows[(r["game_id"], side)] = lst
         nsl = pd.DataFrame(rows)
         nbr = N.build(2027, str(today))
         lcards = N.project_slate(nbr, nsl, nacc["model_sd"])
@@ -814,8 +826,15 @@ def run(data: Path, nfldata: Path, out: Path, ledger_dir: Path):
             lnames.update({k: n for k, n in v["names"].items() if n})
         for c, r in zip(lcards, rows):
             c.update(date=r["date"], kickoff=r["kickoff"], venue=r["venue"], rest={"away": r["away_b2b"], "home": r["home_b2b"]})
+            txt = []
+            for side in ("away", "home"):
+                for x in inj_rows.get((c["game_id"], side), []):
+                    if x["status"].startswith("day-to-day, not") or "old note" in x["status"]:
+                        continue
+                    txt.append(f'{c[side]} {x["name"]} ({x["status"]}, {x["pts100"]:+.1f} per 100; {x["note"]})')
             c["inputs_used"] = {"line": f'ESPN/DraftKings, seen {nev[c["game_id"]].get("line_seen") or "—"}'
-                                if c.get("market_line") is not None else "no line yet"}
+                                if c.get("market_line") is not None else "no line yet",
+                                "injury_report": ("; ".join(txt) or "nobody listed out") + f' (ESPN injury list, {injs[0]["snapshot"] if injs else "none"})'}
         nkick = {v["game_id"]: v["kickoff_utc"] for v in window}
         nled = Ledger(ledger_dir / "nba_locks.csv")
         narch = ledger_dir / "cards" / "nba"
@@ -844,7 +863,8 @@ def run(data: Path, nfldata: Path, out: Path, ledger_dir: Path):
             "nba", "NBA projections", "Each team scores its points per 100 possessions against the opponent's defence, at the "
             "matchup's pace, plus home court. Early in the season the ratings are still half last season by design. Picks update "
             "with the newest line until tip-off; the last version before tip is graded. NO EDGE under 0.5 points. Highlighted "
-            "cards have a gap of 2.5+ points, darker 5+. Injuries are not in the numbers yet.",
+            "cards have a gap of 2.5+ points, darker 5+. Injuries from the latest ESPN report are priced in by each missing "
+            "player's impact; roster moves since last season are not yet.",
             lcards, lnames, None, nstats, tier_record=nsumm), 1, "nba"))
         for c in lcards:
             site.write(out, f"nba/game/{c['game_id']}.html", site.page(f"{lnames[c['away']]} at {lnames[c['home']]}",

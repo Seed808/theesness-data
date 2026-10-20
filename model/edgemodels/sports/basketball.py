@@ -221,6 +221,9 @@ def project_game_sam(br: BasketballRatings, cfg: BasketballConfig, game: dict) -
         situ["Home court"] = cfg.home_court if cfg.home_court is not None else 2 * r.covariates.get("is_home", 0) * pace / 100
     if hb or ab:
         situ["Back-to-back"] = (hb - ab) * (r.covariates.get("b2b", 0) - r.covariates.get("opp_b2b", 0)) * pace / 100
+    ih, ia = float(game.get("inj_home") or 0), float(game.get("inj_away") or 0)     # points per 100, from nba_injuries
+    if ih or ia:
+        situ["Injuries"] = (ih - ia) * pace / 100
     return GameProjection(cfg.league, str(game["game_id"]), str(game.get("date", "")), a, h, base,
                           {"Efficiency": eff(a, h)}, {"Efficiency": eff(h, a)}, situ,
                           extra={"pace": pace, "inputs": {"home": {"ortg": r.mu + r.off.get(h, 0) + r.deff.get(a, 0)},
