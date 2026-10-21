@@ -98,6 +98,9 @@ def message(c: dict, kind: str, prev: dict | None = None, test: bool = False) ->
         else:
             lines.append(f"Book: {html.unescape(c.get('book', '—'))} · Ours: {html.unescape(c.get('ours', '—'))} · Gap: {c.get('gap')} pts")
         lines.append(f"<b>The Play: {e(str(c.get('pick')))} {e(str(c.get('pick_line')))}</b>")
+        if c.get("tot_book") is not None:
+            star = " (O/U highlighted)" if c.get("tot_level", 0) >= 1 else ""
+            lines.append(f"O/U: Book {c['tot_book']:g} · Ours {c['tot_ours']:g} · Lean {c['tot_lean']} {c['tot_gap']:+.1f}{star}")
         if kind == "upgrade":
             lines.append(f"Gap grew to {c.get('gap')} (was highlighted).")
         if kind in ("flip", "back") and prev:
@@ -116,7 +119,8 @@ def digest(sport: str, cs: list[dict], part: int, parts: int, total: int) -> str
     for c in cs:
         tag = "STRONG" if c.get("level", 0) >= 2 else "HL"
         gap = f"edge {c.get('gap')} pts" if sport == "mlb" else f"gap {c.get('gap')}"
-        rows.append(f"• <b>{e(str(c.get('pick')))} {e(str(c.get('pick_line')))}</b> ({tag}, {gap})\n"
+        ou = f", O/U {c['tot_lean']} {c['tot_book']:g} ({c['tot_gap']:+.1f})" if c.get("tot_book") is not None else ""
+        rows.append(f"• <b>{e(str(c.get('pick')))} {e(str(c.get('pick_line')))}</b> ({tag}, {gap}{ou})\n"
                     f"   {e(c['away'])} @ {e(c['home'])}, {e(c['kickoff_hst'])} · <a href=\"{e(c['url'])}\">open</a>")
     return head + "\n" + "\n".join(rows)
 

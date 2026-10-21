@@ -62,6 +62,9 @@ def collect(sport: str, cards: list[dict], names: dict, kickoff_utc: dict, now: 
                 row.update(pick=names.get(c[side], c[side]), pick_line=fmt_line(c["pick_line"]),
                            book=site._fav_text(c.get("market_line"), c, names),
                            ours=site._fav_text(c.get("model_line"), c, names), gap=c.get("edge"))
+        ti = site.total_info(c, sport)
+        if ti:
+            row.update(tot_book=ti["book"], tot_ours=ti["ours"], tot_gap=ti["gap"], tot_lean=ti["lean"], tot_level=ti["level"])
         COLLECTED.append(row)
 
 

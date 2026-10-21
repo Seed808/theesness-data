@@ -310,6 +310,10 @@ def mlb_section(out: Path, repo: Path, ledger_dir: Path, report: dict, now: date
     lede = ("Ratings from every 2025–26 plate appearance (Statcast), opponent-adjusted, with the probable starters. "
             "Each game is simulated 40,000 times and priced against the first DraftKings moneyline ESPN showed that day. "
             "The moneyline is the locked pick; totals are shown but not picked (no backtest skill yet).")
+    from edgemodels.core import totals_tracker
+    totals_tracker.publish(out, ledger_dir, "mlb", cards, kick, now,
+                           {str(r.game_id): (r.away_score, r.home_score) for r in fin_all.itertuples()
+                            if pd.notna(r.away_score) and pd.notna(r.home_score)}, names, stats)
     site.write(out, "mlb/index.html", site.page("MLB Model Board", site.board(
         "mlb", "MLB postseason board", lede, cards, names, None, stats, nav=nav), 1, "mlb"))
     for c in cards + replay:

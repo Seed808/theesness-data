@@ -34,7 +34,7 @@ from edgemodels.sports import cfb_elo
 from edgemodels.sports.basketball_pipeline import BasketballModel
 from run_mlb import mlb_section
 from edgemodels.core.espn_feed import first_line_events, latest_events, latest_line_events
-from edgemodels.core import pickbook
+from edgemodels.core import pickbook, totals_tracker
 from edgemodels.sports.nfl_starters import Starters
 from edgemodels.sports.football_pipeline import FootballModel, nfl_slate, slate_from_plays
 
@@ -548,6 +548,9 @@ def run(data: Path, nfldata: Path, out: Path, ledger_dir: Path):
              {"k": "Model disagrees 3+", "v": str(len(hot)), "s": "points off the market this week"},
              {"k": "Biggest gap", "v": f'{big["edge"]:.1f}', "s": f'{names[big["away"]]} at {names[big["home"]]}',
               "href": f'game/{big["game_id"]}.html'}]
+    nfin = {str(r.game_id): (r.away_score, r.home_score) for r in games[games["season"] == 2026].itertuples()
+            if pd.notna(r.home_score) and pd.notna(r.away_score)}
+    totals_tracker.publish(out, ledger_dir, "nfl", cards, kick, now, nfin, names, stats)
     nav = site.week_nav([(x, f"Wk {x}") for x in range(1, NFL_W)] + [("live", f"Wk {NFL_W} · live")], "live",
                         lambda x: "index.html" if x == "live" else f"week/{x}.html")
     site.write(out, "nfl/index.html", site.page("NFL Model Board", site.board(
@@ -701,6 +704,7 @@ def run(data: Path, nfldata: Path, out: Path, ledger_dir: Path):
              {"k": "Model disagrees 3+", "v": str(sum((c.get("edge") or 0) >= 3 for c in ccards)), "s": "points off the market this week"}]
     if big:
         stats.append({"k": "Biggest gap", "v": f'{big["edge"]:.1f}', "s": f'{big["away"]} at {big["home"]}', "href": f'game/{big["game_id"]}.html'})
+    totals_tracker.publish(out, ledger_dir, "ncaaf", syncable, ckick, now, cfinal, cnames, stats)
     nav = site.week_nav([(x, f"Wk {x}") for x in replay_weeks] + [("live", f"Wk {LIVE_W} · live")], "live",
                         lambda x: "index.html" if x == "live" else f"week/{x}.html")
     site.write(out, "ncaaf/index.html", site.page("NCAAF Model Board", site.board(
@@ -832,7 +836,12 @@ def run(data: Path, nfldata: Path, out: Path, ledger_dir: Path):
                     if x["status"].startswith("day-to-day, not") or "old note" in x["status"]:
                         continue
                     txt.append(f'{c[side]} {x["name"]} ({x["status"]}, {x["pts100"]:+.1f} per 100; {x["note"]})')
-            c["inputs_used"] = {"line": f'ESPN/DraftKings, seen {nev[c["game_id"]].get("line_seen") or "—"}'
+            seen = nev[c["game_id"]].get("line_seen")
+            try:
+                seen = (pd.Timestamp(str(seen).replace("Z", ""), tz="UTC") - pd.Timedelta(hours=10)).strftime("%b %-d %-I:%M %p HST")
+            except (ValueError, TypeError):
+                pass
+            c["inputs_used"] = {"line": f'ESPN/DraftKings, seen {seen or "—"}'
                                 if c.get("market_line") is not None else "no line yet",
                                 "injury_report": ("; ".join(txt) or "nobody listed out") + f' (ESPN injury list, {injs[0]["snapshot"] if injs else "none"})'}
         nkick = {v["game_id"]: v["kickoff_utc"] for v in window}
@@ -859,6 +868,7 @@ def run(data: Path, nfldata: Path, out: Path, ledger_dir: Path):
         if big:
             nstats.append({"k": "Biggest gap", "v": f'{big["edge"]:.1f}', "s": f'{lnames[big["away"]]} at {lnames[big["home"]]}',
                            "href": f'game/{big["game_id"]}.html'})
+        totals_tracker.publish(out, ledger_dir, "nba", lcards, nkick, now, nfin, lnames, nstats)
         site.write(out, "nba/index.html", site.page("NBA Model Board", site.board(
             "nba", "NBA projections", "Each team scores its points per 100 possessions against the opponent's defence, at the "
             "matchup's pace, plus home court. Early in the season the ratings are still half last season by design. Picks update "

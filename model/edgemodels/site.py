@@ -221,7 +221,7 @@ def _mlb_lines(c, names):
         team = names.get(c[c["ml_pick"]], c[c["ml_pick"]])
         out += (f'<dt>Play</dt><dd class="{"pick" if hot else ""}">{e(team)} {_ml(c["ml_odds"])} '
                 f'<span class="eyebrow">({c["ml_edge"]:.1f} pts · EV {c["ml_ev"]:+.3f})</span></dd>')
-    out += f'<dt>Total</dt><dd>{_f(c.get("model_total"))} model · {_f(c.get("market_total"))} market · not picked</dd>'
+    out += _total_row(c, "mlb")
     if c.get("final_home") is not None:
         res = " ".join(f'<span class="res-{r}">{m} {r}</span>' for m, r in
                        ((c.get("result_label", "ML"), c.get("ml_result")), ("Total", c.get("tot_result"))) if r)
@@ -243,6 +243,77 @@ def highlight_level(c: dict, sport: str) -> int:
     if c.get("no_edge") or c.get("edge") is None:
         return 0
     return 2 if c["edge"] >= t[1] else (1 if c["edge"] >= t[0] else 0)
+
+
+# ---------------------------------------------------------------- over/under (shown and tracked, never in the record)
+# Gap thresholds (highlighted, strong) in points (runs for MLB). Backtests found no reliable totals edge yet:
+# NFL 2025-26 gaps of 3+ went 44-49, college 4+ went 377-373, MLB totals no better than the league average;
+# the badge marks a big disagreement, not a proven play. The tracker on each sport's Totals page is the test.
+TOTAL_TIERS = {"nfl": (3.0, 6.0), "ncaaf": (4.0, 8.0), "nba": (5.0, 8.0), "cbb": (5.0, 8.0), "mlb": (1.0, 1.5)}
+TOTAL_SD = {"nfl": 13.1, "ncaaf": 16.5, "nba": 18.0, "cbb": 16.0}
+
+
+def total_info(c: dict, sport: str) -> dict | None:
+    """Book total, our total, gap, lean and over/under/push chances for one card (None if either total is missing)."""
+    ours, book = c.get("model_total"), c.get("market_total")
+    try:
+        ours, book = float(ours), float(book)
+    except (TypeError, ValueError):
+        return None
+    if math.isnan(ours) or math.isnan(book):
+        return None
+    gap = ours - book
+    if sport == "mlb" and c.get("p_over") is not None:
+        po, pu = float(c["p_over"]), float(c["p_under"])
+        pp = max(0.0, 1 - po - pu)
+    else:
+        from scipy.stats import norm
+        sd = TOTAL_SD.get(sport, 15.0)
+        if float(book).is_integer():
+            pp = float(norm.cdf(book + 0.5, ours, sd) - norm.cdf(book - 0.5, ours, sd))
+            pu = float(norm.cdf(book - 0.5, ours, sd))
+        else:
+            pp, pu = 0.0, float(norm.cdf(book, ours, sd))
+        po = 1 - pu - pp
+    t = TOTAL_TIERS.get(sport, (99, 99))
+    lvl = 2 if abs(gap) >= t[1] else (1 if abs(gap) >= t[0] else 0)
+    return {"book": book, "ours": round(ours, 1), "gap": round(gap, 1), "lean": "OVER" if gap > 0 else "UNDER" if gap < 0 else "EVEN",
+            "level": lvl, "p_over": po, "p_under": pu, "p_push": pp}
+
+
+def _total_row(c, sport):
+    ti = total_info(c, sport)
+    if ti is None:
+        return f'<dt>O/U</dt><dd>ours {_f(c.get("model_total"))}, book {_f(c.get("market_total"))}</dd>'
+    badge = f' <span class="badge {"gap2" if ti["level"] == 2 else "gap"}">O/U</span>' if ti["level"] else ""
+    res = ""
+    if c.get("final_home") is not None and c.get("final_away") is not None and ti["lean"] != "EVEN":
+        tot = float(c["final_home"]) + float(c["final_away"])
+        r = "PUSH" if tot == ti["book"] else ("WIN" if (tot > ti["book"]) == (ti["lean"] == "OVER") else "LOSS")
+        res = f' <span class="res-{r}">{tot:g} {r}</span>'
+    return (f'<dt>O/U</dt><dd>book {ti["book"]:g}, ours {ti["ours"]:g} · <b>{ti["lean"]} {ti["gap"]:+.1f}</b>{badge}{res}</dd>')
+
+
+def _totals_section(c, names):
+    ti = total_info(c, c["sport"])
+    a, h = names.get(c["away"], c["away"]), names.get(c["home"], c["home"])
+    unit = UNIT[c["sport"]]
+    if ti is None:
+        return (f'<h2>Over/under</h2><p class="note">Our total: {_f(c.get("model_total"))} {unit} '
+                f'({e(a)} {_f(c["proj_away"])} + {e(h)} {_f(c["proj_home"])}). No book total yet.</p>')
+    built = f'{e(a)} {_f(c["proj_away"])} + {e(h)} {_f(c["proj_home"])} = {ti["ours"]:g}'
+    if c.get("pace"):
+        built += f', at {float(c["pace"]):.1f} possessions'
+    t = TOTAL_TIERS.get(c["sport"], (0, 0))
+    lvl = {0: "not highlighted", 1: f"highlighted ({t[0]:g}+)", 2: f"strong ({t[1]:g}+)"}[ti["level"]]
+    return (f'<h2>Over/under <span class="eyebrow">tracked, not part of the record</span></h2>'
+            f'<div class="tbl"><table><tr><th>Book total</th><th>Ours</th><th>Gap</th><th>Lean</th><th>Over</th><th>Under</th><th>Push</th></tr>'
+            f'<tr><td class=mono>{ti["book"]:g}</td><td class=mono>{ti["ours"]:g}</td><td class=mono>{ti["gap"]:+.1f}</td>'
+            f'<td><b>{ti["lean"]}</b></td><td class=mono>{100 * ti["p_over"]:.1f}%</td><td class=mono>{100 * ti["p_under"]:.1f}%</td>'
+            f'<td class=mono>{100 * ti["p_push"]:.1f}%</td></tr></table></div>'
+            f'<p class="note">How our total is built: {built}. Gap {lvl}. Chances assume a normal spread of outcomes around our '
+            f'total{" (simulated games for baseball)" if c["sport"] == "mlb" else ""}. Totals backtests have not shown a reliable '
+            'edge yet, so this is tracked on its own page and never counts in the record.</p>')
 
 
 def _gap_level(c, sport):
@@ -360,7 +431,7 @@ def board(sport: str, title: str, lede: str, cards: list[dict], names: dict, rec
                    f'<dl class="lines"><dt>Book</dt><dd>{_fav_text(c.get("market_line"), c, names)}</dd>'
                    f'<dt>Ours</dt><dd>{_fav_text(c.get("model_line"), c, names)}</dd>'
                    f'<dt>Play</dt><dd class="{"pick" if hot else ""}">{_pick_text(c, names)}</dd>'
-                   f'<dt>Total</dt><dd>ours {_f(c.get("model_total"))}, book {_f(c.get("market_total"))}</dd>'
+                   + _total_row(c, sport) +
                    f'{_result_line(c, names)}</dl>{_updated_line(c, names)}')
                 + (f'<a class="more" href="{game_prefix}{e(str(c["game_id"]))}.html">Full breakdown</a>' if links else "")
                 + '</article>')
@@ -639,11 +710,7 @@ def game_page(c: dict, names: dict) -> str:
                   'more than anything else), centred on our projected margin. Value above zero means the side is worth more '
                   'than the -110 price. In backtests these model-only chances run high, because the book\'s line knows things '
                   'the model does not.</p>')
-    tot = c.get("total") or {}
-    if c["sport"] == "mlb":
-        tot = {}
-    total_txt = (f'<p class="note">Total: ours {_f(c["model_total"])}, book {_f(c.get("market_total"))}'
-                 f'{", lean " + tot["side"] + (" (" + format(tot["prob"], ".0%") + ")" if "prob" in tot else "") if tot else ""}.</p>')
+    total_txt = ""
     qb = ""
     if c.get("qb") and c["sport"] == "nfl":     # college passer names in the free feed are unreliable
         rows = "".join(f"<tr><td>{e(str(q['starter']))}</td><td>{e(names.get(q['team'], q['team']))}</td>"
@@ -668,7 +735,7 @@ def game_page(c: dict, names: dict) -> str:
             + f'<h2>Line check</h2>{num}{tiles}'
             f'<h2>Projected final</h2><div class="scorebig"><div><div class="eyebrow">{e(a)}</div><div class="n">{_f(c["proj_away"])}</div></div>'
             f'<div class="eyebrow">at</div><div class="r"><div class="eyebrow">{e(h)}</div><div class="n">{_f(c["proj_home"])}</div></div></div>{total_txt}'
-            f'<h2>What builds the spread</h2>{_bars(c, names)}{qb}{extra}{_inputs(c, names)}{_ratings(c, names)}{_props(c)}')
+            f'{_totals_section(c, names)}<h2>What builds the spread</h2>{_bars(c, names)}{qb}{extra}{_inputs(c, names)}{_ratings(c, names)}{_props(c)}')
 
 
 def record_page(sport: str, title: str, lede: str, sections: list[dict], names: dict) -> str:
