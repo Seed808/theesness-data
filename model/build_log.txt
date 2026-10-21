@@ -1,6 +1,6 @@
 /home/runner/work/theesness-data/theesness-data/model/edgemodels/sports/football.py:102: FutureWarning: Downcasting object dtype arrays on .fillna, .ffill, .bfill is deprecated and will change in a future version. Call result.infer_objects(copy=False) instead. To opt-in to the future behavior, set `pd.set_option('future.no_silent_downcasting', True)`
   "neutral_site": p["neutral_site"].fillna(False).astype(bool),
-/home/runner/work/theesness-data/theesness-data/model/run_all.py:609: FutureWarning: The behavior of DataFrame concatenation with empty or all-NA entries is deprecated. In a future version, this will no longer exclude empty or all-NA columns when determining the result dtypes. To retain the old behavior, exclude the relevant entries before the concat operation.
+/home/runner/work/theesness-data/theesness-data/model/run_all.py:612: FutureWarning: The behavior of DataFrame concatenation with empty or all-NA entries is deprecated. In a future version, this will no longer exclude empty or all-NA columns when determining the result dtypes. To retain the old behavior, exclude the relevant entries before the concat operation.
   cbt = pd.concat([C.backtest(2025, list(range(4, 15))).assign(date="2025"), C.backtest(2026, [3, 4, 5, 6]).assign(date="2026")])
 /home/runner/work/theesness-data/theesness-data/model/run_all.py:390: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
   sl["date"] = pd.to_datetime(sl["date"], errors="coerce").dt.strftime("%A, %B %-d").fillna("Date not in feed")
@@ -15,7 +15,7 @@
 /home/runner/work/theesness-data/theesness-data/model/run_all.py:390: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
   sl["date"] = pd.to_datetime(sl["date"], errors="coerce").dt.strftime("%A, %B %-d").fillna("Date not in feed")
 {
- "built_at": "2026-10-21T00:06:29+00:00",
+ "built_at": "2026-10-21T00:32:20+00:00",
  "nfl_key_numbers": {
   "source": "nflverse games 2010-2025, 4363 games, closing spread as expectation",
   "top": [
@@ -307,7 +307,7 @@
    "lined": 1043
   }
  },
- "nba_locked_now": 3,
+ "nba_locked_now": 0,
  "nba_chain_ok": true,
  "cbb_backtest": {
   "accuracy": {
@@ -319,10 +319,10 @@
  "mlb_backtest": {
   "apr14_sep28": {
    "games": 2186,
-   "winner_pct": 0.5498627630375115,
-   "log_loss": 0.6833319086857695,
+   "winner_pct": 0.5526075022872827,
+   "log_loss": 0.6833671349523425,
    "log_loss_home_rate_only": 0.6918805834642537,
-   "brier": 0.24515986279162855,
+   "brier": 0.24518138483531562,
    "total_mae": 3.518377027353694,
    "total_mae_league_avg": 3.5489156229151826,
    "margin_mae": 3.488257842773194,
@@ -331,10 +331,10 @@
   },
   "jul_sep": {
    "games": 1148,
-   "winner_pct": 0.5627177700348432,
-   "log_loss": 0.6780220790802782,
+   "winner_pct": 0.5679442508710801,
+   "log_loss": 0.6779164179975988,
    "log_loss_home_rate_only": 0.6910681981294204,
-   "brier": 0.24258150609756096,
+   "brier": 0.24252289949912892,
    "total_mae": 3.5594811548811816,
    "total_mae_league_avg": 3.557946557564132,
    "margin_mae": 3.445713236428236,
