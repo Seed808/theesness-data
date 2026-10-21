@@ -55,3 +55,8 @@ sent_at,sport,game_id,kind,level,pick,pick_line,gap,telegram_ok
 2026-10-20T19:52:00+00:00,nba,401909092,withdrawn,0,Golden State Warriors,+5.5,0.1,True
 2026-10-20T22:51:33+00:00,nba,401909840,new,1,Dallas Mavericks,+8.5,2.6,True
 2026-10-21T10:24:42+00:00,nba,401909096,new,1,Houston Rockets,+7.5,3.9,True
+2026-10-21T11:51:29+00:00,nba,401909836,flip,1,Brooklyn Nets,-1.5,3.1,True
+2026-10-21T11:51:30+00:00,nba,401909837,upgrade,2,Chicago Bulls,+9.5,7.7,True
+2026-10-21T11:51:32+00:00,nba,401909840,upgrade,2,Dallas Mavericks,+9.5,8.5,True
+2026-10-21T11:51:34+00:00,nba,401909842,new,1,Sacramento Kings,+4.5,3.3,True
+2026-10-21T11:51:35+00:00,nba,401909096,upgrade,2,Houston Rockets,+7.5,5.4,True
