@@ -49,7 +49,15 @@ jobs:
           git pull --rebase --autostash -q || true      # start from the newest pick records
           W=$(dirname "$GITHUB_WORKSPACE")
           cd $GITHUB_WORKSPACE/model
-          python run_all.py --data $W/data_raw --nfldata $W/nflverse/nfldata/data --out $W/site --ledger ledger 2>&1 | tail -c 20000 > $GITHUB_WORKSPACE/model/build_log.txt
+          L=$GITHUB_WORKSPACE/model/build_log.txt
+          (uname -a; python --version; free -m; df -h . | tail -1; ls -la $W/data_raw/*/ | head -60) > $L 2>&1
+          set +e
+          python -X faulthandler run_all.py --data $W/data_raw --nfldata $W/nflverse/nfldata/data --out $W/site --ledger ledger > $W/run_out.txt 2>&1
+          rc=$?
+          set -e
+          tail -c 20000 $W/run_out.txt >> $L
+          (echo "exit code: $rc"; free -m; dmesg 2>/dev/null | tail -5) >> $L 2>&1
+          [ $rc -eq 0 ]
           cp -r $W/site $GITHUB_WORKSPACE/_site
           touch $GITHUB_WORKSPACE/_site/.nojekyll
           (date -u; find $GITHUB_WORKSPACE/_site -maxdepth 2 | sed "s|$GITHUB_WORKSPACE/||" | sort | head -60; du -sh $GITHUB_WORKSPACE/_site) > $GITHUB_WORKSPACE/model/site_listing.txt
