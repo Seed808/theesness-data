@@ -1,59 +1,59 @@
 Linux runnervmxehtw 7.0.0-1017-azure #17~24.04.1-Ubuntu SMP PREEMPT Thu Sep 24 18:46:57 UTC 2026 x86_64 x86_64 x86_64 GNU/Linux
 Python 3.12.15
                total        used        free      shared  buff/cache   available
-Mem:           15983        1034        8405          46        6936       14949
+Mem:           15983        1020        8408          46        6947       14963
 Swap:           3071           0        3071
 /dev/root       145G   64G   81G  44% /
 /home/runner/work/theesness-data/data_raw/cbb/:
 total 44636
-drwxr-xr-x 2 runner runner     4096 Oct 21 07:56 .
-drwxr-xr-x 7 runner runner     4096 Oct 21 07:56 ..
--rw-r--r-- 1 runner runner 45698931 Oct 21 07:56 play_by_play_2026.parquet
+drwxr-xr-x 2 runner runner     4096 Oct 21 08:52 .
+drwxr-xr-x 7 runner runner     4096 Oct 21 08:52 ..
+-rw-r--r-- 1 runner runner 45698931 Oct 21 08:52 play_by_play_2026.parquet
 
 /home/runner/work/theesness-data/data_raw/nba/:
 total 20532
-drwxr-xr-x 2 runner runner     4096 Oct 21 07:56 .
-drwxr-xr-x 7 runner runner     4096 Oct 21 07:56 ..
--rw-r--r-- 1 runner runner 10302152 Oct 21 07:56 play_by_play_2025.parquet
--rw-r--r-- 1 runner runner 10681187 Oct 21 07:56 play_by_play_2026.parquet
--rw-r--r-- 1 runner runner    21286 Oct 21 07:56 player_impact_2026.csv
--rw-r--r-- 1 runner runner      139 Oct 21 07:56 player_impact_meta.json
+drwxr-xr-x 2 runner runner     4096 Oct 21 08:52 .
+drwxr-xr-x 7 runner runner     4096 Oct 21 08:52 ..
+-rw-r--r-- 1 runner runner 10302152 Oct 21 08:52 play_by_play_2025.parquet
+-rw-r--r-- 1 runner runner 10681187 Oct 21 08:52 play_by_play_2026.parquet
+-rw-r--r-- 1 runner runner    21286 Oct 21 08:52 player_impact_2026.csv
+-rw-r--r-- 1 runner runner      139 Oct 21 08:52 player_impact_meta.json
 
 /home/runner/work/theesness-data/data_raw/ncaaf/:
 total 11772
-drwxr-xr-x 2 runner runner    4096 Oct 21 07:56 .
-drwxr-xr-x 7 runner runner    4096 Oct 21 07:56 ..
--rw-r--r-- 1 runner runner   92072 Oct 21 07:56 elo_games_2025.csv
--rw-r--r-- 1 runner runner   42755 Oct 21 07:56 elo_games_2026.csv
--rw-r--r-- 1 runner runner 8025753 Oct 21 07:56 play_by_play_2025.parquet
--rw-r--r-- 1 runner runner 3876255 Oct 21 07:56 play_by_play_2026.parquet
+drwxr-xr-x 2 runner runner    4096 Oct 21 08:52 .
+drwxr-xr-x 7 runner runner    4096 Oct 21 08:52 ..
+-rw-r--r-- 1 runner runner   92072 Oct 21 08:52 elo_games_2025.csv
+-rw-r--r-- 1 runner runner   42755 Oct 21 08:52 elo_games_2026.csv
+-rw-r--r-- 1 runner runner 8025753 Oct 21 08:52 play_by_play_2025.parquet
+-rw-r--r-- 1 runner runner 3876255 Oct 21 08:52 play_by_play_2026.parquet
 
 /home/runner/work/theesness-data/data_raw/nfl/:
 total 48608
-drwxr-xr-x 2 runner runner     4096 Oct 21 07:56 .
-drwxr-xr-x 7 runner runner     4096 Oct 21 07:56 ..
--rw-r--r-- 1 runner runner      378 Oct 21 07:56 games.csv
--rw-r--r-- 1 runner runner    97472 Oct 21 07:56 injuries_2025.parquet
--rw-r--r-- 1 runner runner    46993 Oct 21 07:56 injuries_2026.parquet
--rw-r--r-- 1 runner runner 20597560 Oct 21 07:56 play_by_play_2024.parquet
--rw-r--r-- 1 runner runner 20337029 Oct 21 07:56 play_by_play_2025.parquet
--rw-r--r-- 1 runner runner  6998271 Oct 21 07:56 play_by_play_2026.parquet
--rw-r--r-- 1 runner runner   850871 Oct 21 07:56 roster_weekly_2025.parquet
--rw-r--r-- 1 runner runner   823243 Oct 21 07:56 roster_weekly_2026.parquet
+drwxr-xr-x 2 runner runner     4096 Oct 21 08:52 .
+drwxr-xr-x 7 runner runner     4096 Oct 21 08:52 ..
+-rw-r--r-- 1 runner runner      378 Oct 21 08:52 games.csv
+-rw-r--r-- 1 runner runner    97472 Oct 21 08:52 injuries_2025.parquet
+-rw-r--r-- 1 runner runner    46993 Oct 21 08:52 injuries_2026.parquet
+-rw-r--r-- 1 runner runner 20597560 Oct 21 08:52 play_by_play_2024.parquet
+-rw-r--r-- 1 runner runner 20337029 Oct 21 08:52 play_by_play_2025.parquet
+-rw-r--r-- 1 runner runner  6998271 Oct 21 08:52 play_by_play_2026.parquet
+-rw-r--r-- 1 runner runner   850871 Oct 21 08:52 roster_weekly_2025.parquet
+-rw-r--r-- 1 runner runner   823243 Oct 21 08:52 roster_weekly_2026.parquet
 
 /home/runner/work/theesness-data/data_raw/sam/:
 total 56
-drwxr-xr-x 2 runner runner 4096 Oct 21 07:56 .
-drwxr-xr-x 7 runner runner 4096 Oct 21 07:56 ..
--rw-r--r-- 1 runner runner 3187 Oct 21 07:56 first_td_wk5.csv
--rw-r--r-- 1 runner runner 8239 Oct 21 07:56 ncaaf_record.csv
--rw-r--r-- 1 runner runner 5022 Oct 21 07:56 ncaaf_wk7_board.csv
--rw-r--r-- 1 runner runner 1696 Oct 21 07:56 nfl_record.csv
--rw-r--r-- 1 runner runner  479 Oct 21 07:56 nfl_wk5_bars.csv
--rw-r--r-- 1 runner runner  449 Oct 21 07:56 nfl_wk5_board.csv
--rw-r--r-- 1 runner runner  505 Oct 21 07:56 nfl_wk5_extra.csv
--rw-r--r-- 1 runner runner 3469 Oct 21 07:56 nfl_wk5_ratings.csv
--rw-r--r-- 1 runner runner 1696 Oct 21 07:56 nfl_wk6_board.csv
+drwxr-xr-x 2 runner runner 4096 Oct 21 08:52 .
+drwxr-xr-x 7 runner runner 4096 Oct 21 08:52 ..
+-rw-r--r-- 1 runner runner 3187 Oct 21 08:52 first_td_wk5.csv
+-rw-r--r-- 1 runner runner 8239 Oct 21 08:52 ncaaf_record.csv
+-rw-r--r-- 1 runner runner 5022 Oct 21 08:52 ncaaf_wk7_board.csv
+-rw-r--r-- 1 runner runner 1696 Oct 21 08:52 nfl_record.csv
+-rw-r--r-- 1 runner runner  479 Oct 21 08:52 nfl_wk5_bars.csv
+-rw-r--r-- 1 runner runner  449 Oct 21 08:52 nfl_wk5_board.csv
+-rw-r--r-- 1 runner runner  505 Oct 21 08:52 nfl_wk5_extra.csv
+-rw-r--r-- 1 runner runner 3469 Oct 21 08:52 nfl_wk5_ratings.csv
+-rw-r--r-- 1 runner runner 1696 Oct 21 08:52 nfl_wk6_board.csv
 /home/runner/work/theesness-data/theesness-data/model/edgemodels/sports/football.py:102: FutureWarning: Downcasting object dtype arrays on .fillna, .ffill, .bfill is deprecated and will change in a future version. Call result.infer_objects(copy=False) instead. To opt-in to the future behavior, set `pd.set_option('future.no_silent_downcasting', True)`
   "neutral_site": p["neutral_site"].fillna(False).astype(bool),
 /home/runner/work/theesness-data/theesness-data/model/run_all.py:612: FutureWarning: The behavior of DataFrame concatenation with empty or all-NA entries is deprecated. In a future version, this will no longer exclude empty or all-NA columns when determining the result dtypes. To retain the old behavior, exclude the relevant entries before the concat operation.
@@ -71,7 +71,7 @@ drwxr-xr-x 7 runner runner 4096 Oct 21 07:56 ..
 /home/runner/work/theesness-data/theesness-data/model/run_all.py:390: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
   sl["date"] = pd.to_datetime(sl["date"], errors="coerce").dt.strftime("%A, %B %-d").fillna("Date not in feed")
 {
- "built_at": "2026-10-21T07:56:11+00:00",
+ "built_at": "2026-10-21T08:52:24+00:00",
  "nfl_key_numbers": {
   "source": "nflverse games 2010-2025, 4363 games, closing spread as expectation",
   "top": [
@@ -375,10 +375,10 @@ drwxr-xr-x 7 runner runner 4096 Oct 21 07:56 ..
  "mlb_backtest": {
   "apr14_sep28": {
    "games": 2186,
-   "winner_pct": 0.555352241537054,
-   "log_loss": 0.6834852757999945,
+   "winner_pct": 0.5512351326623971,
+   "log_loss": 0.6835233959882385,
    "log_loss_home_rate_only": 0.6918805834642537,
-   "brier": 0.2452330968950137,
+   "brier": 0.24525808108417202,
    "total_mae": 3.518377027353694,
    "total_mae_league_avg": 3.5489156229151826,
    "margin_mae": 3.488257842773194,
@@ -387,10 +387,10 @@ drwxr-xr-x 7 runner runner 4096 Oct 21 07:56 ..
   },
   "jul_sep": {
    "games": 1148,
-   "winner_pct": 0.5740418118466899,
-   "log_loss": 0.6779573908267659,
+   "winner_pct": 0.5696864111498258,
+   "log_loss": 0.6780894070582416,
    "log_loss_home_rate_only": 0.6910681981294204,
-   "brier": 0.24253354279181186,
+   "brier": 0.2426033330248258,
    "total_mae": 3.5594811548811816,
    "total_mae_league_avg": 3.557946557564132,
    "margin_mae": 3.445713236428236,
@@ -437,5 +437,5 @@ drwxr-xr-x 7 runner runner 4096 Oct 21 07:56 ..
 }
 exit code: 0
                total        used        free      shared  buff/cache   available
-Mem:           15983         975        8445          47        6956       15008
+Mem:           15983         985        8425          48        6967       14998
 Swap:           3071           0        3071
