@@ -31,7 +31,8 @@ def sync(ledger_dir: Path, sport: str, cards: list[dict], kickoff_utc: dict, now
     """Save each unstarted game's current lean, then grade every saved game that has a final.
     finals: game_id -> (away_score, home_score)."""
     p = Path(ledger_dir) / f"totals_{sport}.csv"
-    d = _load(p).set_index("game_id", drop=False)
+    # plain dicts keyed by game id (pandas .loc enlargement segfaulted on GitHub's runner on 2026-10-20)
+    rows = {str(r["game_id"]): r for r in _load(p).to_dict("records")}
     stamp = pd.Timestamp(now).isoformat(timespec="seconds")
     for c in cards:
         gid = str(c["game_id"])
@@ -41,17 +42,17 @@ def sync(ledger_dir: Path, sport: str, cards: list[dict], kickoff_utc: dict, now
         ti = site.total_info(c, sport)
         if ti is None:
             continue
-        d.loc[gid, COLS] = [gid, sport, c.get("date", ""), c["away"], c["home"], str(pd.Timestamp(ko)), ti["book"],
-                            ti["ours"], ti["gap"], ti["lean"], ti["level"], stamp, None, None]
-    for gid, r in d.iterrows():
-        f = finals.get(str(gid))
-        if not f or pd.isna(r["book_total"]) or r["lean"] == "EVEN":
+        rows[gid] = dict(zip(COLS, [gid, sport, c.get("date", ""), c["away"], c["home"], str(pd.Timestamp(ko)), ti["book"],
+                                    ti["ours"], ti["gap"], ti["lean"], ti["level"], stamp, None, None]))
+    for gid, r in rows.items():
+        f = finals.get(gid)
+        if not f or r.get("book_total") is None or pd.isna(r["book_total"]) or r.get("lean") == "EVEN":
             continue
         tot = float(f[0]) + float(f[1])
         book = float(r["book_total"])
-        d.at[gid, "final_total"] = tot
-        d.at[gid, "result"] = "PUSH" if tot == book else ("WIN" if (tot > book) == (r["lean"] == "OVER") else "LOSS")
-    d = d.reset_index(drop=True)
+        r["final_total"] = tot
+        r["result"] = "PUSH" if tot == book else ("WIN" if (tot > book) == (r["lean"] == "OVER") else "LOSS")
+    d = pd.DataFrame(list(rows.values()), columns=COLS)
     p.parent.mkdir(parents=True, exist_ok=True)
     d.to_csv(p, index=False)
     return d
