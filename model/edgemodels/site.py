@@ -683,7 +683,7 @@ def game_page(c: dict, names: dict) -> str:
         num = (f'<p class="lede">We have {_fav_text(c["model_line"], c, names)}; the book has '
                f'{_fav_text(c["market_line"], c, names)}. That is {_f(c["edge"])} {unit} more on {e(pts_side)} '
                f'than the book gives.')
-        if c[c["pick"]] != pts_team and c.get("cover_prob") is not None:
+        if c[c["pick"]] != pts_team and c.get("cover_prob") is not None and c.get("lose_prob") is not None:
             num += (f' The pick is still {e(side)} {fmt_line(c["pick_line"])}: final margins land on key numbers '
                     f'(3, 7) far more often than others, so at this line {e(side)} covers more often '
                     f'({100 * c["cover_prob"]:.1f}% vs {100 * c["lose_prob"]:.1f}%).')
@@ -699,7 +699,7 @@ def game_page(c: dict, names: dict) -> str:
              f'<div class="tile"><span class="k">Ours</span><span class="v">{_fav_text(c["model_line"], c, names)}</span></div>'
              f'<div class="tile"><span class="k">Gap</span><span class="v">{_f(c.get("edge"))}</span>'
              f'<span class="s">{"pick covers " + format(cp, ".0%") + " of the time" if cp else ""}</span></div></div>')
-    if c.get("push_prob") is not None:
+    if c.get("push_prob") is not None and c.get("lose_prob") is not None and c.get("cover_prob") is not None and c.get("ev") is not None:
         side = names.get(c[c["pick"]], c[c["pick"]])
         tiles += (f'<div class="tbl" style="margin-top:10px"><table><tr><th>At {e(side)} {fmt_line(c["pick_line"])}</th>'
                   f'<th>Covers</th><th>Push</th><th>Loses</th><th>Value per unit at -110</th><th>Fair line</th></tr>'
