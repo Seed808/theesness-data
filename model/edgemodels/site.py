@@ -750,7 +750,8 @@ def record_page(sport: str, title: str, lede: str, sections: list[dict], names: 
             f"<td>{e(names.get(g['away'], g['away']))} at {e(names.get(g['home'], g['home']))}</td>"
             f"<td>{e(names.get(g[g['pick']], g[g['pick']]))} {fmt_line(g['pick_line'])}</td><td class=mono>{_f(g['edge'])}</td>"
             f"<td class=mono>{_f(g['proj_away'])}–{_f(g['proj_home'])}</td>"
-            + ("<td class=mono>—</td><td class='res-VOID'>VOID</td>" if g.get('result') == "VOID" else
+            + ("<td class=mono>—</td><td class='res-VOID'>VOID" + (f"<br><small>{e(str(g['void_reason']))}</small>"
+               if isinstance(g.get('void_reason'), str) else "") + "</td>" if g.get('result') == "VOID" else
                f"<td class=mono>{g['away_score']:.0f}–{g['home_score']:.0f}</td><td class='res-{g['result']}'>{g['result']}</td>"
                if isinstance(g.get('result'), str) and g['result'] else "<td class=mono>—</td><td>pending</td>")
             + "</tr>" for g in sec["graded"])

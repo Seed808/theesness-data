@@ -112,6 +112,27 @@ class Ledger:
         pd.concat([v, pd.DataFrame([rec])], ignore_index=True).to_csv(self.void_path, index=False)
         return True
 
+    def void_after_game(self, game_id: str, reason: str, kickoff_utc: str) -> bool:
+        """Void a pick AFTER kickoff, only for a proven error in the model or data on that pick (never because it lost).
+        The entry is kept in the same hash-chained void list, its time shows it was made after the game, and the
+        reason is printed on the card and the record page. The lock row and its grade are never edited."""
+        now = datetime.now(timezone.utc)
+        led = self.load()
+        row = led[led["game_id"].astype(str) == str(game_id)]
+        if row.empty:
+            raise ValueError(f"{game_id} is not locked")
+        v = self.voids()
+        live = row[~row["hash"].isin(set(v["lock_hash"]))]
+        if live.empty:
+            return False
+        prev = v["hash"].iloc[-1] if len(v) else ""
+        rec = {"game_id": str(game_id), "lock_hash": live["hash"].iloc[-1], "voided_at": now.isoformat(timespec="seconds"),
+               "kickoff_utc": str(kickoff_utc), "reason": f"Voided after the game: {reason}", "kind": "void", "prev_hash": prev}
+        rec["hash"] = hashlib.sha256((prev + json.dumps({k: str(rec[k]) for k in sorted(rec) if k != "prev_hash"},
+                                                        sort_keys=True)).encode()).hexdigest()
+        pd.concat([v, pd.DataFrame([rec])], ignore_index=True).to_csv(self.void_path, index=False)
+        return True
+
     def load_graded(self) -> pd.DataFrame:
         """Lock rows with voided picks marked result VOID (excluded from every record)."""
         led = self.load()
@@ -119,7 +140,9 @@ class Ledger:
         if len(v):
             led["result"] = led["result"].astype(object)
             led = led[~led["hash"].isin(set(v.loc[v["kind"].isin(SUPERSEDED), "lock_hash"]))].copy()
-            led.loc[led["hash"].isin(set(v.loc[v["kind"] == "void", "lock_hash"])), "result"] = "VOID"
+            vv = v[v["kind"] == "void"]
+            led.loc[led["hash"].isin(set(vv["lock_hash"])), "result"] = "VOID"
+            led["void_reason"] = led["hash"].map(dict(zip(vv["lock_hash"], vv["reason"])))
         return led
 
     def grade(self, finals: pd.DataFrame) -> pd.DataFrame:

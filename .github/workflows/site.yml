@@ -44,6 +44,7 @@ jobs:
           curl -sSfL -o $W/nflverse/nfldata/data/games.csv https://raw.githubusercontent.com/nflverse/nfldata/master/data/games.csv
           curl -sSfL -o $W/nflverse/nfldata/data/teams.csv https://raw.githubusercontent.com/nflverse/nfldata/master/data/teams.csv
       - name: build
+        id: build
         run: |
           set -o pipefail
           git pull --rebase --autostash -q || true      # start from the newest pick records
@@ -76,6 +77,16 @@ jobs:
           else
             python send_alerts.py --alerts $W/site/alerts.json --ledger ledger/telegram_alerts.csv 2>&1 | tee alerts_log.txt
           fi
+      - name: build status alert
+        if: always()
+        continue-on-error: true
+        timeout-minutes: 3
+        env:
+          TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
+          TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
+          BUILD_OUTCOME: ${{ steps.build.outcome }}
+          RUN_URL: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
+        run: cd $GITHUB_WORKSPACE/model && python build_status.py
       - name: commit ledger
         if: always()
         run: |

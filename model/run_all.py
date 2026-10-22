@@ -824,6 +824,9 @@ def run(data: Path, nfldata: Path, out: Path, ledger_dir: Path):
                 inj_rows[(r["game_id"], side)] = lst
         nsl = pd.DataFrame(rows)
         nbr = N.build(2027, str(today))
+        _miss = sorted({t for r in rows for t in (r["home"], r["away"])} - set(map(str, nbr.ortg.off.index)))
+        if _miss:
+            alerts.health("nba", "missing_ratings", f"No rating for {', '.join(_miss)}: those teams are projected as league average.")
         lcards = N.project_slate(nbr, nsl, nacc["model_sd"])
         lnames = dict(nnames)
         for v in window:
@@ -849,6 +852,15 @@ def run(data: Path, nfldata: Path, out: Path, ledger_dir: Path):
         narch = ledger_dir / "cards" / "nba"
         nsync = pickbook.sync(nled, lcards, nkick, narch, now, _clean, "nba", no_edge=no_edge_map(lcards))
         alerts.collect("nba", lcards, lnames, nkick, now)
+        nvoids = {str(r["game_id"]): r for r in nled.voids().to_dict("records") if r.get("kind", "void") == "void"}
+        for c in lcards:
+            v = nvoids.get(str(c["game_id"]))
+            if v:
+                at = (pd.Timestamp(v["voided_at"]) - pd.Timedelta(hours=10)).strftime("%b %-d, %-I:%M %p HST")
+                when = "after the game" if pd.Timestamp(v["voided_at"]) > pd.Timestamp(v["kickoff_utc"]) else "before tip-off"
+                c["void"] = {"at": at, "reason": v["reason"]}
+                c["note"] = f"VOID, voided {at} ({when}). {v['reason']} The original locked pick is shown for the record."
+                c["kickoff"] = f'{c.get("kickoff") or ""} · VOID'
         nfin = {k: v["final"] for k, v in nev.items() if v.get("final")}
         lcards = grade_cards(lcards, nfin)
         nled.grade(pd.DataFrame([{"game_id": k, "away_score": a, "home_score": h} for k, (a, h) in nfin.items()],

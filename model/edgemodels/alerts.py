@@ -18,6 +18,29 @@ BASE_URL = "https://seed808.github.io/theesness-data"
 SPORT_LABEL = {"nfl": "NFL", "ncaaf": "College football", "nba": "NBA", "cbb": "College basketball", "mlb": "MLB"}
 COLLECTED: list[dict] = []
 LIVE: set = set()
+HEALTH: list[dict] = []      # model sanity warnings, sent once per day each by send_alerts.py
+
+
+def health(sport: str, key: str, msg: str) -> None:
+    """Flag something that looks broken in a board (sent to Telegram as a MODEL CHECK, once per day per key)."""
+    if not any(h["sport"] == sport and h["key"] == key for h in HEALTH):
+        HEALTH.append({"sport": sport, "key": key, "msg": msg})
+        print(f"[health] {sport}: {msg}")
+
+
+def check_board(sport: str, cards: list[dict]) -> None:
+    """Cheap checks that catch a broken model: many games with the identical projected total or margin."""
+    proj = [c for c in cards if c.get("model_total") is not None]
+    if len(proj) >= 4:
+        from collections import Counter
+        tot, n = Counter(round(float(c["model_total"]), 1) for c in proj).most_common(1)[0]
+        if n >= max(3, len(proj) // 2):
+            health(sport, "flat_totals", f"{n} of {len(proj)} games project the exact same total ({tot:g}). "
+                                         "The ratings look flat; check before trusting any pick.")
+        lines = [round(float(c["model_line"]), 1) for c in proj if c.get("model_line") is not None]
+        if lines and max(abs(x) for x in lines) < 1.0:
+            health(sport, "flat_lines", f"All {len(lines)} projected lines are within 1 point of a pick'em. "
+                                        "The ratings look flat; check before trusting any pick.")
 
 
 def _hst(ts) -> str:
@@ -35,6 +58,10 @@ def _ml(x):
 def collect(sport: str, cards: list[dict], names: dict, kickoff_utc: dict, now: datetime) -> None:
     """Record every card on a live board that has not started. Only locked picks can alert."""
     LIVE.add(sport)
+    try:
+        check_board(sport, [c for c in cards if not c.get("void")])
+    except Exception as ex:                        # a check never breaks the board
+        print(f"[health] {sport}: check failed ({type(ex).__name__})")
     for c in cards:
         gid = str(c["game_id"])
         ko = kickoff_utc.get(gid) or kickoff_utc.get(c["game_id"])
@@ -69,4 +96,4 @@ def collect(sport: str, cards: list[dict], names: dict, kickoff_utc: dict, now: 
 
 
 def payload(now: datetime) -> dict:
-    return {"built_at": now.isoformat(timespec="seconds"), "live_sports": sorted(LIVE), "cards": COLLECTED}
+    return {"built_at": now.isoformat(timespec="seconds"), "live_sports": sorted(LIVE), "cards": COLLECTED, "health": HEALTH}

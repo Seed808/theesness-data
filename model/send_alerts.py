@@ -25,7 +25,7 @@ import os
 import re
 import sys
 import time
-from datetime import datetime, timezone
+from datetime import datetime, timedelta, timezone
 from pathlib import Path
 
 import requests
@@ -189,9 +189,23 @@ def main():
         return
     led_p = Path(a.ledger)
     ledger = load_ledger(led_p)
+    # model checks (flat ratings, missing teams): one message per warning per day (HST)
+    day = datetime.now(timezone.utc).astimezone(timezone(timedelta(hours=-10))).strftime("%Y-%m-%d")
+    health_rows = []
+    for h in data.get("health", []):
+        key = (h["sport"], f"health:{h['key']}:{day}")
+        if key in ledger:
+            continue
+        ok = tg_send(f"<b>SPORTS · ⚠️ MODEL CHECK · {html.escape(LABEL.get(h['sport'], h['sport']))}</b>\n"
+                     f"{html.escape(h['msg'])}\nThe board keeps updating; picks on it may be wrong until this is fixed.")
+        log(f"health {h['sport']} {h['key']}: {'sent' if ok else 'NOT sent'}")
+        if ok:
+            health_rows.append({"sent_at": datetime.now(timezone.utc).isoformat(timespec="seconds"), "sport": h["sport"],
+                                "game_id": key[1], "kind": "health", "level": "", "pick": "", "pick_line": "", "gap": "",
+                                "telegram_ok": True})
     todo = [(c, *decide(c, ledger.get((c["sport"], c["game_id"]), []))) for c in cards]
     todo = [(c, k, p) for c, k, p in todo if k]
-    new_rows = []
+    new_rows = list(health_rows)
 
     def record(c, kind, ok):
         new_rows.append({"sent_at": datetime.now(timezone.utc).isoformat(timespec="seconds"), "sport": c["sport"],
