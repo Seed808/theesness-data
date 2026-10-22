@@ -79,8 +79,10 @@ def solve_adjusted(
     d, w = d[keep], w[keep]
     y = d[value].to_numpy(float)
 
-    off_ids = pd.Index(sorted(d[off].astype(str).unique()))
-    def_ids = pd.Index(sorted(d[deff].astype(str).unique()))
+    # teams with a prior but no games yet in this sample keep their prior (they are not dropped to league average)
+    _pk = lambda p: [str(x) for x in (p.index if isinstance(p, pd.Series) else p.keys())] if p is not None else []
+    off_ids = pd.Index(sorted(set(d[off].astype(str).unique()) | set(_pk(prior_off))))
+    def_ids = pd.Index(sorted(set(d[deff].astype(str).unique()) | set(_pk(prior_def))))
     oi = off_ids.get_indexer(d[off].astype(str))
     di = def_ids.get_indexer(d[deff].astype(str))
     n, no, nd, nc = len(d), len(off_ids), len(def_ids), len(covariates)

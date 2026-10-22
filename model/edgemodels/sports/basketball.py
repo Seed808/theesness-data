@@ -155,6 +155,15 @@ def fit_ratings(tg: pd.DataFrame, cfg: BasketballConfig, prior: BasketballRating
     for f in FACTORS:
         po, pd_ = pr(prior.factors[f]) if prior else (None, None)
         factors[f] = solve_adjusted(d, f, "o", "d", "poss", ["is_home"], po, pd_, cfg.prior_poss)
+    if prior:
+        # league scoring level and pace: early in a season a handful of games decide them, so blend with last season
+        # (the prior counts as prior_poss possessions / prior_games_pace games per team, like the team ratings)
+        from dataclasses import replace as _r
+        nt = max(len(prior.ortg.off), 1)
+        wp, gp = float(d["poss"].sum()), float(len(d))
+        ortg = _r(ortg, mu=(wp * ortg.mu + k * cfg.prior_poss * nt * prior.ortg.mu + (1 - k) * cfg.prior_poss * nt * prior.ortg.mu)
+                  / (wp + cfg.prior_poss * nt))
+        pace = _r(pace, mu=(gp * pace.mu + cfg.prior_games_pace * nt * prior.pace.mu) / (gp + cfg.prior_games_pace * nt))
     # ORtg ~ four factors (game level) -> weights used only to *explain* the projection
     X = np.column_stack([np.ones(len(tg))] + [tg[f] for f in FACTORS])
     beta, *_ = np.linalg.lstsq(X, tg["ortg"].to_numpy(float), rcond=None)
