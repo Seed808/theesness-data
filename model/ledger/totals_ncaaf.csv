@@ -22,10 +22,10 @@ game_id,sport,date,away,home,kickoff_utc,book_total,model_total,gap,lean,level,u
 401866476,ncaaf,"Saturday, October 24",Miami (OH),Central Michigan,2026-10-24 17:00:00+00:00,40.5,52.6,12.1,OVER,2,2026-10-24T16:45:58+00:00,55.0,WIN
 401858495,ncaaf,"Saturday, October 24",Oregon,Illinois,2026-10-24 19:00:00+00:00,48.5,54.8,6.3,OVER,1,2026-10-24T18:48:15+00:00,31.0,LOSS
 401856835,ncaaf,"Saturday, October 24",BYU,UCF,2026-10-24 19:30:00+00:00,43.5,52.8,9.3,OVER,2,2026-10-24T19:13:34+00:00,,
-401858499,ncaaf,"Saturday, October 24",Michigan State,UCLA,2026-10-24 19:30:00+00:00,42.5,54.2,11.7,OVER,2,2026-10-24T19:13:34+00:00,,
-401858497,ncaaf,"Saturday, October 24",Iowa,Minnesota,2026-10-24 19:30:00+00:00,40.5,49.7,9.2,OVER,2,2026-10-24T19:13:34+00:00,,
-401856727,ncaaf,"Saturday, October 24",Texas A&M,Alabama,2026-10-24 19:30:00+00:00,49.5,52.3,2.8,OVER,0,2026-10-24T19:13:34+00:00,,
-401856731,ncaaf,"Saturday, October 24",Tennessee,South Carolina,2026-10-24 19:30:00+00:00,50.5,55.1,4.6,OVER,1,2026-10-24T19:13:34+00:00,,
+401858499,ncaaf,"Saturday, October 24",Michigan State,UCLA,2026-10-24 19:30:00+00:00,42.5,54.2,11.7,OVER,2,2026-10-24T19:13:34+00:00,38.0,LOSS
+401858497,ncaaf,"Saturday, October 24",Iowa,Minnesota,2026-10-24 19:30:00+00:00,40.5,49.7,9.2,OVER,2,2026-10-24T19:13:34+00:00,23.0,LOSS
+401856727,ncaaf,"Saturday, October 24",Texas A&M,Alabama,2026-10-24 19:30:00+00:00,49.5,52.3,2.8,OVER,0,2026-10-24T19:13:34+00:00,51.0,WIN
+401856731,ncaaf,"Saturday, October 24",Tennessee,South Carolina,2026-10-24 19:30:00+00:00,50.5,55.1,4.6,OVER,1,2026-10-24T19:13:34+00:00,51.0,WIN
 401856730,ncaaf,"Saturday, October 24",Oklahoma,Mississippi State,2026-10-24 19:30:00+00:00,49.5,50.3,0.8,OVER,0,2026-10-24T19:13:34+00:00,38.0,LOSS
 401858273,ncaaf,"Saturday, October 24",Boston College,Georgia Tech,2026-10-24 19:30:00+00:00,50.5,54.4,3.9,OVER,0,2026-10-24T19:13:34+00:00,76.0,WIN
 401862810,ncaaf,"Saturday, October 24",North Texas,Navy,2026-10-24 19:30:00+00:00,60.5,62.2,1.7,OVER,0,2026-10-24T19:13:34+00:00,88.0,WIN
@@ -49,6 +49,6 @@ game_id,sport,date,away,home,kickoff_utc,book_total,model_total,gap,lean,level,u
 401858500,ncaaf,"Saturday, October 24",USC,Wisconsin,2026-10-24 23:30:00+00:00,50.5,53.7,3.2,OVER,0,2026-10-24T23:06:20+00:00,,
 401858275,ncaaf,"Saturday, October 24",Syracuse,North Carolina,2026-10-24 23:30:00+00:00,49.5,55.0,5.5,OVER,1,2026-10-24T23:06:20+00:00,,
 401860906,ncaaf,"Saturday, October 24",Utah State,Texas State,2026-10-24 23:30:00+00:00,59.5,54.7,-4.8,UNDER,1,2026-10-24T23:06:20+00:00,,
-401862811,ncaaf,"Saturday, October 24",UTSA,Tulane,2026-10-25 00:00:00+00:00,51.5,54.1,2.6,OVER,0,2026-10-24T23:06:20+00:00,,
-401864527,ncaaf,"Saturday, October 24",North Dakota State,New Mexico,2026-10-25 02:00:00+00:00,39.5,50.8,11.3,OVER,2,2026-10-24T23:06:20+00:00,,
-401856837,ncaaf,"Saturday, October 24",Houston,Utah,2026-10-25 02:15:00+00:00,57.5,59.7,2.2,OVER,0,2026-10-24T23:06:20+00:00,,
+401862811,ncaaf,"Saturday, October 24",UTSA,Tulane,2026-10-25 00:00:00+00:00,51.5,54.1,2.6,OVER,0,2026-10-24T23:39:36+00:00,,
+401864527,ncaaf,"Saturday, October 24",North Dakota State,New Mexico,2026-10-25 02:00:00+00:00,39.5,50.8,11.3,OVER,2,2026-10-24T23:39:36+00:00,,
+401856837,ncaaf,"Saturday, October 24",Houston,Utah,2026-10-25 02:15:00+00:00,57.5,59.7,2.2,OVER,0,2026-10-24T23:39:36+00:00,,
