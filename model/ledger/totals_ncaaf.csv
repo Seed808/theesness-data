@@ -35,9 +35,9 @@ game_id,sport,date,away,home,kickoff_utc,book_total,model_total,gap,lean,level,u
 401856839,ncaaf,"Saturday, October 24",Kansas State,Arizona State,2026-10-24 19:45:00+00:00,51.5,54.4,2.9,OVER,0,2026-10-24T19:40:26+00:00,45.0,LOSS
 401866449,ncaaf,"Saturday, October 24",Eastern Michigan,Ohio,2026-10-24 20:00:00+00:00,48.5,56.4,7.9,OVER,1,2026-10-24T19:40:26+00:00,44.0,LOSS
 401871094,ncaaf,"Saturday, October 24",UL Monroe,Troy,2026-10-24 20:00:00+00:00,50.5,55.4,4.9,OVER,1,2026-10-24T19:40:26+00:00,35.0,LOSS
-401864528,ncaaf,"Saturday, October 24",San José State,Nevada,2026-10-24 21:00:00+00:00,45.5,50.8,5.3,OVER,1,2026-10-24T20:42:08+00:00,,
-401869967,ncaaf,"Saturday, October 24",Louisiana,Southern Miss,2026-10-24 21:00:00+00:00,52.5,53.6,1.1,OVER,0,2026-10-24T20:42:08+00:00,,
-401871093,ncaaf,"Saturday, October 24",Old Dominion,Louisiana Tech,2026-10-24 21:00:00+00:00,44.5,46.4,1.9,OVER,0,2026-10-24T20:42:08+00:00,,
+401864528,ncaaf,"Saturday, October 24",San José State,Nevada,2026-10-24 21:00:00+00:00,45.5,50.8,5.3,OVER,1,2026-10-24T20:42:08+00:00,41.0,LOSS
+401869967,ncaaf,"Saturday, October 24",Louisiana,Southern Miss,2026-10-24 21:00:00+00:00,52.5,53.6,1.1,OVER,0,2026-10-24T20:42:08+00:00,66.0,WIN
+401871093,ncaaf,"Saturday, October 24",Old Dominion,Louisiana Tech,2026-10-24 21:00:00+00:00,44.5,46.4,1.9,OVER,0,2026-10-24T20:42:08+00:00,26.0,LOSS
 401860907,ncaaf,"Saturday, October 24",Boise State,Washington State,2026-10-24 22:00:00+00:00,52.5,51.4,-1.1,UNDER,0,2026-10-24T21:44:28+00:00,,
 401860905,ncaaf,"Saturday, October 24",San Diego State,Colorado State,2026-10-24 22:30:00+00:00,58.5,56.2,-2.3,UNDER,0,2026-10-24T22:07:56+00:00,,
 401856836,ncaaf,"Saturday, October 24",Colorado,Oklahoma State,2026-10-24 23:00:00+00:00,55.5,51.5,-4.0,UNDER,1,2026-10-24T22:43:34+00:00,,
@@ -50,5 +50,5 @@ game_id,sport,date,away,home,kickoff_utc,book_total,model_total,gap,lean,level,u
 401858275,ncaaf,"Saturday, October 24",Syracuse,North Carolina,2026-10-24 23:30:00+00:00,49.5,55.0,5.5,OVER,1,2026-10-24T23:06:20+00:00,,
 401860906,ncaaf,"Saturday, October 24",Utah State,Texas State,2026-10-24 23:30:00+00:00,59.5,54.7,-4.8,UNDER,1,2026-10-24T23:06:20+00:00,,
 401862811,ncaaf,"Saturday, October 24",UTSA,Tulane,2026-10-25 00:00:00+00:00,51.5,54.1,2.6,OVER,0,2026-10-24T23:39:36+00:00,,
-401864527,ncaaf,"Saturday, October 24",North Dakota State,New Mexico,2026-10-25 02:00:00+00:00,39.5,50.8,11.3,OVER,2,2026-10-25T00:02:19+00:00,,
-401856837,ncaaf,"Saturday, October 24",Houston,Utah,2026-10-25 02:15:00+00:00,57.5,59.7,2.2,OVER,0,2026-10-25T00:02:19+00:00,,
+401864527,ncaaf,"Saturday, October 24",North Dakota State,New Mexico,2026-10-25 02:00:00+00:00,39.5,50.8,11.3,OVER,2,2026-10-25T00:55:31+00:00,,
+401856837,ncaaf,"Saturday, October 24",Houston,Utah,2026-10-25 02:15:00+00:00,57.5,59.7,2.2,OVER,0,2026-10-25T00:55:31+00:00,,
