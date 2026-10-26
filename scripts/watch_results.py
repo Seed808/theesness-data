@@ -81,6 +81,7 @@ def main() -> bool:
                 hits.append(f'{sport} {r.get("away")} @ {r.get("home")}')
     for h in hits:
         print(f"final, not graded yet: {h}")
+        print(f"::notice title=watch::final, not graded yet: {h}")
     if not hits:
         print("nothing waiting")
     return bool(hits)

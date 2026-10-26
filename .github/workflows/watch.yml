@@ -47,5 +47,6 @@ jobs:
         run: |
           for lg in basketball/nba football/nfl; do
             echo "== $lg"
-            curl -s -D - -o /dev/null -H "Origin: https://seed808.github.io" "https://site.api.espn.com/apis/site/v2/sports/$lg/scoreboard" | grep -i "^HTTP\|access-control" || true
+            h=$(curl -s -D - -o /dev/null -H "Origin: https://seed808.github.io" "https://site.api.espn.com/apis/site/v2/sports/$lg/scoreboard" | grep -i "^HTTP\|access-control" | tr -d '\r' | tr '\n' ' ')
+            echo "::notice title=ESPN $lg::$h"
           done
