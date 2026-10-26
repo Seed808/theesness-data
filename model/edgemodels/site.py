@@ -199,6 +199,12 @@ def week_nav(weeks: list, current, href) -> str:
 
 
 def _result_line(c, names):
+    if c.get("final_home") is not None and c.get("final_away") is not None and (
+            c.get("result") is None or c.get("no_edge") or c.get("hold") or c.get("void")):
+        if c.get("void"):
+            return f'<dt>Final</dt><dd>{c["final_away"]:.0f}–{c["final_home"]:.0f} <span class="res-VOID">VOID</span></dd>'
+
+        return f'<dt>Final</dt><dd>{c["final_away"]:.0f}–{c["final_home"]:.0f} <span class="eyebrow">no pick graded</span></dd>'
     if c.get("final_home") is None or c.get("result") is None:
         return ""
     return (f'<dt>Final</dt><dd>{c["final_away"]:.0f}–{c["final_home"]:.0f} '

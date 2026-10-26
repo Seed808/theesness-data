@@ -551,6 +551,16 @@ def run(data: Path, nfldata: Path, out: Path, ledger_dir: Path):
     nfin = {str(r.game_id): (r.away_score, r.home_score) for r in games[games["season"] == 2026].itertuples()
             if pd.notna(r.home_score) and pd.notna(r.away_score)}
     totals_tracker.publish(out, ledger_dir, "nfl", cards, kick, now, nfin, names, stats)
+    # finished games on the live board: final score on every card, result from the ledger (the graded locked pick)
+    lr = live_rows.copy()
+    lr["game_id"] = lr["game_id"].astype(str)
+    led_res = {g: r for g, r in zip(lr["game_id"], lr["result"])}
+    for c in cards:
+        fs = nfin.get(str(c["game_id"]))
+        if fs:
+            c["final_away"], c["final_home"] = float(fs[0]), float(fs[1])
+            r = led_res.get(str(c["game_id"]))
+            c["result"] = r if isinstance(r, str) and r in ("WIN", "LOSS", "PUSH", "VOID") else None
     nav = site.week_nav([(x, f"Wk {x}") for x in range(1, NFL_W)] + [("live", f"Wk {NFL_W} · live")], "live",
                         lambda x: "index.html" if x == "live" else f"week/{x}.html")
     site.write(out, "nfl/index.html", site.page("NFL Model Board", site.board(
