@@ -351,6 +351,42 @@ def live_starters(slate: pd.DataFrame, pbp: pd.DataFrame, injuries: pd.DataFrame
 ESPN_ABBR_REV = {"LA": "LAR", "WAS": "WSH"}
 
 
+def fill_nfl_finals_from_espn(games: pd.DataFrame, repo: Path, now) -> pd.DataFrame:
+    """nflverse can post final scores hours after a game; fill missing 2026 finals from the newest saved
+    ESPN scoreboard snapshot (status completed) for the last 3 Hawaii days. nflverse wins whenever it has a score."""
+    try:
+        base = repo / "data" / "espn" / "nfl" / "scoreboard"
+        fin = {}
+        for k in range(0, 4):
+            folder = base / (pd.Timestamp(now) - pd.Timedelta(hours=10) - pd.Timedelta(days=k)).strftime("%Y%m%d")
+            snaps = sorted(folder.glob("2*.json")) if folder.exists() else []
+            if not snaps:
+                continue
+            for ev in json.loads(snaps[-1].read_text()).get("events", []):
+                c = ev["competitions"][0]
+                if not ((c.get("status") or ev.get("status") or {}).get("type") or {}).get("completed"):
+                    continue
+                t = {x["homeAway"]: x for x in c["competitors"]}
+                ab = lambda x: ESPN_ABBR.get(x["team"]["abbreviation"], x["team"]["abbreviation"])
+                fin[(ab(t["away"]), ab(t["home"]))] = (float(t["away"]["score"]), float(t["home"]["score"]))
+        if not fin:
+            return games
+        g = games.copy()
+        m = (g["season"] == 2026) & g["home_score"].isna()
+        for i in g.index[m]:
+            f = fin.get((g.at[i, "away_team"], g.at[i, "home_team"]))
+            if f:
+                g.at[i, "away_score"], g.at[i, "home_score"] = f
+                if "result" in g:
+                    g.at[i, "result"] = f[1] - f[0]
+                if "total" in g:
+                    g.at[i, "total"] = f[0] + f[1]
+        return g
+    except Exception as ex:                       # never break the build over a fallback
+        print(f"[nfl finals] ESPN fallback skipped: {type(ex).__name__}: {ex}")
+        return games
+
+
 def espn_lines_nfl(repo: Path, dates) -> dict:
     """{(away, home): (spread_home, total, seen_at_HST)} from the newest ESPN snapshot that has a line."""
     out = {}
@@ -439,11 +475,13 @@ def run(data: Path, nfldata: Path, out: Path, ledger_dir: Path):
     out.mkdir(parents=True, exist_ok=True)
     now = datetime.now(timezone.utc)
     report = {"built_at": now.isoformat(timespec="seconds")}
+    site.BUILT_AT = now
     home_tiles = []
 
     # ------------------------------------------------------------------ NFL
     plays = {y: fb.standardize(pd.read_parquet(data / f"nfl/play_by_play_{y}.parquet"), "nfl", fb.NFL_SAM) for y in (2024, 2025, 2026)}
     games = pd.read_csv(nfldata / "games.csv")
+    games = fill_nfl_finals_from_espn(games, Path(__file__).resolve().parents[1], now)
     # key-number margin weights, each fitted only on seasons before the one being priced
     nfl_dists = {2025: nfl_from_nflverse(games, range(2010, 2025)), 2026: nfl_from_nflverse(games, range(2010, 2026))}
     report["nfl_key_numbers"] = {"source": nfl_dists[2026].source, "top": nfl_dists[2026].table(8)}

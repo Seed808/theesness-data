@@ -131,7 +131,7 @@ td.mono{font-weight:500}
 .pct{display:inline-grid;grid-template-columns:64px 28px;gap:6px;align-items:center}
 .pct i{display:block;height:7px;background:var(--rule);position:relative;border-radius:4px;overflow:hidden}
 .pct i b{position:absolute;inset:0 auto 0 0;background:var(--gold)}
-.res-VOID{color:var(--muted);font-weight:700}.res-WIN{color:var(--win);font-weight:800}.res-LOSS{color:var(--loss);font-weight:800}.res-PUSH{color:var(--muted);font-weight:700}
+.built{font-size:12px;color:var(--muted);margin:10px 0 4px}.res-VOID{color:var(--muted);font-weight:700}.res-WIN{color:var(--win);font-weight:800}.res-LOSS{color:var(--loss);font-weight:800}.res-PUSH{color:var(--muted);font-weight:700}
 .hist{display:inline-flex;gap:1px;align-items:flex-end;height:22px;vertical-align:middle}
 .hist span{width:5px;background:var(--crimson);opacity:.8;border-radius:1px}
 .flag{font-size:12px;padding:1px 8px;border:1px solid var(--gold);color:var(--gold);border-radius:999px}
@@ -153,6 +153,18 @@ def _f(x, nd=1, sign=False):
     return f"{x:+.{nd}f}" if sign else f"{x:.{nd}f}"
 
 
+BUILT_AT = None   # set by run_all at the start of each build (UTC datetime)
+
+
+def _built_line() -> str:
+    if BUILT_AT is None:
+        return ""
+    import pandas as _pd
+    t = _pd.Timestamp(BUILT_AT).tz_convert("Pacific/Honolulu")
+    return (f'<div class="built">Page updated {t.strftime("%a %b %-d, %-I:%M %p")} HST · scores, lines and results as of '
+            'this time · refreshed about every 30 min and within ~15 min of a game ending</div>')
+
+
 def page(title: str, body: str, depth: int, active: str = "", sports=("ncaaf", "nfl", "nba", "cbb", "mlb", "nhl"),
          brand: str = "TheEsness Predictions", standalone: bool = True) -> str:
     up = "../" * depth
@@ -164,7 +176,7 @@ def page(title: str, body: str, depth: int, active: str = "", sports=("ncaaf", "
     return (f"{head}<title>{e(title)}</title>{FONTS}<style>{CSS}</style>{'</head><body>' if standalone else ''}"
             f'<header class="mast"><div class="in"><a class="brand" href="{up}index.html">{e(first)}<small>{e(rest[0] if rest else "")}'
             '</small></a>'
-            f'<nav class="sports" aria-label="Sports">{nav}</nav></div></header><div class="wrap">{body}'
+            f'<nav class="sports" aria-label="Sports">{nav}</nav></div></header><div class="wrap">{_built_line()}{body}'
             "<footer>Model projections for entertainment and research, not betting advice. Every number is produced by "
             f"the model code and graded after the final; nothing is typed in by hand.</footer></div>{tail}")
 
@@ -367,7 +379,7 @@ def _updated_line(c, names):
     else:
         what = f"first posted as {first_txt}"
     t = pd_ts(last["at"]).split(" ", 2)[-1]
-    return f'<div class="upd"><b>Updated</b> {e(t)} HST · {what} · {len(hist)} versions</div>'
+    return f'<div class="upd"><b>Pick last changed</b> {e(t)} HST · {what} · {len(hist)} versions</div>'
 
 
 def _gaps_box(cards, sport, names, tier_record):

@@ -71,7 +71,7 @@ def main(days: int, leagues: list[str]):
     stamp = now.strftime("%Y%m%dT%H%MZ")
     written = 0
     for lg in leagues:
-        for d in range(0, days + 1):
+        for d in range(-1, days + 1):          # yesterday too: late finals
             day = (now - timedelta(hours=10) + timedelta(days=d)).strftime("%Y%m%d")   # HST calendar day
             try:
                 obj = get(f"{BASE}/{LEAGUES[lg]}/scoreboard", {"dates": day, **EXTRA.get(lg, {})})

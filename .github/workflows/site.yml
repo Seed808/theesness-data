@@ -48,6 +48,7 @@ jobs:
         run: |
           set -o pipefail
           git pull --rebase --autostash -q || true      # start from the newest pick records
+          python scripts/fetch_espn.py --days 2 > /dev/null 2>&1 || true   # newest scores and lines (not committed here; the collector commits its own)
           W=$(dirname "$GITHUB_WORKSPACE")
           cd $GITHUB_WORKSPACE/model
           L=$GITHUB_WORKSPACE/model/build_log.txt

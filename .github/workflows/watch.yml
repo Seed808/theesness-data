@@ -1,0 +1,51 @@
+name: results-watch
+# Every 10 minutes: if a game with a live pick is final on ESPN but not graded yet, start a site build right away
+# (instead of waiting for the next :19/:49 build). Light job: reads only the pick ledgers.
+on:
+  schedule:
+    - cron: "3,13,23,33,43,53 * * * *"
+  workflow_dispatch:
+    inputs:
+      cors_check:
+        description: "Also check whether ESPN lets a web page read its scoreboard (for live scores on the site)"
+        type: boolean
+        default: false
+permissions:
+  contents: read
+  actions: write
+concurrency:
+  group: watch
+  cancel-in-progress: true
+jobs:
+  watch:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          sparse-checkout: |
+            model/ledger
+            scripts
+          sparse-checkout-cone-mode: true
+          filter: blob:none
+      - uses: actions/setup-python@v5
+        with: { python-version: "3.12" }
+      - run: pip install -q requests==2.32.3
+      - id: w
+        run: python scripts/watch_results.py
+      - name: start a site build
+        if: steps.w.outputs.trigger == 'true'
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          busy=$(gh run list -R "$GITHUB_REPOSITORY" -w build-site -L 5 --json status,createdAt \
+                 -q '[.[] | select(.status != "completed" or ((now - (.createdAt|fromdate)) < 480))] | length')
+          if [ "${busy:-0}" -gt 0 ]; then echo "a site build is running or just started; not starting another"; exit 0; fi
+          gh workflow run site.yml -R "$GITHUB_REPOSITORY" --ref main && echo "site build started"
+      - name: ESPN browser-access check
+        if: inputs.cors_check
+        run: |
+          for lg in basketball/nba football/nfl; do
+            echo "== $lg"
+            curl -s -D - -o /dev/null -H "Origin: https://seed808.github.io" "https://site.api.espn.com/apis/site/v2/sports/$lg/scoreboard" | grep -i "^HTTP\|access-control" || true
+          done
