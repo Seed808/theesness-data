@@ -131,7 +131,7 @@ td.mono{font-weight:500}
 .pct{display:inline-grid;grid-template-columns:64px 28px;gap:6px;align-items:center}
 .pct i{display:block;height:7px;background:var(--rule);position:relative;border-radius:4px;overflow:hidden}
 .pct i b{position:absolute;inset:0 auto 0 0;background:var(--gold)}
-.built{font-size:12px;color:var(--muted);margin:10px 0 4px}.res-VOID{color:var(--muted);font-weight:700}.res-WIN{color:var(--win);font-weight:800}.res-LOSS{color:var(--loss);font-weight:800}.res-PUSH{color:var(--muted);font-weight:700}
+.built{font-size:12px;color:var(--muted);margin:10px 0 4px}.live{margin:6px 0 2px;font-size:14px}.res-VOID{color:var(--muted);font-weight:700}.res-WIN{color:var(--win);font-weight:800}.res-LOSS{color:var(--loss);font-weight:800}.res-PUSH{color:var(--muted);font-weight:700}
 .hist{display:inline-flex;gap:1px;align-items:flex-end;height:22px;vertical-align:middle}
 .hist span{width:5px;background:var(--crimson);opacity:.8;border-radius:1px}
 .flag{font-size:12px;padding:1px 8px;border:1px solid var(--gold);color:var(--gold);border-radius:999px}
@@ -437,7 +437,7 @@ def board(sport: str, title: str, lede: str, cards: list[dict], names: dict, rec
             rec = (records or {})
             ab = names.get(c["away"], c["away"]), names.get(c["home"], c["home"])
             out.append(
-                f'<article class="game{" hot" if hot else ""}{" hot2" if strong else ""}">'
+                f'<article class="game{" hot" if hot else ""}{" hot2" if strong else ""}"{_live_attrs(c, sport)}>'
                 f'<div class="ghead"><span>{e(str(c.get("kickoff") or ""))}{", " + e(c["venue"]) if c.get("venue") else ""}</span>'
                 f'{_gap_badge(c, sport)}</div>'
                 f'<div class="teamrow"><span class="t">{e(ab[0])}<small>{e(rec.get(c["away"], ""))}</small></span>'
@@ -451,10 +451,57 @@ def board(sport: str, title: str, lede: str, cards: list[dict], names: dict, rec
                    f'<dt>Play</dt><dd class="{"pick" if hot else ""}">{_pick_text(c, names)}</dd>'
                    + _total_row(c, sport) +
                    f'{_result_line(c, names)}</dl>{_updated_line(c, names)}')
+                + '<div class="live" hidden></div>'
                 + (f'<a class="more" href="{game_prefix}{e(str(c["game_id"]))}.html">Full breakdown</a>' if links else "")
                 + '</article>')
         out.append("</div></section>")
+    if any(c.get("final_home") is None for c in cards):
+        out.append(LIVE_JS)
     return "".join(out)
+
+
+ESPN_PATH = {"nfl": "football/nfl", "ncaaf": "football/college-football", "nba": "basketball/nba",
+             "cbb": "basketball/mens-college-basketball", "mlb": "baseball/mlb"}
+
+
+def _live_attrs(c: dict, sport: str) -> str:
+    """Data the page's live-score script needs: which ESPN game this is and the graded side/line, if any."""
+    if sport not in ESPN_PATH:
+        return ""
+    if sport == "mlb":
+        side, line = c.get("ml_pick"), ""
+    else:
+        ok = c.get("market_line") is not None and not (c.get("no_edge") or c.get("hold") or c.get("void"))
+        side, line = (c.get("pick"), c.get("pick_line")) if ok else ("", "")
+    fin = "1" if c.get("final_home") is not None else ""
+    return (f' data-sport="{sport}" data-gid="{e(str(c["game_id"]))}" data-away="{e(str(c["away"]))}" '
+            f'data-home="{e(str(c["home"]))}" data-pick="{e(str(side or ""))}" data-line="{e(str(line))}" data-final="{fin}"')
+
+
+# Live scores in the reader's browser, straight from ESPN's public scoreboard (it allows this: CORS *).
+# Unofficial: the record changes only when the next build grades the game against the locked line.
+LIVE_JS = """<script>(function(){
+var P={nfl:"football/nfl",ncaaf:"football/college-football",nba:"basketball/nba",cbb:"basketball/mens-college-basketball",mlb:"baseball/mlb"};
+var NFL={LAR:"LA",WSH:"WAS"};
+function day(k){var d=new Date(Date.now()-10*3600e3+k*864e5);return d.toISOString().slice(0,10).replace(/-/g,"");}
+function run(){var cards=[].slice.call(document.querySelectorAll("article.game[data-sport]")).filter(function(a){return !a.dataset.final;});
+ if(!cards.length)return;var sports={};cards.forEach(function(a){sports[a.dataset.sport]=1;});var live=false,pending=0;
+ Object.keys(sports).forEach(function(sp){[-1,0,1].forEach(function(k){pending++;
+  var ex=(sp=="ncaaf")?"&groups=80&limit=400":(sp=="cbb")?"&groups=50&limit=400":"";
+  fetch("https://site.api.espn.com/apis/site/v2/sports/"+P[sp]+"/scoreboard?dates="+day(k)+ex).then(function(r){return r.json();}).then(function(j){
+   (j.events||[]).forEach(function(ev){var c=ev.competitions[0],t={};c.competitors.forEach(function(x){t[x.homeAway]=x;});
+    var ab=function(x){var a=x.team.abbreviation;return sp=="nfl"?(NFL[a]||a):a;};var st=(c.status||ev.status).type;
+    cards.forEach(function(a){if(a.dataset.sport!=sp)return;
+     var hit=(sp=="nfl"||sp=="mlb")?(a.dataset.away==ab(t.away)&&a.dataset.home==ab(t.home)):(a.dataset.gid==String(ev.id));
+     if(!hit||st.state=="pre")return;var as=+t.away.score,hs=+t.home.score,box=a.querySelector(".live");
+     var txt=(st.completed?"<b>Final</b> ":"<b>Live</b> ")+as+"\u2013"+hs+" <span class=eyebrow>"+(st.completed?"":st.shortDetail)+"</span>";
+     var pk=a.dataset.pick;
+     if(st.completed&&pk){var r;if(sp=="mlb"){r=(pk=="home"?hs>as:as>hs)?"WIN":"LOSS";}
+       else{var m=(pk=="home"?hs-as:as-hs)+parseFloat(a.dataset.line);r=m>0?"WIN":m<0?"LOSS":"PUSH";}
+       txt+=" <span class=res-"+r+">"+r+"</span> <span class=eyebrow>unofficial until graded</span>";}
+     if(!st.completed)live=true;box.innerHTML=txt;box.hidden=false;});});
+  }).catch(function(){}).then(function(){if(--pending==0&&live)setTimeout(run,60000);});});});}
+run();})();</script>"""
 
 
 
