@@ -93,6 +93,7 @@ jobs:
         run: |
           git config user.name "data-bot"
           git config user.email "data-bot@users.noreply.github.com"
+          git checkout -q -- data 2>/dev/null; git clean -fdq data 2>/dev/null; true   # drop the build's own score fetch (the collector commits data)
           git add -A model/ledger; for f in model/site_listing.txt model/build_log.txt model/alerts_log.txt; do [ -f "$f" ] && git add -f "$f"; done; true
           git diff --cached --quiet || git commit -m "picks: $(date -u +%Y-%m-%dT%H:%MZ)"
           for i in 1 2 3 4 5; do git pull --rebase --autostash && git push && break; git rebase --abort 2>/dev/null; sleep $((i*7)); done
