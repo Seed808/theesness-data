@@ -171,3 +171,7 @@ sent_at,sport,game_id,kind,level,pick,pick_line,gap,telegram_ok
 2026-10-27T02:07:42+00:00,nba,401909877,new,2,Brooklyn Nets,+11.5,9.5,True
 2026-10-27T02:07:43+00:00,nba,401909878,new,1,Detroit Pistons,+3.5,4.7,True
 2026-10-27T02:44:16+00:00,nba,401909879,new,2,Sacramento Kings,+18.5,6.7,True
+2026-10-27T04:52:10+00:00,nfl,2026_08_BAL_BUF,new,1,Buffalo Bills,-3.5,3.5,True
+2026-10-27T04:52:12+00:00,nfl,2026_08_ARI_DAL,new,1,Arizona Cardinals,+6.5,3.1,True
+2026-10-27T04:52:14+00:00,nfl,2026_08_LAC_LA,new,1,Los Angeles Rams,-6.5,3.0,True
+2026-10-27T04:52:15+00:00,nfl,2026_08_CHI_SEA,new,1,Chicago Bears,+3,3.8,True
