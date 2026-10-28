@@ -43,6 +43,28 @@ def check_board(sport: str, cards: list[dict]) -> None:
                                         "The ratings look flat; check before trusting any pick.")
 
 
+def check_dates(sport: str, cards: list[dict], kickoff_utc: dict, now) -> None:
+    """Date sanity: each card's date label must be its kickoff's Hawaii date, and no card may carry a final score
+    or a result before its own kickoff. Any miss sends one MODEL CHECK warning a day."""
+    bad_label, early = [], []
+    for c in cards:
+        ko = kickoff_utc.get(str(c["game_id"])) or kickoff_utc.get(c["game_id"])
+        if ko is None:
+            continue
+        t = pd.Timestamp(ko)
+        t = (t.tz_localize("UTC") if t.tzinfo is None else t).tz_convert("Pacific/Honolulu")
+        want = f"{t:%A}, {t:%B} {t.day}"
+        lab = c.get("date")
+        if lab and lab != "Date not in feed" and lab != want:
+            bad_label.append(f'{c["away"]} @ {c["home"]} (card says {lab}, kickoff is {want})')
+        if t > pd.Timestamp(now).tz_convert("Pacific/Honolulu") and (c.get("final_home") is not None or c.get("result")):
+            early.append(f'{c["away"]} @ {c["home"]} ({want})')
+    if bad_label:
+        health(sport, "date_label", f"{len(bad_label)} card(s) show the wrong date: " + "; ".join(bad_label[:4]))
+    if early:
+        health(sport, "final_early", f"{len(early)} card(s) show a final or result before kickoff: " + "; ".join(early[:4]))
+
+
 def _hst(ts) -> str:
     t = pd.Timestamp(ts)
     if t.tzinfo is None:
@@ -60,6 +82,7 @@ def collect(sport: str, cards: list[dict], names: dict, kickoff_utc: dict, now: 
     LIVE.add(sport)
     try:
         check_board(sport, [c for c in cards if not c.get("void")])
+        check_dates(sport, cards, kickoff_utc, now)
     except Exception as ex:                        # a check never breaks the board
         print(f"[health] {sport}: check failed ({type(ex).__name__})")
     for c in cards:
