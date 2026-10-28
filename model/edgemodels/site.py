@@ -475,7 +475,8 @@ def _live_attrs(c: dict, sport: str) -> str:
         side, line = (c.get("pick"), c.get("pick_line")) if ok else ("", "")
     fin = "1" if c.get("final_home") is not None else ""
     return (f' data-sport="{sport}" data-gid="{e(str(c["game_id"]))}" data-away="{e(str(c["away"]))}" '
-            f'data-home="{e(str(c["home"]))}" data-pick="{e(str(side or ""))}" data-line="{e(str(line))}" data-final="{fin}"')
+            f'data-home="{e(str(c["home"]))}" data-pick="{e(str(side or ""))}" data-line="{e(str(line))}" data-final="{fin}" '
+            f'data-date="{e(str(c.get("date") or ""))}"')
 
 
 # Live scores in the reader's browser, straight from ESPN's public scoreboard (it allows this: CORS *).
@@ -483,6 +484,8 @@ def _live_attrs(c: dict, sport: str) -> str:
 LIVE_JS = """<script>(function(){
 var P={nfl:"football/nfl",ncaaf:"football/college-football",nba:"basketball/nba",cbb:"basketball/mens-college-basketball",mlb:"baseball/mlb"};
 var NFL={LAR:"LA",WSH:"WAS"};
+var DAYS=["Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"],MON=["January","February","March","April","May","June","July","August","September","October","November","December"];
+function hst(iso){var d=new Date(new Date(iso).getTime()-10*3600e3);return DAYS[d.getUTCDay()]+", "+MON[d.getUTCMonth()]+" "+d.getUTCDate();}
 function day(k){var d=new Date(Date.now()-10*3600e3+k*864e5);return d.toISOString().slice(0,10).replace(/-/g,"");}
 function run(){var cards=[].slice.call(document.querySelectorAll("article.game[data-sport]")).filter(function(a){return !a.dataset.final;});
  if(!cards.length)return;var sports={};cards.forEach(function(a){sports[a.dataset.sport]=1;});var live=false,pending=0;
@@ -493,6 +496,7 @@ function run(){var cards=[].slice.call(document.querySelectorAll("article.game[d
     var ab=function(x){var a=x.team.abbreviation;return sp=="nfl"?(NFL[a]||a):a;};var st=(c.status||ev.status).type;
     cards.forEach(function(a){if(a.dataset.sport!=sp)return;
      var hit=(sp=="nfl"||sp=="mlb")?(a.dataset.away==ab(t.away)&&a.dataset.home==ab(t.home)):(a.dataset.gid==String(ev.id));
+     if(hit&&a.dataset.date!==hst(ev.date))hit=false;   /* same teams on another day (a series) is a different game */
      if(!hit||st.state=="pre")return;var as=+t.away.score,hs=+t.home.score,box=a.querySelector(".live");
      var txt=(st.completed?"<b>Final</b> ":"<b>Live</b> ")+as+"\u2013"+hs+" <span class=eyebrow>"+(st.completed?"":st.shortDetail)+"</span>";
      var pk=a.dataset.pick;

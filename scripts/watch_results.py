@@ -46,7 +46,7 @@ def waiting_picks(sport: str) -> list[dict]:
 
 def finals(sport: str, now: datetime) -> tuple[set, set]:
     """(completed ESPN event ids, completed (away, home) pairs) for yesterday and today, Hawaii dates."""
-    ids, pairs = set(), set()
+    ids, pairs = set(), set()      # pairs carry the game's Hawaii date: in a series the same teams meet daily
     for k in (1, 0):
         day = (now - timedelta(hours=10) - timedelta(days=k)).strftime("%Y%m%d")
         try:
@@ -64,7 +64,9 @@ def finals(sport: str, now: datetime) -> tuple[set, set]:
             ids.add(str(ev["id"]))
             t = {x["homeAway"]: x["team"]["abbreviation"] for x in c["competitors"]}
             m = ABBR if sport == "nfl" else {}
-            pairs.add((m.get(t.get("away"), t.get("away")), m.get(t.get("home"), t.get("home"))))
+            ko = datetime.fromisoformat(ev["date"].replace("Z", "+00:00")) - timedelta(hours=10)
+            label = f"{ko:%A}, {ko:%B} {ko.day}"
+            pairs.add((m.get(t.get("away"), t.get("away")), m.get(t.get("home"), t.get("home")), label))
     return ids, pairs
 
 
@@ -77,7 +79,7 @@ def main() -> bool:
             continue
         ids, pairs = finals(sport, now)
         for r in wait:
-            if str(r["game_id"]) in ids or (r.get("away"), r.get("home")) in pairs:
+            if str(r["game_id"]) in ids or (r.get("away"), r.get("home"), r.get("date")) in pairs:
                 hits.append(f'{sport} {r.get("away")} @ {r.get("home")}')
     for h in hits:
         print(f"final, not graded yet: {h}")
