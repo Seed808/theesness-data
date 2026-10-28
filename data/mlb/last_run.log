@@ -1,11 +1,11 @@
-  0%|          | 0/3 [00:00<?, ?it/s] 33%|███▎      | 1/3 [00:00<00:00,  9.64it/s]/opt/hostedtoolcache/Python/3.12.15/x64/lib/python3.12/site-packages/pybaseball/datahelpers/postprocessing.py:59: FutureWarning: errors='ignore' is deprecated and will raise in a future version. Use to_datetime without passing `errors` and catch exceptions explicitly instead
+  0%|          | 0/3 [00:00<?, ?it/s] 33%|███▎      | 1/3 [00:00<00:00,  8.38it/s]/opt/hostedtoolcache/Python/3.12.15/x64/lib/python3.12/site-packages/pybaseball/datahelpers/postprocessing.py:59: FutureWarning: errors='ignore' is deprecated and will raise in a future version. Use to_datetime without passing `errors` and catch exceptions explicitly instead
   data_copy[column] = data_copy[column].apply(pd.to_datetime, errors='ignore', format=date_format)
 /opt/hostedtoolcache/Python/3.12.15/x64/lib/python3.12/site-packages/pybaseball/datahelpers/postprocessing.py:59: FutureWarning: errors='ignore' is deprecated and will raise in a future version. Use to_datetime without passing `errors` and catch exceptions explicitly instead
   data_copy[column] = data_copy[column].apply(pd.to_datetime, errors='ignore', format=date_format)
-100%|██████████| 3/3 [00:00<00:00, 18.53it/s]
+100%|██████████| 3/3 [00:00<00:00, 16.03it/s]
 /opt/hostedtoolcache/Python/3.12.15/x64/lib/python3.12/site-packages/pybaseball/statcast.py:85: FutureWarning: The behavior of DataFrame concatenation with empty or all-NA entries is deprecated. In a future version, this will no longer exclude empty or all-NA columns when determining the result dtypes. To retain the old behavior, exclude the relevant entries before the concat operation.
   final_data = pd.concat(dataframe_list, axis=0).convert_dtypes(convert_string=False)
-statcast 2026-10-24..2026-10-26: 635 pitches from Savant, games [849802, 849804], final per MLB API [849802, 849804, 849805]
-statcast 2026-10-24..2026-10-26: 635 pitches
+statcast 2026-10-25..2026-10-27: 661 pitches from Savant, games [849803, 849804], final per MLB API [849802, 849803, 849804]
+statcast 2026-10-25..2026-10-27: 661 pitches
 players 2025: 1470
-players 2026: 1512
+players 2026: 1516
