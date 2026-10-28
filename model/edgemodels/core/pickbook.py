@@ -46,7 +46,10 @@ def sync(led: Ledger, cards: list[dict], kickoff_utc: dict, arch: Path, now: dat
     for i, c in enumerate(cards):
         gid = str(c["game_id"])
         ko = kickoff_utc.get(gid)
-        started = ko is not None and pd.Timestamp(ko) <= pd.Timestamp(now)
+        # a build takes a few minutes: judge "started" by the clock right now (plus 2 min), not the build's start time,
+        # so a game that kicks off mid-build keeps its last pre-kickoff version instead of crashing the build
+        real_now = max(pd.Timestamp(now), pd.Timestamp.now(tz="UTC") + pd.Timedelta(minutes=2))
+        started = ko is not None and pd.Timestamp(ko) <= real_now
         hist_p = arch / f"{gid}.history.json"
         hist = json.loads(hist_p.read_text()) if hist_p.exists() else []
         cur_p = arch / f"{gid}.json"
