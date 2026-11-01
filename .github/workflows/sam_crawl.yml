@@ -16,11 +16,4 @@ jobs:
       - run: python scripts/crawl_sam.py sam_full 4000 2>&1 | tail -5
       - run: tar czf sam_full.tgz sam_full && ls -la sam_full.tgz
       - uses: actions/upload-artifact@v4
-        with: { name: sam_full, path: sam_full.tgz, retention-days: 90 }
-      - name: commit
-        run: |
-          git config user.name "data-bot"; git config user.email "data-bot@users.noreply.github.com"
-          git sparse-checkout disable || true
-          git pull -q --rebase || true
-          mkdir -p data/sam/full_$(date -u +%Y%m%d) && cp -r sam_full/. data/sam/full_$(date -u +%Y%m%d)/
-          git add -A data/sam && git commit -qm "sam full crawl $(date -u +%Y-%m-%dT%H:%MZ)" && git push || echo "commit skipped"
+        with: { name: sam_full, path: sam_full.tgz, retention-days: 1 }
