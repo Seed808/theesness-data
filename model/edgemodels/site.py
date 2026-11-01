@@ -453,6 +453,8 @@ def board(sport: str, title: str, lede: str, cards: list[dict], names: dict, rec
                    f'{_result_line(c, names)}</dl>{_updated_line(c, names)}')
                 + '<div class="live" hidden></div>'
                 + (f'<a class="more" href="{game_prefix}{e(str(c["game_id"]))}.html">Full breakdown</a>' if links else "")
+                + (f' <a class="more" href="props/{e(str(c["game_id"]))}.html">Player props ({c["props_n"]})</a>'
+                   if links and c.get("props_n") else "")
                 + '</article>')
         out.append("</div></section>")
     if any(c.get("final_home") is None for c in cards):
@@ -796,7 +798,9 @@ def game_page(c: dict, names: dict) -> str:
                        for s, v in c["pitchers"].items())
         extra = ('<h2>Pitching</h2><div class="tbl"><table><tr><th>Starter faced</th><th></th><th>Proj. batters faced</th>'
                  f'<th>SP quality allowed</th><th>Bullpen quality allowed</th></tr>{rows}</table></div>')
-    return (f'<p><a class="more" href="../index.html">Back to the board</a></p><h1>{e(a)} at {e(h)}</h1>'
+    return (f'<p><a class="more" href="../index.html">Back to the board</a>'
+            + (f' · <a class="more" href="../props/{e(str(c["game_id"]))}.html">Player props ({c["props_n"]})</a>' if c.get("props_n") else "")
+            + f'</p><h1>{e(a)} at {e(h)}</h1>'
             f'<p class="eyebrow">{e(str(c.get("date", "")))} {e(str(c.get("kickoff") or ""))} {("· " + e(c["venue"])) if c.get("venue") else ""}</p>'
             + (f'<p class="note" style="border-left:3px solid var(--edge);padding-left:10px">{e(c["note"])}</p>' if c.get("note") else "")
             + (f'<p class="note" style="border-left:3px solid var(--loss);padding-left:10px"><b>HOLD.</b> {e(c["hold"])}</p>' if c.get("hold") else "")

@@ -41,7 +41,7 @@ from edgemodels.sports.football_pipeline import FootballModel, nfl_slate, slate_
 
 def _clean(o):
     if isinstance(o, dict):
-        return {str(k): _clean(v) for k, v in o.items()}
+        return {str(k): _clean(v) for k, v in o.items() if not str(k).startswith("_")}   # "_" keys: in-memory only (simulations)
     if isinstance(o, (list, tuple)):
         return [_clean(v) for v in o]
     if isinstance(o, (np.floating,)):
@@ -109,6 +109,7 @@ def nfl_props(c, P, AV):
                       f"players count at {100 * AV.q:.0f}%, the share of Questionable players who were active this season.")
                      if outs else f"The Week {wk} injury report is not out yet (Wednesday to Friday); IR, cuts and trades "
                      "are applied and players must have played in one of the last two games."))
+    pr["_all"] = list(pr["players"])             # every player, with simulations, for the DraftKings prop pages
     pr["players"] = [p for p in pr["players"] if p["anytime_td"]["p_yes"] > 0.12][:10]
     return pr
 
@@ -387,6 +388,55 @@ def fill_nfl_finals_from_espn(games: pd.DataFrame, repo: Path, now) -> pd.DataFr
         return games
 
 
+def write_props(out: Path, sport: str, cards: list, names: dict, ledger_dir: Path, now, make) -> None:
+    """DraftKings prop pages. make(c) -> props block for a game that has not started (saved each build until
+    kickoff); a started game shows its last saved block."""
+    from edgemodels.props import board_props as BP
+    from edgemodels import props_pages as PP
+    for c in cards:
+        try:
+            path = ledger_dir / "cards" / sport / f'{c["game_id"]}.props.json'
+            ko = c.get("_kick")
+            started = ko is not None and pd.Timestamp(ko) <= pd.Timestamp.now(tz="UTC")
+            gp = None
+            if not started:
+                gp = make(c)
+                if gp and gp["rows"]:
+                    BP.save(path, gp)
+            if not gp or not gp.get("rows"):
+                gp = BP.load(path)
+            if not gp or not gp.get("rows"):
+                continue
+            c["props_n"] = len(gp["rows"])
+            gid = str(c["game_id"])
+            site.write(out, f"{sport}/props/{gid}.html", site.page(f"{names.get(c['away'], c['away'])} at "
+                       f"{names.get(c['home'], c['home'])}: player props", PP.props_page(sport, c, gp, names), 2, sport))
+            for aid in gp["players"]:
+                site.write(out, f"{sport}/player/{gid}_{aid}.html", site.page(gp["players"][aid]["name"],
+                           PP.player_page(sport, c, gp, aid, names), 2, sport))
+        except Exception as ex:                          # a props problem never breaks the board
+            print(f"[props] {sport} {c.get('game_id')}: {type(ex).__name__}: {ex}")
+            alerts.health(sport, "props_error", f"Player props failed for at least one game ({type(ex).__name__}: {str(ex)[:120]}).")
+
+
+def nfl_logs(raw: pd.DataFrame) -> dict:
+    """gsis id -> this season's games (week, opponent, targets, catches, yards, carries, rush yards, TDs), newest first."""
+    d = raw[(raw["two_point_attempt"].fillna(0) == 0) & (raw["season_type"] == "REG")] if "season_type" in raw else raw
+    out = {}
+    for (wk, off, de), g in d.groupby(["week", "posteam", "defteam"]):
+        ids = set(g["receiver_player_id"].dropna()) | set(g["rusher_player_id"].dropna())
+        for pid in ids:
+            rc = g[g["receiver_player_id"] == pid]
+            ru = g[(g["rusher_player_id"] == pid) & (g["rush_attempt"] == 1)]
+            out.setdefault(pid, []).append({"week": int(wk), "opp": de, "tgt": int(len(rc)), "rec": int(rc["complete_pass"].sum()),
+                                            "rec_yds": float(rc.loc[rc["complete_pass"] == 1, "yards_gained"].sum()),
+                                            "car": int(len(ru)), "rush_yds": float(ru["yards_gained"].sum()),
+                                            "td": int((g["td_player_id"] == pid).sum())})
+    for v in out.values():
+        v.sort(key=lambda x: -x["week"])
+    return out
+
+
 def cfb_season_results(repo: Path, year: int = 2026) -> dict:
     """team -> its completed games this season, oldest first, from CFBD (data/cfbd/games_{year}.json)."""
     p = repo / "data" / "cfbd" / f"games_{year}.json"
@@ -568,6 +618,28 @@ def run(data: Path, nfldata: Path, out: Path, ledger_dir: Path):
     sync_stats = pickbook.sync(led, cards, kick, ledger_dir / "cards" / "nfl", now, _clean, "nfl", held=held,
                                no_edge=no_edge_map(cards))
     alerts.collect("nfl", cards, names, kick, now)
+    try:
+        from edgemodels.props import board_props as BP
+        ros = pd.read_parquet(data / "nfl/roster_weekly_2026.parquet", columns=["espn_id", "gsis_id"]).dropna()
+        espn2gsis = {str(int(float(a))): g for a, g in zip(ros["espn_id"], ros["gsis_id"])}
+        nath = json.loads((repo / "data/espn/nfl/athletes.json").read_text()) if (repo / "data/espn/nfl/athletes.json").exists() else {}
+        nlogs = nfl_logs(pbp26)
+        eids = BP.espn_ids_nfl(repo, pd.to_datetime(g6["gameday"]).unique())
+        for c in cards:
+            c["_kick"] = kick.get(c["game_id"])
+
+        def _nfl_make(c):
+            eid = eids.get((c["away"], c["home"]))
+            if not eid or not (c.get("props") or {}).get("_all"):
+                return None
+            mkt, seen = BP.load_market(repo, "nfl", eid)
+            if mkt.empty:
+                return None
+            pl = BP.nfl_players(c, c["props"]["_all"], mkt, espn2gsis, nath, nlogs)
+            return BP.build_game("nfl", mkt, pl, seen)
+        write_props(out, "nfl", cards, names, ledger_dir, now, _nfl_make)
+    except Exception as ex:
+        print(f"[props] nfl: {type(ex).__name__}: {ex}")
     report["nfl_pickbook"] = sync_stats
     n_new = sync_stats["locked"] + sync_stats["updated"]
     fin = games[games["season"] == 2026][["game_id", "away_score", "home_score"]]
@@ -923,6 +995,28 @@ def run(data: Path, nfldata: Path, out: Path, ledger_dir: Path):
         narch = ledger_dir / "cards" / "nba"
         nsync = pickbook.sync(nled, lcards, nkick, narch, now, _clean, "nba", no_edge=no_edge_map(lcards))
         alerts.collect("nba", lcards, lnames, nkick, now)
+        try:
+            from edgemodels.props import board_props as BP
+            from edgemodels.props.nba_player import NBAPlayers
+            bx = {y: pd.read_parquet(data / f"nba/player_box_{y}.parquet") for y in (2026, 2027)
+                  if (data / f"nba/player_box_{y}.parquet").exists()}
+            if 2026 in bx:
+                NP = NBAPlayers(bx[2026][bx[2026]["season_type"] == 2],
+                                bx[2027][bx[2027]["season_type"] == 2] if 2027 in bx else bx[2026].iloc[0:0])
+                bath = json.loads((nrepo / "data/espn/nba/athletes.json").read_text()) if (nrepo / "data/espn/nba/athletes.json").exists() else {}
+                for c in lcards:
+                    c["_kick"] = nkick.get(c["game_id"])
+
+                def _nba_make(c):
+                    mkt, seen = BP.load_market(nrepo, "nba", c["game_id"])
+                    if mkt.empty:
+                        return None
+                    pace = float(nbr.pace_matchup(c["home"], c["away"]) / nbr.pace.mu)
+                    pl = BP.nba_players(c, NP, mkt, bath, injs, pace, now)
+                    return BP.build_game("nba", mkt, pl, seen)
+                write_props(out, "nba", lcards, lnames, ledger_dir, now, _nba_make)
+        except Exception as ex:
+            print(f"[props] nba: {type(ex).__name__}: {ex}")
         nvoids = {str(r["game_id"]): r for r in nled.voids().to_dict("records") if r.get("kind", "void") == "void"}
         for c in lcards:
             v = nvoids.get(str(c["game_id"]))

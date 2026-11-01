@@ -169,11 +169,13 @@ class FootballProps:
                     yds = compound_sum(catches, self._pool(own, self.pool_rec), fac_rec)
                     row["receptions"] = prop_summary(catches, bins=np.arange(-0.5, 15.5), label="Receptions")
                     row["receiving_yards"] = prop_summary(yds, label="Receiving yards")
+                    row.setdefault("_sims", {}).update(receptions=catches, receiving_yards=yds)
                 if car_mean >= 4:
                     carries = negbin(car_mean, 8.0, N_SIMS)
                     own = u.p.loc[(u.p["rusher_id"] == pid) & (u.p["dropback"] == 0), "yards"].dropna().to_numpy()
                     yds = compound_sum(carries, self._pool(own, self.pool_rush), fac_rush)
                     row["rushing_yards"] = prop_summary(yds, label="Rushing yards")
+                    row.setdefault("_sims", {}).update(rushing_yards=yds)
                 pa = r["p_active"]                 # questionable: probability-weighted
                 row["anytime_td"] = binary_summary(float(pa * (1 - np.exp(-lam[team] * r["td_share"]))), label="Anytime TD")
                 row["_first_td_share"] = pa * r["td_share"]
