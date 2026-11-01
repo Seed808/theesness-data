@@ -41,6 +41,7 @@ jobs:
           done
           # this NBA season's play-by-play (sportsdataverse, updated through the season); skipped until it exists
           curl -sSfL -o $W/data_raw/nba/play_by_play_2027.parquet https://github.com/sportsdataverse/sportsdataverse-data/releases/download/espn_nba_pbp/play_by_play_2027.parquet || rm -f $W/data_raw/nba/play_by_play_2027.parquet
+          for y in 2026 2027; do curl -sSfL -o $W/data_raw/nba/player_box_$y.parquet https://github.com/sportsdataverse/sportsdataverse-data/releases/download/espn_nba_player_boxscores/player_box_$y.parquet || rm -f $W/data_raw/nba/player_box_$y.parquet; done
           curl -sSfL -o $W/nflverse/nfldata/data/games.csv https://raw.githubusercontent.com/nflverse/nfldata/master/data/games.csv
           curl -sSfL -o $W/nflverse/nfldata/data/teams.csv https://raw.githubusercontent.com/nflverse/nfldata/master/data/teams.csv
       - name: build
