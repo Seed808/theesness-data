@@ -387,6 +387,25 @@ def fill_nfl_finals_from_espn(games: pd.DataFrame, repo: Path, now) -> pd.DataFr
         return games
 
 
+def cfb_season_results(repo: Path, year: int = 2026) -> dict:
+    """team -> its completed games this season, oldest first, from CFBD (data/cfbd/games_{year}.json)."""
+    p = repo / "data" / "cfbd" / f"games_{year}.json"
+    out: dict = {}
+    if not p.exists():
+        return out
+    try:
+        games = [g for g in json.loads(p.read_text()) if g.get("completed") and g.get("homePoints") is not None
+                 and g.get("awayPoints") is not None]
+    except ValueError:
+        return out
+    for g in sorted(games, key=lambda g: g.get("startDate") or ""):
+        for side, opp in (("home", "away"), ("away", "home")):
+            out.setdefault(g[f"{side}Team"], []).append(
+                {"opp": g[f"{opp}Team"], "home": side == "home" and not g.get("neutralSite"), "neutral": bool(g.get("neutralSite")),
+                 "pf": float(g[f"{side}Points"]), "pa": float(g[f"{opp}Points"]), "start": g.get("startDate") or ""})
+    return out
+
+
 def espn_lines_nfl(repo: Path, dates) -> dict:
     """{(away, home): (spread_home, total, seen_at_HST)} from the newest ESPN snapshot that has a line."""
     out = {}
@@ -760,6 +779,10 @@ def run(data: Path, nfldata: Path, out: Path, ledger_dir: Path):
         f"Weeks 1–{PBP_LAST} (shrunk toward 2025) plus CollegeFootballData Elo. Picks update with the newest line and data until "
         "kickoff; the last version before kickoff is graded. NO EDGE = model within 0.5 points of the line (no side, not graded). "
         "Highlighted cards have a gap of 3+ points, darker 6+.", ccards, cnames, None, stats, nav=nav, tier_record=csumm), 1, "ncaaf"))
+    season = cfb_season_results(Path(__file__).resolve().parents[1])
+    for c in ccards:
+        c["season"] = {side: [g for g in season.get(c[side], []) if g["start"] < str(c.get("kickoff_utc") or "9999")]
+                       for side in ("away", "home")}
     for c in ccards:
         site.write(out, f"ncaaf/game/{c['game_id']}.html", site.page(f"{c['away']} at {c['home']}", site.game_page(c, cnames), 2, "ncaaf"))
     site.write(out, "ncaaf/record.html", site.page("NCAAF Model Record", site.record_page("ncaaf", "NCAAF record",

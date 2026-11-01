@@ -804,7 +804,30 @@ def game_page(c: dict, names: dict) -> str:
             + f'<h2>Line check</h2>{num}{tiles}'
             f'<h2>Projected final</h2><div class="scorebig"><div><div class="eyebrow">{e(a)}</div><div class="n">{_f(c["proj_away"])}</div></div>'
             f'<div class="eyebrow">at</div><div class="r"><div class="eyebrow">{e(h)}</div><div class="n">{_f(c["proj_home"])}</div></div></div>{total_txt}'
-            f'{_totals_section(c, names)}<h2>What builds the spread</h2>{_bars(c, names)}{qb}{extra}{_inputs(c, names)}{_ratings(c, names)}{_props(c)}')
+            f'{_totals_section(c, names)}<h2>What builds the spread</h2>{_bars(c, names)}{qb}{extra}{_inputs(c, names)}{_ratings(c, names)}{_props(c)}'
+            f'{_season_so_far(c, names)}')
+
+
+def _season_so_far(c: dict, names: dict) -> str:
+    """Each team's results this season (c["season"] = {"away": [...], "home": [...]}, games already played)."""
+    ss = c.get("season")
+    if not ss:
+        return ""
+    cols = []
+    for side in ("away", "home"):
+        gs = ss.get(side) or []
+        w = sum(g["pf"] > g["pa"] for g in gs)
+        l = sum(g["pf"] < g["pa"] for g in gs)
+        t = len(gs) - w - l
+        rows = "".join(
+            f'<tr><td>{"vs" if g["home"] else "at"} {e(g["opp"])}{" (n)" if g.get("neutral") else ""}</td>'
+            f'<td class="mono res-{"WIN" if g["pf"] > g["pa"] else "LOSS" if g["pf"] < g["pa"] else "PUSH"}">'
+            f'{"W" if g["pf"] > g["pa"] else "L" if g["pf"] < g["pa"] else "T"} {g["pf"]:.0f}–{g["pa"]:.0f}</td></tr>' for g in gs)
+        team = names.get(c[side], c[side])
+        cols.append(f'<div><h3>{e(team)} <span class="eyebrow">{w}-{l}{"-" + str(t) if t else ""}</span></h3>'
+                    f'<div class="tbl"><table>{rows or "<tr><td>No games yet</td></tr>"}</table></div></div>')
+    return ('<h2>Season so far</h2><div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:14px">'
+            + "".join(cols) + '</div><p class="note">Final scores of games already played this season (CollegeFootballData).</p>')
 
 
 def record_page(sport: str, title: str, lede: str, sections: list[dict], names: dict) -> str:
