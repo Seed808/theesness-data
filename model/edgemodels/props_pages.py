@@ -19,6 +19,14 @@ tr.favrow td{background:rgba(201,162,39,.12)}td.lean{font-weight:700}
 """
 
 
+def _hst(stamp):
+    try:
+        import pandas as pd
+        return (pd.Timestamp(stamp.replace("Z", ""), tz="UTC") - pd.Timedelta(hours=10)).strftime("%a %-I:%M %p HST")
+    except Exception:
+        return str(stamp)
+
+
 def _odds(x):
     if x is None:
         return "—"
@@ -95,13 +103,16 @@ def props_page(sport: str, c: dict, gp: dict, names: dict, final: dict | None = 
            f'<a class="more" href="../index.html">Board</a></p>',
            f'<h1>{e(a)} at {e(h)}: player props</h1>',
            f'<p class="eyebrow">{e(str(c.get("date", "")))} {e(str(c.get("kickoff") or ""))} · {len(pl)} players · {len(rows)} props · '
-           f'lines and prices: {e(gp["source"])}{", seen " + e(gp["seen"]) if gp.get("seen") else ""}</p>']
+           f'lines and prices: {e(gp["source"])}{", updated " + e(_hst(gp["seen"])) if gp.get("seen") else ""}</p>']
     fin = bool(gp.get("final"))
     if fin:
         h_, n_ = gp.get("fav_tally", (0, 0))
         out.append(f'<p class="note" style="border-left:3px solid var(--edge);padding-left:10px"><b>Final.</b> Lines and prices are '
                    f'frozen at the last update before kickoff. Favorites: <b>{h_} of {n_} hit</b>. Results are shown for interest only '
                    'and are not part of any record.</p>')
+    if any(r.get("assumed") for r in rows):
+        out.append('<p class="note"><b>Prices:</b> ESPN\'s feed carries DraftKings\' lines for these props but not the prices, so '
+                   'over and under are both treated as -110 (shown as "-110*"). The real price can differ.</p>')
     favs = [r for r in rows if (r["athlete_id"], r["market"], r["line"]) in favkeys]
     favs.sort(key=lambda r: -r["ev"])
     if favs:
@@ -115,9 +126,11 @@ def props_page(sport: str, c: dict, gp: dict, names: dict, final: dict | None = 
         out.append('<div class="favs"><h2>Our favorite props</h2><p class="note">No prop clears +3% value at DraftKings\' price '
                    'right now.</p></div>')
     out.append(f'<p class="note">How to read this: "ours" is our simulation of the player\'s night. The chance we act on blends '
-               f'ours ({100 * MODEL_WEIGHT:.0f}%) with DraftKings\' own no-vig chance ({100 * (1 - MODEL_WEIGHT):.0f}%), because these '
-               'player models are new and have not been tested against closing prices yet. Value is the expected profit per unit '
-               'at DraftKings\' price using that blended chance. Props are tracked separately and are never part of the record.</p>')
+               f'ours with DraftKings\' own no-vig chance. Ours counts up to {100 * MODEL_WEIGHT:.0f}%, less early in the season '
+               '(full weight after 15 NBA or 6 NFL games), because these player models are new and untested against closing prices. '
+               'Value is the expected profit per unit at DraftKings\' price using that blended chance. When ours and the book\'s '
+               'differ by more than 30 points, the book usually knows something (a role change, a teammate out): those are marked '
+               '"check the news" and are never favorites. Props are never part of the record.</p>')
     for mk in [m for m in ORDER if any(r["market"] == m for r in rows)]:
         rs = [r for r in rows if r["market"] == mk]
         if mk in ("anytime_td", "first_td"):
@@ -134,10 +147,10 @@ def props_page(sport: str, c: dict, gp: dict, names: dict, final: dict | None = 
         body = "".join(
             f'<tr class="{"favrow" if (r["athlete_id"], r["market"], r["line"]) in favkeys else ""}"><td>{link(r["athlete_id"])}</td>'
             f'<td>{e(str(pl[r["athlete_id"]].get("team") or ""))}</td><td class=mono>{r["line"]:g}</td>'
-            f'<td class=mono>{_odds(r.get("over"))} / {_odds(r.get("under"))}</td><td class=mono>{r["mean"]:.1f}</td>'
+            f'<td class=mono>{_odds(r.get("over"))} / {_odds(r.get("under"))}{"*" if r.get("assumed") else ""}</td><td class=mono>{r["mean"]:.1f}</td>'
             f'<td class=mono>{_f1(r["p10"])}–{_f1(r["p90"])}</td><td class=mono>{_pct(r.get("model_over"))}</td>'
             f'<td class=mono>{_pct(r.get("market_over"))}</td>'
-            f'<td class="lean">{e((r.get("side") or "").upper())}</td>'
+            f'<td class="lean">{e((r.get("side") or "").upper())}{"<br><small>check the news</small>" if r.get("big_gap") else ""}</td>'
             f'<td class=mono>{"—" if r.get("ev") is None else format(r["ev"], "+.3f")}</td>'
             + (f'<td class=mono>{_res(r)}</td>' if fin else "") + '</tr>' for r in rs)
         out.append(f'<h2>{e(LABEL[mk])}</h2><div class="tbl"><table><tr><th>Player</th><th>Team</th><th>Line</th>'

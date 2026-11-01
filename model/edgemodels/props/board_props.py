@@ -35,9 +35,10 @@ ORDER = ["points", "rebounds", "assists", "threes", "pra", "pr", "pa", "ar",
 
 def _num(x):
     try:
-        return float(x)
+        v = float(x)
     except (TypeError, ValueError):
         return None
+    return None if v != v else v                          # NaN -> None
 
 
 def load_market(repo: Path, sport: str, event_id: str) -> tuple[pd.DataFrame, str | None]:
@@ -58,15 +59,25 @@ def load_market(repo: Path, sport: str, event_id: str) -> tuple[pd.DataFrame, st
         if key in ("anytime_td", "first_td"):
             rows.append({"athlete_id": aid, "market": key, "line": None, "yes": _num(g["price"].iloc[0])})
         elif len(g) >= 2:
-            rows.append({"athlete_id": aid, "market": key, "line": float(line), "over": _num(g["price"].iloc[0]),
-                         "under": _num(g["price"].iloc[1]), "open_line": _num(g["open_line"].iloc[0])})
+            o, u = _num(g["price"].iloc[0]), _num(g["price"].iloc[1])
+            assumed = o is None and u is None             # ESPN's NFL feed carries DraftKings' lines without prices
+            rows.append({"athlete_id": aid, "market": key, "line": float(line), "over": -110.0 if assumed else o,
+                         "under": -110.0 if assumed else u, "assumed": assumed, "open_line": _num(g["open_line"].iloc[0])})
     out = pd.DataFrame(rows)
     if len(out):
         out = out.drop_duplicates(["athlete_id", "market", "line"])
     return out, seen
 
 
-def evaluate_two_way(sims: np.ndarray, line: float, over: float | None, under: float | None) -> dict:
+FULL_WEIGHT_GAMES = {"nba": 15, "nfl": 6}   # games this season before our number gets its full MODEL_WEIGHT
+BIG_GAP = 0.30                              # our chance vs the book's: beyond this the book likely knows something
+
+
+def weight_for(sport: str, games: int) -> float:
+    return MODEL_WEIGHT * min(1.0, max(games, 0) / FULL_WEIGHT_GAMES.get(sport, 10))
+
+
+def evaluate_two_way(sims: np.ndarray, line: float, over: float | None, under: float | None, w: float = MODEL_WEIGHT) -> dict:
     sims = np.asarray(sims, float)
     p_over = float((sims > line).mean())
     p_push = float((sims == line).mean())
@@ -78,21 +89,21 @@ def evaluate_two_way(sims: np.ndarray, line: float, over: float | None, under: f
     qo, qu = american_to_prob(over), american_to_prob(under)
     mo = qo / (qo + qu)                                   # DraftKings' no-vig chance of the over
     mo_model = p_over / max(p_over + p_under, 1e-9)       # ours, pushes set aside
-    bo = MODEL_WEIGHT * mo_model + (1 - MODEL_WEIGHT) * mo
+    bo = w * mo_model + (1 - w) * mo
     ev_o, ev_u = ev_per_unit(bo, over), ev_per_unit(1 - bo, under)
     side = "over" if ev_o >= ev_u else "under"
-    out.update(market_over=mo, model_over=mo_model, blend_over=bo, side=side, ev=max(ev_o, ev_u),
-               price=over if side == "over" else under)
+    out.update(market_over=mo, model_over=mo_model, blend_over=bo, side=side, ev=max(ev_o, ev_u), weight=w,
+               price=over if side == "over" else under, big_gap=abs(mo_model - mo) > BIG_GAP)
     return out
 
 
-def evaluate_yes(p_model: float, yes: float | None) -> dict:
+def evaluate_yes(p_model: float, yes: float | None, w: float = MODEL_WEIGHT) -> dict:
     out = {"p_yes": p_model}
     if yes is None:
         return out
     q = american_to_prob(yes)                              # includes DraftKings' margin (no other side to remove it)
-    b = MODEL_WEIGHT * p_model + (1 - MODEL_WEIGHT) * q
-    out.update(market_yes=q, blend_yes=b, ev=ev_per_unit(b, yes), price=yes, side="yes")
+    b = w * p_model + (1 - w) * q
+    out.update(market_yes=q, blend_yes=b, ev=ev_per_unit(b, yes), price=yes, side="yes", weight=w)
     return out
 
 
@@ -110,6 +121,7 @@ def histogram(sims: np.ndarray, bins: int = 24) -> dict:
 
 
 def build_game(sport: str, market: pd.DataFrame, players: dict, seen: str | None) -> dict:
+    wt = {aid: weight_for(sport, int(p.get("games") or 0)) for aid, p in players.items()}
     """players: {athlete_id: {"name", "team", "pos", "sims": {market: array}, "td": {"anytime_td": p, "first_td": p},
     "status", "proj": {...}, "log": [...]}}. Returns the props block for one game (JSON-safe)."""
     rows = []
@@ -122,18 +134,18 @@ def build_game(sport: str, market: pd.DataFrame, players: dict, seen: str | None
             pm = (p.get("td") or {}).get(k)
             if pm is None:
                 continue
-            ev = evaluate_yes(pm, r.get("yes"))
+            ev = evaluate_yes(pm, r.get("yes"), wt[r["athlete_id"]])
             rows.append({"athlete_id": r["athlete_id"], "market": k, "line": None, **ev})
             continue
         s = (p.get("sims") or {}).get(k)
         if s is None:
             continue
-        ev = evaluate_two_way(s, r["line"], r.get("over"), r.get("under"))
+        ev = evaluate_two_way(s, r["line"], r.get("over"), r.get("under"), wt[r["athlete_id"]])
         rows.append({"athlete_id": r["athlete_id"], "market": k, "line": r["line"], "over": r.get("over"),
-                     "under": r.get("under"), "open_line": r.get("open_line"), **ev})
+                     "under": r.get("under"), "assumed": bool(r.get("assumed")), "open_line": r.get("open_line"), **ev})
     # favourites: best expected value at the posted price, two-way markets, one per player, model has real data
     cand = [x for x in rows if x.get("ev") is not None and x["market"] not in ("anytime_td", "first_td")
-            and x["ev"] >= FAV_MIN_EV and players[x["athlete_id"]].get("reliable", True)]
+            and x["ev"] >= FAV_MIN_EV and not x.get("big_gap") and players[x["athlete_id"]].get("reliable", True)]
     cand.sort(key=lambda x: -x["ev"])
     fav, used = [], set()
     for x in cand:
@@ -193,7 +205,7 @@ def nba_players(card: dict, P, market: pd.DataFrame, athletes: dict, injuries: l
                                                  "reb": float(df["rebounds"].mean()), "ast": float(df["assists"].mean()),
                                                  "threes": float(df["three_point_field_goals_made"].mean())}
         out[aid] = {"name": a.get("name") or (h["athlete_display_name"].iloc[-1] if len(h) else aid), "pos": a.get("pos"),
-                    "team": team, "sims": sims, "status": why if p_out > 0 else "", "p_out": p_out,
+                    "team": team, "sims": sims, "status": why if p_out > 0 else "", "p_out": p_out, "games": pr["games"],
                     "reliable": pr["games"] >= 3 or pr["last_season_min"] is not None,
                     "proj": {"min": pr["min"], "games": pr["games"], "pace": pace,
                              "per36": {k: 36 * v for k, v in pr["rates"].items()}},
@@ -231,6 +243,7 @@ def nfl_players(card: dict, all_rows: list[dict], market: pd.DataFrame, espn2gsi
                     "sims": dict(r.get("_sims") or {}),
                     "td": {"anytime_td": r["anytime_td"]["p_yes"], "first_td": (r.get("first_td") or {}).get("p_yes")},
                     "status": "questionable" if r.get("p_active", 1) < 1 else "", "p_out": 1 - float(r.get("p_active", 1)),
+                    "games": len(logs.get(g, [])),
                     "reliable": True,
                     "proj": {"targets": r.get("proj_targets"), "carries": r.get("proj_carries"), "td_share": r.get("td_share")},
                     "log": logs.get(g, [])}
