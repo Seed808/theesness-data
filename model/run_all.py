@@ -388,7 +388,7 @@ def fill_nfl_finals_from_espn(games: pd.DataFrame, repo: Path, now) -> pd.DataFr
         return games
 
 
-def write_props(out: Path, sport: str, cards: list, names: dict, ledger_dir: Path, now, make) -> None:
+def write_props(out: Path, sport: str, cards: list, names: dict, ledger_dir: Path, now, make, actual=None) -> None:
     """DraftKings prop pages. make(c) -> props block for a game that has not started (saved each build until
     kickoff); a started game shows its last saved block."""
     from edgemodels.props import board_props as BP
@@ -408,6 +408,10 @@ def write_props(out: Path, sport: str, cards: list, names: dict, ledger_dir: Pat
             if not gp or not gp.get("rows"):
                 continue
             c["props_n"] = len(gp["rows"])
+            if started and actual is not None:
+                act = actual(c, gp)
+                if act:
+                    BP.grade(gp, act)
             gid = str(c["game_id"])
             site.write(out, f"{sport}/props/{gid}.html", site.page(f"{names.get(c['away'], c['away'])} at "
                        f"{names.get(c['home'], c['home'])}: player props", PP.props_page(sport, c, gp, names), 2, sport))
@@ -637,7 +641,12 @@ def run(data: Path, nfldata: Path, out: Path, ledger_dir: Path):
                 return None
             pl = BP.nfl_players(c, c["props"]["_all"], mkt, espn2gsis, nath, nlogs)
             return BP.build_game("nfl", mkt, pl, seen)
-        write_props(out, "nfl", cards, names, ledger_dir, now, _nfl_make)
+        _nact = nfl_actuals(pbp26)
+        _g26 = games[(games["season"] == 2026) & games["home_score"].notna() & games["away_score"].notna()]
+        _nfin_ids = set(_g26["game_id"].astype(str))
+        write_props(out, "nfl", cards, names, ledger_dir, now, _nfl_make,
+                    actual=lambda c, gp: BP.nfl_actual(gp, _nact[str(c["game_id"])])
+                    if str(c["game_id"]) in _nact and str(c["game_id"]) in _nfin_ids else None)
     except Exception as ex:
         print(f"[props] nfl: {type(ex).__name__}: {ex}")
     report["nfl_pickbook"] = sync_stats
@@ -1014,7 +1023,8 @@ def run(data: Path, nfldata: Path, out: Path, ledger_dir: Path):
                     pace = float(nbr.pace_matchup(c["home"], c["away"]) / nbr.pace.mu)
                     pl = BP.nba_players(c, NP, mkt, bath, injs, pace, now)
                     return BP.build_game("nba", mkt, pl, seen)
-                write_props(out, "nba", lcards, lnames, ledger_dir, now, _nba_make)
+                write_props(out, "nba", lcards, lnames, ledger_dir, now, _nba_make,
+                            actual=lambda c, gp: BP.nba_actual(bx[2027], c["game_id"]) if 2027 in bx else None)
         except Exception as ex:
             print(f"[props] nba: {type(ex).__name__}: {ex}")
         nvoids = {str(r["game_id"]): r for r in nled.voids().to_dict("records") if r.get("kind", "void") == "void"}

@@ -227,11 +227,54 @@ def nfl_players(card: dict, all_rows: list[dict], market: pd.DataFrame, espn2gsi
         if r is None:
             continue
         a = athletes.get(aid) or {}
-        out[aid] = {"name": a.get("name") or r["player"], "pos": a.get("pos"), "team": r["team"],
+        out[aid] = {"name": a.get("name") or r["player"], "pos": a.get("pos"), "team": r["team"], "gsis": g,
                     "sims": dict(r.get("_sims") or {}),
                     "td": {"anytime_td": r["anytime_td"]["p_yes"], "first_td": (r.get("first_td") or {}).get("p_yes")},
                     "status": "questionable" if r.get("p_active", 1) < 1 else "", "p_out": 1 - float(r.get("p_active", 1)),
                     "reliable": True,
                     "proj": {"targets": r.get("proj_targets"), "carries": r.get("proj_carries"), "td_share": r.get("td_share")},
                     "log": logs.get(g, [])}
+    return out
+
+
+def grade(gp: dict, actual: dict) -> dict:
+    """actual: {athlete_id: {market: value}} for a finished game. Adds the actual number and HIT / MISS / PUSH
+    (judged on the side we leaned) to each prop, and a favourites tally. Shown only; never part of any record."""
+    n_fav = hits = 0
+    favkeys = {(f["athlete_id"], f["market"], f["line"]) for f in gp["favorites"]}
+    for r in gp["rows"]:
+        v = (actual.get(r["athlete_id"]) or {}).get(r["market"])
+        if v is None:
+            continue
+        r["actual"] = float(v)
+        if r["market"] in ("anytime_td", "first_td"):
+            r["result"] = "HIT" if v else "MISS"
+        elif r.get("side"):
+            d = (v - r["line"]) * (1 if r["side"] == "over" else -1)
+            r["result"] = "HIT" if d > 0 else "MISS" if d < 0 else "PUSH"
+        if (r["athlete_id"], r["market"], r["line"]) in favkeys and r.get("result") in ("HIT", "MISS"):
+            n_fav += 1
+            hits += r["result"] == "HIT"
+    gp["final"] = True
+    gp["fav_tally"] = (hits, n_fav)
+    return gp
+
+
+def nba_actual(box: pd.DataFrame, game_id: str) -> dict:
+    g = box[(box["game_id"].astype(str) == str(game_id)) & (box["minutes"].fillna(0) > 0)]
+    out = {}
+    for r in g.itertuples():
+        p, rb, a, t = float(r.points), float(r.rebounds), float(r.assists), float(r.three_point_field_goals_made)
+        out[str(r.athlete_id)] = {"points": p, "rebounds": rb, "assists": a, "threes": t, "pra": p + rb + a, "pr": p + rb,
+                                  "pa": p + a, "ar": a + rb}
+    return out
+
+
+def nfl_actual(gp: dict, a: dict) -> dict:
+    """a: one game of run_all.nfl_actuals (keyed by nflverse id); players inactive or without a touch count as 0."""
+    out = {}
+    for aid, p in gp["players"].items():
+        x = a.get(p.get("gsis")) or {"receptions": 0, "receiving_yards": 0.0, "rushing_yards": 0.0, "tds": 0}
+        out[aid] = {"receptions": x["receptions"], "receiving_yards": x["receiving_yards"], "rushing_yards": x["rushing_yards"],
+                    "anytime_td": int(x["tds"] > 0), "first_td": int(a.get("__first_td__") == p.get("gsis"))}
     return out

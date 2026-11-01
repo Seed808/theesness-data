@@ -40,6 +40,16 @@ def _pick_txt(r):
     return f'{r["side"].upper()} {r["line"]:g} {_odds(r.get("price"))}'
 
 
+def _res(r):
+    if r.get("actual") is None:
+        return ""
+    v = r["actual"]
+    val = ("yes" if v else "no") if r["market"] in ("anytime_td", "first_td") else f"{v:g}"
+    res = r.get("result")
+    cls = {"HIT": "WIN", "MISS": "LOSS", "PUSH": "PUSH"}.get(res, "")
+    return f'{e(val)}' + (f' <span class="res-{cls}">{res}</span>' if res else "")
+
+
 def _why(r, p):
     if r["market"] in ("anytime_td", "first_td"):
         return (f'Our chance {_pct(r["p_yes"])} against the {_pct(r.get("market_yes"))} DraftKings\' price implies '
@@ -86,12 +96,19 @@ def props_page(sport: str, c: dict, gp: dict, names: dict, final: dict | None = 
            f'<h1>{e(a)} at {e(h)}: player props</h1>',
            f'<p class="eyebrow">{e(str(c.get("date", "")))} {e(str(c.get("kickoff") or ""))} · {len(pl)} players · {len(rows)} props · '
            f'lines and prices: {e(gp["source"])}{", seen " + e(gp["seen"]) if gp.get("seen") else ""}</p>']
+    fin = bool(gp.get("final"))
+    if fin:
+        h_, n_ = gp.get("fav_tally", (0, 0))
+        out.append(f'<p class="note" style="border-left:3px solid var(--edge);padding-left:10px"><b>Final.</b> Lines and prices are '
+                   f'frozen at the last update before kickoff. Favorites: <b>{h_} of {n_} hit</b>. Results are shown for interest only '
+                   'and are not part of any record.</p>')
     favs = [r for r in rows if (r["athlete_id"], r["market"], r["line"]) in favkeys]
     favs.sort(key=lambda r: -r["ev"])
     if favs:
         items = "".join(
             f'<div class="fav"><b class="n">{i}.</b> {link(r["athlete_id"])} <span class="eyebrow">{e(str(pl[r["athlete_id"]].get("team") or ""))}</span> '
             f'· <b>{e(_pick_txt(r))}</b> {e(LABEL[r["market"]].lower())} · value {r["ev"]:+.3f} per unit'
+            + (f' · actual {_res(r)}' if r.get("actual") is not None else "") +
             f'<div class="note">{e(_why(r, pl[r["athlete_id"]]))}</div></div>' for i, r in enumerate(favs, 1))
         out.append(f'<div class="favs"><h2>Our favorite props</h2>{items}</div>')
     else:
@@ -108,10 +125,11 @@ def props_page(sport: str, c: dict, gp: dict, names: dict, final: dict | None = 
                 f'<tr class="{"favrow" if (r["athlete_id"], r["market"], r["line"]) in favkeys else ""}"><td>{link(r["athlete_id"])}</td>'
                 f'<td>{e(str(pl[r["athlete_id"]].get("team") or ""))}</td><td class=mono>{_odds(r.get("price"))}</td>'
                 f'<td class=mono>{_pct(r["p_yes"])}</td><td class=mono>{_pct(r.get("market_yes"))}</td>'
-                f'<td class=mono>{"—" if r.get("ev") is None else format(r["ev"], "+.3f")}</td></tr>'
+                f'<td class=mono>{"—" if r.get("ev") is None else format(r["ev"], "+.3f")}</td>'
+                + (f'<td class=mono>{_res(r)}</td>' if fin else "") + '</tr>'
                 for r in sorted(rs, key=lambda r: -r["p_yes"]))
             out.append(f'<h2>{e(LABEL[mk])}</h2><div class="tbl"><table><tr><th>Player</th><th>Team</th><th>DK price</th>'
-                       f'<th>Ours</th><th>DK implies</th><th>Value</th></tr>{body}</table></div>')
+                       f'<th>Ours</th><th>DK implies</th><th>Value</th>{"<th>Actual</th>" if fin else ""}</tr>{body}</table></div>')
             continue
         body = "".join(
             f'<tr class="{"favrow" if (r["athlete_id"], r["market"], r["line"]) in favkeys else ""}"><td>{link(r["athlete_id"])}</td>'
@@ -120,10 +138,11 @@ def props_page(sport: str, c: dict, gp: dict, names: dict, final: dict | None = 
             f'<td class=mono>{_f1(r["p10"])}–{_f1(r["p90"])}</td><td class=mono>{_pct(r.get("model_over"))}</td>'
             f'<td class=mono>{_pct(r.get("market_over"))}</td>'
             f'<td class="lean">{e((r.get("side") or "").upper())}</td>'
-            f'<td class=mono>{"—" if r.get("ev") is None else format(r["ev"], "+.3f")}</td></tr>' for r in rs)
+            f'<td class=mono>{"—" if r.get("ev") is None else format(r["ev"], "+.3f")}</td>'
+            + (f'<td class=mono>{_res(r)}</td>' if fin else "") + '</tr>' for r in rs)
         out.append(f'<h2>{e(LABEL[mk])}</h2><div class="tbl"><table><tr><th>Player</th><th>Team</th><th>Line</th>'
                    '<th>Over / under</th><th>Ours</th><th>80% range</th><th>Over: ours</th><th>Over: DK</th><th>Lean</th>'
-                   f'<th>Value</th></tr>{body}</table></div>')
+                   f'<th>Value</th>{"<th>Actual</th>" if fin else ""}</tr>{body}</table></div>')
     return "".join(out)
 
 
@@ -155,12 +174,14 @@ def player_page(sport: str, c: dict, gp: dict, aid: str, names: dict) -> str:
         mk = r["market"]
         if mk in ("anytime_td", "first_td"):
             out.append(f'<h2>{e(LABEL[mk])}</h2><p>Ours {_pct(r["p_yes"])} · DraftKings {_odds(r.get("price"))} '
-                       f'(implies {_pct(r.get("market_yes"))}) · value {"—" if r.get("ev") is None else format(r["ev"], "+.3f")}</p>')
+                       f'(implies {_pct(r.get("market_yes"))}) · value {"—" if r.get("ev") is None else format(r["ev"], "+.3f")}'
+                       + (f' · actual {_res(r)}' if r.get("actual") is not None else "") + '</p>')
             continue
         out.append(f'<h2>{e(LABEL[mk])}: line {r["line"]:g}</h2>'
                    f'<p>Ours {r["mean"]:.1f} (middle 80%: {r["p10"]:.0f}–{r["p90"]:.0f}) · over {_pct(r.get("model_over"))} by us, '
                    f'{_pct(r.get("market_over"))} by DraftKings ({_odds(r.get("over"))} / {_odds(r.get("under"))})'
-                   + (f' · lean <b>{e(r["side"].upper())}</b>, value {r["ev"]:+.3f}' if r.get("side") else "") + '</p>'
+                   + (f' · lean <b>{e(r["side"].upper())}</b>, value {r["ev"]:+.3f}' if r.get("side") else "")
+                   + (f' · actual {_res(r)}' if r.get("actual") is not None else "") + '</p>'
                    + hist_svg((p.get("hist") or {}).get(mk), r["line"], r["mean"]))
     log = p.get("log") or []
     if sport == "nba":
