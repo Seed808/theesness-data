@@ -1128,6 +1128,9 @@ def run(data: Path, nfldata: Path, out: Path, ledger_dir: Path):
             pass
         c["inputs_used"] = {"line": f'ESPN/DraftKings, seen {seen or "—"}',
                             "ratings": kb.through if hasattr(kb, "through") else ""}
+        if c.get("edge") is not None and c["edge"] >= site.CBB_MAX_GAP:
+            c["note"] = (f"Gap of {c['edge']:.1f} points: in big mismatches our ratings still run short of the market early in "
+                         "the season, so a gap this large is more likely our limit than an edge. Not highlighted.")
     kkick = {v["game_id"]: v["kickoff_utc"] for v in kwin}
     kled_name = "cbb_locks.csv" if k_live else "cbb_preview_locks.csv"
     kled = Ledger(ledger_dir / kled_name)

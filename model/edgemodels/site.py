@@ -248,6 +248,9 @@ def _mlb_lines(c, names):
 
 
 
+CBB_MAX_GAP = 10.0   # college basketball gaps this large are usually our model short in a mismatch, not an edge
+
+
 def highlight_level(c: dict, sport: str) -> int:
     """The board's highlight rule, in one place (the board and the Telegram alerts both use it).
     0 = not highlighted, 1 = highlighted (gold outline), 2 = strong (solid gold; not used for MLB).
@@ -260,6 +263,8 @@ def highlight_level(c: dict, sport: str) -> int:
         return int(c.get("ml_edge") is not None and c["ml_edge"] >= t[0] and c.get("ml_ev", 0) > 0)
     if c.get("no_edge") or c.get("edge") is None:
         return 0
+    if sport == "cbb" and c["edge"] >= CBB_MAX_GAP:
+        return 0                     # known model limit in big mismatches: shown, tracked, never highlighted
     return 2 if c["edge"] >= t[1] else (1 if c["edge"] >= t[0] else 0)
 
 

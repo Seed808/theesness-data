@@ -41,7 +41,9 @@ NBA = BasketballConfig("nba")
 # times the matchup pace; home court a flat 1.8 points; ratings half of last season early on ("still part last
 # year, by design"). Matches his NYK -5.0 (ours -5.1) and SAS -0.3 (ours -0.3) on opening night.
 NBA_SAM = BasketballConfig("nba", prior_keep=0.5, engine="sam", home_court=1.8)
-CBB = BasketballConfig("cbb", prior_keep=0.5, prior_poss=350, prior_games_pace=4, margin_sd=11.0, total_sd=16.0)
+# prior_poss 40 (was 350): less shrinkage cut 2025-26 out-of-sample margin error 9.56 -> 8.98 and stopped compressing
+# mismatches; prior_keep 1.0 (was 0.5): halving last season flattened opening-week spreads far below the market.
+CBB = BasketballConfig("cbb", prior_keep=1.0, prior_poss=40, prior_games_pace=4, margin_sd=11.0, total_sd=16.0)
 
 FACTORS = ["efg", "tov", "orb", "ftr"]
 FACTOR_LABELS = {"efg": "Shooting (eFG%)", "tov": "Ball security (TOV%)",
