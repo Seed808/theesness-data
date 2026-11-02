@@ -185,6 +185,7 @@ def first_lock_date(*paths) -> str:
 
 
 NCAAF_MODEL = "v2 · live from Oct 16, 2026"
+CBB_RECORD_FROM = pd.Timestamp("2026-11-16").date()   # college basketball: preview tracker until this Hawaii date
 NO_EDGE = 0.5   # points: a model within half a point of the line takes no side (shown as NO EDGE, not graded)
 
 
@@ -262,11 +263,11 @@ def ncaaf_current_week(events: dict, now, default: int) -> int:
     return int(min(weeks)) if weeks else default
 
 
-def espn_nba_events(repo: Path) -> dict:
-    """{event id: {...}} for every NBA game in the saved ESPN scoreboards: teams, names, kickoff, finished score,
-    and the newest pre-game line."""
+def espn_nba_events(repo: Path, league: str = "nba") -> dict:
+    """{event id: {...}} for every game in the saved ESPN scoreboards of a basketball league (nba / cbb): teams,
+    names, kickoff, finished score, and the newest pre-game line."""
     out = {}
-    base = repo / "data" / "espn" / "nba" / "scoreboard"
+    base = repo / "data" / "espn" / league / "scoreboard"
     for folder in sorted(base.glob("2*")):
         if not folder.is_dir():
             continue
@@ -1079,34 +1080,106 @@ def run(data: Path, nfldata: Path, out: Path, ledger_dir: Path):
         nba_tile = (nlive_summ if len(nlive) else nsumm, "Live: today's board")
     home_tiles.append(("nba", *nba_tile))
 
-    # ------------------------------------------------------------------ CBB (no lines in feed -> accuracy only)
+    # ------------------------------------------------------------------ CBB live board (ESPN / DraftKings lines)
+    # PREVIEW until CBB_RECORD_FROM: picks are locked and graded on a separate preview tracker (not the record) and
+    # send no Telegram alerts, because early-season ratings lean on last season and rosters turn over heavily.
     cbb_raw = pd.read_parquet(data / "cbb/play_by_play_2026.parquet")
     ctg = {2026: bb.team_games(cbb_raw, "cbb")}
     ctg[2026] = ctg[2026][ctg[2026]["season_type"] == 2]
+    if (data / "cbb/play_by_play_2027.parquet").exists():
+        try:
+            t27 = bb.team_games(pd.read_parquet(data / "cbb/play_by_play_2027.parquet"), "cbb")
+            if len(t27):
+                ctg[2027] = t27[t27["season_type"] == 2]
+        except Exception as ex:
+            print(f"[cbb] 2026-27 play-by-play skipped: {type(ex).__name__}: {ex}")
     K = BasketballModel("cbb", ctg)
     kbt = K.backtest(2026, "2026-01-01")
     kacc = accuracy(kbt)
     report["cbb_backtest"] = {"accuracy": kacc}
     knames = {r.home_team_abbrev: r.home_team_name for r in cbb_raw.drop_duplicates("home_team_abbrev").itertuples()}
-    kday = "2026-03-07"
-    kb = K.build(2026, kday)
-    kd = ctg[2026][(ctg[2026]["date"] == pd.Timestamp(kday)) & (ctg[2026]["is_home"] == 1)].head(24)
-    ksl = pd.DataFrame({"game_id": kd["game_id"], "date": "Saturday, March 7, 2026 (replay)", "away": kd["away"], "home": kd["home"],
-                        "neutral_site": False, "home_b2b": 0, "away_b2b": 0, "spread_home": np.nan})
-    kcards = K.project_slate(kb, ksl, kacc["model_sd"])
-    for c, (_, g) in zip(kcards, kd.iterrows()):
-        c["kickoff"] = f"Final {g['opp_pts']:.0f}–{g['pts']:.0f}"
-    stats = [{"k": "Margin error, model", "v": f'{kacc["model_mae"]:.1f}', "s": f'{kacc["games"]} games, Jan 1 – season end'},
-             {"k": "Market lines", "v": "none", "s": "the ESPN CBB feed carries no spreads"},
-             {"k": "Games shown", "v": str(len(kcards)), "s": "replay of March 7"}]
+    krepo = data.parent / "theesness-data"
+    kev = espn_nba_events(krepo, "cbb")
+    ktoday = (pd.Timestamp(now) - pd.Timedelta(hours=10)).date()
+    k_live = ktoday >= CBB_RECORD_FROM
+    k_hst = lambda v: (pd.Timestamp(v["kickoff_utc"]) - pd.Timedelta(hours=10)).date()
+    kwin = [v for v in kev.values() if v.get("kickoff_utc") and v.get("season_type") == 2
+            and ktoday - pd.Timedelta(days=1) <= k_hst(v) <= ktoday + pd.Timedelta(days=1)]
+    kb = K.build(2027, str(ktoday))
+    rated = set(map(str, kb.ortg.off.index))
+    krows = []
+    for v in sorted(kwin, key=lambda v: v["kickoff_utc"]):
+        if v.get("spread_home") is None or v["away"] not in rated or v["home"] not in rated:
+            continue                                     # board shows games with a line between two rated teams
+        ko = pd.Timestamp(v["kickoff_utc"])
+        krows.append({"game_id": v["game_id"], "date": (ko - pd.Timedelta(hours=10)).strftime("%A, %B %-d"),
+                      "kickoff": (ko - pd.Timedelta(hours=10)).strftime("%-I:%M %p HST"), "away": v["away"], "home": v["home"],
+                      "neutral_site": v["neutral_site"], "venue": v["venue"], "home_b2b": 0, "away_b2b": 0,
+                      "spread_home": v.get("spread_home"), "total": v.get("total")})
+    for v in kwin:
+        knames.update({k: n for k, n in v["names"].items() if n})
+    kcards = K.project_slate(kb, pd.DataFrame(krows), kacc["model_sd"]) if krows else []
+    for c, r in zip(kcards, krows):
+        c.update(date=r["date"], kickoff=r["kickoff"], venue=r["venue"])
+        seen = kev[c["game_id"]].get("line_seen")
+        try:
+            seen = (pd.Timestamp(str(seen).replace("Z", ""), tz="UTC") - pd.Timedelta(hours=10)).strftime("%b %-d %-I:%M %p HST")
+        except (ValueError, TypeError):
+            pass
+        c["inputs_used"] = {"line": f'ESPN/DraftKings, seen {seen or "—"}',
+                            "ratings": kb.through if hasattr(kb, "through") else ""}
+    kkick = {v["game_id"]: v["kickoff_utc"] for v in kwin}
+    kled_name = "cbb_locks.csv" if k_live else "cbb_preview_locks.csv"
+    kled = Ledger(ledger_dir / kled_name)
+    ksync = pickbook.sync(kled, kcards, kkick, ledger_dir / "cards" / ("cbb" if k_live else "cbb_preview"), now, _clean, "cbb",
+                          no_edge=no_edge_map(kcards))
+    if k_live:
+        alerts.collect("cbb", kcards, knames, kkick, now)
+    kfin = {k: v["final"] for k, v in kev.items() if v.get("final")}
+    kcards = grade_cards(kcards, kfin)
+    kled.grade(pd.DataFrame([{"game_id": k, "away_score": a, "home_score": h} for k, (a, h) in kfin.items()],
+                            columns=["game_id", "away_score", "home_score"]))
+    klive = kled.load_graded()
+    klive = klive.assign(week=[(pd.Timestamp(kev[str(g)]["kickoff_utc"]) - pd.Timedelta(hours=10)).strftime("%m/%d")
+                               if str(g) in kev else "" for g in klive["game_id"]]) if len(klive) else klive
+    kgraded = klive[klive["result"].isin(["WIN", "LOSS", "PUSH"])] if len(klive) else klive
+    ksumm = record_summary(kgraded, EDGE_TIERS["cbb"])
+    report.update(cbb_locked_now=ksync["locked"] + ksync["updated"], cbb_chain_ok=kled.verify_chain(), cbb_live=k_live)
+    kwl = [c for c in kcards if c.get("market_line") is not None and not c.get("no_edge")]
+    kbig = max(kwl, key=lambda c: c.get("edge") or 0) if kwl else None
+    rec_label = "Live locked record" if k_live else "Preview tracker (not the record)"
+    kstats = [{"k": rec_label, "v": f'{ksumm[0]["W"]}-{ksumm[0]["L"]}-{ksumm[0]["P"]}',
+               "s": f'{len(klive)} picks locked' + ("" if k_live else f' · record starts {CBB_RECORD_FROM:%b %-d}'),
+               "href": "record.html"},
+              {"k": "Games with a line", "v": str(len(kcards)), "s": "yesterday, today and tomorrow"},
+              {"k": "Model disagrees 3+", "v": str(sum((c.get("edge") or 0) >= 3 for c in kwl)), "s": "points off the book"}]
+    if kbig:
+        kstats.append({"k": "Biggest gap", "v": f'{kbig["edge"]:.1f}', "s": f'{knames.get(kbig["away"], kbig["away"])} at '
+                       f'{knames.get(kbig["home"], kbig["home"])}', "href": f'game/{kbig["game_id"]}.html'})
+    totals_tracker.publish(out, ledger_dir, "cbb", kcards, kkick, now, kfin, knames, kstats)
+    klede = ("Each team scores its points per 100 possessions against the opponent's defence at the matchup's pace, plus "
+             "home court. Ratings start from last season, regressed halfway to average, and update as this season's games come in. "
+             "Only games with a DraftKings line between two rated teams are shown. Picks update with the newest line until "
+             "tip-off; the last version before tip is graded. NO EDGE under 0.5 points. Highlighted cards have a gap of 3+ "
+             "points, darker 6+. ")
+    klede += ("" if k_live else f"PREVIEW: until {CBB_RECORD_FROM:%B %-d} picks are graded on a separate preview tracker, not "
+              "the record, and send no alerts, because early-season ratings lean heavily on last season.")
     site.write(out, "cbb/index.html", site.page("CBB Model Board", site.board(
-        "cbb", "In season soon", "College basketball returns in November. The free play-by-play feed has no betting lines, so the record "
-        "here is projection accuracy only until an odds source is connected (see README).",
-        kcards, knames, None, stats, newest_first=True), 1, "cbb"))
+        "cbb", "College basketball projections" + ("" if k_live else " (preview)"), klede, kcards, knames, None, kstats,
+        tier_record=None), 1, "cbb"))
     for c in kcards:
-        site.write(out, f"cbb/game/{c['game_id']}.html", site.page(f"{knames.get(c['away'], c['away'])} at {knames.get(c['home'], c['home'])}",
-                                                                   site.game_page(c, knames), 2, "cbb"))
-    home_tiles.append(("cbb", None, "Accuracy only until odds are connected"))
+        site.write(out, f"cbb/game/{c['game_id']}.html", site.page(f"{knames.get(c['away'], c['away'])} at "
+                   f"{knames.get(c['home'], c['home'])}", site.game_page(c, knames), 2, "cbb"))
+    site.write(out, "cbb/record.html", site.page("CBB Model Record", site.record_page(
+        "cbb", "College basketball record" if k_live else "College basketball preview tracker",
+        ("Live picks, locked and graded." if k_live else f"Preview picks: locked and graded exactly like the record, but kept "
+         f"apart. The record starts at 0-0 on {CBB_RECORD_FROM:%B %-d, %Y}."),
+        [{"title": rec_label + ", 2026-27", "note": "Every pick is written to a hash-chained lock file and updates until "
+          "tip-off; the last version before tip is graded.", "summary": ksumm,
+          "graded": klive.sort_values("locked_at", ascending=False).to_dict("records") if len(klive) else []}], knames), 1, "cbb"))
+    (out / "cbb" / "cards.json").write_text(json.dumps(_clean(kcards), indent=1))
+    home_tiles.append(("cbb", ksumm if (k_live and len(kgraded)) else None,       # the preview never counts in the totals
+                       "Live record" if k_live else f"Preview: record starts {CBB_RECORD_FROM:%b %-d}"))
 
     # ------------------------------------------------------------------ MLB (real Statcast + collected lines)
     mlb_tile = mlb_section(out, data.parent / "theesness-data", ledger_dir, report, now)
