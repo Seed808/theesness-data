@@ -13,6 +13,7 @@ import json
 from datetime import datetime, timezone
 from pathlib import Path
 
+import numpy as np
 import pandas as pd
 
 LOCK_COLS = ["sport", "game_id", "date", "away", "home", "proj_away", "proj_home",
@@ -66,6 +67,9 @@ class Ledger:
             if str(c["game_id"]) in locked or c.get("market_line") is None:
                 continue
             row = {k: c.get(k) for k in self.cols}
+            # store floats at 6 decimals before hashing, so the value read back from the CSV hashes the same
+            # (e.g. 0.46635000000000004 vs 0.46635 rounded differently at 4 decimals)
+            row = {k: (round(float(v), 6) if isinstance(v, (float, np.floating)) and v == v else v) for k, v in row.items()}
             row["locked_at"] = c.get("locked_at") or datetime.now(timezone.utc).isoformat(timespec="seconds")
             row["prev_hash"] = prev
             row["hash"] = _hash(row, prev, self.cols)

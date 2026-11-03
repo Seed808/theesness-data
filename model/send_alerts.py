@@ -31,7 +31,7 @@ from pathlib import Path
 import requests
 
 FIELDS = ["sent_at", "sport", "game_id", "kind", "level", "pick", "pick_line", "gap", "telegram_ok"]
-LABEL = {"nfl": "NFL", "ncaaf": "College football", "nba": "NBA", "cbb": "College basketball", "mlb": "MLB"}
+LABEL = {"nfl": "NFL", "ncaaf": "College football", "nba": "NBA", "cbb": "College basketball", "mlb": "MLB", "nhl": "NHL"}
 
 
 def log(msg):
@@ -93,7 +93,7 @@ def message(c: dict, kind: str, prev: dict | None = None, test: bool = False) ->
         if c.get("reason"):
             lines.append(e(str(c["reason"]))[:300])
     else:
-        if c["sport"] == "mlb":
+        if c["sport"] in ("mlb", "nhl"):
             lines.append(f"Book win chance: {c.get('book_p', '—')}% · Model: {c.get('model_p', '—')}% · Edge: {c.get('gap')} pts")
         else:
             lines.append(f"Book: {html.unescape(c.get('book', '—'))} · Ours: {html.unescape(c.get('ours', '—'))} · Gap: {c.get('gap')} pts")
@@ -118,7 +118,7 @@ def digest(sport: str, cs: list[dict], part: int, parts: int, total: int) -> str
     rows = []
     for c in cs:
         tag = "STRONG" if c.get("level", 0) >= 2 else "HL"
-        gap = f"edge {c.get('gap')} pts" if sport == "mlb" else f"gap {c.get('gap')}"
+        gap = f"edge {c.get('gap')} pts" if sport in ("mlb", "nhl") else f"gap {c.get('gap')}"
         ou = f", O/U {c['tot_lean']} {c['tot_book']:g} ({c['tot_gap']:+.1f})" if c.get("tot_book") is not None else ""
         rows.append(f"• <b>{e(str(c.get('pick')))} {e(str(c.get('pick_line')))}</b> ({tag}, {gap}{ou})\n"
                     f"   {e(c['away'])} @ {e(c['home'])}, {e(c['kickoff_hst'])} · <a href=\"{e(c['url'])}\">open</a>")
@@ -180,7 +180,7 @@ def main():
             pool.sort(key=lambda c: -(c.get("gap") or 0))
             c = pool[0] if pool else {"sport": sport, "away": "Sample Away", "home": "Sample Home", "level": 1,
                                       "kickoff_hst": "(sample)", "url": f"https://seed808.github.io/theesness-data/{sport}/",
-                                      "pick": "Sample Home", "pick_line": "+3.5" if sport != "mlb" else "+120",
+                                      "pick": "Sample Home", "pick_line": "+3.5" if sport not in ("mlb", "nhl") else "+120",
                                       "book": "Sample Away -3.5", "ours": "Pick'em", "gap": 3.5, "book_p": 45.5, "model_p": 49.0}
             ok = tg_send(message(dict(c, level=max(1, c.get("level", 1))), "new", test=True))
             log(f"test {sport}: {'sent' if ok else 'not sent'}")

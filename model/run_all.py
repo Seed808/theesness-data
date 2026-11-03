@@ -1192,19 +1192,15 @@ def run(data: Path, nfldata: Path, out: Path, ledger_dir: Path):
     # ------------------------------------------------------------------ MLB (real Statcast + collected lines)
     mlb_tile = mlb_section(out, data.parent / "theesness-data", ledger_dir, report, now)
 
-    # ------------------------------------------------------------------ NHL (synthetic pipeline demo)
-    from edgemodels.synthetic import nhl_shots
-    from edgemodels.sports import hockey as hk
-    sh = nhl_shots(40)
-    sh = hk.add_xg(sh, hk.fit_xg(sh))
-    hr = hk.fit_ratings(sh)
-    hc = hk.project_game(hr, hk.NHL, {"game_id": "SYNTH_TOR_BOS", "date": "Synthetic test data", "away": "TOR", "home": "BOS",
-                                      "away_goalie": 8000026, "home_goalie": 8000001}).card(None, 6.0, 2.3, 2.4)
-    hc["kickoff"] = "SYNTHETIC"
-    site.write(out, "nhl/index.html", site.page("NHL Model Board", site.board(
-        "nhl", "Pipeline test", "Generated test data only. Connect the NHL web API loader to make it live.", [hc],
-        {"TOR": "Toronto (synthetic)", "BOS": "Boston (synthetic)"}), 1, "nhl"))
-    site.write(out, f"nhl/game/{hc['game_id']}.html", site.page("TOR at BOS synthetic", site.game_page(hc, {"TOR": "Toronto (synthetic)", "BOS": "Boston (synthetic)"}), 2, "nhl"))
+    # ------------------------------------------------------------------ NHL (real play-by-play, preview first)
+    try:
+        from run_nhl import nhl_section
+        nhl_summ, nhl_note = nhl_section(out, data.parent / "theesness-data", ledger_dir, report, now)
+    except Exception as ex:                      # hockey never breaks the other boards
+        print(f"[nhl] {type(ex).__name__}: {ex}")
+        alerts.health("nhl", "nhl_error", f"The NHL board failed to build ({type(ex).__name__}: {str(ex)[:120]}).")
+        nhl_summ, nhl_note = None, "Board unavailable"
+    home_tiles.append(("nhl", nhl_summ, nhl_note))
 
     # ------------------------------------------------------------------ home
     start_txt = first_lock_date(ledger_dir / "nfl_locks.csv", ledger_dir / "ncaaf_locks.csv", ledger_dir / "mlb_locks.csv")
@@ -1220,8 +1216,7 @@ def run(data: Path, nfldata: Path, out: Path, ledger_dir: Path):
         nm, desc = site.SPORT_NAMES[sp_]
         v = f'{s[0]["W"]}-{s[0]["L"]}-{s[0]["P"]}' if s else "—"
         tiles.append({"k": f"{nm}, {desc}", "v": v, "s": note, "href": f"{sp_}/index.html"})
-    tiles += [mlb_tile,
-              {"k": "NHL, hockey", "v": "test", "s": "Synthetic data until the NHL API is connected", "href": "nhl/index.html"}]
+    tiles += [mlb_tile]
     big = 'style="font-family:var(--display);font-size:clamp(44px,13vw,64px);font-weight:800;line-height:1;margin:2px 0 6px"'
     body = (f'<h1>Our number vs the book, every game</h1><p class="lede">We build our own line for every game from '
             f'play-by-play efficiency, adjusted for the schedule each team actually played, and set it beside the sportsbook '

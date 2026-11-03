@@ -59,16 +59,19 @@ def publish(out, ledger_dir, sport, cards, kick, now, finals, names, stats, lock
         if not rows and lock_file is not None:
             backfill(rows, sport, lock_file, kick)
         stamp = pd.Timestamp(now).isoformat(timespec="seconds")
+        ml = sport in site.ML_SPORTS
         for c in cards:
             gid = str(c["game_id"])
-            if gid in rows or c.get("market_line") is None or c.get("pick") not in ("home", "away"):
+            pick = c.get("ml_pick") if ml else c.get("pick")
+            if gid in rows or pick not in ("home", "away") or (not ml and c.get("market_line") is None):
                 continue
             ko = kick.get(gid) or kick.get(c["game_id"])
             if ko is None or pd.Timestamp(ko) <= pd.Timestamp(now):
                 continue                                  # only before kickoff
             rows[gid] = {"game_id": gid, "sport": sport, "date": c.get("date"), "away": c["away"], "home": c["home"],
-                         "kickoff_utc": str(pd.Timestamp(ko)), "first_line": c["market_line"], "model_line": c["model_line"],
-                         "pick": c["pick"], "pick_line": c["pick_line"], "edge": c.get("edge"),
+                         "kickoff_utc": str(pd.Timestamp(ko)), "first_line": c.get("ml_odds") if ml else c["market_line"],
+                         "model_line": c["model_line"], "pick": pick, "pick_line": 0.0 if ml else c["pick_line"],
+                         "edge": c.get("ml_edge") if ml else c.get("edge"),
                          "no_edge": bool(c.get("no_edge")), "hold": bool(c.get("hold")), "saved_at": stamp, "source": "live",
                          "away_score": None, "home_score": None, "result": None}
         for gid, r in rows.items():
@@ -84,7 +87,9 @@ def publish(out, ledger_dir, sport, cards, kick, now, finals, names, stats, lock
             r = rows.get(str(c["game_id"]))
             if r:
                 team = names.get(c[r["pick"]], c[r["pick"]]) if r["pick"] in c else r["pick"]
-                c["firstline"] = {"pick": f'{team} {fmt_line(float(r["pick_line"]))}',
+                lab = (f'{team} {float(r["first_line"]):+.0f}' if sport in site.ML_SPORTS and not pd.isna(r["first_line"])
+                       else f'{team} {fmt_line(float(r["pick_line"]))}')
+                c["firstline"] = {"pick": lab,
                                   "result": r["result"] if isinstance(r["result"], str) else None}
         d = pd.DataFrame(list(rows.values()), columns=COLS)
         g = d[d["result"].isin(["WIN", "LOSS", "PUSH"])]

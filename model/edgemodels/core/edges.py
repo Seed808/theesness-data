@@ -20,7 +20,7 @@ EDGE_TIERS = {
     "nba": (2.5, 5.0, 8.0),
     "cbb": (3.0, 6.0, 9.0),
     "mlb": (3.0, 5.0, 8.0),      # moneyline: percentage points of win probability over the no-vig market
-    "nhl": (0.35, 0.7, 1.0),     # goals
+    "nhl": (3.0, 5.0, 8.0),      # moneyline, like MLB: percentage points of win probability over the no-vig market
 }
 
 

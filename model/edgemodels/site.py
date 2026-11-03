@@ -16,6 +16,7 @@ from .core.edges import EDGE_TIERS, fmt_line
 SPORT_NAMES = {"nfl": ("NFL", "pro football"), "ncaaf": ("NCAAF", "college football"),
                "nba": ("NBA", "pro basketball"), "cbb": ("CBB", "college basketball"),
                "mlb": ("MLB", "baseball"), "nhl": ("NHL", "hockey")}
+ML_SPORTS = ("mlb", "nhl")      # sports picked on the moneyline (win chance vs the no-vig market)
 UNIT = {"nfl": "points", "ncaaf": "points", "nba": "points", "cbb": "points", "mlb": "runs", "nhl": "goals"}
 
 CSS = """
@@ -238,16 +239,16 @@ def _ml(x):
 def _mlb_lines(c, names):
     """Moneyline + total rows for a baseball card."""
     a, h = names.get(c["away"], c["away"]), names.get(c["home"], c["home"])
-    out = (f'<dt>Starters</dt><dd>{e(str(c.get("sp_names", {}).get("away") or "TBD"))} vs '
+    out = (f'<dt>{"Goalies" if c.get("sport") == "nhl" else "Starters"}</dt><dd>{e(str(c.get("sp_names", {}).get("away") or "TBD"))} vs '
            f'{e(str(c.get("sp_names", {}).get("home") or "TBD"))}</dd>'
            f'<dt>Book</dt><dd>{e(h)} {_ml(c.get("home_ml"))} / {e(a)} {_ml(c.get("away_ml"))}</dd>'
            f'<dt>Ours</dt><dd>{e(h)} {100 * c["p_home"]:.1f}% · fair {_ml(c["fair_home_ml"])} / {_ml(c["fair_away_ml"])}</dd>')
     if c.get("ml_pick"):
-        hot = c["ml_edge"] >= EDGE_TIERS["mlb"][0] and c["ml_ev"] > 0
+        hot = c["ml_edge"] >= EDGE_TIERS[c.get("sport", "mlb")][0] and c["ml_ev"] > 0
         team = names.get(c[c["ml_pick"]], c[c["ml_pick"]])
         out += (f'<dt>Play</dt><dd class="{"pick" if hot else ""}">{e(team)} {_ml(c["ml_odds"])} '
                 f'<span class="eyebrow">({c["ml_edge"]:.1f} pts · EV {c["ml_ev"]:+.3f})</span></dd>')
-    out += _total_row(c, "mlb")
+    out += _total_row(c, c.get("sport", "mlb"))
     if c.get("final_home") is not None:
         res = " ".join(f'<span class="res-{r}">{m} {r}</span>' for m, r in
                        ((c.get("result_label", "ML"), c.get("ml_result")), ("Total", c.get("tot_result"))) if r)
@@ -267,7 +268,7 @@ def highlight_level(c: dict, sport: str) -> int:
     if c.get("void") or c.get("hold"):
         return 0
     t = EDGE_TIERS[sport]
-    if sport == "mlb":
+    if sport in ML_SPORTS:
         return int(c.get("ml_edge") is not None and c["ml_edge"] >= t[0] and c.get("ml_ev", 0) > 0)
     if c.get("no_edge") or c.get("edge") is None:
         return 0
@@ -280,7 +281,7 @@ def highlight_level(c: dict, sport: str) -> int:
 # Gap thresholds (highlighted, strong) in points (runs for MLB). Backtests found no reliable totals edge yet:
 # NFL 2025-26 gaps of 3+ went 44-49, college 4+ went 377-373, MLB totals no better than the league average;
 # the badge marks a big disagreement, not a proven play. The tracker on each sport's Totals page is the test.
-TOTAL_TIERS = {"nfl": (3.0, 6.0), "ncaaf": (4.0, 8.0), "nba": (5.0, 8.0), "cbb": (5.0, 8.0), "mlb": (1.0, 1.5)}
+TOTAL_TIERS = {"nfl": (3.0, 6.0), "ncaaf": (4.0, 8.0), "nba": (5.0, 8.0), "cbb": (5.0, 8.0), "mlb": (1.0, 1.5), "nhl": (0.5, 1.0)}
 TOTAL_SD = {"nfl": 13.1, "ncaaf": 16.5, "nba": 18.0, "cbb": 16.0}
 
 
@@ -294,7 +295,7 @@ def total_info(c: dict, sport: str) -> dict | None:
     if math.isnan(ours) or math.isnan(book):
         return None
     gap = ours - book
-    if sport == "mlb" and c.get("p_over") is not None:
+    if sport in ML_SPORTS and c.get("p_over") is not None:
         po, pu = float(c["p_over"]), float(c["p_under"])
         pp = max(0.0, 1 - po - pu)
     else:
@@ -349,7 +350,7 @@ def _totals_section(c, names):
 
 def _gap_level(c, sport):
     """0 none (<0.5), 1 small, 2 = tier 1 (3+ in football), 3 = tier 2 (6+), 4 = tier 3 (10+)."""
-    if sport == "mlb" or c.get("edge") is None or c.get("market_line") is None:
+    if sport in ML_SPORTS or c.get("edge") is None or c.get("market_line") is None:
         return None
     if c.get("no_edge"):
         return 0
@@ -398,7 +399,7 @@ def _updated_line(c, names):
 def _gaps_box(cards, sport, names, tier_record):
     """Top-of-board list of the largest model-vs-market gaps (tier 2+, e.g. 6+ points in football) for games
     still to be played and eligible to lock, with the backtest record of each tier beside it."""
-    if sport == "mlb":
+    if sport in ML_SPORTS:
         return ""
     t1, t2 = EDGE_TIERS[sport][0], EDGE_TIERS[sport][1]
     live = [c for c in cards if c.get("edge") is not None and not c.get("void") and not c.get("hold")
@@ -436,7 +437,7 @@ def board(sport: str, title: str, lede: str, cards: list[dict], names: dict, rec
         days.setdefault(c.get("date", ""), []).append(c)
     out = [f'{nav}<h1>{e(title)}</h1><p class="lede">{e(lede)}</p><div class="tiles">{tiles}</div>'
            + ("" if newest_first else _gaps_box(cards, sport, names, tier_record))
-           + ('' if sport == "mlb" else '<p class="mkey">On each card the line shows where the spread lands, from the away team on the '
+           + ('' if sport in ML_SPORTS else '<p class="mkey">On each card the line shows where the spread lands, from the away team on the '
               'left to the home team on the right:<i class="b"></i>the book<i class="o"></i>our number. The shaded stretch between them is the gap.</p>')
            + '<div id="board"></div>']
     items = list(days.items())                 # cards arrive in schedule order
@@ -457,7 +458,7 @@ def board(sport: str, title: str, lede: str, cards: list[dict], names: dict, rec
                 f'<span class="sc">{_f(c["proj_away"])}</span></div>'
                 f'<div class="teamrow"><span class="t">{e(ab[1])}<small>{e(rec.get(c["home"], ""))}</small></span>'
                 f'<span class="sc">{_f(c["proj_home"])}</span></div>'
-                + (f'<dl class="lines">{_mlb_lines(c, names)}</dl>' if sport == "mlb" else
+                + (f'<dl class="lines">{_mlb_lines(c, names)}</dl>' if sport in ML_SPORTS else
                    _meter(c, names) +
                    f'<dl class="lines"><dt>Book</dt><dd>{_fav_text(c.get("market_line"), c, names)}</dd>'
                    f'<dt>Ours</dt><dd>{_fav_text(c.get("model_line"), c, names)}</dd>'
@@ -476,14 +477,14 @@ def board(sport: str, title: str, lede: str, cards: list[dict], names: dict, rec
 
 
 ESPN_PATH = {"nfl": "football/nfl", "ncaaf": "football/college-football", "nba": "basketball/nba",
-             "cbb": "basketball/mens-college-basketball", "mlb": "baseball/mlb"}
+             "cbb": "basketball/mens-college-basketball", "mlb": "baseball/mlb", "nhl": "hockey/nhl"}
 
 
 def _live_attrs(c: dict, sport: str) -> str:
     """Data the page's live-score script needs: which ESPN game this is and the graded side/line, if any."""
     if sport not in ESPN_PATH:
         return ""
-    if sport == "mlb":
+    if sport in ML_SPORTS:
         side, line = c.get("ml_pick"), ""
     else:
         ok = c.get("market_line") is not None and not (c.get("no_edge") or c.get("hold") or c.get("void"))
@@ -497,7 +498,7 @@ def _live_attrs(c: dict, sport: str) -> str:
 # Live scores in the reader's browser, straight from ESPN's public scoreboard (it allows this: CORS *).
 # Unofficial: the record changes only when the next build grades the game against the locked line.
 LIVE_JS = """<script>(function(){
-var P={nfl:"football/nfl",ncaaf:"football/college-football",nba:"basketball/nba",cbb:"basketball/mens-college-basketball",mlb:"baseball/mlb"};
+var P={nfl:"football/nfl",ncaaf:"football/college-football",nba:"basketball/nba",cbb:"basketball/mens-college-basketball",mlb:"baseball/mlb",nhl:"hockey/nhl"};
 var NFL={LAR:"LA",WSH:"WAS"};
 var DAYS=["Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"],MON=["January","February","March","April","May","June","July","August","September","October","November","December"];
 function hst(iso){var d=new Date(new Date(iso).getTime()-10*3600e3);return DAYS[d.getUTCDay()]+", "+MON[d.getUTCMonth()]+" "+d.getUTCDate();}
@@ -515,7 +516,7 @@ function run(){var cards=[].slice.call(document.querySelectorAll("article.game[d
      if(!hit||st.state=="pre")return;var as=+t.away.score,hs=+t.home.score,box=a.querySelector(".live");
      var txt=(st.completed?"<b>Final</b> ":"<b>Live</b> ")+as+"\u2013"+hs+" <span class=eyebrow>"+(st.completed?"":st.shortDetail)+"</span>";
      var pk=a.dataset.pick;
-     if(st.completed&&pk){var r;if(sp=="mlb"){r=(pk=="home"?hs>as:as>hs)?"WIN":"LOSS";}
+     if(st.completed&&pk){var r;if(sp=="mlb"||sp=="nhl"){r=(pk=="home"?hs>as:as>hs)?"WIN":"LOSS";}
        else{var m=(pk=="home"?hs-as:as-hs)+parseFloat(a.dataset.line);r=m>0?"WIN":m<0?"LOSS":"PUSH";}
        txt+=" <span class=res-"+r+">"+r+"</span> <span class=eyebrow>unofficial until graded</span>";}
      if(!st.completed)live=true;box.innerHTML=txt;box.hidden=false;});});
@@ -776,10 +777,10 @@ def game_page(c: dict, names: dict) -> str:
         num += '</p>'
     else:
         num = f'<p class="lede">We have {_fav_text(c["model_line"], c, names)}. No book line was posted yet.</p>'
-    if c["sport"] == "mlb":
+    if c["sport"] in ML_SPORTS:
         num, tiles = _mlb_number(c, names)
     cp = c.get("cover_prob")
-    tiles = tiles if c["sport"] == "mlb" else (f'<div class="numbers"><div class="tile"><span class="k">Book</span><span class="v">{_fav_text(c.get("market_line"), c, names)}</span></div>'
+    tiles = tiles if c["sport"] in ML_SPORTS else (f'<div class="numbers"><div class="tile"><span class="k">Book</span><span class="v">{_fav_text(c.get("market_line"), c, names)}</span></div>'
              f'<div class="tile"><span class="k">Ours</span><span class="v">{_fav_text(c["model_line"], c, names)}</span></div>'
              f'<div class="tile"><span class="k">Gap</span><span class="v">{_f(c.get("edge"))}</span>'
              f'<span class="s">{"pick covers " + format(cp, ".0%") + " of the time" if cp else ""}</span></div></div>')

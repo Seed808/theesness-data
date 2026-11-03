@@ -15,7 +15,7 @@ from . import site
 from .core.edges import fmt_line
 
 BASE_URL = "https://seed808.github.io/theesness-data"
-SPORT_LABEL = {"nfl": "NFL", "ncaaf": "College football", "nba": "NBA", "cbb": "College basketball", "mlb": "MLB"}
+SPORT_LABEL = {"nfl": "NFL", "ncaaf": "College football", "nba": "NBA", "cbb": "College basketball", "mlb": "MLB", "nhl": "NHL"}
 COLLECTED: list[dict] = []
 LIVE: set = set()
 HEALTH: list[dict] = []      # model sanity warnings, sent once per day each by send_alerts.py
@@ -98,7 +98,7 @@ def collect(sport: str, cards: list[dict], names: dict, kickoff_utc: dict, now: 
                "url": f"{BASE_URL}/{sport}/game/{gid}.html"}
         v = c.get("void")
         row["reason"] = c.get("hold") or (v.get("reason") if isinstance(v, dict) else None) or c.get("no_edge")
-        if sport == "mlb":
+        if sport in ("mlb", "nhl"):
             side = c.get("ml_pick")
             if side in ("home", "away"):
                 mph = c.get("market_p_home")

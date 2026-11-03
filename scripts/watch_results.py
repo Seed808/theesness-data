@@ -21,7 +21,7 @@ import requests
 
 BASE = "https://site.api.espn.com/apis/site/v2/sports"
 LEAGUES = {"nfl": "football/nfl", "ncaaf": "football/college-football", "nba": "basketball/nba",
-           "mlb": "baseball/mlb", "cbb": "basketball/mens-college-basketball"}
+           "mlb": "baseball/mlb", "cbb": "basketball/mens-college-basketball", "nhl": "hockey/nhl"}
 EXTRA = {"ncaaf": {"groups": "80", "limit": "400"}, "cbb": {"groups": "50", "limit": "400"}}
 ABBR = {"LAR": "LA", "WSH": "WAS"}                    # ESPN -> nflverse (NFL)
 LEDGER = Path(__file__).resolve().parents[1] / "model" / "ledger"
