@@ -130,6 +130,26 @@ def season(year: int, s: requests.Session) -> None:
     print(f"{year}: {n} new games, {len(games)} total, {len(shots)} shot rows")
 
 
+def goalie_names(s: requests.Session) -> None:
+    """data/nhl/goalies.json: goalie id -> name, for every goalie who has started a game we saved."""
+    p = OUT / "goalies.json"
+    known = json.loads(p.read_text()) if p.exists() else {}
+    ids = set()
+    for f in OUT.glob("games_*.csv"):
+        g = pd.read_csv(f)
+        for c in ("home_goalie", "away_goalie"):
+            ids |= {str(int(x)) for x in g[c].dropna()}
+    for gid in sorted(ids - set(known)):
+        try:
+            j = s.get(f"https://api-web.nhle.com/v1/player/{gid}/landing", timeout=20).json()
+            known[gid] = f'{(j.get("firstName") or {}).get("default", "")} {(j.get("lastName") or {}).get("default", "")}'.strip()
+        except Exception:
+            continue
+        time.sleep(0.1)
+    p.write_text(json.dumps(known, indent=0, sort_keys=True))
+    print(f"goalies: {len(known)} named")
+
+
 if __name__ == "__main__":
     s = requests.Session()
     s.headers.update(H)
@@ -139,3 +159,7 @@ if __name__ == "__main__":
             season(y, s)
         except Exception as ex:                  # never fail the collector
             print(f"{y}: {type(ex).__name__}: {ex}")
+    try:
+        goalie_names(s)
+    except Exception as ex:
+        print(f"goalie names: {type(ex).__name__}: {ex}")
