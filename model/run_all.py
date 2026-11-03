@@ -22,6 +22,7 @@ import numpy as np
 import pandas as pd
 
 from edgemodels import site, alerts
+from edgemodels.core import firstline
 from edgemodels.core.edges import EDGE_TIERS
 from edgemodels.core.ledger import Ledger, record_summary
 from edgemodels.core.margins import MarginDist, nfl_from_nflverse
@@ -690,6 +691,7 @@ def run(data: Path, nfldata: Path, out: Path, ledger_dir: Path):
     nfin = {str(r.game_id): (r.away_score, r.home_score) for r in games[games["season"] == 2026].itertuples()
             if pd.notna(r.home_score) and pd.notna(r.away_score)}
     totals_tracker.publish(out, ledger_dir, "nfl", cards, kick, now, nfin, names, stats)
+    firstline.publish(out, ledger_dir, "nfl", cards, kick, now, nfin, names, stats, ledger_dir / "nfl_locks.csv")
     # finished games on the live board: final score on every card, result from the ledger (the graded locked pick)
     lr = live_rows.copy()
     lr["game_id"] = lr["game_id"].astype(str)
@@ -854,6 +856,7 @@ def run(data: Path, nfldata: Path, out: Path, ledger_dir: Path):
     if big:
         stats.append({"k": "Biggest gap", "v": f'{big["edge"]:.1f}', "s": f'{big["away"]} at {big["home"]}', "href": f'game/{big["game_id"]}.html'})
     totals_tracker.publish(out, ledger_dir, "ncaaf", syncable, ckick, now, cfinal, cnames, stats)
+    firstline.publish(out, ledger_dir, "ncaaf", syncable, ckick, now, cfinal, cnames, stats, ledger_dir / "ncaaf_locks.csv")
     nav = site.week_nav([(x, f"Wk {x}") for x in replay_weeks] + [("live", f"Wk {LIVE_W} · live")], "live",
                         lambda x: "index.html" if x == "live" else f"week/{x}.html")
     site.write(out, "ncaaf/index.html", site.page("NCAAF Model Board", site.board(
@@ -1057,6 +1060,7 @@ def run(data: Path, nfldata: Path, out: Path, ledger_dir: Path):
             nstats.append({"k": "Biggest gap", "v": f'{big["edge"]:.1f}', "s": f'{lnames[big["away"]]} at {lnames[big["home"]]}',
                            "href": f'game/{big["game_id"]}.html'})
         totals_tracker.publish(out, ledger_dir, "nba", lcards, nkick, now, nfin, lnames, nstats)
+        firstline.publish(out, ledger_dir, "nba", lcards, nkick, now, nfin, lnames, nstats, ledger_dir / "nba_locks.csv")
         site.write(out, "nba/index.html", site.page("NBA Model Board", site.board(
             "nba", "NBA projections", "Each team scores its points per 100 possessions against the opponent's defence, at the "
             "matchup's pace, plus home court. Early in the season the ratings are still half last season by design. Picks update "
@@ -1160,6 +1164,7 @@ def run(data: Path, nfldata: Path, out: Path, ledger_dir: Path):
         kstats.append({"k": "Biggest gap", "v": f'{kbig["edge"]:.1f}', "s": f'{knames.get(kbig["away"], kbig["away"])} at '
                        f'{knames.get(kbig["home"], kbig["home"])}', "href": f'game/{kbig["game_id"]}.html'})
     totals_tracker.publish(out, ledger_dir, "cbb", kcards, kkick, now, kfin, knames, kstats)
+    firstline.publish(out, ledger_dir, "cbb", kcards, kkick, now, kfin, knames, kstats, ledger_dir / kled_name)
     klede = ("Each team scores its points per 100 possessions against the opponent's defence at the matchup's pace, plus "
              "home court. Ratings start from last season, regressed halfway to average, and update as this season's games come in. "
              "Only games with a DraftKings line between two rated teams are shown. Picks update with the newest line until "

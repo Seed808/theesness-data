@@ -210,6 +210,14 @@ def week_nav(weeks: list, current, href) -> str:
     return f'<nav class="sports weeks" aria-label="Weeks">{items}</nav>'
 
 
+def _firstline_row(c):
+    fl = c.get("firstline")
+    if not fl:
+        return ""
+    res = f' · <span class="res-{fl["result"]}">{fl["result"]}</span>' if fl.get("result") else ""
+    return f'<dt class="eyebrow">First line</dt><dd class="eyebrow">{e(fl["pick"])}{res}</dd>'
+
+
 def _result_line(c, names):
     if c.get("final_home") is not None and c.get("final_away") is not None and (
             c.get("result") is None or c.get("no_edge") or c.get("hold") or c.get("void")):
@@ -455,7 +463,7 @@ def board(sport: str, title: str, lede: str, cards: list[dict], names: dict, rec
                    f'<dt>Ours</dt><dd>{_fav_text(c.get("model_line"), c, names)}</dd>'
                    f'<dt>Play</dt><dd class="{"pick" if hot else ""}">{_pick_text(c, names)}</dd>'
                    + _total_row(c, sport) +
-                   f'{_result_line(c, names)}</dl>{_updated_line(c, names)}')
+                   f'{_result_line(c, names)}{_firstline_row(c)}</dl>{_updated_line(c, names)}')
                 + '<div class="live" hidden></div>'
                 + (f'<a class="more" href="{game_prefix}{e(str(c["game_id"]))}.html">Full breakdown</a>' if links else "")
                 + (f' <a class="more" href="props/{e(str(c["game_id"]))}.html">Player props ({c["props_n"]})</a>'
