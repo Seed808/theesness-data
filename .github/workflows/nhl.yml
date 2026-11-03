@@ -1,0 +1,28 @@
+name: nhl-play-by-play
+# Twice a day: finished NHL games' play-by-play (shots with locations, goalies, finals) from the league's public API
+on:
+  schedule:
+    - cron: "13 10,22 * * *"
+  workflow_dispatch: {}
+permissions:
+  contents: write
+concurrency:
+  group: nhl
+  cancel-in-progress: false
+jobs:
+  fetch:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+        with: { sparse-checkout: "scripts\ndata/nhl", filter: "blob:none" }
+      - uses: actions/setup-python@v5
+        with: { python-version: "3.12" }
+      - run: pip install -q requests==2.32.3 pandas==2.2.3 numpy==2.1.3 pyarrow==18.1.0
+      - run: python scripts/fetch_nhl.py
+      - name: commit
+        run: |
+          git config user.name "data-bot"; git config user.email "data-bot@users.noreply.github.com"
+          git add -A data/nhl
+          git diff --cached --quiet || git commit -qm "nhl: $(date -u +%Y-%m-%dT%H:%MZ)"
+          for i in 1 2 3 4 5; do git pull -q --rebase --autostash && git push -q && break; sleep $((i*7)); done
