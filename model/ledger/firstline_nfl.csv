@@ -1,0 +1,58 @@
+game_id,sport,date,away,home,kickoff_utc,first_line,model_line,pick,pick_line,edge,no_edge,hold,saved_at,source,away_score,home_score,result
+2026_06_SEA_DEN,nfl,"Thursday, October 15",SEA,DEN,,3.0,-1.2,home,3.0,4.2,False,False,2026-10-13T05:40:46+00:00,backfill (first locked version),14.0,17.0,WIN
+2026_06_HOU_JAX,nfl,"Sunday, October 18",HOU,JAX,,-3.0,-3.3,home,-3.0,0.3,False,False,2026-10-13T05:40:46+00:00,backfill (first locked version),34.0,31.0,LOSS
+2026_06_CHI_ATL,nfl,"Sunday, October 18",CHI,ATL,,3.0,-5.2,home,3.0,8.2,False,False,2026-10-13T05:40:46+00:00,backfill (first locked version),31.0,23.0,LOSS
+2026_06_BAL_CLE,nfl,"Sunday, October 18",BAL,CLE,,4.5,4.9,away,-4.5,0.4,False,False,2026-10-13T05:40:46+00:00,backfill (first locked version),10.0,13.0,LOSS
+2026_06_TEN_IND,nfl,"Sunday, October 18",TEN,IND,,-7.0,-6.5,away,7.0,0.5,False,False,2026-10-13T05:40:46+00:00,backfill (first locked version),26.0,20.0,WIN
+2026_06_NYJ_NE,nfl,"Sunday, October 18",NYJ,NE,,-7.5,-8.3,home,-7.5,0.8,False,False,2026-10-13T05:40:46+00:00,backfill (first locked version),19.0,26.0,LOSS
+2026_06_NO_NYG,nfl,"Sunday, October 18",NO,NYG,,-1.5,-2.5,home,-1.5,1.0,False,False,2026-10-13T05:40:46+00:00,backfill (first locked version),34.0,27.0,LOSS
+2026_06_CAR_PHI,nfl,"Sunday, October 18",CAR,PHI,,-1.5,1.4,away,1.5,2.9,False,False,2026-10-13T05:40:46+00:00,backfill (first locked version),25.0,14.0,WIN
+2026_06_PIT_TB,nfl,"Sunday, October 18",PIT,TB,,3.0,-1.4,home,3.0,4.4,False,False,2026-10-13T05:40:46+00:00,backfill (first locked version),26.0,19.0,LOSS
+2026_06_LAC_KC,nfl,"Sunday, October 18",LAC,KC,,-8.5,-8.7,home,-8.5,0.2,False,False,2026-10-13T05:40:46+00:00,backfill (first locked version),6.0,22.0,WIN
+2026_06_DAL_GB,nfl,"Sunday, October 18",DAL,GB,,-1.5,-3.9,home,-1.5,2.4,False,False,2026-10-13T05:40:46+00:00,backfill (first locked version),13.0,23.0,WIN
+2026_06_WAS_SF,nfl,"Monday, October 19",WAS,SF,,-7.5,-7.7,home,-7.5,0.2,False,False,2026-10-13T05:40:46+00:00,backfill (first locked version),17.0,23.0,LOSS
+2026_06_ARI_LA,nfl,"Sunday, October 18",ARI,LA,,-12.5,-9.2,away,12.5,3.3,False,False,2026-10-13T21:29:37+00:00,backfill (first locked version),18.0,16.0,WIN
+2026_06_BUF_LV,nfl,"Sunday, October 18",BUF,LV,,5.5,5.1,home,5.5,0.4,False,False,2026-10-13T21:29:37+00:00,backfill (first locked version),33.0,30.0,WIN
+2026_07_NE_CHI,nfl,"Thursday, October 22",NE,CHI,,-3.0,-4.4,home,-3.0,1.4,False,False,2026-10-20T04:46:49+00:00,backfill (first locked version),24.0,30.0,WIN
+2026_07_PIT_NO,nfl,"Sunday, October 25",PIT,NO,,3.5,1.7,home,3.5,1.8,False,False,2026-10-20T04:46:49+00:00,backfill (first locked version),16.0,10.0,LOSS
+2026_07_SF_ATL,nfl,"Sunday, October 25",SF,ATL,,3.5,2.1,home,3.5,1.4,False,False,2026-10-20T04:46:49+00:00,backfill (first locked version),20.0,29.0,WIN
+2026_07_CIN_BAL,nfl,"Sunday, October 25",CIN,BAL,,-3.0,-0.8,away,3.0,2.2,False,False,2026-10-20T04:46:49+00:00,backfill (first locked version),35.0,13.0,WIN
+2026_07_TB_CAR,nfl,"Sunday, October 25",TB,CAR,,-3.5,-6.8,home,-3.5,3.3,False,False,2026-10-20T04:46:49+00:00,backfill (first locked version),43.0,13.0,LOSS
+2026_07_NYG_HOU,nfl,"Sunday, October 25",NYG,HOU,,-10.0,-6.4,away,10.0,3.6,False,False,2026-10-20T04:46:49+00:00,backfill (first locked version),27.0,21.0,WIN
+2026_07_IND_MIN,nfl,"Sunday, October 25",IND,MIN,,-6.5,-4.7,away,6.5,1.8,False,False,2026-10-20T04:46:49+00:00,backfill (first locked version),10.0,16.0,WIN
+2026_07_MIA_NYJ,nfl,"Sunday, October 25",MIA,NYJ,,-4.5,-3.4,away,4.5,1.1,False,False,2026-10-20T04:46:49+00:00,backfill (first locked version),28.0,25.0,WIN
+2026_07_CLE_TEN,nfl,"Sunday, October 25",CLE,TEN,,1.5,2.1,away,-1.5,0.6,False,False,2026-10-20T04:46:49+00:00,backfill (first locked version),27.0,24.0,WIN
+2026_07_DEN_ARI,nfl,"Sunday, October 25",DEN,ARI,,4.5,2.1,home,4.5,2.4,False,False,2026-10-20T04:46:49+00:00,backfill (first locked version),30.0,16.0,LOSS
+2026_07_GB_DET,nfl,"Sunday, October 25",GB,DET,,-3.0,-3.7,home,-3.0,0.7,False,False,2026-10-20T04:46:49+00:00,backfill (first locked version),17.0,20.0,PUSH
+2026_07_KC_SEA,nfl,"Sunday, October 25",KC,SEA,,-2.5,-1.2,away,2.5,1.3,False,False,2026-10-20T04:46:49+00:00,backfill (first locked version),3.0,20.0,LOSS
+2026_07_DAL_PHI,nfl,"Monday, October 26",DAL,PHI,,4.5,2.2,home,4.5,2.3,False,False,2026-10-20T04:46:49+00:00,backfill (first locked version),38.0,21.0,LOSS
+2026_07_LA_LV,nfl,"Sunday, October 25",LA,LV,,3.5,4.5,away,-3.5,1.0,False,False,2026-10-22T12:59:46+00:00,backfill (first locked version),35.0,21.0,WIN
+2026_08_CAR_GB,nfl,"Thursday, October 29",CAR,GB,,-3.5,-3.0,away,3.5,0.5,False,False,2026-10-27T04:48:45+00:00,backfill (first locked version),19.0,27.0,LOSS
+2026_08_BAL_BUF,nfl,"Sunday, November 1",BAL,BUF,,-3.5,-7.0,home,-3.5,3.5,False,False,2026-10-27T04:48:45+00:00,backfill (first locked version),10.0,36.0,WIN
+2026_08_ARI_DAL,nfl,"Sunday, November 1",ARI,DAL,,-6.5,-3.4,away,6.5,3.1,False,False,2026-10-27T04:48:45+00:00,backfill (first locked version),33.0,30.0,WIN
+2026_08_MIN_DET,nfl,"Sunday, November 1",MIN,DET,,-3.0,-4.3,home,-3.0,1.3,False,False,2026-10-27T04:48:45+00:00,backfill (first locked version),15.0,19.0,WIN
+2026_08_IND_JAX,nfl,"Sunday, November 1",IND,JAX,,-7.5,-9.6,home,-7.5,2.1,False,False,2026-10-27T04:48:45+00:00,backfill (first locked version),7.0,42.0,WIN
+2026_08_CLE_PIT,nfl,"Sunday, November 1",CLE,PIT,,-3.5,-2.9,away,3.5,0.6,False,False,2026-10-27T04:48:45+00:00,backfill (first locked version),6.0,27.0,LOSS
+2026_08_ATL_TB,nfl,"Sunday, November 1",ATL,TB,,-2.5,-1.5,away,2.5,1.0,False,False,2026-10-27T04:48:45+00:00,backfill (first locked version),0.0,16.0,LOSS
+2026_08_LAC_LA,nfl,"Sunday, November 1",LAC,LA,,-6.5,-9.5,home,-6.5,3.0,False,False,2026-10-27T04:48:45+00:00,backfill (first locked version),9.0,24.0,WIN
+2026_08_KC_DEN,nfl,"Sunday, November 1",KC,DEN,,1.5,-0.2,home,1.5,1.7,False,False,2026-10-27T04:48:45+00:00,backfill (first locked version),24.0,28.0,WIN
+2026_08_NE_MIA,nfl,"Sunday, November 1",NE,MIA,,7.5,6.6,home,7.5,0.9,False,False,2026-10-27T04:48:45+00:00,backfill (first locked version),24.0,19.0,WIN
+2026_08_PHI_WAS,nfl,"Sunday, November 1",PHI,WAS,,-4.5,-7.2,home,-4.5,2.7,False,False,2026-10-27T04:48:45+00:00,backfill (first locked version),10.0,27.0,WIN
+2026_08_CHI_SEA,nfl,"Monday, November 2",CHI,SEA,,-3.0,0.8,away,3.0,3.8,False,False,2026-10-27T04:48:45+00:00,backfill (first locked version),34.0,17.0,WIN
+2026_08_LV_NYJ,nfl,"Sunday, November 1",LV,NYJ,,1.5,-1.6,home,1.5,3.1,False,False,2026-10-27T13:02:24+00:00,backfill (first locked version),38.0,33.0,LOSS
+2026_08_TEN_CIN,nfl,"Sunday, November 1",TEN,CIN,,-11.5,-10.4,away,11.5,1.1,False,False,2026-10-29T16:36:03+00:00,backfill (first locked version),36.0,43.0,WIN
+2026_09_DEN_CAR,nfl,"Sunday, November 8",DEN,CAR,2026-11-08 18:00:00+00:00,3.0,-0.7,home,3.0,3.7,False,False,2026-11-03T06:18:41+00:00,backfill (first locked version),,,
+2026_09_DAL_IND,nfl,"Sunday, November 8",DAL,IND,2026-11-08 18:00:00+00:00,6.0,0.7,home,6.0,5.3,False,False,2026-11-03T06:18:41+00:00,backfill (first locked version),,,
+2026_09_NYJ_KC,nfl,"Sunday, November 8",NYJ,KC,2026-11-08 18:00:00+00:00,-9.5,-7.9,away,9.5,1.6,False,False,2026-11-03T06:18:41+00:00,backfill (first locked version),,,
+2026_09_DET_MIA,nfl,"Sunday, November 8",DET,MIA,2026-11-08 18:00:00+00:00,7.0,5.7,home,7.0,1.3,False,False,2026-11-03T06:18:41+00:00,backfill (first locked version),,,
+2026_09_LA_WAS,nfl,"Sunday, November 8",LA,WAS,2026-11-08 18:00:00+00:00,5.5,4.7,home,5.5,0.8,False,False,2026-11-03T06:18:41+00:00,backfill (first locked version),,,
+2026_09_GB_NE,nfl,"Sunday, November 8",GB,NE,2026-11-08 21:25:00+00:00,-3.0,-2.0,away,3.0,1.0,False,False,2026-11-03T06:18:41+00:00,backfill (first locked version),,,
+2026_09_TB_CHI,nfl,"Sunday, November 8",TB,CHI,2026-11-09 01:20:00+00:00,-6.0,-6.9,home,-6.0,0.9,False,False,2026-11-03T06:18:41+00:00,backfill (first locked version),,,
+2026_09_JAX_BAL,nfl,"Thursday, November 5",JAX,BAL,2026-11-06 01:15:00+00:00,9.5,4.5,home,9.5,5.0,False,True,2026-11-03T14:54:57+00:00,live,,,
+2026_09_CIN_ATL,nfl,"Sunday, November 8",CIN,ATL,2026-11-08 14:30:00+00:00,3.0,2.6,home,3.0,0.4,True,False,2026-11-03T14:54:57+00:00,live,,,
+2026_09_CLE_NO,nfl,"Sunday, November 8",CLE,NO,2026-11-08 18:00:00+00:00,-2.5,-2.3,away,2.5,0.2,True,False,2026-11-03T14:54:57+00:00,live,,,
+2026_09_NYG_PHI,nfl,"Sunday, November 8",NYG,PHI,2026-11-08 18:00:00+00:00,3.5,3.4,home,3.5,0.1,True,False,2026-11-03T14:54:57+00:00,live,,,
+2026_09_HOU_LAC,nfl,"Sunday, November 8",HOU,LAC,2026-11-08 21:05:00+00:00,4.5,4.7,away,-4.5,0.2,True,False,2026-11-03T14:54:57+00:00,live,,,
+2026_09_LV_SF,nfl,"Sunday, November 8",LV,SF,2026-11-08 21:05:00+00:00,-10.0,-9.6,away,10.0,0.4,True,False,2026-11-03T14:54:57+00:00,live,,,
+2026_09_ARI_SEA,nfl,"Sunday, November 8",ARI,SEA,2026-11-08 21:25:00+00:00,-11.5,-8.6,away,11.5,2.9,False,True,2026-11-03T14:54:57+00:00,live,,,
+2026_09_BUF_MIN,nfl,"Monday, November 9",BUF,MIN,2026-11-10 01:15:00+00:00,3.5,3.1,home,3.5,0.4,True,False,2026-11-03T14:54:57+00:00,live,,,
