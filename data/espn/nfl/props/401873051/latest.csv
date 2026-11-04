@@ -1,8 +1,8 @@
 event_id,athlete_id,team_id,type_id,market,line,price,open_line,open_price,n,updated
 401873051,3917315,,8,Total Passing Yards (incl. overtime),209.5,,211.5,,1,2026-11-04T15:14Z
 401873051,3917315,,8,Total Passing Yards (incl. overtime),209.5,,211.5,,2,2026-11-04T15:14Z
-401873051,3918298,,8,Total Passing Yards (incl. overtime),236.5,,235.5,,1,2026-11-04T21:45Z
-401873051,3918298,,8,Total Passing Yards (incl. overtime),236.5,,235.5,,2,2026-11-04T21:45Z
+401873051,3918298,,8,Total Passing Yards (incl. overtime),235.5,,235.5,,1,2026-11-04T22:00Z
+401873051,3918298,,8,Total Passing Yards (incl. overtime),235.5,,235.5,,2,2026-11-04T22:00Z
 401873051,3917315,,9,Total Pass Completions (incl. overtime),19.5,,20.5,,1,2026-11-04T08:38Z
 401873051,3917315,,9,Total Pass Completions (incl. overtime),19.5,,20.5,,2,2026-11-04T08:38Z
 401873051,3918298,,9,Total Pass Completions (incl. overtime),20.5,,21.5,,1,2026-11-04T08:38Z
@@ -327,7 +327,7 @@ event_id,athlete_id,team_id,type_id,market,line,price,open_line,open_price,n,upd
 401873051,3918298,,194,Passing Yards Milestones,370.0,,240.0,,1,2026-11-04T08:38Z
 401873051,3918298,,194,Passing Yards Milestones,380.0,,240.0,,1,2026-11-04T08:38Z
 401873051,3918298,,194,Passing Yards Milestones,390.0,,240.0,,1,2026-11-04T08:38Z
-401873051,3918298,,194,Passing Yards Milestones,237.0,,240.0,,1,2026-11-04T21:45Z
+401873051,3918298,,194,Passing Yards Milestones,236.0,,240.0,,1,2026-11-04T22:00Z
 401873051,3915416,,195,Receiving Yards Milestones,10.0,,50.0,,1,2026-11-04T08:38Z
 401873051,3915416,,195,Receiving Yards Milestones,15.0,,50.0,,1,2026-11-04T08:38Z
 401873051,3915416,,195,Receiving Yards Milestones,20.0,,50.0,,1,2026-11-04T08:38Z
@@ -640,7 +640,6 @@ event_id,athlete_id,team_id,type_id,market,line,price,open_line,open_price,n,upd
 401873051,4379399,,202,Receptions Milestones,4.0,,3.0,,1,2026-11-04T08:38Z
 401873051,4379399,,202,Receptions Milestones,5.0,,3.0,,1,2026-11-04T08:38Z
 401873051,4379399,,202,Receptions Milestones,6.0,,3.0,,1,2026-11-04T08:38Z
-401873051,4379399,,202,Receptions Milestones,7.0,,3.0,,1,2026-11-04T08:38Z
 401873051,4385690,,202,Receptions Milestones,2.0,,4.0,,1,2026-11-04T08:38Z
 401873051,4385690,,202,Receptions Milestones,3.0,,4.0,,1,2026-11-04T08:38Z
 401873051,4385690,,202,Receptions Milestones,4.0,,4.0,,1,2026-11-04T08:38Z

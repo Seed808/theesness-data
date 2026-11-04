@@ -1,6 +1,6 @@
 event_id,athlete_id,team_id,type_id,market,line,price,open_line,open_price,n,updated
-401873048,4038524,,8,Total Passing Yards (incl. overtime),201.5,,200.5,,1,2026-11-05T00:11Z
-401873048,4038524,,8,Total Passing Yards (incl. overtime),201.5,,200.5,,2,2026-11-05T00:11Z
+401873048,4038524,,8,Total Passing Yards (incl. overtime),200.5,,200.5,,1,2026-11-05T00:52Z
+401873048,4038524,,8,Total Passing Yards (incl. overtime),200.5,,200.5,,2,2026-11-05T00:52Z
 401873048,4038524,,9,Total Pass Completions (incl. overtime),20.5,,20.5,,1,2026-11-04T23:33Z
 401873048,4038524,,9,Total Pass Completions (incl. overtime),20.5,,20.5,,2,2026-11-04T23:33Z
 401873048,4038524,,12,Total Rushing Yards (incl. overtime),5.5,,6.5,,1,2026-11-04T23:33Z
@@ -147,7 +147,7 @@ event_id,athlete_id,team_id,type_id,market,line,price,open_line,open_price,n,upd
 401873048,4038524,,194,Passing Yards Milestones,340.0,,210.0,,1,2026-11-04T23:33Z
 401873048,4038524,,194,Passing Yards Milestones,350.0,,210.0,,1,2026-11-04T23:33Z
 401873048,4038524,,194,Passing Yards Milestones,360.0,,210.0,,1,2026-11-04T23:33Z
-401873048,4038524,,194,Passing Yards Milestones,202.0,,210.0,,1,2026-11-05T00:11Z
+401873048,4038524,,194,Passing Yards Milestones,201.0,,210.0,,1,2026-11-05T00:11Z
 401873048,4360761,,195,Receiving Yards Milestones,10.0,,50.0,,1,2026-11-04T23:33Z
 401873048,4360761,,195,Receiving Yards Milestones,15.0,,50.0,,1,2026-11-04T23:33Z
 401873048,4360761,,195,Receiving Yards Milestones,20.0,,50.0,,1,2026-11-04T23:33Z
@@ -200,6 +200,7 @@ event_id,athlete_id,team_id,type_id,market,line,price,open_line,open_price,n,upd
 401873048,4038524,,196,Rushing Yards Milestones,20.0,,7.0,,1,2026-11-04T23:33Z
 401873048,4038524,,196,Rushing Yards Milestones,25.0,,7.0,,1,2026-11-04T23:33Z
 401873048,4038524,,196,Rushing Yards Milestones,30.0,,7.0,,1,2026-11-04T23:33Z
+401873048,4038524,,196,Rushing Yards Milestones,40.0,,7.0,,1,2026-11-04T23:33Z
 401873048,4038524,,196,Rushing Yards Milestones,6.0,,7.0,,1,2026-11-04T23:33Z
 401873048,4038524,,199,Interceptions Thrown Milestones,1.0,,1.0,,1,2026-11-04T23:33Z
 401873048,4038524,,199,Interceptions Thrown Milestones,2.0,,1.0,,1,2026-11-04T23:33Z
