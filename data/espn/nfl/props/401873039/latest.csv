@@ -1,40 +1,36 @@
 event_id,athlete_id,team_id,type_id,market,line,price,open_line,open_price,n,updated
 401873039,4361370,,31,Anytime Touchdown Scorer,,,,,1,2026-11-04T08:38Z
 401873039,4569559,,31,Anytime Touchdown Scorer,,,,,1,2026-11-04T08:38Z
-401873039,4685702,,31,Anytime Touchdown Scorer,,,,,1,2026-11-04T08:38Z
-401873039,4832800,,31,Anytime Touchdown Scorer,,,,,1,2026-11-04T08:38Z
-401873039,4870653,,31,Anytime Touchdown Scorer,,,,,1,2026-11-04T08:38Z
-401873039,5083076,,31,Anytime Touchdown Scorer,,,,,1,2026-11-04T08:38Z
-401873039,,,72,1st Half Total,21.5,,21.5,,1,2026-11-04T02:50Z
-401873039,,,72,1st Half Total,21.5,,21.5,,2,2026-11-04T02:50Z
+401873039,,,72,1st Half Total,20.5,,21.5,,1,2026-11-04T17:36Z
+401873039,,,72,1st Half Total,20.5,,21.5,,2,2026-11-04T17:36Z
 401873039,,5,73,1st Half Moneyline,,,,,1,2026-11-02T07:33Z
 401873039,,18,73,1st Half Moneyline,,,,,1,2026-11-02T07:33Z
-401873039,,5,74,1st Half Spread,0.5,,0.5,,1,2026-11-02T21:21Z
-401873039,,18,74,1st Half Spread,-0.5,,-0.5,,1,2026-11-02T21:21Z
+401873039,,5,74,1st Half Spread,1.5,,0.5,,1,2026-11-02T21:21Z
+401873039,,18,74,1st Half Spread,-1.5,,-0.5,,1,2026-11-02T21:21Z
 401873039,,,75,1st Quarter Total,7.5,,7.5,,1,2026-11-02T07:34Z
 401873039,,,75,1st Quarter Total,7.5,,7.5,,2,2026-11-02T07:34Z
 401873039,,5,76,1st Quarter Moneyline,,,,,1,2026-11-02T07:34Z
 401873039,,18,76,1st Quarter Moneyline,,,,,1,2026-11-02T07:34Z
-401873039,,5,77,1st Quarter Spread,0.5,,0.5,,1,2026-11-04T02:50Z
-401873039,,18,77,1st Quarter Spread,-0.5,,-0.5,,1,2026-11-04T02:50Z
-401873039,,,78,2nd Quarter Total,13.5,,13.5,,1,2026-11-04T13:01Z
-401873039,,,78,2nd Quarter Total,13.5,,13.5,,2,2026-11-04T13:01Z
+401873039,,5,77,1st Quarter Spread,0.5,,0.5,,1,2026-11-04T17:32Z
+401873039,,18,77,1st Quarter Spread,-0.5,,-0.5,,1,2026-11-04T17:32Z
+401873039,,,78,2nd Quarter Total,12.5,,13.5,,1,2026-11-04T18:02Z
+401873039,,,78,2nd Quarter Total,12.5,,13.5,,2,2026-11-04T18:02Z
 401873039,,5,79,2nd Quarter Moneyline,,,,,1,2026-11-04T13:01Z
 401873039,,18,79,2nd Quarter Moneyline,,,,,1,2026-11-04T13:01Z
 401873039,,5,80,2nd Quarter Spread,0.5,,0.5,,1,2026-11-04T13:01Z
 401873039,,18,80,2nd Quarter Spread,-0.5,,-0.5,,1,2026-11-04T13:01Z
-401873039,,,81,3rd Quarter Total,8.5,,8.5,,1,2026-11-04T13:01Z
-401873039,,,81,3rd Quarter Total,8.5,,8.5,,2,2026-11-04T13:01Z
+401873039,,,81,3rd Quarter Total,8.5,,8.5,,1,2026-11-04T17:36Z
+401873039,,,81,3rd Quarter Total,8.5,,8.5,,2,2026-11-04T17:36Z
 401873039,,5,82,3rd Quarter Moneyline,,,,,1,2026-11-04T13:01Z
 401873039,,18,82,3rd Quarter Moneyline,,,,,1,2026-11-04T13:01Z
 401873039,,5,83,3rd Quarter Spread,0.5,,0.5,,1,2026-11-04T13:01Z
 401873039,,18,83,3rd Quarter Spread,-0.5,,-0.5,,1,2026-11-04T13:01Z
-401873039,,,84,4th Quarter Total,12.5,,12.5,,1,2026-11-04T13:01Z
-401873039,,,84,4th Quarter Total,12.5,,12.5,,2,2026-11-04T13:01Z
+401873039,,,84,4th Quarter Total,11.5,,12.5,,1,2026-11-04T17:37Z
+401873039,,,84,4th Quarter Total,11.5,,12.5,,2,2026-11-04T17:37Z
 401873039,,5,85,4th Quarter Moneyline,,,,,1,2026-11-04T13:01Z
 401873039,,18,85,4th Quarter Moneyline,,,,,1,2026-11-04T13:01Z
-401873039,,5,86,4th Quarter Spread,-0.5,,-0.5,,1,2026-11-04T13:01Z
-401873039,,18,86,4th Quarter Spread,0.5,,0.5,,1,2026-11-04T13:01Z
+401873039,,5,86,4th Quarter Spread,0.5,,-0.5,,1,2026-11-04T17:33Z
+401873039,,18,86,4th Quarter Spread,-0.5,,0.5,,1,2026-11-04T17:33Z
 401873039,,5,98,Team Total Points,10.5,,20.5,,1,2026-11-03T22:01Z
 401873039,,5,98,Team Total Points,11.5,,20.5,,1,2026-11-03T02:06Z
 401873039,,5,98,Team Total Points,12.5,,20.5,,1,2026-11-03T02:06Z
@@ -55,7 +51,7 @@ event_id,athlete_id,team_id,type_id,market,line,price,open_line,open_price,n,upd
 401873039,,5,98,Team Total Points,27.5,,20.5,,1,2026-11-03T02:06Z
 401873039,,5,98,Team Total Points,28.5,,20.5,,1,2026-11-03T02:06Z
 401873039,,5,98,Team Total Points,29.5,,20.5,,1,2026-11-03T02:06Z
-401873039,,5,98,Team Total Points,30.5,,20.5,,1,2026-11-03T02:06Z
+401873039,,5,98,Team Total Points,9.5,,20.5,,1,2026-11-04T17:34Z
 401873039,,5,98,Team Total Points,10.5,,20.5,,2,2026-11-03T22:01Z
 401873039,,5,98,Team Total Points,11.5,,20.5,,2,2026-11-03T02:06Z
 401873039,,5,98,Team Total Points,12.5,,20.5,,2,2026-11-03T02:06Z
@@ -76,8 +72,7 @@ event_id,athlete_id,team_id,type_id,market,line,price,open_line,open_price,n,upd
 401873039,,5,98,Team Total Points,27.5,,20.5,,2,2026-11-03T02:06Z
 401873039,,5,98,Team Total Points,28.5,,20.5,,2,2026-11-03T02:06Z
 401873039,,5,98,Team Total Points,29.5,,20.5,,2,2026-11-03T02:06Z
-401873039,,5,98,Team Total Points,30.5,,20.5,,2,2026-11-03T02:06Z
-401873039,,18,98,Team Total Points,11.5,,22.5,,1,2026-11-04T02:09Z
+401873039,,5,98,Team Total Points,9.5,,20.5,,2,2026-11-04T17:34Z
 401873039,,18,98,Team Total Points,12.5,,22.5,,1,2026-11-03T02:06Z
 401873039,,18,98,Team Total Points,13.5,,22.5,,1,2026-11-03T02:06Z
 401873039,,18,98,Team Total Points,14.5,,22.5,,1,2026-11-03T02:06Z
@@ -98,7 +93,7 @@ event_id,athlete_id,team_id,type_id,market,line,price,open_line,open_price,n,upd
 401873039,,18,98,Team Total Points,29.5,,22.5,,1,2026-11-03T02:06Z
 401873039,,18,98,Team Total Points,30.5,,22.5,,1,2026-11-03T02:06Z
 401873039,,18,98,Team Total Points,31.5,,22.5,,1,2026-11-03T02:06Z
-401873039,,18,98,Team Total Points,11.5,,22.5,,2,2026-11-04T02:09Z
+401873039,,18,98,Team Total Points,32.5,,22.5,,1,2026-11-04T17:34Z
 401873039,,18,98,Team Total Points,12.5,,22.5,,2,2026-11-03T02:06Z
 401873039,,18,98,Team Total Points,13.5,,22.5,,2,2026-11-03T02:06Z
 401873039,,18,98,Team Total Points,14.5,,22.5,,2,2026-11-03T02:06Z
@@ -119,12 +114,13 @@ event_id,athlete_id,team_id,type_id,market,line,price,open_line,open_price,n,upd
 401873039,,18,98,Team Total Points,29.5,,22.5,,2,2026-11-03T02:06Z
 401873039,,18,98,Team Total Points,30.5,,22.5,,2,2026-11-03T02:06Z
 401873039,,18,98,Team Total Points,31.5,,22.5,,2,2026-11-03T02:06Z
+401873039,,18,98,Team Total Points,32.5,,22.5,,2,2026-11-04T17:34Z
 401873039,,5,99,Team 1st Half Total Points,9.5,,9.5,,1,2026-11-04T13:01Z
 401873039,,5,99,Team 1st Half Total Points,9.5,,9.5,,2,2026-11-04T13:01Z
 401873039,,18,99,Team 1st Half Total Points,10.5,,10.5,,1,2026-11-04T13:01Z
 401873039,,18,99,Team 1st Half Total Points,10.5,,10.5,,2,2026-11-04T13:01Z
-401873039,,5,104,Team Total Touchdowns,2.5,,2.5,,1,2026-11-03T02:06Z
-401873039,,5,104,Team Total Touchdowns,2.5,,2.5,,2,2026-11-03T02:06Z
+401873039,,5,104,Team Total Touchdowns,1.5,,2.5,,1,2026-11-04T18:02Z
+401873039,,5,104,Team Total Touchdowns,1.5,,2.5,,2,2026-11-04T18:02Z
 401873039,,18,104,Team Total Touchdowns,2.5,,2.5,,1,2026-11-03T02:06Z
 401873039,,18,104,Team Total Touchdowns,2.5,,2.5,,2,2026-11-03T02:06Z
 401873039,,,153,Will There Be Overtime?,,,,,1,2026-11-03T02:06Z
