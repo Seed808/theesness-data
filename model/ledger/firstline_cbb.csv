@@ -118,10 +118,10 @@ game_id,sport,date,away,home,kickoff_utc,first_line,model_line,pick,pick_line,ed
 401906757,cbb,"Tuesday, November 3",SHSU,ALA,2026-11-04T00:30Z,-26.5,-15.5,away,26.5,11.0,False,False,2026-11-02T23:50:16+00:00,backfill (first locked version),74.0,96.0,WIN
 401921165,cbb,"Tuesday, November 3",CLE,MIZ,2026-11-04T01:00Z,-26.5,-20.7,away,26.5,5.8,False,False,2026-11-02T23:50:16+00:00,backfill (first locked version),50.0,111.0,LOSS
 401909796,cbb,"Tuesday, November 3",SDST,KSU,2026-11-04T01:00Z,-13.5,-7.3,away,13.5,6.2,False,False,2026-11-02T23:50:16+00:00,backfill (first locked version),68.0,66.0,WIN
-401924911,cbb,"Tuesday, November 3",NAU,UNLV,2026-11-04T03:00Z,-21.5,-13.2,away,21.5,8.3,False,False,2026-11-02T23:50:16+00:00,backfill (first locked version),,,
+401924911,cbb,"Tuesday, November 3",NAU,UNLV,2026-11-04T03:00Z,-21.5,-13.2,away,21.5,8.3,False,False,2026-11-02T23:50:16+00:00,backfill (first locked version),77.0,89.0,WIN
 401911248,cbb,"Monday, November 2",LEH,SLU,2026-11-03T01:00Z,-26.5,-24.8,away,26.5,1.7,False,False,2026-11-03T00:23:12+00:00,backfill (first locked version),67.0,92.0,WIN
 401925779,cbb,"Tuesday, November 3",PFW,DUQ,2026-11-04T00:00Z,-11.5,-6.5,away,11.5,5.0,False,False,2026-11-03T00:23:12+00:00,backfill (first locked version),71.0,78.0,WIN
-401920155,cbb,"Tuesday, November 3",CSUF,SDSU,2026-11-04T03:00Z,-16.5,-14.5,away,16.5,2.0,False,False,2026-11-03T00:23:12+00:00,backfill (first locked version),,,
+401920155,cbb,"Tuesday, November 3",CSUF,SDSU,2026-11-04T03:00Z,-16.5,-14.5,away,16.5,2.0,False,False,2026-11-03T00:23:12+00:00,backfill (first locked version),78.0,102.0,LOSS
 401929372,cbb,"Tuesday, November 3",UAPB,ARK,2026-11-04T01:00Z,-40.5,-32.0,away,40.5,8.5,False,False,2026-11-03T04:14:28+00:00,backfill (first locked version),61.0,106.0,LOSS
 401921819,cbb,"Tuesday, November 3",STET,SC,2026-11-04T00:00Z,-16.5,-15.1,away,16.5,1.4,False,False,2026-11-03T04:35:18+00:00,backfill (first locked version),55.0,81.0,LOSS
 401920376,cbb,"Tuesday, November 3",COPP,VT,2026-11-04T00:00Z,-31.5,-33.4,home,-31.5,1.9,False,False,2026-11-03T04:35:18+00:00,backfill (first locked version),54.0,88.0,WIN
@@ -129,7 +129,7 @@ game_id,sport,date,away,home,kickoff_utc,first_line,model_line,pick,pick_line,ed
 401909551,cbb,"Tuesday, November 3",WAG,BC,2026-11-04T00:00Z,-17.5,-10.2,away,17.5,7.3,False,False,2026-11-03T04:35:18+00:00,backfill (first locked version),50.0,76.0,LOSS
 401920806,cbb,"Tuesday, November 3",ALST,TA&M,2026-11-04T01:00Z,-27.5,-28.0,home,-27.5,0.5,False,False,2026-11-03T04:35:18+00:00,backfill (first locked version),66.0,97.0,WIN
 401920702,cbb,"Tuesday, November 3",LIP,IOWA,2026-11-04T01:00Z,-20.5,-17.5,away,20.5,3.0,False,False,2026-11-03T04:35:18+00:00,backfill (first locked version),54.0,76.0,LOSS
-401920343,cbb,"Tuesday, November 3",UNF,CBU,2026-11-04T03:00Z,-9.5,-16.7,home,-9.5,7.2,False,False,2026-11-03T04:35:18+00:00,backfill (first locked version),,,
+401920343,cbb,"Tuesday, November 3",UNF,CBU,2026-11-04T03:00Z,-9.5,-16.7,home,-9.5,7.2,False,False,2026-11-03T04:35:18+00:00,backfill (first locked version),71.0,63.0,LOSS
 401919028,cbb,"Wednesday, November 4",CSUN,WICH,2026-11-05 00:30:00+00:00,-14.5,-18.9,home,-14.5,4.4,False,False,2026-11-03T20:31:31+00:00,live,,,
 401928811,cbb,"Wednesday, November 4",NKU,SDAK,2026-11-05 01:00:00+00:00,1.5,-9.6,home,1.5,11.1,False,False,2026-11-03T20:31:31+00:00,live,,,
 401917513,cbb,"Wednesday, November 4",MILW,SCU,2026-11-05 03:00:00+00:00,-18.5,-30.1,home,-18.5,11.6,False,False,2026-11-03T20:31:31+00:00,live,,,
