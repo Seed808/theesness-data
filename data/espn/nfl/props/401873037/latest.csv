@@ -1,10 +1,10 @@
 event_id,athlete_id,team_id,type_id,market,line,price,open_line,open_price,n,updated
 401873037,4360310,,8,Total Passing Yards (incl. overtime),234.5,,244.5,,1,2026-11-05T04:03Z
 401873037,4360310,,8,Total Passing Yards (incl. overtime),234.5,,244.5,,2,2026-11-05T04:03Z
-401873037,4429582,,8,Total Passing Yards (incl. overtime),156.5,,169.5,,1,2026-11-05T06:08Z
-401873037,4429582,,8,Total Passing Yards (incl. overtime),156.5,,169.5,,2,2026-11-05T06:08Z
-401873037,4360310,,9,Total Pass Completions (incl. overtime),19.5,,19.5,,1,2026-11-05T05:34Z
-401873037,4360310,,9,Total Pass Completions (incl. overtime),19.5,,19.5,,2,2026-11-05T05:34Z
+401873037,4429582,,8,Total Passing Yards (incl. overtime),155.5,,169.5,,1,2026-11-05T07:37Z
+401873037,4429582,,8,Total Passing Yards (incl. overtime),155.5,,169.5,,2,2026-11-05T07:37Z
+401873037,4360310,,9,Total Pass Completions (incl. overtime),18.5,,19.5,,1,2026-11-05T07:37Z
+401873037,4360310,,9,Total Pass Completions (incl. overtime),18.5,,19.5,,2,2026-11-05T07:37Z
 401873037,4429582,,9,Total Pass Completions (incl. overtime),15.5,,15.5,,1,2026-11-04T22:45Z
 401873037,4429582,,9,Total Pass Completions (incl. overtime),15.5,,15.5,,2,2026-11-04T22:45Z
 401873037,4360310,,10,Total Passing Touchdowns (incl. overtime),1.5,,1.5,,1,2026-11-04T22:45Z
@@ -280,6 +280,7 @@ event_id,athlete_id,team_id,type_id,market,line,price,open_line,open_price,n,upd
 401873037,4870847,,33,Player to score 3 or more touchdowns,,,,,1,2026-11-04T22:57Z
 401873037,4879194,,33,Player to score 3 or more touchdowns,,,,,1,2026-11-04T22:45Z
 401873037,4882093,,33,Player to score 3 or more touchdowns,,,,,1,2026-11-04T22:45Z
+401873037,4911851,,33,Player to score 3 or more touchdowns,,,,,1,2026-11-05T06:10Z
 401873037,,30,33,Player to score 3 or more touchdowns,,,,,1,2026-11-04T22:45Z
 401873037,,33,33,Player to score 3 or more touchdowns,,,,,1,2026-11-04T22:45Z
 401873037,2576336,,66,1st Half Touchdown Scorer,,,,,1,2026-11-04T22:45Z
@@ -581,7 +582,7 @@ event_id,athlete_id,team_id,type_id,market,line,price,open_line,open_price,n,upd
 401873037,4429582,,194,Passing Yards Milestones,300.0,,170.0,,1,2026-11-04T22:45Z
 401873037,4429582,,194,Passing Yards Milestones,310.0,,170.0,,1,2026-11-04T22:45Z
 401873037,4429582,,194,Passing Yards Milestones,320.0,,170.0,,1,2026-11-04T22:45Z
-401873037,4429582,,194,Passing Yards Milestones,157.0,,170.0,,1,2026-11-05T06:05Z
+401873037,4429582,,194,Passing Yards Milestones,156.0,,170.0,,1,2026-11-05T06:08Z
 401873037,3043078,,195,Receiving Yards Milestones,10.0,,10.0,,1,2026-11-04T22:45Z
 401873037,3043078,,195,Receiving Yards Milestones,15.0,,10.0,,1,2026-11-04T22:45Z
 401873037,3043078,,195,Receiving Yards Milestones,20.0,,10.0,,1,2026-11-04T22:45Z
@@ -691,7 +692,6 @@ event_id,athlete_id,team_id,type_id,market,line,price,open_line,open_price,n,upd
 401873037,4432620,,195,Receiving Yards Milestones,150.0,,70.0,,1,2026-11-04T22:45Z
 401873037,4432620,,195,Receiving Yards Milestones,160.0,,70.0,,1,2026-11-04T22:45Z
 401873037,4432620,,195,Receiving Yards Milestones,170.0,,70.0,,1,2026-11-04T22:45Z
-401873037,4432620,,195,Receiving Yards Milestones,180.0,,70.0,,1,2026-11-05T06:09Z
 401873037,4432620,,195,Receiving Yards Milestones,65.0,,70.0,,1,2026-11-04T22:45Z
 401873037,4432773,,195,Receiving Yards Milestones,10.0,,12.0,,1,2026-11-04T22:45Z
 401873037,4432773,,195,Receiving Yards Milestones,15.0,,12.0,,1,2026-11-04T22:45Z
@@ -975,6 +975,7 @@ event_id,athlete_id,team_id,type_id,market,line,price,open_line,open_price,n,upd
 401873037,4360310,,207,Passing Completions Milestones,24.0,,20.0,,1,2026-11-04T22:45Z
 401873037,4360310,,207,Passing Completions Milestones,26.0,,20.0,,1,2026-11-04T22:45Z
 401873037,4360310,,207,Passing Completions Milestones,28.0,,20.0,,1,2026-11-04T22:45Z
+401873037,4360310,,207,Passing Completions Milestones,19.0,,20.0,,1,2026-11-05T06:10Z
 401873037,4429582,,207,Passing Completions Milestones,16.0,,16.0,,1,2026-11-04T22:45Z
 401873037,4429582,,207,Passing Completions Milestones,18.0,,16.0,,1,2026-11-04T22:45Z
 401873037,4429582,,207,Passing Completions Milestones,20.0,,16.0,,1,2026-11-04T22:45Z
