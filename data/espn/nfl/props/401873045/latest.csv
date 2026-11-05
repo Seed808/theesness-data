@@ -25,8 +25,8 @@ event_id,athlete_id,team_id,type_id,market,line,price,open_line,open_price,n,upd
 401873045,4832955,,12,Total Rushing Yards (incl. overtime),11.5,,13.5,,2,2026-11-05T04:12Z
 401873045,15847,,13,Total Receiving Yards (incl. overtime),45.5,,49.5,,1,2026-11-05T02:24Z
 401873045,15847,,13,Total Receiving Yards (incl. overtime),45.5,,49.5,,2,2026-11-05T02:24Z
-401873045,4240472,,13,Total Receiving Yards (incl. overtime),10.5,,10.5,,1,2026-11-05T02:01Z
-401873045,4240472,,13,Total Receiving Yards (incl. overtime),10.5,,10.5,,2,2026-11-05T02:01Z
+401873045,4240472,,13,Total Receiving Yards (incl. overtime),12.5,,10.5,,1,2026-11-05T16:24Z
+401873045,4240472,,13,Total Receiving Yards (incl. overtime),12.5,,10.5,,2,2026-11-05T16:24Z
 401873045,4428331,,13,Total Receiving Yards (incl. overtime),60.5,,60.5,,1,2026-11-05T07:05Z
 401873045,4428331,,13,Total Receiving Yards (incl. overtime),60.5,,60.5,,2,2026-11-05T07:05Z
 401873045,4567048,,13,Total Receiving Yards (incl. overtime),16.5,,15.5,,1,2026-11-05T10:01Z
@@ -67,8 +67,8 @@ event_id,athlete_id,team_id,type_id,market,line,price,open_line,open_price,n,upd
 401873045,3139477,,18,Total Passing Plus Rushing Yards (incl. overtime),259.5,,261.5,,2,2026-11-05T14:10Z
 401873045,15847,,19,Longest Reception (incl. overtime),19.5,,19.5,,1,2026-11-05T13:57Z
 401873045,15847,,19,Longest Reception (incl. overtime),19.5,,19.5,,2,2026-11-05T13:57Z
-401873045,4240472,,19,Longest Reception (incl. overtime),9.5,,9.5,,1,2026-11-05T13:57Z
-401873045,4240472,,19,Longest Reception (incl. overtime),9.5,,9.5,,2,2026-11-05T13:57Z
+401873045,4240472,,19,Longest Reception (incl. overtime),11.5,,9.5,,1,2026-11-05T16:24Z
+401873045,4240472,,19,Longest Reception (incl. overtime),11.5,,9.5,,2,2026-11-05T16:24Z
 401873045,4428331,,19,Longest Reception (incl. overtime),22.5,,22.5,,1,2026-11-05T13:57Z
 401873045,4428331,,19,Longest Reception (incl. overtime),22.5,,22.5,,2,2026-11-05T13:57Z
 401873045,4567048,,19,Longest Reception (incl. overtime),9.5,,9.5,,1,2026-11-05T13:57Z
@@ -238,7 +238,6 @@ event_id,athlete_id,team_id,type_id,market,line,price,open_line,open_price,n,upd
 401873045,4723820,,33,Player to score 3 or more touchdowns,,,,,1,2026-11-05T13:20Z
 401873045,4808766,,33,Player to score 3 or more touchdowns,,,,,1,2026-11-05T13:20Z
 401873045,4832955,,33,Player to score 3 or more touchdowns,,,,,1,2026-11-05T13:20Z
-401873045,4912218,,33,Player to score 3 or more touchdowns,,,,,1,2026-11-05T13:20Z
 401873045,5082630,,33,Player to score 3 or more touchdowns,,,,,1,2026-11-05T14:10Z
 401873045,5083315,,33,Player to score 3 or more touchdowns,,,,,1,2026-11-05T13:20Z
 401873045,5093923,,33,Player to score 3 or more touchdowns,,,,,1,2026-11-05T13:20Z
@@ -570,7 +569,8 @@ event_id,athlete_id,team_id,type_id,market,line,price,open_line,open_price,n,upd
 401873045,4240472,,195,Receiving Yards Milestones,50.0,,11.0,,1,2026-11-05T02:01Z
 401873045,4240472,,195,Receiving Yards Milestones,60.0,,11.0,,1,2026-11-05T02:01Z
 401873045,4240472,,195,Receiving Yards Milestones,70.0,,11.0,,1,2026-11-05T02:01Z
-401873045,4240472,,195,Receiving Yards Milestones,11.0,,11.0,,1,2026-11-05T02:01Z
+401873045,4240472,,195,Receiving Yards Milestones,80.0,,11.0,,1,2026-11-05T07:05Z
+401873045,4240472,,195,Receiving Yards Milestones,13.0,,11.0,,1,2026-11-05T16:24Z
 401873045,4428331,,195,Receiving Yards Milestones,15.0,,61.0,,1,2026-11-04T08:38Z
 401873045,4428331,,195,Receiving Yards Milestones,20.0,,61.0,,1,2026-11-04T08:38Z
 401873045,4428331,,195,Receiving Yards Milestones,25.0,,61.0,,1,2026-11-04T08:38Z
@@ -706,6 +706,7 @@ event_id,athlete_id,team_id,type_id,market,line,price,open_line,open_price,n,upd
 401873045,4832955,,197,Rushing + Receiving Yards Milestones,100.0,,31.0,,1,2026-11-05T08:31Z
 401873045,4832955,,197,Rushing + Receiving Yards Milestones,110.0,,31.0,,1,2026-11-05T08:31Z
 401873045,4832955,,197,Rushing + Receiving Yards Milestones,31.0,,31.0,,1,2026-11-05T08:31Z
+401873045,4832955,,197,Rushing + Receiving Yards Milestones,120.0,,31.0,,1,2026-11-05T14:10Z
 401873045,15864,,198,Passing Touchdown Milestones,1.0,,2.0,,1,2026-11-05T02:44Z
 401873045,15864,,198,Passing Touchdown Milestones,2.0,,2.0,,1,2026-11-05T02:44Z
 401873045,15864,,198,Passing Touchdown Milestones,3.0,,,,1,2026-11-05T02:44Z
