@@ -77,14 +77,16 @@ event_id,athlete_id,team_id,type_id,market,line,price,open_line,open_price,n,upd
 401873043,4426515,,19,Longest Reception (incl. overtime),27.5,,26.5,,2,2026-11-05T16:04Z
 401873043,4429096,,19,Longest Reception (incl. overtime),8.5,,8.5,,1,2026-11-05T14:56Z
 401873043,4429096,,19,Longest Reception (incl. overtime),8.5,,8.5,,2,2026-11-05T14:56Z
-401873043,4430737,,19,Longest Reception (incl. overtime),11.5,,10.5,,1,2026-11-06T03:04Z
-401873043,4430737,,19,Longest Reception (incl. overtime),11.5,,10.5,,2,2026-11-06T03:04Z
+401873043,4430737,,19,Longest Reception (incl. overtime),10.5,,10.5,,1,2026-11-06T03:04Z
+401873043,4430737,,19,Longest Reception (incl. overtime),10.5,,10.5,,2,2026-11-06T03:04Z
 401873043,4567156,,19,Longest Reception (incl. overtime),18.5,,18.5,,1,2026-11-05T20:25Z
 401873043,4567156,,19,Longest Reception (incl. overtime),18.5,,18.5,,2,2026-11-05T20:25Z
 401873043,4697815,,19,Longest Reception (incl. overtime),9.5,,8.5,,1,2026-11-05T20:25Z
 401873043,4697815,,19,Longest Reception (incl. overtime),9.5,,8.5,,2,2026-11-05T20:25Z
 401873043,5081432,,19,Longest Reception (incl. overtime),19.5,,18.5,,1,2026-11-06T03:04Z
 401873043,5081432,,19,Longest Reception (incl. overtime),19.5,,18.5,,2,2026-11-06T03:04Z
+401873043,4430737,,20,Total Rushing Plus Receiving Yards (incl. overtime),82.5,,83.5,,1,2026-11-06T11:41Z
+401873043,4430737,,20,Total Rushing Plus Receiving Yards (incl. overtime),82.5,,83.5,,2,2026-11-06T11:41Z
 401873043,4697815,,20,Total Rushing Plus Receiving Yards (incl. overtime),60.5,,61.5,,1,2026-11-06T03:04Z
 401873043,4697815,,20,Total Rushing Plus Receiving Yards (incl. overtime),60.5,,61.5,,2,2026-11-06T03:04Z
 401873043,4426348,,21,Longest Rush (incl. overtime),14.5,,14.5,,1,2026-11-06T07:23Z
@@ -193,6 +195,7 @@ event_id,athlete_id,team_id,type_id,market,line,price,open_line,open_price,n,upd
 401873043,2976212,,32,Player to score 2 or more touchdowns,,,,,1,2026-11-05T02:31Z
 401873043,3068267,,32,Player to score 2 or more touchdowns,,,,,1,2026-11-05T02:31Z
 401873043,3919510,,32,Player to score 2 or more touchdowns,,,,,1,2026-11-05T22:28Z
+401873043,3930066,,32,Player to score 2 or more touchdowns,,,,,1,2026-11-06T16:32Z
 401873043,4048228,,32,Player to score 2 or more touchdowns,,,,,1,2026-11-05T02:31Z
 401873043,4242557,,32,Player to score 2 or more touchdowns,,,,,1,2026-11-05T02:31Z
 401873043,4360635,,32,Player to score 2 or more touchdowns,,,,,1,2026-11-05T02:31Z
@@ -740,8 +743,7 @@ event_id,athlete_id,team_id,type_id,market,line,price,open_line,open_price,n,upd
 401873043,4430737,,197,Rushing + Receiving Yards Milestones,170.0,,83.0,,1,2026-11-05T14:56Z
 401873043,4430737,,197,Rushing + Receiving Yards Milestones,180.0,,83.0,,1,2026-11-05T14:56Z
 401873043,4430737,,197,Rushing + Receiving Yards Milestones,190.0,,83.0,,1,2026-11-05T14:56Z
-401873043,4430737,,197,Rushing + Receiving Yards Milestones,200.0,,83.0,,1,2026-11-05T16:50Z
-401873043,4430737,,197,Rushing + Receiving Yards Milestones,84.0,,83.0,,1,2026-11-05T15:37Z
+401873043,4430737,,197,Rushing + Receiving Yards Milestones,83.0,,83.0,,1,2026-11-06T11:41Z
 401873043,4697815,,197,Rushing + Receiving Yards Milestones,40.0,,62.0,,1,2026-11-05T14:58Z
 401873043,4697815,,197,Rushing + Receiving Yards Milestones,50.0,,62.0,,1,2026-11-05T14:58Z
 401873043,4697815,,197,Rushing + Receiving Yards Milestones,60.0,,62.0,,1,2026-11-05T14:58Z
