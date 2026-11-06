@@ -193,7 +193,6 @@ event_id,athlete_id,team_id,type_id,market,line,price,open_line,open_price,n,upd
 401873043,2976212,,32,Player to score 2 or more touchdowns,,,,,1,2026-11-05T02:31Z
 401873043,3068267,,32,Player to score 2 or more touchdowns,,,,,1,2026-11-05T02:31Z
 401873043,3919510,,32,Player to score 2 or more touchdowns,,,,,1,2026-11-05T22:28Z
-401873043,3930066,,32,Player to score 2 or more touchdowns,,,,,1,2026-11-06T07:23Z
 401873043,4048228,,32,Player to score 2 or more touchdowns,,,,,1,2026-11-05T02:31Z
 401873043,4242557,,32,Player to score 2 or more touchdowns,,,,,1,2026-11-05T02:31Z
 401873043,4360635,,32,Player to score 2 or more touchdowns,,,,,1,2026-11-05T02:31Z
@@ -312,8 +311,8 @@ event_id,athlete_id,team_id,type_id,market,line,price,open_line,open_price,n,upd
 401873043,,,78,2nd Quarter Total,13.5,,13.5,,2,2026-11-04T13:01Z
 401873043,,14,79,2nd Quarter Moneyline,,,,,1,2026-11-04T13:01Z
 401873043,,28,79,2nd Quarter Moneyline,,,,,1,2026-11-04T13:01Z
-401873043,,14,80,2nd Quarter Spread,-1.5,,-1.5,,1,2026-11-06T11:43Z
-401873043,,28,80,2nd Quarter Spread,1.5,,1.5,,1,2026-11-06T11:43Z
+401873043,,14,80,2nd Quarter Spread,-0.5,,-1.5,,1,2026-11-06T11:44Z
+401873043,,28,80,2nd Quarter Spread,0.5,,1.5,,1,2026-11-06T11:44Z
 401873043,,,81,3rd Quarter Total,9.5,,9.5,,1,2026-11-04T13:01Z
 401873043,,,81,3rd Quarter Total,9.5,,9.5,,2,2026-11-04T13:01Z
 401873043,,14,82,3rd Quarter Moneyline,,,,,1,2026-11-04T13:01Z
@@ -999,8 +998,9 @@ event_id,athlete_id,team_id,type_id,market,line,price,open_line,open_price,n,upd
 401873043,4429096,,212,Rushing Yards Milestones - 1st Quarter,30.0,,10.0,,1,2026-11-05T16:13Z
 401873043,4429096,,212,Rushing Yards Milestones - 1st Quarter,35.0,,10.0,,1,2026-11-05T16:13Z
 401873043,4429096,,212,Rushing Yards Milestones - 1st Quarter,40.0,,10.0,,1,2026-11-05T16:13Z
-401873043,4429096,,212,Rushing Yards Milestones - 1st Quarter,40.0,,10.0,,2,2026-11-05T16:13Z
 401873043,4429096,,212,Rushing Yards Milestones - 1st Quarter,45.0,,10.0,,1,2026-11-05T16:13Z
+401873043,4429096,,212,Rushing Yards Milestones - 1st Quarter,40.0,,10.0,,2,2026-11-05T16:13Z
+401873043,4429096,,212,Rushing Yards Milestones - 1st Quarter,45.0,,10.0,,2,2026-11-05T16:13Z
 401873043,4430737,,212,Rushing Yards Milestones - 1st Quarter,5.0,,15.0,,1,2026-11-05T16:13Z
 401873043,4430737,,212,Rushing Yards Milestones - 1st Quarter,10.0,,15.0,,1,2026-11-05T16:13Z
 401873043,4430737,,212,Rushing Yards Milestones - 1st Quarter,15.0,,15.0,,1,2026-11-05T16:13Z
