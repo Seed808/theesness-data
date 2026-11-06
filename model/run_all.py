@@ -635,6 +635,12 @@ def run(data: Path, nfldata: Path, out: Path, ledger_dir: Path):
     g6 = games[(games["season"] == 2026) & (games["week"] == NFL_W)]
     kick = {r.game_id: str(pd.Timestamp(f"{r.gameday} {r.gametime}", tz="America/New_York").tz_convert("UTC"))
             for r in g6.itertuples()}
+    # one source of truth for start times on every board: ESPN's newest copy (the nflverse schedule file lags flex
+    # and time changes, e.g. LV @ SF Week 10 listed 4:05 ET while ESPN had 4:25)
+    _es = nfl_espn_status(repo, [{"game_id": r.game_id, "away": r.away_team, "home": r.home_team} for r in g6.itertuples()], kick)
+    for gid, e in _es.items():
+        if e.get("time_valid", True):
+            kick[gid] = str(pd.Timestamp(e["kickoff_utc"]))
     slate["date"] = pd.to_datetime(slate["date"]).dt.strftime("%A, %B %-d")
     built = M.build(2026, NFL_W)
     cards = M.project_slate(2026, NFL_W, slate, margin_sd=acc["model_sd"], built=built)
@@ -643,6 +649,10 @@ def run(data: Path, nfldata: Path, out: Path, ledger_dir: Path):
     report["nfl_questionable_active_rate"] = AV.q
     for c in cards:
         c["records"] = rec
+        if kick.get(c["game_id"]):
+            _k = pd.Timestamp(kick[c["game_id"]]) - pd.Timedelta(hours=10)
+            c["kickoff"] = _k.strftime("%-I:%M %p HST")
+            c["date"] = _k.strftime("%A, %B %-d")
         c["props"] = nfl_props(c, P, AV)
         sa, sh = starters[(c["game_id"], "away")], starters[(c["game_id"], "home")]
         c["starters"] = f'{sa.get("starter") or "?"} / {sh.get("starter") or "?"}'
@@ -721,7 +731,7 @@ def run(data: Path, nfldata: Path, out: Path, ledger_dir: Path):
             if pd.notna(r.home_score) and pd.notna(r.away_score)}
     totals_tracker.publish(out, ledger_dir, "nfl", cards, kick, now, nfin, names, stats)
     firstline.publish(out, ledger_dir, "nfl", cards, kick, now, nfin, names, stats, ledger_dir / "nfl_locks.csv")
-    alerts.audit_times("nfl", cards, kick, nfl_espn_status(Path(__file__).resolve().parents[1], cards, kick), now)
+    alerts.audit_times("nfl", cards, kick, _es, now)
     # finished games on the live board: final score on every card, result from the ledger (the graded locked pick)
     lr = live_rows.copy()
     lr["game_id"] = lr["game_id"].astype(str)
