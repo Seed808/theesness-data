@@ -65,6 +65,45 @@ def check_dates(sport: str, cards: list[dict], kickoff_utc: dict, now) -> None:
         health(sport, "final_early", f"{len(early)} card(s) show a final or result before kickoff: " + "; ".join(early[:4]))
 
 
+def audit_times(sport: str, cards: list[dict], kickoff_utc: dict, espn: dict, now) -> None:
+    """Every build, every board (preview included): the start time we show must match ESPN's newest one, the card's
+    printed time must match its kickoff, and a game we show as started must not still be 'not started' on ESPN 45
+    minutes later. espn: {game_id: {"kickoff_utc", "state", "time_valid"}}. Problems -> one MODEL CHECK a day."""
+    check_dates(sport, cards, kickoff_utc, now)
+    nowt = pd.Timestamp(now)
+    nowt = nowt.tz_localize("UTC") if nowt.tzinfo is None else nowt
+    moved, stuck, label = [], [], []
+    for c in cards:
+        gid = str(c["game_id"])
+        ko = kickoff_utc.get(gid) or kickoff_utc.get(c["game_id"])
+        if ko is None:
+            continue
+        t = pd.Timestamp(ko)
+        t = t.tz_localize("UTC") if t.tzinfo is None else t
+        e = espn.get(gid) or {}
+        who = f'{c["away"]} @ {c["home"]}'
+        if e.get("kickoff_utc"):
+            et = pd.Timestamp(e["kickoff_utc"])
+            et = et.tz_localize("UTC") if et.tzinfo is None else et
+            if abs((et - t).total_seconds()) > 600 and e.get("time_valid", True):
+                moved.append(f'{who}: we show {_hst(t)}, ESPN now says {_hst(et)}')
+            seen = e.get("seen") or e.get("_stamp")       # only judge from an ESPN copy taken after the start + 45 min
+            fresh = bool(seen) and str(seen) >= (t + pd.Timedelta(minutes=45)).strftime("%Y%m%dT%H%MZ")
+            if fresh and e.get("state") == "pre" and e.get("time_valid", True) and et + pd.Timedelta(minutes=45) < nowt:
+                stuck.append(f'{who}: start time {_hst(t)} passed but ESPN still shows it not started')
+        k = c.get("kickoff")
+        if k and "HST" in str(k) and k != "Time TBD":
+            want = t.tz_convert("Pacific/Honolulu").strftime("%-I:%M %p HST")
+            if not str(k).startswith(want):
+                label.append(f'{who}: card says {k}, kickoff is {want}')
+    if moved:
+        health(sport, "time_moved", f"{len(moved)} start time(s) differ from ESPN's newest: " + "; ".join(moved[:4]))
+    if stuck:
+        health(sport, "time_stuck", f"{len(stuck)} game(s) should have started but have not: " + "; ".join(stuck[:4]))
+    if label:
+        health(sport, "time_label", f"{len(label)} card(s) print the wrong start time: " + "; ".join(label[:4]))
+
+
 def _hst(ts) -> str:
     t = pd.Timestamp(ts)
     if t.tzinfo is None:

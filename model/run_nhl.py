@@ -67,6 +67,10 @@ def espn_events(repo: Path) -> dict:
                 t = {x["homeAway"]: x for x in c["competitors"]}
                 st = ((c.get("status") or ev.get("status") or {}).get("type") or {})
                 row = out.setdefault(str(ev["id"]), {})
+                if row.get("_stamp") and f.stem < row["_stamp"]:
+                    continue                      # an older copy (e.g. the old day's folder of a moved game)
+                row["_stamp"] = f.stem
+                row.update(state=st.get("state"), time_valid=c.get("timeValid", True) is not False)
                 row.update(game_id=str(ev["id"]), kickoff_utc=ev["date"], away=t["away"]["team"]["abbreviation"],
                            home=t["home"]["team"]["abbreviation"], venue=(c.get("venue") or {}).get("fullName", ""),
                            season_type=(ev.get("season") or {}).get("type"),
@@ -119,7 +123,7 @@ def nhl_section(out: Path, repo: Path, ledger_dir: Path, report: dict, now: date
              **{k: v.get(k) for k in ("home_ml", "away_ml", "total", "over_odds", "under_odds")}}
         c = M.project(R, g)
         c.update(game_id=v["game_id"], away=v["away"], home=v["home"], date=g["date"], venue=v.get("venue", ""),
-                 kickoff=(ko - pd.Timedelta(hours=10)).strftime("%-I:%M %p HST"))
+                 kickoff=(ko - pd.Timedelta(hours=10)).strftime("%-I:%M %p HST") if v.get("time_valid", True) else "Time TBD")
         sp = {}
         for side in ("away", "home"):
             gw = sorted(c["goalies"].get(side, []), key=lambda x: -x[1])
@@ -164,6 +168,7 @@ def nhl_section(out: Path, repo: Path, ledger_dir: Path, report: dict, now: date
                       f'{names.get(big["home"], big["home"])}', "href": f'game/{big["game_id"]}.html'})
     totals_tracker.publish(out, ledger_dir, "nhl", cards, kick, now, fin, names, stats)
     firstline.publish(out, ledger_dir, "nhl", cards, kick, now, fin, names, stats, ledger_dir / lname)
+    alerts.audit_times("nhl", cards, kick, ev, now)
     lede = ("Expected goals from every unblocked shot (distance, angle, rebound, shot type, man advantage), opponent-adjusted "
             "team ratings for and against, and each expected starting goalie's goals saved above expected. Picks are on the "
             "moneyline: the side where our win chance beats DraftKings' no-vig chance; highlighted at 3+ points with value at the "
