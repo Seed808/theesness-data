@@ -238,21 +238,18 @@ def nfl_current_week(games: pd.DataFrame, now, season: int = 2026) -> int:
 def espn_ncaaf_events(repo: Path) -> dict:
     """{event id: {week, kickoff_utc, completed, final (away, home)}} from the newest snapshot of every ESPN
     college scoreboard folder."""
+    from edgemodels.core.espn_feed import newest_by_event, event_status
     out = {}
     base = repo / "data" / "espn" / "ncaaf" / "scoreboard"
-    for folder in sorted(base.glob("2*")):
-        if not folder.is_dir():
-            continue
-        for ev in latest_events(folder):
-            c = ev["competitions"][0]
-            done = bool(c.get("status", {}).get("type", {}).get("completed"))
-            fin = None
-            if done:
-                sc = {t["homeAway"]: float(t["score"]) for t in c["competitors"]}
-                fin = (sc["away"], sc["home"])
-            prev = out.get(str(ev["id"]), {})
-            out[str(ev["id"])] = {"week": (ev.get("week") or {}).get("number"), "kickoff_utc": ev.get("date"),
-                                  "completed": done or prev.get("completed", False), "final": fin or prev.get("final")}
+    for i, (stamp, ev) in newest_by_event(base).items():
+        c = ev["competitions"][0]
+        stt = event_status(ev)
+        fin = None
+        if stt["completed"]:
+            sc = {t["homeAway"]: float(t["score"]) for t in c["competitors"]}
+            fin = (sc["away"], sc["home"])
+        out[i] = {"week": (ev.get("week") or {}).get("number"), "kickoff_utc": ev.get("date"), "completed": stt["completed"],
+                  "final": fin, "state": stt["state"], "time_valid": stt["time_valid"], "seen": stamp}
     return out
 
 
@@ -267,28 +264,30 @@ def ncaaf_current_week(events: dict, now, default: int) -> int:
 def espn_nba_events(repo: Path, league: str = "nba") -> dict:
     """{event id: {...}} for every game in the saved ESPN scoreboards of a basketball league (nba / cbb): teams,
     names, kickoff, finished score, and the newest pre-game line."""
+    from edgemodels.core.espn_feed import newest_by_event, event_status
     out = {}
     base = repo / "data" / "espn" / league / "scoreboard"
+    for i, (stamp, ev) in newest_by_event(base).items():     # newest copy of each game, whichever day folder holds it
+        c = ev["competitions"][0]
+        t = {x["homeAway"]: x for x in c["competitors"]}
+        stt = event_status(ev)
+        row = out.setdefault(i, {})
+        row.update(game_id=i, kickoff_utc=ev["date"], away=t["away"]["team"]["abbreviation"],
+                   home=t["home"]["team"]["abbreviation"], neutral_site=bool(c.get("neutralSite")),
+                   venue=(c.get("venue") or {}).get("fullName", ""), season_type=(ev.get("season") or {}).get("type"),
+                   names={t[x]["team"]["abbreviation"]: t[x]["team"].get("displayName") for x in ("away", "home")},
+                   state=stt["state"], time_valid=stt["time_valid"], seen=stamp)
+        if stt["completed"]:
+            row["final"] = (float(t["away"]["score"]), float(t["home"]["score"]))
     for folder in sorted(base.glob("2*")):
         if not folder.is_dir():
             continue
-        for ev in latest_events(folder):
-            c = ev["competitions"][0]
-            t = {x["homeAway"]: x for x in c["competitors"]}
-            done = bool(c.get("status", {}).get("type", {}).get("completed"))
-            row = out.setdefault(str(ev["id"]), {})
-            row.update(game_id=str(ev["id"]), kickoff_utc=ev["date"], away=t["away"]["team"]["abbreviation"],
-                       home=t["home"]["team"]["abbreviation"], neutral_site=bool(c.get("neutralSite")),
-                       venue=(c.get("venue") or {}).get("fullName", ""), season_type=(ev.get("season") or {}).get("type"),
-                       names={t[s]["team"]["abbreviation"]: t[s]["team"].get("displayName") for s in ("away", "home")})
-            if done:
-                row["final"] = (float(t["away"]["score"]), float(t["home"]["score"]))
         for ev, seen in latest_line_events(folder):
             c = ev["competitions"][0]
             o = (c.get("odds") or [{}])[0]
             row = out.setdefault(str(ev["id"]), {})
             sh = espn_home_spread(c, o)
-            if sh is not None:
+            if sh is not None and (row.get("line_seen") is None or (seen or "") >= row["line_seen"]):
                 row.update(spread_home=sh, total=o.get("overUnder"), line_seen=seen)
     return out
 
@@ -320,6 +319,16 @@ def espn_ncaaf_slate(repo: Path, week: int):
                          "venue": (c.get("venue") or {}).get("fullName", ""),
                          "away": t["away"], "home": t["home"], "neutral_site": bool(c.get("neutralSite")),
                          "spread_home": sh, "total": o.get("overUnder")})
+    # kickoff from the newest copy of each game across all day folders (a moved game keeps its old time in the old folder)
+    from edgemodels.core.espn_feed import newest_by_event, event_status
+    newest = newest_by_event(base)
+    for r in rows:
+        nv = newest.get(r["game_id"])
+        if nv:
+            ko = pd.Timestamp(nv[1]["date"])
+            tv = event_status(nv[1])["time_valid"]
+            r.update(date=(ko - pd.Timedelta(hours=10)).strftime("%A, %B %-d"), kickoff_utc=str(ko),
+                     kickoff=(ko - pd.Timedelta(hours=10)).strftime("%-I:%M %p HST") if tv else "Time TBD")
     sl = pd.DataFrame(rows)
     if not sl.empty:
         sl = sl.sort_values("kickoff_utc", kind="stable").reset_index(drop=True)
@@ -459,6 +468,26 @@ def cfb_season_results(repo: Path, year: int = 2026) -> dict:
             out.setdefault(g[f"{side}Team"], []).append(
                 {"opp": g[f"{opp}Team"], "home": side == "home" and not g.get("neutralSite"), "neutral": bool(g.get("neutralSite")),
                  "pf": float(g[f"{side}Points"]), "pa": float(g[f"{opp}Points"]), "start": g.get("startDate") or ""})
+    return out
+
+
+def nfl_espn_status(repo: Path, cards: list, kick: dict) -> dict:
+    """game_id -> ESPN's newest kickoff / state for this week's NFL cards (matched by teams within a day)."""
+    from edgemodels.core.espn_feed import newest_by_event, event_status
+    ab = {"LAR": "LA", "WSH": "WAS"}
+    by = {}
+    for _, (stamp, ev) in newest_by_event(repo / "data" / "espn" / "nfl" / "scoreboard").items():
+        t = {x["homeAway"]: x["team"]["abbreviation"] for x in ev["competitions"][0]["competitors"]}
+        by.setdefault((ab.get(t["away"], t["away"]), ab.get(t["home"], t["home"])), []).append(
+            {"kickoff_utc": ev["date"], "seen": stamp, **event_status(ev)})
+    out = {}
+    for c in cards:
+        ko = kick.get(c["game_id"])
+        cand = by.get((c["away"], c["home"]), [])
+        if ko is not None and cand:
+            best = min(cand, key=lambda e: abs((pd.Timestamp(e["kickoff_utc"]) - pd.Timestamp(ko)).total_seconds()))
+            if abs((pd.Timestamp(best["kickoff_utc"]) - pd.Timestamp(ko)).total_seconds()) < 3 * 86400:
+                out[str(c["game_id"])] = best
     return out
 
 
@@ -692,6 +721,7 @@ def run(data: Path, nfldata: Path, out: Path, ledger_dir: Path):
             if pd.notna(r.home_score) and pd.notna(r.away_score)}
     totals_tracker.publish(out, ledger_dir, "nfl", cards, kick, now, nfin, names, stats)
     firstline.publish(out, ledger_dir, "nfl", cards, kick, now, nfin, names, stats, ledger_dir / "nfl_locks.csv")
+    alerts.audit_times("nfl", cards, kick, nfl_espn_status(Path(__file__).resolve().parents[1], cards, kick), now)
     # finished games on the live board: final score on every card, result from the ledger (the graded locked pick)
     lr = live_rows.copy()
     lr["game_id"] = lr["game_id"].astype(str)
@@ -857,6 +887,7 @@ def run(data: Path, nfldata: Path, out: Path, ledger_dir: Path):
         stats.append({"k": "Biggest gap", "v": f'{big["edge"]:.1f}', "s": f'{big["away"]} at {big["home"]}', "href": f'game/{big["game_id"]}.html'})
     totals_tracker.publish(out, ledger_dir, "ncaaf", syncable, ckick, now, cfinal, cnames, stats)
     firstline.publish(out, ledger_dir, "ncaaf", syncable, ckick, now, cfinal, cnames, stats, ledger_dir / "ncaaf_locks.csv")
+    alerts.audit_times("ncaaf", ccards, ckick, cevents, now)
     nav = site.week_nav([(x, f"Wk {x}") for x in replay_weeks] + [("live", f"Wk {LIVE_W} · live")], "live",
                         lambda x: "index.html" if x == "live" else f"week/{x}.html")
     site.write(out, "ncaaf/index.html", site.page("NCAAF Model Board", site.board(
@@ -961,7 +992,7 @@ def run(data: Path, nfldata: Path, out: Path, ledger_dir: Path):
             ko = pd.Timestamp(v["kickoff_utc"])
             d = hst_date(v)
             rows.append({"game_id": v["game_id"], "date": (ko - pd.Timedelta(hours=10)).strftime("%A, %B %-d"),
-                         "kickoff": (ko - pd.Timedelta(hours=10)).strftime("%-I:%M %p HST"), "away": v["away"],
+                         "kickoff": (ko - pd.Timedelta(hours=10)).strftime("%-I:%M %p HST") if v.get("time_valid", True) else "Time TBD", "away": v["away"],
                          "home": v["home"], "neutral_site": v["neutral_site"], "venue": v["venue"],
                          "home_b2b": int((d - pd.Timedelta(days=1)) in played.get(v["home"], set())),
                          "away_b2b": int((d - pd.Timedelta(days=1)) in played.get(v["away"], set())),
@@ -1061,6 +1092,7 @@ def run(data: Path, nfldata: Path, out: Path, ledger_dir: Path):
                            "href": f'game/{big["game_id"]}.html'})
         totals_tracker.publish(out, ledger_dir, "nba", lcards, nkick, now, nfin, lnames, nstats)
         firstline.publish(out, ledger_dir, "nba", lcards, nkick, now, nfin, lnames, nstats, ledger_dir / "nba_locks.csv")
+        alerts.audit_times("nba", lcards, nkick, nev, now)
         site.write(out, "nba/index.html", site.page("NBA Model Board", site.board(
             "nba", "NBA projections", "Each team scores its points per 100 possessions against the opponent's defence, at the "
             "matchup's pace, plus home court. Early in the season the ratings are still half last season by design. Picks update "
@@ -1117,7 +1149,8 @@ def run(data: Path, nfldata: Path, out: Path, ledger_dir: Path):
             continue                                     # board shows games with a line between two rated teams
         ko = pd.Timestamp(v["kickoff_utc"])
         krows.append({"game_id": v["game_id"], "date": (ko - pd.Timedelta(hours=10)).strftime("%A, %B %-d"),
-                      "kickoff": (ko - pd.Timedelta(hours=10)).strftime("%-I:%M %p HST"), "away": v["away"], "home": v["home"],
+                      "kickoff": (ko - pd.Timedelta(hours=10)).strftime("%-I:%M %p HST") if v.get("time_valid", True) else "Time TBD",
+                      "away": v["away"], "home": v["home"],
                       "neutral_site": v["neutral_site"], "venue": v["venue"], "home_b2b": 0, "away_b2b": 0,
                       "spread_home": v.get("spread_home"), "total": v.get("total")})
     for v in kwin:
@@ -1165,6 +1198,7 @@ def run(data: Path, nfldata: Path, out: Path, ledger_dir: Path):
                        f'{knames.get(kbig["home"], kbig["home"])}', "href": f'game/{kbig["game_id"]}.html'})
     totals_tracker.publish(out, ledger_dir, "cbb", kcards, kkick, now, kfin, knames, kstats)
     firstline.publish(out, ledger_dir, "cbb", kcards, kkick, now, kfin, knames, kstats, ledger_dir / kled_name)
+    alerts.audit_times("cbb", kcards, kkick, kev, now)
     klede = ("Each team scores its points per 100 possessions against the opponent's defence at the matchup's pace, plus "
              "home court. Ratings start from last season, regressed halfway to average, and update as this season's games come in. "
              "Only games with a DraftKings line between two rated teams are shown. Picks update with the newest line until "

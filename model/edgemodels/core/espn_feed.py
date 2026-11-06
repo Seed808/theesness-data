@@ -37,6 +37,31 @@ def first_line_events(folder: Path) -> list[tuple[dict, str | None]]:
     return [first.get(i, (latest[i], None)) for i in order]
 
 
+def newest_by_event(base: Path) -> dict:
+    """event id -> (snapshot stamp, event) using the NEWEST snapshot that contains the game, across every date folder.
+    (A game moved to another day stays in the old day's last snapshot with its old time; folder order is not enough.)"""
+    out = {}
+    for folder in sorted(Path(base).glob("2*")):
+        if not folder.is_dir():
+            continue
+        snaps = _snapshots(folder)
+        if not snaps:
+            continue
+        f = snaps[-1]
+        for ev in json.loads(f.read_text()).get("events", []):
+            i = str(ev["id"])
+            if i not in out or f.stem >= out[i][0]:
+                out[i] = (f.stem, ev)
+    return out
+
+
+def event_status(ev: dict) -> dict:
+    c = ev["competitions"][0]
+    st = ((c.get("status") or ev.get("status") or {}).get("type") or {})
+    return {"state": st.get("state"), "time_valid": c.get("timeValid", ev.get("timeValid", True)) is not False,
+            "completed": bool(st.get("completed"))}
+
+
 def latest_events(folder: Path) -> list[dict]:
     snaps = _snapshots(folder)
     return json.loads(snaps[-1].read_text()).get("events", []) if snaps else []
