@@ -76,6 +76,8 @@ event_id,athlete_id,team_id,type_id,market,line,price,open_line,open_price,n,upd
 401873045,4723820,,14,Total Receptions (incl. overtime),4.5,,4.5,,2,2026-11-06T17:26Z
 401873045,4808766,,14,Total Receptions (incl. overtime),3.5,,2.5,,1,2026-11-06T01:43Z
 401873045,4808766,,14,Total Receptions (incl. overtime),3.5,,2.5,,2,2026-11-06T01:43Z
+401873045,4832955,,14,Total Receptions (incl. overtime),2.5,,2.5,,1,2026-11-07T12:08Z
+401873045,4832955,,14,Total Receptions (incl. overtime),2.5,,2.5,,2,2026-11-07T12:08Z
 401873045,4912218,,14,Total Receptions (incl. overtime),1.5,,1.5,,1,2026-11-05T02:01Z
 401873045,4912218,,14,Total Receptions (incl. overtime),1.5,,1.5,,2,2026-11-05T02:01Z
 401873045,5083315,,14,Total Receptions (incl. overtime),2.5,,2.5,,1,2026-11-06T01:43Z
@@ -92,8 +94,8 @@ event_id,athlete_id,team_id,type_id,market,line,price,open_line,open_price,n,upd
 401873045,15864,,17,Longest Passing Completion (incl. overtime),34.5,,32.5,,2,2026-11-07T08:20Z
 401873045,3139477,,17,Longest Passing Completion (incl. overtime),37.5,,37.5,,1,2026-11-05T13:46Z
 401873045,3139477,,17,Longest Passing Completion (incl. overtime),37.5,,37.5,,2,2026-11-05T13:46Z
-401873045,15864,,18,Total Passing Plus Rushing Yards (incl. overtime),229.5,,222.5,,1,2026-11-07T10:29Z
-401873045,15864,,18,Total Passing Plus Rushing Yards (incl. overtime),229.5,,222.5,,2,2026-11-07T10:29Z
+401873045,15864,,18,Total Passing Plus Rushing Yards (incl. overtime),229.5,,222.5,,1,2026-11-07T12:45Z
+401873045,15864,,18,Total Passing Plus Rushing Yards (incl. overtime),229.5,,222.5,,2,2026-11-07T12:45Z
 401873045,3139477,,18,Total Passing Plus Rushing Yards (incl. overtime),258.5,,261.5,,1,2026-11-07T10:29Z
 401873045,3139477,,18,Total Passing Plus Rushing Yards (incl. overtime),258.5,,261.5,,2,2026-11-07T10:29Z
 401873045,15847,,19,Longest Reception (incl. overtime),20.5,,19.5,,1,2026-11-06T16:25Z
@@ -112,6 +114,8 @@ event_id,athlete_id,team_id,type_id,market,line,price,open_line,open_price,n,upd
 401873045,4597500,,19,Longest Reception (incl. overtime),21.5,,21.5,,2,2026-11-07T08:19Z
 401873045,4683062,,19,Longest Reception (incl. overtime),15.5,,17.5,,1,2026-11-06T21:34Z
 401873045,4683062,,19,Longest Reception (incl. overtime),15.5,,17.5,,2,2026-11-06T21:34Z
+401873045,4685247,,19,Longest Reception (incl. overtime),8.5,,8.5,,1,2026-11-07T12:45Z
+401873045,4685247,,19,Longest Reception (incl. overtime),8.5,,8.5,,2,2026-11-07T12:45Z
 401873045,4723820,,19,Longest Reception (incl. overtime),20.5,,17.5,,1,2026-11-07T08:20Z
 401873045,4723820,,19,Longest Reception (incl. overtime),20.5,,17.5,,2,2026-11-07T08:20Z
 401873045,4808766,,19,Longest Reception (incl. overtime),11.5,,12.5,,1,2026-11-06T19:05Z
@@ -799,7 +803,7 @@ event_id,athlete_id,team_id,type_id,market,line,price,open_line,open_price,n,upd
 401873045,4912218,,195,Receiving Yards Milestones,90.0,,15.0,,1,2026-11-05T02:01Z
 401873045,4912218,,195,Receiving Yards Milestones,100.0,,15.0,,1,2026-11-05T02:38Z
 401873045,4912218,,195,Receiving Yards Milestones,16.0,,15.0,,1,2026-11-06T17:26Z
-401873045,4912218,,195,Receiving Yards Milestones,110.0,,15.0,,1,2026-11-07T11:08Z
+401873045,4912218,,195,Receiving Yards Milestones,110.0,,15.0,,1,2026-11-07T12:45Z
 401873045,5083315,,195,Receiving Yards Milestones,10.0,,20.0,,1,2026-11-06T01:39Z
 401873045,5083315,,195,Receiving Yards Milestones,15.0,,20.0,,1,2026-11-06T01:39Z
 401873045,5083315,,195,Receiving Yards Milestones,20.0,,20.0,,1,2026-11-06T01:39Z
@@ -1086,6 +1090,7 @@ event_id,athlete_id,team_id,type_id,market,line,price,open_line,open_price,n,upd
 401873045,4912218,,202,Receptions Milestones,3.0,,2.0,,1,2026-11-05T02:01Z
 401873045,4912218,,202,Receptions Milestones,4.0,,2.0,,1,2026-11-05T02:01Z
 401873045,4912218,,202,Receptions Milestones,5.0,,2.0,,1,2026-11-05T02:01Z
+401873045,4912218,,202,Receptions Milestones,6.0,,2.0,,1,2026-11-07T11:08Z
 401873045,5083315,,202,Receptions Milestones,2.0,,3.0,,1,2026-11-06T01:39Z
 401873045,5083315,,202,Receptions Milestones,3.0,,3.0,,1,2026-11-06T01:39Z
 401873045,5083315,,202,Receptions Milestones,4.0,,3.0,,1,2026-11-06T01:39Z
