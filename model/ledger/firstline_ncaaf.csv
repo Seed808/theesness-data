@@ -176,7 +176,7 @@ game_id,sport,date,away,home,kickoff_utc,first_line,model_line,pick,pick_line,ed
 401858512,ncaaf,"Friday, November 6",UCLA,Minnesota,2026-11-07 17:00:00+00:00,6.0,10.7,away,-6.0,4.7,False,False,2026-11-01T06:57:00+00:00,backfill (first locked version),,,
 401858513,ncaaf,"Friday, November 6",Iowa,Northwestern,2026-11-08 00:30:00+00:00,-1.5,0.9,away,1.5,2.4,False,False,2026-11-01T06:57:00+00:00,backfill (first locked version),,,
 401858511,ncaaf,"Friday, November 6",Michigan State,Michigan,2026-11-08 00:30:00+00:00,-14.0,-18.8,home,-14.0,4.8,False,False,2026-11-01T06:57:00+00:00,backfill (first locked version),,,
-401856849,ncaaf,"Saturday, November 7",BYU,Utah,2026-11-07 17:00:00+00:00,-4.5,-12.5,home,-4.5,8.0,False,False,2026-11-01T06:57:00+00:00,backfill (first locked version),,,
+401856849,ncaaf,"Saturday, November 7",BYU,Utah,2026-11-07 17:00:00+00:00,-4.5,-12.5,home,-4.5,8.0,False,False,2026-11-01T06:57:00+00:00,backfill (first locked version),20.0,28.0,WIN
 401856743,ncaaf,"Saturday, November 7",Texas,Missouri,2026-11-07 17:00:00+00:00,3.5,0.9,home,3.5,2.6,False,False,2026-11-01T06:57:00+00:00,backfill (first locked version),,,
 401858514,ncaaf,"Saturday, November 7",Oregon,Ohio State,2026-11-07 20:30:00+00:00,-10.5,-17.2,home,-10.5,6.7,False,False,2026-11-01T06:57:00+00:00,backfill (first locked version),,,
 401856740,ncaaf,"Saturday, November 7",Alabama,LSU,2026-11-07 20:30:00+00:00,-4.5,-3.2,away,4.5,1.3,False,False,2026-11-01T06:57:00+00:00,backfill (first locked version),,,
@@ -186,10 +186,10 @@ game_id,sport,date,away,home,kickoff_utc,first_line,model_line,pick,pick_line,ed
 401862823,ncaaf,"Saturday, November 7",Air Force,Army,2026-11-08 00:30:00+00:00,-5.5,-10.7,home,-5.5,5.2,False,False,2026-11-01T06:57:00+00:00,backfill (first locked version),,,
 401856739,ncaaf,"Saturday, November 7",Oklahoma,Florida,2026-11-08 00:45:00+00:00,-5.5,-0.9,away,5.5,4.6,False,False,2026-11-01T06:57:00+00:00,backfill (first locked version),,,
 401856851,ncaaf,"Friday, November 6",Cincinnati,Houston,2026-11-07 20:30:00+00:00,-10.5,-14.2,home,-10.5,3.7,False,False,2026-11-01T16:20:31+00:00,backfill (first locked version),,,
-401856853,ncaaf,"Friday, November 6",Iowa State,Baylor,2026-11-07 17:00:00+00:00,-9.5,-12.4,home,-9.5,2.9,False,False,2026-11-01T16:20:31+00:00,backfill (first locked version),,,
+401856853,ncaaf,"Friday, November 6",Iowa State,Baylor,2026-11-07 17:00:00+00:00,-9.5,-12.4,home,-9.5,2.9,False,False,2026-11-01T16:20:31+00:00,backfill (first locked version),31.0,42.0,WIN
 401856854,ncaaf,"Saturday, November 7",Oklahoma State,Kansas State,2026-11-07 18:00:00+00:00,6.5,-11.5,home,6.5,18.0,False,False,2026-11-01T16:20:31+00:00,backfill (first locked version),,,
-401858285,ncaaf,"Saturday, November 7",Clemson,Syracuse,2026-11-07 17:00:00+00:00,1.5,2.0,away,-1.5,0.5,False,False,2026-11-01T16:20:31+00:00,backfill (first locked version),,,
-401858292,ncaaf,"Saturday, November 7",North Carolina,UConn,2026-11-07 17:00:00+00:00,8.5,-6.2,home,8.5,14.7,False,False,2026-11-01T16:20:31+00:00,backfill (first locked version),,,
+401858285,ncaaf,"Saturday, November 7",Clemson,Syracuse,2026-11-07 17:00:00+00:00,1.5,2.0,away,-1.5,0.5,False,False,2026-11-01T16:20:31+00:00,backfill (first locked version),18.0,13.0,WIN
+401858292,ncaaf,"Saturday, November 7",North Carolina,UConn,2026-11-07 17:00:00+00:00,8.5,-6.2,home,8.5,14.7,False,False,2026-11-01T16:20:31+00:00,backfill (first locked version),38.0,21.0,LOSS
 401858286,ncaaf,"Saturday, November 7",Duke,NC State,2026-11-07 17:30:00+00:00,6.5,3.2,home,6.5,3.3,False,False,2026-11-01T16:20:31+00:00,backfill (first locked version),,,
 401858515,ncaaf,"Saturday, November 7",Maryland,Purdue,2026-11-07 17:30:00+00:00,-7.0,-10.5,home,-7.0,3.5,False,False,2026-11-01T16:20:31+00:00,backfill (first locked version),,,
 401856738,ncaaf,"Saturday, November 7",Arkansas,Auburn,2026-11-07 17:45:00+00:00,-12.5,-14.5,home,-12.5,2.0,False,False,2026-11-01T16:20:31+00:00,backfill (first locked version),,,
@@ -205,7 +205,7 @@ game_id,sport,date,away,home,kickoff_utc,first_line,model_line,pick,pick_line,ed
 401856852,ncaaf,"Saturday, November 7",Colorado,Arizona State,2026-11-08 00:30:00+00:00,-4.0,-11.9,home,-4.0,7.9,False,False,2026-11-01T16:20:31+00:00,backfill (first locked version),,,
 401858287,ncaaf,"Saturday, November 7",Louisville,Georgia Tech,2026-11-08 00:30:00+00:00,13.5,12.5,home,13.5,1.0,False,False,2026-11-01T16:20:31+00:00,backfill (first locked version),,,
 401856856,ncaaf,"Saturday, November 7",West Virginia,Texas Tech,2026-11-08 02:30:00+00:00,-17.5,-26.9,home,-17.5,9.4,False,False,2026-11-01T16:20:31+00:00,backfill (first locked version),,,
-401862822,ncaaf,"Saturday, November 7",Tulsa,Tulane,2026-11-07 17:00:00+00:00,3.0,-8.2,home,3.0,11.2,False,False,2026-11-01T17:16:01+00:00,backfill (first locked version),,,
+401862822,ncaaf,"Saturday, November 7",Tulsa,Tulane,2026-11-07 17:00:00+00:00,3.0,-8.2,home,3.0,11.2,False,False,2026-11-01T17:16:01+00:00,backfill (first locked version),60.0,10.0,LOSS
 401869945,ncaaf,"Saturday, November 7",Old Dominion,Coastal Carolina,2026-11-07 18:00:00+00:00,-6.5,-7.1,home,-6.5,0.6,False,False,2026-11-01T17:16:01+00:00,backfill (first locked version),,,
 401862819,ncaaf,"Saturday, November 7",Charlotte,UAB,2026-11-07 20:30:00+00:00,-10.5,-23.3,home,-10.5,12.8,False,False,2026-11-01T17:16:01+00:00,backfill (first locked version),,,
 401862820,ncaaf,"Saturday, November 7",Temple,Navy,2026-11-07 20:30:00+00:00,-7.5,-17.3,home,-7.5,9.8,False,False,2026-11-01T17:16:01+00:00,backfill (first locked version),,,
@@ -222,4 +222,4 @@ game_id,sport,date,away,home,kickoff_utc,first_line,model_line,pick,pick_line,ed
 401860911,ncaaf,"Saturday, November 7",Boise State,Colorado State,2026-11-07 23:00:00+00:00,18.5,19.7,away,-18.5,1.2,False,False,2026-11-01T17:47:32+00:00,backfill (first locked version),,,
 401860912,ncaaf,"Saturday, November 7",Texas State,Oregon State,2026-11-08 03:30:00+00:00,-8.5,-4.7,away,8.5,3.8,False,False,2026-11-01T17:47:32+00:00,backfill (first locked version),,,
 401864534,ncaaf,"Saturday, November 7",Northern Illinois,San José State,2026-11-07 21:00:00+00:00,-11.5,-15.9,home,-11.5,4.4,False,False,2026-11-01T19:50:45+00:00,backfill (first locked version),,,
-401858289,ncaaf,"Saturday, November 7",Florida State,Boston College,2026-11-07 17:00:00+00:00,7.0,6.5,home,7.0,0.5,False,False,2026-11-02T16:15:17+00:00,backfill (first locked version),,,
+401858289,ncaaf,"Saturday, November 7",Florida State,Boston College,2026-11-07 17:00:00+00:00,7.0,6.5,home,7.0,0.5,False,False,2026-11-02T16:15:17+00:00,backfill (first locked version),31.0,24.0,PUSH
