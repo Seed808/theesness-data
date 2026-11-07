@@ -244,7 +244,7 @@ game_id,sport,date,away,home,kickoff_utc,first_line,model_line,pick,pick_line,ed
 401919040,cbb,"Friday, November 6",QUC,OKST,2026-11-07 02:00:00+00:00,-19.5,-20.3,home,-19.5,0.8,False,False,2026-11-06T06:13:33+00:00,live,68.0,118.0,WIN
 401909532,cbb,"Saturday, November 7",PROV,NEB,2026-11-08 00:00:00+00:00,-4.5,-3.8,away,4.5,0.7,False,False,2026-11-06T19:08:11+00:00,live,,,
 401918986,cbb,"Saturday, November 7",VCU,MEM,2026-11-07 20:00:00+00:00,-1.5,-22.1,home,-1.5,20.6,False,False,2026-11-06T20:01:13+00:00,live,88.0,89.0,LOSS
-401909760,cbb,"Saturday, November 7",SDSU,COLO,2026-11-07 20:30:00+00:00,2.5,-1.3,home,2.5,3.8,False,False,2026-11-06T20:01:13+00:00,live,,,
+401909760,cbb,"Saturday, November 7",SDSU,COLO,2026-11-07 20:30:00+00:00,2.5,-1.3,home,2.5,3.8,False,False,2026-11-06T20:01:13+00:00,live,77.0,66.0,LOSS
 401909513,cbb,"Saturday, November 7",MD,GTWN,2026-11-08 00:30:00+00:00,-1.5,-11.0,home,-1.5,9.5,False,False,2026-11-06T20:01:13+00:00,live,,,
 401918948,cbb,"Saturday, November 7",MORE,LOU,2026-11-07 17:00:00+00:00,-36.5,-28.5,away,36.5,8.0,False,False,2026-11-06T23:51:10+00:00,live,57.0,107.0,LOSS
 401925707,cbb,"Saturday, November 7",UND,WIN,2026-11-07 17:00:00+00:00,-9.5,-25.6,home,-9.5,16.1,False,False,2026-11-06T23:51:10+00:00,live,93.0,90.0,LOSS
@@ -258,16 +258,16 @@ game_id,sport,date,away,home,kickoff_utc,first_line,model_line,pick,pick_line,ed
 401926201,cbb,"Saturday, November 7",VMI,UTSA,2026-11-07 22:00:00+00:00,-5.5,-14.5,home,-5.5,9.0,False,False,2026-11-06T23:51:10+00:00,live,,,
 401926112,cbb,"Saturday, November 7",UNI,FUR,2026-11-07 22:00:00+00:00,-4.5,-6.4,home,-4.5,1.9,False,False,2026-11-06T23:51:10+00:00,live,,,
 401917518,cbb,"Saturday, November 7",PAC,BRAD,2026-11-08 01:00:00+00:00,-1.5,-21.2,home,-1.5,19.7,False,False,2026-11-06T23:51:10+00:00,live,,,
-401924912,cbb,"Saturday, November 7",SAM,UNLV,2026-11-07 21:00:00+00:00,-11.5,-4.1,away,11.5,7.4,False,False,2026-11-07T01:16:53+00:00,live,,,
+401924912,cbb,"Saturday, November 7",SAM,UNLV,2026-11-07 21:00:00+00:00,-11.5,-4.1,away,11.5,7.4,False,False,2026-11-07T01:16:53+00:00,live,79.0,88.0,WIN
 401920411,cbb,"Saturday, November 7",WSU,HPU,2026-11-07 22:00:00+00:00,-11.5,-22.0,home,-11.5,10.5,False,False,2026-11-07T01:16:53+00:00,live,,,
 401924895,cbb,"Saturday, November 7",NAU,UNM,2026-11-07 23:00:00+00:00,-25.5,-37.3,home,-25.5,11.8,False,False,2026-11-07T01:16:53+00:00,live,,,
 401911262,cbb,"Saturday, November 7",SBU,CAN,2026-11-08 00:00:00+00:00,9.5,5.9,home,9.5,3.6,False,False,2026-11-07T01:16:53+00:00,live,,,
 401920371,cbb,"Saturday, November 7",FRES,UCSD,2026-11-08 03:00:00+00:00,-9.5,-13.4,home,-9.5,3.9,False,False,2026-11-07T01:16:53+00:00,live,,,
 401911470,cbb,"Saturday, November 7",SJSU,UCI,2026-11-08 03:00:00+00:00,-7.5,-20.7,home,-7.5,13.2,False,False,2026-11-07T01:16:53+00:00,live,,,
-401922044,cbb,"Saturday, November 7",NCCU,LONG,2026-11-07 20:00:00+00:00,-11.5,-13.4,home,-11.5,1.9,False,False,2026-11-07T02:10:02+00:00,live,,,
-401919805,cbb,"Saturday, November 7",LIU,LAS,2026-11-07 20:30:00+00:00,-4.5,-2.6,away,4.5,1.9,False,False,2026-11-07T02:10:02+00:00,live,,,
-401929293,cbb,"Saturday, November 7",OMA,USU,2026-11-07 21:00:00+00:00,-26.5,-37.8,home,-26.5,11.3,False,False,2026-11-07T02:10:02+00:00,live,,,
-401928352,cbb,"Saturday, November 7",OAK,UCSB,2026-11-07 21:00:00+00:00,-11.5,2.3,away,11.5,13.8,False,False,2026-11-07T02:10:02+00:00,live,,,
+401922044,cbb,"Saturday, November 7",NCCU,LONG,2026-11-07 20:00:00+00:00,-11.5,-13.4,home,-11.5,1.9,False,False,2026-11-07T02:10:02+00:00,live,75.0,80.0,LOSS
+401919805,cbb,"Saturday, November 7",LIU,LAS,2026-11-07 20:30:00+00:00,-4.5,-2.6,away,4.5,1.9,False,False,2026-11-07T02:10:02+00:00,live,80.0,88.0,LOSS
+401929293,cbb,"Saturday, November 7",OMA,USU,2026-11-07 21:00:00+00:00,-26.5,-37.8,home,-26.5,11.3,False,False,2026-11-07T02:10:02+00:00,live,56.0,90.0,WIN
+401928352,cbb,"Saturday, November 7",OAK,UCSB,2026-11-07 21:00:00+00:00,-11.5,2.3,away,11.5,13.8,False,False,2026-11-07T02:10:02+00:00,live,67.0,90.0,LOSS
 401920192,cbb,"Saturday, November 7",LAF,JOES,2026-11-07 21:00:00+00:00,-17.5,-14.8,away,17.5,2.7,False,False,2026-11-07T02:10:02+00:00,live,,,
 401925772,cbb,"Saturday, November 7",MER,DAV,2026-11-08 00:00:00+00:00,-10.5,-29.5,home,-10.5,19.0,False,False,2026-11-07T02:10:02+00:00,live,,,
 401924951,cbb,"Saturday, November 7",HCU,WIU,2026-11-08 00:00:00+00:00,9.5,4.0,home,9.5,5.5,False,False,2026-11-07T02:10:02+00:00,live,,,
@@ -277,7 +277,7 @@ game_id,sport,date,away,home,kickoff_utc,first_line,model_line,pick,pick_line,ed
 401917519,cbb,"Saturday, November 7",SAC,SCU,2026-11-08 03:00:00+00:00,-18.5,-26.3,home,-18.5,7.8,False,False,2026-11-07T02:10:02+00:00,live,,,
 401917517,cbb,"Saturday, November 7",PRST,SEA,2026-11-08 03:00:00+00:00,-10.5,-7.5,away,10.5,3.0,False,False,2026-11-07T02:10:02+00:00,live,,,
 401917962,cbb,"Saturday, November 7",LAM,ACU,2026-11-07 19:00:00+00:00,-2.5,2.8,away,2.5,5.3,False,False,2026-11-07T05:03:22+00:00,live,81.0,83.0,WIN
-401920062,cbb,"Saturday, November 7",MONM,URI,2026-11-07 21:00:00+00:00,-6.5,-4.4,away,6.5,2.1,False,False,2026-11-07T05:03:22+00:00,live,,,
+401920062,cbb,"Saturday, November 7",MONM,URI,2026-11-07 21:00:00+00:00,-6.5,-4.4,away,6.5,2.1,False,False,2026-11-07T05:03:22+00:00,live,66.0,84.0,LOSS
 401924940,cbb,"Saturday, November 7",ODU,BUCK,2026-11-07 22:00:00+00:00,4.5,3.9,home,4.5,0.6,False,False,2026-11-07T05:03:22+00:00,live,,,
 401921174,cbb,"Saturday, November 7",UTM,IUIN,2026-11-07 22:00:00+00:00,2.5,-2.7,home,2.5,5.2,False,False,2026-11-07T05:03:22+00:00,live,,,
 401920703,cbb,"Saturday, November 7",SIUE,LIP,2026-11-07 22:00:00+00:00,-5.5,-4.8,away,5.5,0.7,False,False,2026-11-07T05:03:22+00:00,live,,,
@@ -304,3 +304,5 @@ game_id,sport,date,away,home,kickoff_utc,first_line,model_line,pick,pick_line,ed
 401909707,cbb,"Sunday, November 8",PITT,PSU,2026-11-09 01:00:00+00:00,2.5,1.3,home,2.5,1.2,False,False,2026-11-07T22:22:08+00:00,live,,,
 401918053,cbb,"Sunday, November 8",HOU,CAL,2026-11-09 01:30:00+00:00,17.5,17.4,home,17.5,0.1,True,False,2026-11-07T22:22:08+00:00,live,,,
 401919029,cbb,"Sunday, November 8",USC,WICH,2026-11-09 04:00:00+00:00,5.5,9.4,away,-5.5,3.9,False,False,2026-11-07T22:22:08+00:00,live,,,
+401924646,cbb,"Sunday, November 8",IONA,SJU,2026-11-08 17:00:00+00:00,-27.5,-24.9,away,27.5,2.6,False,False,2026-11-07T23:16:55+00:00,live,,,
+401929002,cbb,"Sunday, November 8",UTA,HAW,2026-11-09 04:00:00+00:00,-9.5,-14.4,home,-9.5,4.9,False,False,2026-11-07T23:16:55+00:00,live,,,
