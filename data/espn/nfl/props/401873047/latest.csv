@@ -1,6 +1,6 @@
 event_id,athlete_id,team_id,type_id,market,line,price,open_line,open_price,n,updated
-401873047,14880,,8,Total Passing Yards (incl. overtime),247.5,,248.5,,1,2026-11-07T09:44Z
-401873047,14880,,8,Total Passing Yards (incl. overtime),247.5,,248.5,,2,2026-11-07T09:44Z
+401873047,14880,,8,Total Passing Yards (incl. overtime),246.5,,248.5,,1,2026-11-07T14:18Z
+401873047,14880,,8,Total Passing Yards (incl. overtime),246.5,,248.5,,2,2026-11-07T14:18Z
 401873047,4361741,,8,Total Passing Yards (incl. overtime),248.5,,248.5,,1,2026-11-07T05:00Z
 401873047,4361741,,8,Total Passing Yards (incl. overtime),248.5,,248.5,,2,2026-11-07T05:00Z
 401873047,14880,,9,Total Pass Completions (incl. overtime),23.5,,23.5,,1,2026-11-04T08:38Z
@@ -569,8 +569,8 @@ event_id,athlete_id,team_id,type_id,market,line,price,open_line,open_price,n,upd
 401873047,14880,,194,Passing Yards Milestones,390.0,,250.0,,1,2026-11-04T08:38Z
 401873047,14880,,194,Passing Yards Milestones,400.0,,250.0,,1,2026-11-04T08:38Z
 401873047,14880,,194,Passing Yards Milestones,410.0,,250.0,,1,2026-11-04T08:38Z
-401873047,14880,,194,Passing Yards Milestones,248.0,,250.0,,1,2026-11-07T09:44Z
 401873047,14880,,194,Passing Yards Milestones,420.0,,250.0,,1,2026-11-07T05:19Z
+401873047,14880,,194,Passing Yards Milestones,247.0,,250.0,,1,2026-11-07T11:10Z
 401873047,4361741,,194,Passing Yards Milestones,180.0,,250.0,,1,2026-11-04T08:38Z
 401873047,4361741,,194,Passing Yards Milestones,190.0,,250.0,,1,2026-11-04T08:38Z
 401873047,4361741,,194,Passing Yards Milestones,200.0,,250.0,,1,2026-11-04T08:38Z
@@ -725,6 +725,7 @@ event_id,athlete_id,team_id,type_id,market,line,price,open_line,open_price,n,upd
 401873047,4431466,,195,Receiving Yards Milestones,110.0,,21.0,,1,2026-11-06T23:57Z
 401873047,4431466,,195,Receiving Yards Milestones,120.0,,21.0,,1,2026-11-07T02:12Z
 401873047,4431466,,195,Receiving Yards Milestones,28.0,,21.0,,1,2026-11-07T09:44Z
+401873047,4431466,,195,Receiving Yards Milestones,130.0,,21.0,,1,2026-11-07T11:24Z
 401873047,4432665,,195,Receiving Yards Milestones,25.0,,80.0,,1,2026-11-05T19:29Z
 401873047,4432665,,195,Receiving Yards Milestones,30.0,,80.0,,1,2026-11-04T08:38Z
 401873047,4432665,,195,Receiving Yards Milestones,40.0,,80.0,,1,2026-11-04T08:38Z
