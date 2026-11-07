@@ -38,8 +38,8 @@ event_id,athlete_id,team_id,type_id,market,line,price,open_line,open_price,n,upd
 401873049,4431487,,13,Total Receiving Yards (incl. overtime),19.5,,21.5,,2,2026-11-07T07:52Z
 401873049,4569173,,13,Total Receiving Yards (incl. overtime),22.5,,23.5,,1,2026-11-07T07:18Z
 401873049,4569173,,13,Total Receiving Yards (incl. overtime),22.5,,23.5,,2,2026-11-07T07:18Z
-401873049,4572680,,13,Total Receiving Yards (incl. overtime),44.5,,45.5,,1,2026-11-07T07:18Z
-401873049,4572680,,13,Total Receiving Yards (incl. overtime),44.5,,45.5,,2,2026-11-07T07:18Z
+401873049,4572680,,13,Total Receiving Yards (incl. overtime),45.5,,45.5,,1,2026-11-07T07:18Z
+401873049,4572680,,13,Total Receiving Yards (incl. overtime),45.5,,45.5,,2,2026-11-07T07:18Z
 401873049,4613202,,13,Total Receiving Yards (incl. overtime),19.5,,19.5,,1,2026-11-06T22:11Z
 401873049,4613202,,13,Total Receiving Yards (incl. overtime),19.5,,19.5,,2,2026-11-06T22:11Z
 401873049,4701936,,13,Total Receiving Yards (incl. overtime),67.5,,67.5,,1,2026-11-07T07:18Z
@@ -89,10 +89,11 @@ event_id,athlete_id,team_id,type_id,market,line,price,open_line,open_price,n,upd
 401873049,4427095,,19,Longest Reception (incl. overtime),18.5,,18.5,,1,2026-11-07T12:09Z
 401873049,4427095,,19,Longest Reception (incl. overtime),18.5,,18.5,,2,2026-11-07T12:09Z
 401873049,4431487,,19,Longest Reception (incl. overtime),13.5,,12.5,,1,2026-11-07T07:57Z
+401873049,4431487,,19,Longest Reception (incl. overtime),13.5,,12.5,,2,2026-11-07T07:57Z
 401873049,4569173,,19,Longest Reception (incl. overtime),11.5,,11.5,,1,2026-11-07T02:11Z
 401873049,4569173,,19,Longest Reception (incl. overtime),11.5,,11.5,,2,2026-11-07T02:11Z
-401873049,4572680,,19,Longest Reception (incl. overtime),16.5,,17.5,,1,2026-11-07T07:18Z
-401873049,4572680,,19,Longest Reception (incl. overtime),16.5,,17.5,,2,2026-11-07T07:18Z
+401873049,4572680,,19,Longest Reception (incl. overtime),17.5,,17.5,,1,2026-11-07T13:54Z
+401873049,4572680,,19,Longest Reception (incl. overtime),17.5,,17.5,,2,2026-11-07T13:54Z
 401873049,4613202,,19,Longest Reception (incl. overtime),15.5,,15.5,,1,2026-11-07T12:09Z
 401873049,4613202,,19,Longest Reception (incl. overtime),15.5,,15.5,,2,2026-11-07T12:09Z
 401873049,4695193,,19,Longest Reception (incl. overtime),15.5,,15.5,,1,2026-11-07T12:09Z
@@ -465,8 +466,8 @@ event_id,athlete_id,team_id,type_id,market,line,price,open_line,open_price,n,upd
 401873049,4431487,,187,1st Half Total Receiving Yards,7.5,,6.5,,2,2026-11-07T07:37Z
 401873049,4569173,,187,1st Half Total Receiving Yards,9.5,,8.5,,1,2026-11-07T07:18Z
 401873049,4569173,,187,1st Half Total Receiving Yards,9.5,,8.5,,2,2026-11-07T07:18Z
-401873049,4572680,,187,1st Half Total Receiving Yards,19.5,,21.5,,1,2026-11-07T07:18Z
-401873049,4572680,,187,1st Half Total Receiving Yards,19.5,,21.5,,2,2026-11-07T07:18Z
+401873049,4572680,,187,1st Half Total Receiving Yards,20.5,,21.5,,1,2026-11-07T13:54Z
+401873049,4572680,,187,1st Half Total Receiving Yards,20.5,,21.5,,2,2026-11-07T13:54Z
 401873049,4701936,,187,1st Half Total Receiving Yards,30.5,,30.5,,1,2026-11-06T23:59Z
 401873049,4701936,,187,1st Half Total Receiving Yards,30.5,,30.5,,2,2026-11-06T23:59Z
 401873049,4047365,,189,1st Half Total Rushing Yards,23.5,,22.5,,1,2026-11-06T21:14Z
@@ -489,8 +490,8 @@ event_id,athlete_id,team_id,type_id,market,line,price,open_line,open_price,n,upd
 401873049,4569173,,192,1st Quarter Total Receiving Yards,1.5,,0.5,,2,2026-11-06T22:10Z
 401873049,4572680,,192,1st Quarter Total Receiving Yards,6.5,,6.5,,1,2026-11-07T11:59Z
 401873049,4572680,,192,1st Quarter Total Receiving Yards,6.5,,6.5,,2,2026-11-07T11:59Z
-401873049,4701936,,192,1st Quarter Total Receiving Yards,9.5,,10.5,,1,2026-11-07T07:40Z
-401873049,4701936,,192,1st Quarter Total Receiving Yards,9.5,,10.5,,2,2026-11-07T07:40Z
+401873049,4701936,,192,1st Quarter Total Receiving Yards,10.5,,10.5,,1,2026-11-07T13:54Z
+401873049,4701936,,192,1st Quarter Total Receiving Yards,10.5,,10.5,,2,2026-11-07T13:54Z
 401873049,4047365,,193,1st Quarter Total Rushing Yards,11.5,,10.5,,1,2026-11-06T00:38Z
 401873049,4047365,,193,1st Quarter Total Rushing Yards,11.5,,10.5,,2,2026-11-06T00:38Z
 401873049,4431452,,193,1st Quarter Total Rushing Yards,2.5,,3.5,,1,2026-11-06T21:14Z
@@ -645,7 +646,6 @@ event_id,athlete_id,team_id,type_id,market,line,price,open_line,open_price,n,upd
 401873049,4572680,,195,Receiving Yards Milestones,25.0,,46.0,,1,2026-11-04T08:38Z
 401873049,4572680,,195,Receiving Yards Milestones,30.0,,46.0,,1,2026-11-04T08:38Z
 401873049,4572680,,195,Receiving Yards Milestones,40.0,,46.0,,1,2026-11-04T08:38Z
-401873049,4572680,,195,Receiving Yards Milestones,45.0,,46.0,,1,2026-11-05T01:56Z
 401873049,4572680,,195,Receiving Yards Milestones,50.0,,46.0,,1,2026-11-04T08:38Z
 401873049,4572680,,195,Receiving Yards Milestones,60.0,,46.0,,1,2026-11-04T08:38Z
 401873049,4572680,,195,Receiving Yards Milestones,70.0,,46.0,,1,2026-11-04T08:38Z
@@ -655,6 +655,7 @@ event_id,athlete_id,team_id,type_id,market,line,price,open_line,open_price,n,upd
 401873049,4572680,,195,Receiving Yards Milestones,110.0,,46.0,,1,2026-11-04T08:38Z
 401873049,4572680,,195,Receiving Yards Milestones,120.0,,46.0,,1,2026-11-04T08:38Z
 401873049,4572680,,195,Receiving Yards Milestones,130.0,,46.0,,1,2026-11-04T08:38Z
+401873049,4572680,,195,Receiving Yards Milestones,46.0,,46.0,,1,2026-11-07T07:18Z
 401873049,4613202,,195,Receiving Yards Milestones,10.0,,20.0,,1,2026-11-06T22:11Z
 401873049,4613202,,195,Receiving Yards Milestones,15.0,,20.0,,1,2026-11-06T22:11Z
 401873049,4613202,,195,Receiving Yards Milestones,20.0,,20.0,,1,2026-11-06T22:11Z
@@ -918,7 +919,6 @@ event_id,athlete_id,team_id,type_id,market,line,price,open_line,open_price,n,upd
 401873049,4572680,,202,Receptions Milestones,8.0,,5.0,,1,2026-11-04T08:38Z
 401873049,4572680,,202,Receptions Milestones,9.0,,5.0,,1,2026-11-04T08:38Z
 401873049,4572680,,202,Receptions Milestones,10.0,,5.0,,1,2026-11-04T08:38Z
-401873049,4572680,,202,Receptions Milestones,11.0,,5.0,,1,2026-11-06T23:59Z
 401873049,4613202,,202,Receptions Milestones,2.0,,2.0,,1,2026-11-06T22:11Z
 401873049,4613202,,202,Receptions Milestones,3.0,,2.0,,1,2026-11-06T22:11Z
 401873049,4613202,,202,Receptions Milestones,4.0,,2.0,,1,2026-11-06T22:11Z
