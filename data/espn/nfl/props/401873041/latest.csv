@@ -177,6 +177,8 @@ event_id,athlete_id,team_id,type_id,market,line,price,open_line,open_price,n,upd
 401873041,4702555,,29,First Touchdown Scorer,,,,,1,2026-11-04T08:38Z
 401873041,4709392,,29,First Touchdown Scorer,,,,,1,2026-11-04T08:38Z
 401873041,5159802,,29,First Touchdown Scorer,,,,,1,2026-11-04T08:38Z
+401873041,,7,29,First Touchdown Scorer,,,,,1,2026-11-07T15:05Z
+401873041,,29,29,First Touchdown Scorer,,,,,1,2026-11-07T15:05Z
 401873041,,,29,First Touchdown Scorer,,,,,1,2026-11-04T08:38Z
 401873041,2576925,,30,Last Touchdown Scorer,,,,,1,2026-11-05T14:37Z
 401873041,3051876,,30,Last Touchdown Scorer,,,,,1,2026-11-05T14:37Z
@@ -267,6 +269,8 @@ event_id,athlete_id,team_id,type_id,market,line,price,open_line,open_price,n,upd
 401873041,4702555,,32,Player to score 2 or more touchdowns,,,,,1,2026-11-04T08:38Z
 401873041,4709392,,32,Player to score 2 or more touchdowns,,,,,1,2026-11-04T08:38Z
 401873041,5159802,,32,Player to score 2 or more touchdowns,,,,,1,2026-11-07T07:44Z
+401873041,,7,32,Player to score 2 or more touchdowns,,,,,1,2026-11-07T15:05Z
+401873041,,29,32,Player to score 2 or more touchdowns,,,,,1,2026-11-07T15:05Z
 401873041,2576925,,33,Player to score 3 or more touchdowns,,,,,1,2026-11-05T14:37Z
 401873041,3051876,,33,Player to score 3 or more touchdowns,,,,,1,2026-11-05T14:37Z
 401873041,3128429,,33,Player to score 3 or more touchdowns,,,,,1,2026-11-05T14:37Z
@@ -579,7 +583,6 @@ event_id,athlete_id,team_id,type_id,market,line,price,open_line,open_price,n,upd
 401873041,4426338,,194,Passing Yards Milestones,350.0,,210.0,,1,2026-11-04T08:38Z
 401873041,4426338,,194,Passing Yards Milestones,360.0,,210.0,,1,2026-11-04T08:38Z
 401873041,4426338,,194,Passing Yards Milestones,370.0,,210.0,,1,2026-11-07T02:05Z
-401873041,4426338,,194,Passing Yards Milestones,380.0,,210.0,,1,2026-11-07T10:24Z
 401873041,4426338,,194,Passing Yards Milestones,214.0,,210.0,,1,2026-11-07T08:15Z
 401873041,4685720,,194,Passing Yards Milestones,150.0,,240.0,,1,2026-11-04T10:15Z
 401873041,4685720,,194,Passing Yards Milestones,160.0,,240.0,,1,2026-11-04T08:38Z
