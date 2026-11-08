@@ -127,7 +127,7 @@ game_id,sport,date,away,home,kickoff_utc,book_total,model_total,gap,lean,level,u
 401856743,ncaaf,"Saturday, November 7",Texas,Missouri,2026-11-07 17:00:00+00:00,44.5,46.5,2.0,OVER,0,2026-11-07T16:53:22+00:00,54.0,WIN
 401858514,ncaaf,"Saturday, November 7",Oregon,Ohio State,2026-11-07 20:30:00+00:00,44.5,52.9,8.4,OVER,2,2026-11-07T19:54:11+00:00,69.0,WIN
 401856740,ncaaf,"Saturday, November 7",Alabama,LSU,2026-11-07 20:30:00+00:00,53.5,50.0,-3.5,UNDER,0,2026-11-07T19:54:11+00:00,44.0,WIN
-401856745,ncaaf,"Saturday, November 7",Kentucky,Tennessee,2026-11-07 23:15:00+00:00,49.5,56.8,7.3,OVER,1,2026-11-07T22:22:08+00:00,,
+401856745,ncaaf,"Saturday, November 7",Kentucky,Tennessee,2026-11-07 23:15:00+00:00,49.5,56.8,7.3,OVER,1,2026-11-07T22:22:08+00:00,40.0,LOSS
 401858291,ncaaf,"Saturday, November 7",Miami,Notre Dame,2026-11-08 00:30:00+00:00,54.5,56.0,1.5,OVER,0,2026-11-07T23:51:21+00:00,,
 401856741,ncaaf,"Saturday, November 7",Georgia,Ole Miss,2026-11-08 00:30:00+00:00,56.5,60.0,3.5,OVER,0,2026-11-07T23:51:21+00:00,,
 401862823,ncaaf,"Saturday, November 7",Air Force,Army,2026-11-08 00:30:00+00:00,43.5,61.8,18.3,OVER,2,2026-11-07T23:51:21+00:00,,
@@ -167,6 +167,6 @@ game_id,sport,date,away,home,kickoff_utc,book_total,model_total,gap,lean,level,u
 401871075,ncaaf,"Saturday, November 7",Sam Houston,Jacksonville State,2026-11-08 00:00:00+00:00,45.5,55.6,10.1,OVER,2,2026-11-07T23:51:21+00:00,,
 401870795,ncaaf,"Saturday, November 7",Liberty,New Mexico State,2026-11-08 01:00:00+00:00,46.5,53.1,6.6,OVER,1,2026-11-07T23:51:21+00:00,,
 401860913,ncaaf,"Saturday, November 7",Fresno State,Utah State,2026-11-08 02:30:00+00:00,43.5,50.9,7.4,OVER,1,2026-11-08T01:23:18+00:00,,
-401864535,ncaaf,"Saturday, November 7",Wyoming,UNLV,2026-11-08 03:30:00+00:00,50.5,51.4,0.9,OVER,0,2026-11-08T02:33:19+00:00,,
-401860912,ncaaf,"Saturday, November 7",Texas State,Oregon State,2026-11-08 03:30:00+00:00,71.5,58.2,-13.3,UNDER,2,2026-11-08T02:33:19+00:00,,
+401864535,ncaaf,"Saturday, November 7",Wyoming,UNLV,2026-11-08 03:30:00+00:00,50.5,51.4,0.9,OVER,0,2026-11-08T02:55:54+00:00,,
+401860912,ncaaf,"Saturday, November 7",Texas State,Oregon State,2026-11-08 03:30:00+00:00,71.5,58.2,-13.3,UNDER,2,2026-11-08T02:55:54+00:00,,
 401864534,ncaaf,"Saturday, November 7",Northern Illinois,San José State,2026-11-07 21:00:00+00:00,52.5,52.8,0.3,OVER,0,2026-11-07T20:52:39+00:00,49.0,LOSS
