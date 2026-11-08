@@ -257,7 +257,7 @@ game_id,sport,date,away,home,kickoff_utc,first_line,model_line,pick,pick_line,ed
 401928788,cbb,"Saturday, November 7",NMSU,GONZ,2026-11-07 22:00:00+00:00,-27.5,-41.9,home,-27.5,14.4,False,False,2026-11-06T23:51:10+00:00,live,68.0,109.0,WIN
 401926201,cbb,"Saturday, November 7",VMI,UTSA,2026-11-07 22:00:00+00:00,-5.5,-14.5,home,-5.5,9.0,False,False,2026-11-06T23:51:10+00:00,live,68.0,70.0,LOSS
 401926112,cbb,"Saturday, November 7",UNI,FUR,2026-11-07 22:00:00+00:00,-4.5,-6.4,home,-4.5,1.9,False,False,2026-11-06T23:51:10+00:00,live,83.0,98.0,WIN
-401917518,cbb,"Saturday, November 7",PAC,BRAD,2026-11-08 01:00:00+00:00,-1.5,-21.2,home,-1.5,19.7,False,False,2026-11-06T23:51:10+00:00,live,,,
+401917518,cbb,"Saturday, November 7",PAC,BRAD,2026-11-08 01:00:00+00:00,-1.5,-21.2,home,-1.5,19.7,False,False,2026-11-06T23:51:10+00:00,live,63.0,52.0,LOSS
 401924912,cbb,"Saturday, November 7",SAM,UNLV,2026-11-07 21:00:00+00:00,-11.5,-4.1,away,11.5,7.4,False,False,2026-11-07T01:16:53+00:00,live,79.0,88.0,WIN
 401920411,cbb,"Saturday, November 7",WSU,HPU,2026-11-07 22:00:00+00:00,-11.5,-22.0,home,-11.5,10.5,False,False,2026-11-07T01:16:53+00:00,live,71.0,83.0,WIN
 401924895,cbb,"Saturday, November 7",NAU,UNM,2026-11-07 23:00:00+00:00,-25.5,-37.3,home,-25.5,11.8,False,False,2026-11-07T01:16:53+00:00,live,65.0,94.0,WIN
@@ -272,7 +272,7 @@ game_id,sport,date,away,home,kickoff_utc,first_line,model_line,pick,pick_line,ed
 401925772,cbb,"Saturday, November 7",MER,DAV,2026-11-08 00:00:00+00:00,-10.5,-29.5,home,-10.5,19.0,False,False,2026-11-07T02:10:02+00:00,live,76.0,88.0,WIN
 401924951,cbb,"Saturday, November 7",HCU,WIU,2026-11-08 00:00:00+00:00,9.5,4.0,home,9.5,5.5,False,False,2026-11-07T02:10:02+00:00,live,74.0,67.0,WIN
 401911186,cbb,"Saturday, November 7",NIU,DAY,2026-11-08 00:00:00+00:00,-19.5,-17.5,away,19.5,2.0,False,False,2026-11-07T02:10:02+00:00,live,81.0,76.0,WIN
-401911345,cbb,"Saturday, November 7",BCU,GCU,2026-11-08 01:00:00+00:00,-21.5,-19.0,away,21.5,2.5,False,False,2026-11-07T02:10:02+00:00,live,,,
+401911345,cbb,"Saturday, November 7",BCU,GCU,2026-11-08 01:00:00+00:00,-21.5,-19.0,away,21.5,2.5,False,False,2026-11-07T02:10:02+00:00,live,81.0,99.0,WIN
 401920435,cbb,"Saturday, November 7",UVU,WEB,2026-11-08 02:00:00+00:00,7.5,8.8,away,-7.5,1.3,False,False,2026-11-07T02:10:02+00:00,live,,,
 401917519,cbb,"Saturday, November 7",SAC,SCU,2026-11-08 03:00:00+00:00,-18.5,-26.3,home,-18.5,7.8,False,False,2026-11-07T02:10:02+00:00,live,,,
 401917517,cbb,"Saturday, November 7",PRST,SEA,2026-11-08 03:00:00+00:00,-10.5,-7.5,away,10.5,3.0,False,False,2026-11-07T02:10:02+00:00,live,,,
@@ -287,9 +287,9 @@ game_id,sport,date,away,home,kickoff_utc,first_line,model_line,pick,pick_line,ed
 401926825,cbb,"Saturday, November 7",HAMP,GW,2026-11-07 23:00:00+00:00,-19.5,-38.7,home,-19.5,19.2,False,False,2026-11-07T05:03:22+00:00,live,61.0,75.0,LOSS
 401924843,cbb,"Saturday, November 7",MORG,NIA,2026-11-07 23:30:00+00:00,-3.5,-6.4,home,-3.5,2.9,False,False,2026-11-07T05:03:22+00:00,live,73.0,67.0,LOSS
 401926227,cbb,"Saturday, November 7",DEN,UCR,2026-11-08 00:30:00+00:00,-1.5,-10.5,home,-1.5,9.0,False,False,2026-11-07T05:03:22+00:00,live,60.0,64.0,WIN
-401925077,cbb,"Saturday, November 7",NWST,MUR,2026-11-08 01:00:00+00:00,-22.5,-41.0,home,-22.5,18.5,False,False,2026-11-07T05:03:22+00:00,live,,,
-401923392,cbb,"Saturday, November 7",USI,EVAN,2026-11-08 01:00:00+00:00,-9.5,1.0,away,9.5,10.5,False,False,2026-11-07T05:03:22+00:00,live,,,
-401920816,cbb,"Saturday, November 7",SELA,LR,2026-11-08 01:00:00+00:00,-5.5,-16.0,home,-5.5,10.5,False,False,2026-11-07T05:03:22+00:00,live,,,
+401925077,cbb,"Saturday, November 7",NWST,MUR,2026-11-08 01:00:00+00:00,-22.5,-41.0,home,-22.5,18.5,False,False,2026-11-07T05:03:22+00:00,live,71.0,93.0,LOSS
+401923392,cbb,"Saturday, November 7",USI,EVAN,2026-11-08 01:00:00+00:00,-9.5,1.0,away,9.5,10.5,False,False,2026-11-07T05:03:22+00:00,live,76.0,78.0,WIN
+401920816,cbb,"Saturday, November 7",SELA,LR,2026-11-08 01:00:00+00:00,-5.5,-16.0,home,-5.5,10.5,False,False,2026-11-07T05:03:22+00:00,live,83.0,79.0,LOSS
 401920424,cbb,"Sunday, November 8",ARK,UVA,2026-11-08 18:00:00+00:00,-2.5,-1.7,away,2.5,0.8,False,False,2026-11-07T16:53:22+00:00,live,,,
 401924734,cbb,"Sunday, November 8",PRIN,SIE,2026-11-08 18:00:00+00:00,1.5,-4.4,home,1.5,5.9,False,False,2026-11-07T22:22:08+00:00,live,,,
 401921820,cbb,"Sunday, November 8",SEMO,SC,2026-11-08 18:00:00+00:00,-17.5,-23.1,home,-17.5,5.6,False,False,2026-11-07T22:22:08+00:00,live,,,
