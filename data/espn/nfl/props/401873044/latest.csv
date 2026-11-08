@@ -393,8 +393,8 @@ event_id,athlete_id,team_id,type_id,market,line,price,open_line,open_price,n,upd
 401873044,,21,76,1st Quarter Moneyline,,,,,1,2026-11-03T01:12Z
 401873044,,19,77,1st Quarter Spread,-0.5,,-0.5,,1,2026-11-03T01:12Z
 401873044,,21,77,1st Quarter Spread,0.5,,0.5,,1,2026-11-03T01:12Z
-401873044,,,78,2nd Quarter Total,10.5,,12.5,,1,2026-11-08T07:24Z
-401873044,,,78,2nd Quarter Total,10.5,,12.5,,2,2026-11-08T07:24Z
+401873044,,,78,2nd Quarter Total,10.5,,12.5,,1,2026-11-08T09:09Z
+401873044,,,78,2nd Quarter Total,10.5,,12.5,,2,2026-11-08T09:09Z
 401873044,,19,79,2nd Quarter Moneyline,,,,,1,2026-11-04T13:01Z
 401873044,,21,79,2nd Quarter Moneyline,,,,,1,2026-11-04T13:01Z
 401873044,,19,80,2nd Quarter Spread,-0.5,,-0.5,,1,2026-11-04T13:01Z
@@ -1068,7 +1068,6 @@ event_id,athlete_id,team_id,type_id,market,line,price,open_line,open_price,n,upd
 401873044,3917657,,206,Tackles + Assists Milestones,12.0,,9.0,,1,2026-11-08T03:50Z
 401873044,3917657,,206,Tackles + Assists Milestones,13.0,,9.0,,1,2026-11-08T03:50Z
 401873044,3917657,,206,Tackles + Assists Milestones,14.0,,9.0,,1,2026-11-08T03:50Z
-401873044,3917657,,206,Tackles + Assists Milestones,15.0,,9.0,,1,2026-11-08T07:24Z
 401873044,4218312,,206,Tackles + Assists Milestones,1.0,,4.0,,1,2026-11-08T05:41Z
 401873044,4218312,,206,Tackles + Assists Milestones,2.0,,4.0,,1,2026-11-08T03:50Z
 401873044,4218312,,206,Tackles + Assists Milestones,3.0,,4.0,,1,2026-11-08T03:50Z
@@ -1109,6 +1108,7 @@ event_id,athlete_id,team_id,type_id,market,line,price,open_line,open_price,n,upd
 401873044,4373809,,206,Tackles + Assists Milestones,8.0,,5.0,,1,2026-11-08T03:38Z
 401873044,4373809,,206,Tackles + Assists Milestones,9.0,,5.0,,1,2026-11-08T03:38Z
 401873044,4373809,,206,Tackles + Assists Milestones,10.0,,5.0,,1,2026-11-08T03:38Z
+401873044,4381558,,206,Tackles + Assists Milestones,1.0,,4.0,,1,2026-11-08T05:41Z
 401873044,4381558,,206,Tackles + Assists Milestones,2.0,,4.0,,1,2026-11-08T03:50Z
 401873044,4381558,,206,Tackles + Assists Milestones,3.0,,4.0,,1,2026-11-08T03:50Z
 401873044,4381558,,206,Tackles + Assists Milestones,4.0,,4.0,,1,2026-11-08T03:50Z
@@ -1690,7 +1690,11 @@ event_id,athlete_id,team_id,type_id,market,line,price,open_line,open_price,n,upd
 401873044,4373809,,217,Assists Milestones (Football),3.0,,2.0,,1,2026-11-08T03:38Z
 401873044,4373809,,217,Assists Milestones (Football),4.0,,2.0,,1,2026-11-08T03:38Z
 401873044,4373809,,217,Assists Milestones (Football),5.0,,2.0,,1,2026-11-08T03:38Z
+401873044,4381558,,217,Assists Milestones (Football),1.0,,2.0,,1,2026-11-08T03:50Z
 401873044,4381558,,217,Assists Milestones (Football),2.0,,2.0,,1,2026-11-08T03:50Z
+401873044,4381558,,217,Assists Milestones (Football),3.0,,2.0,,1,2026-11-08T03:50Z
+401873044,4381558,,217,Assists Milestones (Football),4.0,,2.0,,1,2026-11-08T03:50Z
+401873044,4381558,,217,Assists Milestones (Football),5.0,,2.0,,1,2026-11-08T03:50Z
 401873044,4428328,,217,Assists Milestones (Football),1.0,,2.0,,1,2026-11-08T03:38Z
 401873044,4428328,,217,Assists Milestones (Football),2.0,,2.0,,1,2026-11-08T03:38Z
 401873044,4428328,,217,Assists Milestones (Football),3.0,,2.0,,1,2026-11-08T03:38Z
