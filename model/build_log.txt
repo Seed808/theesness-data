@@ -1,63 +1,63 @@
 Linux runnervmwuk1x 7.0.0-1019-azure #20-Ubuntu SMP PREEMPT Mon Oct 19 22:41:16 UTC 2026 x86_64 GNU/Linux
 Python 3.12.16
                total        used        free      shared  buff/cache   available
-Mem:           15982        1084        3108          45       12179       14897
+Mem:           15982        1097        3082          47       12193       14884
 Swap:           3071           0        3071
 /dev/root       145G   68G   78G  47% /
 /home/runner/work/theesness-data/data_raw/cbb/:
 total 52736
-drwxr-xr-x 2 runner runner     4096 Nov 10 19:37 .
-drwxr-xr-x 7 runner runner     4096 Nov 10 19:37 ..
--rw-r--r-- 1 runner runner 45698931 Nov 10 19:37 play_by_play_2026.parquet
--rw-r--r-- 1 runner runner  8294133 Nov 10 19:37 play_by_play_2027.parquet
+drwxr-xr-x 2 runner runner     4096 Nov 10 20:29 .
+drwxr-xr-x 7 runner runner     4096 Nov 10 20:29 ..
+-rw-r--r-- 1 runner runner 45698931 Nov 10 20:29 play_by_play_2026.parquet
+-rw-r--r-- 1 runner runner  8294133 Nov 10 20:29 play_by_play_2027.parquet
 
 /home/runner/work/theesness-data/data_raw/nba/:
 total 23892
-drwxr-xr-x 2 runner runner     4096 Nov 10 19:37 .
-drwxr-xr-x 7 runner runner     4096 Nov 10 19:37 ..
--rw-r--r-- 1 runner runner 10302152 Nov 10 19:37 play_by_play_2025.parquet
--rw-r--r-- 1 runner runner 10681187 Nov 10 19:37 play_by_play_2026.parquet
--rw-r--r-- 1 runner runner  2719395 Nov 10 19:37 play_by_play_2027.parquet
--rw-r--r-- 1 runner runner   606444 Nov 10 19:37 player_box_2026.parquet
--rw-r--r-- 1 runner runner   109661 Nov 10 19:37 player_box_2027.parquet
--rw-r--r-- 1 runner runner    21286 Nov 10 19:37 player_impact_2026.csv
--rw-r--r-- 1 runner runner      139 Nov 10 19:37 player_impact_meta.json
+drwxr-xr-x 2 runner runner     4096 Nov 10 20:29 .
+drwxr-xr-x 7 runner runner     4096 Nov 10 20:29 ..
+-rw-r--r-- 1 runner runner 10302152 Nov 10 20:29 play_by_play_2025.parquet
+-rw-r--r-- 1 runner runner 10681187 Nov 10 20:29 play_by_play_2026.parquet
+-rw-r--r-- 1 runner runner  2719395 Nov 10 20:29 play_by_play_2027.parquet
+-rw-r--r-- 1 runner runner   606444 Nov 10 20:29 player_box_2026.parquet
+-rw-r--r-- 1 runner runner   109661 Nov 10 20:29 player_box_2027.parquet
+-rw-r--r-- 1 runner runner    21286 Nov 10 20:29 player_impact_2026.csv
+-rw-r--r-- 1 runner runner      139 Nov 10 20:29 player_impact_meta.json
 
 /home/runner/work/theesness-data/data_raw/ncaaf/:
 total 11772
-drwxr-xr-x 2 runner runner    4096 Nov 10 19:37 .
-drwxr-xr-x 7 runner runner    4096 Nov 10 19:37 ..
--rw-r--r-- 1 runner runner   92072 Nov 10 19:37 elo_games_2025.csv
--rw-r--r-- 1 runner runner   42755 Nov 10 19:37 elo_games_2026.csv
--rw-r--r-- 1 runner runner 8025753 Nov 10 19:37 play_by_play_2025.parquet
--rw-r--r-- 1 runner runner 3876255 Nov 10 19:37 play_by_play_2026.parquet
+drwxr-xr-x 2 runner runner    4096 Nov 10 20:29 .
+drwxr-xr-x 7 runner runner    4096 Nov 10 20:29 ..
+-rw-r--r-- 1 runner runner   92072 Nov 10 20:29 elo_games_2025.csv
+-rw-r--r-- 1 runner runner   42755 Nov 10 20:29 elo_games_2026.csv
+-rw-r--r-- 1 runner runner 8025753 Nov 10 20:29 play_by_play_2025.parquet
+-rw-r--r-- 1 runner runner 3876255 Nov 10 20:29 play_by_play_2026.parquet
 
 /home/runner/work/theesness-data/data_raw/nfl/:
 total 51672
-drwxr-xr-x 2 runner runner     4096 Nov 10 19:37 .
-drwxr-xr-x 7 runner runner     4096 Nov 10 19:37 ..
--rw-r--r-- 1 runner runner      378 Nov 10 19:37 games.csv
--rw-r--r-- 1 runner runner    97472 Nov 10 19:37 injuries_2025.parquet
--rw-r--r-- 1 runner runner    61371 Nov 10 19:37 injuries_2026.parquet
--rw-r--r-- 1 runner runner 20597560 Nov 10 19:37 play_by_play_2024.parquet
--rw-r--r-- 1 runner runner 20337029 Nov 10 19:37 play_by_play_2025.parquet
--rw-r--r-- 1 runner runner 10122160 Nov 10 19:37 play_by_play_2026.parquet
--rw-r--r-- 1 runner runner   850871 Nov 10 19:37 roster_weekly_2025.parquet
--rw-r--r-- 1 runner runner   821481 Nov 10 19:37 roster_weekly_2026.parquet
+drwxr-xr-x 2 runner runner     4096 Nov 10 20:29 .
+drwxr-xr-x 7 runner runner     4096 Nov 10 20:29 ..
+-rw-r--r-- 1 runner runner      378 Nov 10 20:29 games.csv
+-rw-r--r-- 1 runner runner    97472 Nov 10 20:29 injuries_2025.parquet
+-rw-r--r-- 1 runner runner    61371 Nov 10 20:29 injuries_2026.parquet
+-rw-r--r-- 1 runner runner 20597560 Nov 10 20:29 play_by_play_2024.parquet
+-rw-r--r-- 1 runner runner 20337029 Nov 10 20:29 play_by_play_2025.parquet
+-rw-r--r-- 1 runner runner 10122160 Nov 10 20:29 play_by_play_2026.parquet
+-rw-r--r-- 1 runner runner   850871 Nov 10 20:29 roster_weekly_2025.parquet
+-rw-r--r-- 1 runner runner   821481 Nov 10 20:29 roster_weekly_2026.parquet
 
 /home/runner/work/theesness-data/data_raw/sam/:
 total 56
-drwxr-xr-x 2 runner runner 4096 Nov 10 19:37 .
-drwxr-xr-x 7 runner runner 4096 Nov 10 19:37 ..
--rw-r--r-- 1 runner runner 3187 Nov 10 19:37 first_td_wk5.csv
--rw-r--r-- 1 runner runner 8239 Nov 10 19:37 ncaaf_record.csv
--rw-r--r-- 1 runner runner 5022 Nov 10 19:37 ncaaf_wk7_board.csv
--rw-r--r-- 1 runner runner 1696 Nov 10 19:37 nfl_record.csv
--rw-r--r-- 1 runner runner  479 Nov 10 19:37 nfl_wk5_bars.csv
--rw-r--r-- 1 runner runner  449 Nov 10 19:37 nfl_wk5_board.csv
--rw-r--r-- 1 runner runner  505 Nov 10 19:37 nfl_wk5_extra.csv
--rw-r--r-- 1 runner runner 3469 Nov 10 19:37 nfl_wk5_ratings.csv
--rw-r--r-- 1 runner runner 1696 Nov 10 19:37 nfl_wk6_board.csv
+drwxr-xr-x 2 runner runner 4096 Nov 10 20:29 .
+drwxr-xr-x 7 runner runner 4096 Nov 10 20:29 ..
+-rw-r--r-- 1 runner runner 3187 Nov 10 20:29 first_td_wk5.csv
+-rw-r--r-- 1 runner runner 8239 Nov 10 20:29 ncaaf_record.csv
+-rw-r--r-- 1 runner runner 5022 Nov 10 20:29 ncaaf_wk7_board.csv
+-rw-r--r-- 1 runner runner 1696 Nov 10 20:29 nfl_record.csv
+-rw-r--r-- 1 runner runner  479 Nov 10 20:29 nfl_wk5_bars.csv
+-rw-r--r-- 1 runner runner  449 Nov 10 20:29 nfl_wk5_board.csv
+-rw-r--r-- 1 runner runner  505 Nov 10 20:29 nfl_wk5_extra.csv
+-rw-r--r-- 1 runner runner 3469 Nov 10 20:29 nfl_wk5_ratings.csv
+-rw-r--r-- 1 runner runner 1696 Nov 10 20:29 nfl_wk6_board.csv
 /home/runner/work/theesness-data/theesness-data/model/edgemodels/sports/football.py:102: FutureWarning: Downcasting object dtype arrays on .fillna, .ffill, .bfill is deprecated and will change in a future version. Call result.infer_objects(copy=False) instead. To opt-in to the future behavior, set `pd.set_option('future.no_silent_downcasting', True)`
   "neutral_site": p["neutral_site"].fillna(False).astype(bool),
 /home/runner/work/theesness-data/theesness-data/model/run_all.py:803: FutureWarning: The behavior of DataFrame concatenation with empty or all-NA entries is deprecated. In a future version, this will no longer exclude empty or all-NA columns when determining the result dtypes. To retain the old behavior, exclude the relevant entries before the concat operation.
@@ -76,7 +76,7 @@ drwxr-xr-x 7 runner runner 4096 Nov 10 19:37 ..
   sl["date"] = pd.to_datetime(sl["date"], errors="coerce").dt.strftime("%A, %B %-d").fillna("Date not in feed")
 [health] nhl: All 16 projected lines are within 1 point of a pick'em. The ratings look flat; check before trusting any pick.
 {
- "built_at": "2026-11-10T19:37:13+00:00",
+ "built_at": "2026-11-10T20:30:00+00:00",
  "nfl_key_numbers": {
   "source": "nflverse games 2010-2025, 4363 games, closing spread as expectation",
   "top": [
@@ -161,11 +161,11 @@ drwxr-xr-x 7 runner runner 4096 Nov 10 19:37 ..
  "nfl_live_week": 10,
  "nfl_questionable_active_rate": 0.6932203389830508,
  "nfl_pickbook": {
-  "locked": 1,
+  "locked": 0,
   "updated": 0,
-  "held": 0
+  "held": 1
  },
- "nfl_locked_now": 1,
+ "nfl_locked_now": 0,
  "nfl_chain_ok": true,
  "nfl_2026_replay": [
   {
@@ -377,16 +377,16 @@ drwxr-xr-x 7 runner runner 4096 Nov 10 19:37 ..
    "model_sd": 11.472312742700403
   }
  },
- "cbb_locked_now": 6,
+ "cbb_locked_now": 0,
  "cbb_chain_ok": true,
  "cbb_live": false,
  "mlb_backtest": {
   "apr14_sep28": {
    "games": 2186,
-   "winner_pct": 0.5516925892040256,
-   "log_loss": 0.682653256781253,
+   "winner_pct": 0.5471180237877402,
+   "log_loss": 0.6832297484584653,
    "log_loss_home_rate_only": 0.6918805834642537,
-   "brier": 0.2448291754631747,
+   "brier": 0.24511185172689845,
    "total_mae": 3.5188811891284266,
    "total_mae_league_avg": 3.5489156229151826,
    "margin_mae": 3.48773526374595,
@@ -395,10 +395,10 @@ drwxr-xr-x 7 runner runner 4096 Nov 10 19:37 ..
   },
   "jul_sep": {
    "games": 1148,
-   "winner_pct": 0.563588850174216,
-   "log_loss": 0.6774569772387066,
+   "winner_pct": 0.5653310104529616,
+   "log_loss": 0.6782267020136274,
    "log_loss_home_rate_only": 0.6910681981294204,
-   "brier": 0.24231465488893725,
+   "brier": 0.24268104850827527,
    "total_mae": 3.5604009932306315,
    "total_mae_league_avg": 3.557946557564132,
    "margin_mae": 3.445371227089188,
@@ -442,11 +442,11 @@ drwxr-xr-x 7 runner runner 4096 Nov 10 19:37 ..
    "units": 0.0
   }
  ],
- "nhl_locked_now": 0,
+ "nhl_locked_now": 2,
  "nhl_chain_ok": true,
  "nhl_live": true
 }
 exit code: 0
                total        used        free      shared  buff/cache   available
-Mem:           15982         998        3608          46       11767       14983
+Mem:           15982        1002        3612          48       11760       14979
 Swap:           3071           0        3071
