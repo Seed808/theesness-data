@@ -15,6 +15,7 @@ from __future__ import annotations
 
 import argparse
 import json
+import re
 from datetime import datetime, timezone
 from pathlib import Path
 
@@ -589,6 +590,15 @@ def season_pages(out, sport, label, model, season, weeks, slate_fn, names, margi
                 c[kind] = why
                 c["live_nopick"] = True
                 c["kickoff"] = f'{c.get("kickoff") or ""} · {"HOLD" if kind == "hold" else "NO EDGE"} live, no official pick'
+        if sport == "nfl":                              # schedule times are Eastern 24-hour: show Hawaii time like live cards
+            for c in cards:
+                k = str(c.get("kickoff") or "")
+                if re.match(r"^\d{1,2}:\d\d", k):
+                    try:
+                        t = pd.Timestamp(f'{c["date"]} 2026 {k[:5]}', tz="America/New_York").tz_convert("Pacific/Honolulu")
+                        c["kickoff"] = t.strftime("%-I:%M %p HST") + k[5:]
+                    except (ValueError, TypeError):
+                        pass
         if props_fn is not None:
             props_fn(w, cards, built)
         if sport == "ncaaf":
