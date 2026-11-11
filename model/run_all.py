@@ -512,8 +512,37 @@ def espn_lines_nfl(repo: Path, dates) -> dict:
             out[(teams.get("away"), teams.get("home"))] = (sh, float(tot) if tot is not None else None, when)
     return out
 
+def nopick_map(ledger_dir: Path, sport: str, lock_file: str) -> tuple[dict, set]:
+    """Games that were on a live board but ended with no official pick: game_id -> ("hold" | "no_edge", reason).
+    From the lock file's hold / no-edge notes and the first-line tracker. Also returns the ids seen live."""
+    out, live = {}, set()
+    lf = ledger_dir / lock_file
+    if lf.exists():
+        live |= set(pd.read_csv(lf, dtype={"game_id": str})["game_id"])
+    vf = ledger_dir / lock_file.replace(".csv", "_voids.csv")
+    if vf.exists():
+        v = pd.read_csv(vf, dtype={"game_id": str})
+        for gid, g in v.groupby("game_id"):
+            why = str(g["reason"].iloc[-1])
+            if why.lower().startswith("no edge"):
+                out[gid] = ("no_edge", why)
+            elif why.lower().startswith("hold"):
+                out[gid] = ("hold", why)
+    ff = ledger_dir / f"firstline_{sport}.csv"
+    if ff.exists():
+        f = pd.read_csv(ff, dtype={"game_id": str})
+        live |= set(f["game_id"])
+        for r in f.itertuples():
+            if r.game_id not in out:
+                if str(r.hold) == "True":
+                    out[r.game_id] = ("hold", "Hold: starter not confirmed before kickoff")
+                elif str(r.no_edge) == "True":
+                    out[r.game_id] = ("no_edge", "No edge: model within 0.5 of the line")
+    return out, live
+
+
 def season_pages(out, sport, label, model, season, weeks, slate_fn, names, margin_sd, live_week_label,
-                 game_pages=True, rec=None, locked=None, archive_dir=None, props_fn=None):
+                 game_pages=True, rec=None, locked=None, archive_dir=None, props_fn=None, nopick=None, live_weeks=()):
     """locked: lock-file rows. A game that was locked live shows its locked numbers (not a replay)
     and is left out of the replay record, so one game never carries two different picks."""
     locked = {} if locked is None or len(locked) == 0 else {str(r["game_id"]): r for r in locked.to_dict("records")}
@@ -550,12 +579,22 @@ def season_pages(out, sport, label, model, season, weeks, slate_fn, names, margi
                 c["kickoff"] = f'{c.get("kickoff") or ""} · LOCKED LIVE {str(L["locked_at"])[:10]}'
                 c["locked"] = True
                 grade_cards([c], finals)
+        # games that were on the live board but never had an official pick: label them (display only; the replay
+        # numbers and the replay record are unchanged)
+        if w in live_weeks:
+            for c in cards:
+                if c.get("locked"):
+                    continue
+                kind, why = (nopick or {}).get(str(c["game_id"]), ("no_edge", "No pick: never locked before kickoff"))
+                c[kind] = why
+                c["live_nopick"] = True
+                c["kickoff"] = f'{c.get("kickoff") or ""} · {"HOLD" if kind == "hold" else "NO EDGE"} live, no official pick'
         if props_fn is not None:
             props_fn(w, cards, built)
         if sport == "ncaaf":
             cards = [c for c in cards if c.get("market_line") is not None]
         rows += cards_to_rows([c for c in cards if not c.get("locked")], w)
-        g = [c for c in cards if c.get("result") in ("WIN", "LOSS", "PUSH")]
+        g = [c for c in cards if c.get("result") in ("WIN", "LOSS", "PUSH") and not c.get("live_nopick")]
         wins = sum(c["result"] == "WIN" for c in g); losses = sum(c["result"] == "LOSS" for c in g)
         pushes = sum(c["result"] == "PUSH" for c in g)
         h3 = [c for c in g if c["edge"] >= 3]
@@ -711,9 +750,12 @@ def run(data: Path, nfldata: Path, out: Path, ledger_dir: Path):
             attach_actuals(c, actuals)
     live_graded = live_rows[live_rows["result"].isin(["WIN", "LOSS", "PUSH"])]
     live_summ = record_summary(live_graded, EDGE_TIERS["nfl"])
+    _nfl_np, _nfl_ids = nopick_map(ledger_dir, "nfl", "nfl_locks.csv")
+    _nfl_lw = {int(str(g)[5:7]) for g in _nfl_ids if str(g)[:4] == "2026"}
     replay_rows = season_pages(out, "nfl", "NFL", M, 2026, list(range(1, NFL_W)),
                                lambda w: nfl_slate(games, 2026, w), names, acc["model_sd"], f"Wk {NFL_W} · live", True, None,
-                               locked=live_rows, archive_dir=ledger_dir / "cards" / "nfl", props_fn=replay_props)
+                               locked=live_rows, archive_dir=ledger_dir / "cards" / "nfl", props_fn=replay_props,
+                               nopick=_nfl_np, live_weeks=_nfl_lw)
     rp = pd.DataFrame(replay_rows)
     rp_summ = record_summary(rp, EDGE_TIERS["nfl"])
     report["nfl_2026_replay"] = rp_summ
@@ -829,8 +871,11 @@ def run(data: Path, nfldata: Path, out: Path, ledger_dir: Path):
     cled = Ledger(ledger_dir / "ncaaf_locks.csv")
     clocked = cled.load()
     replay_weeks = list(range(1, LIVE_W))
+    _cf_np, _cf_ids = nopick_map(ledger_dir, "ncaaf", "ncaaf_locks.csv")
+    _cf_lw = {int(cevents[g]["week"]) for g in _cf_ids if g in cevents and cevents[g].get("week")}
     crows = season_pages(out, "ncaaf", "NCAAF", C, 2026, replay_weeks, cslate, cnames, cacc["model_sd"],
-                         f"Wk {LIVE_W} · live", game_pages=False, locked=clocked, archive_dir=ledger_dir / "cards" / "ncaaf")
+                         f"Wk {LIVE_W} · live", game_pages=False, locked=clocked, archive_dir=ledger_dir / "cards" / "ncaaf",
+                         nopick=_cf_np, live_weeks=_cf_lw)
     crp = pd.DataFrame(crows)
     crp_summ = record_summary(crp, EDGE_TIERS["ncaaf"])
     report["ncaaf_2026_replay"] = crp_summ
