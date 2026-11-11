@@ -175,6 +175,8 @@ def nhl_section(out: Path, repo: Path, ledger_dir: Path, report: dict, now: date
             "price. Picks update until puck drop; the last version is graded. ")
     lede += "" if live else (f"PREVIEW: until {NHL_RECORD_FROM:%B %-d} picks go on a separate preview tracker, not the record, and "
                              "send no alerts.")
+    from edgemodels.core.espn_feed import espn_records
+    site.RECORDS["nhl"] = espn_records(repo / "data" / "espn" / "nhl" / "scoreboard")
     site.write(out, "nhl/index.html", site.page("NHL Model Board", site.board(
         "nhl", "NHL projections" + ("" if live else " (preview)"), lede, cards, names, None, stats), 1, "nhl"))
     for c in cards:

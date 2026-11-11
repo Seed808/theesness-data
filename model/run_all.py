@@ -760,6 +760,7 @@ def run(data: Path, nfldata: Path, out: Path, ledger_dir: Path):
             attach_actuals(c, actuals)
     live_graded = live_rows[live_rows["result"].isin(["WIN", "LOSS", "PUSH"])]
     live_summ = record_summary(live_graded, EDGE_TIERS["nfl"])
+    site.RECORDS["nfl"] = rec
     _nfl_np, _nfl_ids = nopick_map(ledger_dir, "nfl", "nfl_locks.csv")
     _nfl_lw = {int(str(g)[5:7]) for g in _nfl_ids if str(g)[:4] == "2026"}
     replay_rows = season_pages(out, "nfl", "NFL", M, 2026, list(range(1, NFL_W)),
@@ -881,6 +882,8 @@ def run(data: Path, nfldata: Path, out: Path, ledger_dir: Path):
     cled = Ledger(ledger_dir / "ncaaf_locks.csv")
     clocked = cled.load()
     replay_weeks = list(range(1, LIVE_W))
+    _cfs = cfb_season_results(Path(__file__).resolve().parents[1])
+    site.RECORDS["ncaaf"] = {t: f'{sum(x["pf"] > x["pa"] for x in gs)}-{sum(x["pf"] < x["pa"] for x in gs)}' for t, gs in _cfs.items()}
     _cf_np, _cf_ids = nopick_map(ledger_dir, "ncaaf", "ncaaf_locks.csv")
     _cf_lw = {int(cevents[g]["week"]) for g in _cf_ids if g in cevents and cevents[g].get("week")}
     crows = season_pages(out, "ncaaf", "NCAAF", C, 2026, replay_weeks, cslate, cnames, cacc["model_sd"],
@@ -1158,6 +1161,8 @@ def run(data: Path, nfldata: Path, out: Path, ledger_dir: Path):
         totals_tracker.publish(out, ledger_dir, "nba", lcards, nkick, now, nfin, lnames, nstats)
         firstline.publish(out, ledger_dir, "nba", lcards, nkick, now, nfin, lnames, nstats, ledger_dir / "nba_locks.csv")
         alerts.audit_times("nba", lcards, nkick, nev, now)
+        from edgemodels.core.espn_feed import espn_records
+        site.RECORDS["nba"] = espn_records(nrepo / "data" / "espn" / "nba" / "scoreboard")
         site.write(out, "nba/index.html", site.page("NBA Model Board", site.board(
             "nba", "NBA projections", "Each team scores its points per 100 possessions against the opponent's defence, at the "
             "matchup's pace, plus home court. Early in the season the ratings are still half last season by design. Picks update "
@@ -1271,6 +1276,8 @@ def run(data: Path, nfldata: Path, out: Path, ledger_dir: Path):
              "points, darker 6+. ")
     klede += ("" if k_live else f"PREVIEW: until {CBB_RECORD_FROM:%B %-d} picks are graded on a separate preview tracker, not "
               "the record, and send no alerts, because early-season ratings lean heavily on last season.")
+    from edgemodels.core.espn_feed import espn_records
+    site.RECORDS["cbb"] = espn_records(krepo / "data" / "espn" / "cbb" / "scoreboard")
     site.write(out, "cbb/index.html", site.page("CBB Model Board", site.board(
         "cbb", "College basketball projections" + ("" if k_live else " (preview)"), klede, kcards, knames, None, kstats,
         tier_record=None), 1, "cbb"))

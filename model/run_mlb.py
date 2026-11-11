@@ -314,6 +314,11 @@ def mlb_section(out: Path, repo: Path, ledger_dir: Path, report: dict, now: date
     totals_tracker.publish(out, ledger_dir, "mlb", cards, kick, now,
                            {str(r.game_id): (r.away_score, r.home_score) for r in fin_all.itertuples()
                             if pd.notna(r.away_score) and pd.notna(r.home_score)}, names, stats)
+    try:
+        from edgemodels.core.espn_feed import espn_records
+        site.RECORDS["mlb"] = espn_records(Path(__file__).resolve().parents[1] / "data" / "espn" / "mlb" / "scoreboard")
+    except Exception as ex:
+        print(f"[records] mlb: {type(ex).__name__}: {ex}")
     site.write(out, "mlb/index.html", site.page("MLB Model Board", site.board(
         "mlb", "MLB postseason board", lede, cards, names, None, stats, nav=nav), 1, "mlb"))
     for c in cards + replay:

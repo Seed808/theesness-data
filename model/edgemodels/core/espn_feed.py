@@ -80,3 +80,22 @@ def latest_line_events(folder: Path) -> list[tuple[dict, str | None]]:
             if _has_line(ev):
                 last[i] = (ev, f.stem)
     return [last.get(i, (latest[i], None)) for i in order]
+
+
+def espn_records(base: Path, rename: dict | None = None) -> dict:
+    """team abbreviation -> overall record ("8-2", "9-4-2") from the most recently collected ESPN snapshot that lists it.
+    base: data/espn/<league>/scoreboard. rename maps ESPN abbreviations to the board's codes (e.g. NFL LAR -> LA)."""
+    rename = rename or {}
+    best = {}
+    for _, (stamp, ev) in newest_by_event(base).items():
+        for x in ev["competitions"][0]["competitors"]:
+            recs = x.get("records") or []
+            tot = next((r for r in recs if r.get("type") == "total" or r.get("name") in ("overall", "All Splits")), recs[0] if recs else None)
+            if not tot or not tot.get("summary"):
+                continue
+            t = x["team"]["abbreviation"]
+            t = rename.get(t, t)
+            key = (stamp, ev.get("date") or "")
+            if t not in best or key > best[t][0]:
+                best[t] = (key, tot["summary"])
+    return {t: v[1] for t, v in best.items()}
