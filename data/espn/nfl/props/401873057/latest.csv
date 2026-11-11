@@ -35,8 +35,8 @@ event_id,athlete_id,team_id,type_id,market,line,price,open_line,open_price,n,upd
 401873057,4360310,,15,Total Passing Interceptions (incl. overtime),0.5,,0.5,,2,2026-11-11T07:16Z
 401873057,4688380,,15,Total Passing Interceptions (incl. overtime),0.5,,0.5,,1,2026-11-11T06:33Z
 401873057,4688380,,15,Total Passing Interceptions (incl. overtime),0.5,,0.5,,2,2026-11-11T06:33Z
-401873057,4360310,,16,Total Passing Attempts (incl. overtime),28.5,,28.5,,1,2026-11-11T07:16Z
-401873057,4360310,,16,Total Passing Attempts (incl. overtime),28.5,,28.5,,2,2026-11-11T07:16Z
+401873057,4360310,,16,Total Passing Attempts (incl. overtime),29.5,,28.5,,1,2026-11-11T21:21Z
+401873057,4360310,,16,Total Passing Attempts (incl. overtime),29.5,,28.5,,2,2026-11-11T21:21Z
 401873057,4688380,,16,Total Passing Attempts (incl. overtime),33.5,,33.5,,1,2026-11-11T07:16Z
 401873057,4688380,,16,Total Passing Attempts (incl. overtime),33.5,,33.5,,2,2026-11-11T07:16Z
 401873057,4360310,,18,Total Passing Plus Rushing Yards (incl. overtime),245.5,,245.5,,1,2026-11-11T07:28Z
@@ -114,7 +114,7 @@ event_id,athlete_id,team_id,type_id,market,line,price,open_line,open_price,n,upd
 401873057,3916148,,32,Player to score 2 or more touchdowns,,,,,1,2026-11-11T07:04Z
 401873057,3916433,,32,Player to score 2 or more touchdowns,,,,,1,2026-11-11T07:38Z
 401873057,3925357,,32,Player to score 2 or more touchdowns,,,,,1,2026-11-11T07:04Z
-401873057,4039160,,32,Player to score 2 or more touchdowns,,,,,1,2026-11-11T07:14Z
+401873057,4039160,,32,Player to score 2 or more touchdowns,,,,,1,2026-11-11T21:44Z
 401873057,4240657,,32,Player to score 2 or more touchdowns,,,,,1,2026-11-11T07:04Z
 401873057,4244049,,32,Player to score 2 or more touchdowns,,,,,1,2026-11-11T07:39Z
 401873057,4360310,,32,Player to score 2 or more touchdowns,,,,,1,2026-11-11T07:39Z
@@ -188,7 +188,6 @@ event_id,athlete_id,team_id,type_id,market,line,price,open_line,open_price,n,upd
 401873057,,10,98,Team Total Points,24.5,,18.5,,1,2026-11-11T12:45Z
 401873057,,10,98,Team Total Points,25.5,,18.5,,1,2026-11-11T12:45Z
 401873057,,10,98,Team Total Points,26.5,,18.5,,1,2026-11-11T12:45Z
-401873057,,10,98,Team Total Points,27.5,,18.5,,1,2026-11-11T13:11Z
 401873057,,10,98,Team Total Points,7.5,,18.5,,1,2026-11-11T12:45Z
 401873057,,10,98,Team Total Points,8.5,,18.5,,1,2026-11-11T12:45Z
 401873057,,10,98,Team Total Points,9.5,,18.5,,1,2026-11-11T12:45Z
@@ -209,7 +208,6 @@ event_id,athlete_id,team_id,type_id,market,line,price,open_line,open_price,n,upd
 401873057,,10,98,Team Total Points,24.5,,18.5,,2,2026-11-11T12:45Z
 401873057,,10,98,Team Total Points,25.5,,18.5,,2,2026-11-11T12:45Z
 401873057,,10,98,Team Total Points,26.5,,18.5,,2,2026-11-11T12:45Z
-401873057,,10,98,Team Total Points,27.5,,18.5,,2,2026-11-11T13:11Z
 401873057,,10,98,Team Total Points,7.5,,18.5,,2,2026-11-11T12:45Z
 401873057,,10,98,Team Total Points,8.5,,18.5,,2,2026-11-11T12:45Z
 401873057,,10,98,Team Total Points,9.5,,18.5,,2,2026-11-11T12:45Z
@@ -424,7 +422,6 @@ event_id,athlete_id,team_id,type_id,market,line,price,open_line,open_price,n,upd
 401873057,4360310,,200,Passing Attempts Milestones,24.0,,30.0,,1,2026-11-11T07:16Z
 401873057,4360310,,200,Passing Attempts Milestones,26.0,,30.0,,1,2026-11-11T07:16Z
 401873057,4360310,,200,Passing Attempts Milestones,28.0,,30.0,,1,2026-11-11T07:16Z
-401873057,4360310,,200,Passing Attempts Milestones,29.0,,30.0,,1,2026-11-11T07:16Z
 401873057,4360310,,200,Passing Attempts Milestones,30.0,,30.0,,1,2026-11-11T07:16Z
 401873057,4360310,,200,Passing Attempts Milestones,32.0,,30.0,,1,2026-11-11T07:16Z
 401873057,4360310,,200,Passing Attempts Milestones,34.0,,30.0,,1,2026-11-11T07:16Z
@@ -432,7 +429,6 @@ event_id,athlete_id,team_id,type_id,market,line,price,open_line,open_price,n,upd
 401873057,4360310,,200,Passing Attempts Milestones,38.0,,30.0,,1,2026-11-11T07:16Z
 401873057,4360310,,200,Passing Attempts Milestones,40.0,,30.0,,1,2026-11-11T07:16Z
 401873057,4360310,,200,Passing Attempts Milestones,42.0,,30.0,,1,2026-11-11T07:28Z
-401873057,4688380,,200,Passing Attempts Milestones,24.0,,34.0,,1,2026-11-11T14:04Z
 401873057,4688380,,200,Passing Attempts Milestones,26.0,,34.0,,1,2026-11-11T06:33Z
 401873057,4688380,,200,Passing Attempts Milestones,28.0,,34.0,,1,2026-11-11T06:33Z
 401873057,4688380,,200,Passing Attempts Milestones,30.0,,34.0,,1,2026-11-11T06:33Z
