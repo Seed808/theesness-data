@@ -132,7 +132,7 @@ td.mono{font-weight:500}
 .pct{display:inline-grid;grid-template-columns:64px 28px;gap:6px;align-items:center}
 .pct i{display:block;height:7px;background:var(--rule);position:relative;border-radius:4px;overflow:hidden}
 .pct i b{position:absolute;inset:0 auto 0 0;background:var(--gold)}
-.built{font-size:12px;color:var(--muted);margin:10px 0 4px}.live{margin:6px 0 2px;font-size:14px}.res-VOID{color:var(--muted);font-weight:700}.res-WIN{color:var(--win);font-weight:800}.res-LOSS{color:var(--loss);font-weight:800}.res-PUSH{color:var(--muted);font-weight:700}
+.built{font-size:12px;color:var(--muted);margin:10px 0 4px}.live{margin:6px 0 2px;font-size:14px}.tsearch{margin:12px 0 4px;display:flex;gap:10px;align-items:center}.tsearch input{flex:1;max-width:420px;padding:10px 12px;font-size:16px;border-radius:10px;border:1px solid var(--line,#ccc);background:var(--card,#fff);color:inherit}.res-VOID{color:var(--muted);font-weight:700}.res-WIN{color:var(--win);font-weight:800}.res-LOSS{color:var(--loss);font-weight:800}.res-PUSH{color:var(--muted);font-weight:700}
 .hist{display:inline-flex;gap:1px;align-items:flex-end;height:22px;vertical-align:middle}
 .hist span{width:5px;background:var(--crimson);opacity:.8;border-radius:1px}
 .flag{font-size:12px;padding:1px 8px;border:1px solid var(--gold);color:var(--gold);border-radius:999px}
@@ -424,12 +424,45 @@ def _gaps_box(cards, sport, names, tier_record):
             'A big gap is a question worth asking (injury, weather, a team the ratings misread), not a signal to follow.</p></div>')
 
 
+RECORDS: dict = {}      # sport -> {team key: "W-L"}; set by the builders, shown under every team name on every board
+
+
+def _rec_small(c: dict, side: str) -> str:
+    r = RECORDS.get(c.get("sport", ""), {}).get(c[side])
+    return f' <small class="eyebrow">({e(r)})</small>' if r else ""
+
+
+def _team_keys(c: dict, names: dict) -> str:
+    return " ".join(str(x).lower() for x in (c["away"], c["home"], names.get(c["away"], ""), names.get(c["home"], "")) if x)
+
+
+SEARCH_JS = """<script>(function(){var q=document.getElementById('tsearch');if(!q)return;
+function run(){var v=q.value.trim().toLowerCase();var n=0;
+document.querySelectorAll('article.game').forEach(function(a){var ok=!v||(a.dataset.teams||'').indexOf(v)>=0;a.style.display=ok?'':'none';if(ok)n++;});
+document.querySelectorAll('section.day').forEach(function(s){var any=[].some.call(s.querySelectorAll('article.game'),function(a){return a.style.display!=='none';});s.style.display=any?'':'none';});
+var m=document.getElementById('tsearch-n');if(m)m.textContent=v?(n+' game'+(n==1?'':'s')):'';}
+q.addEventListener('input',run);var h=decodeURIComponent((location.hash.match(/team=([^&]+)/)||[])[1]||'');if(h){q.value=h;run();}})();</script>"""
+
+
+def _search_box(sport: str, cards: list, names: dict) -> str:
+    if not cards:
+        return ""
+    teams = sorted({names.get(t, t) for c in cards for t in (c["away"], c["home"])})
+    opts = "".join(f'<option value="{e(t)}">' for t in teams)
+    label = {"nfl": "NFL", "ncaaf": "college football", "nba": "NBA", "cbb": "college basketball", "mlb": "MLB",
+             "nhl": "NHL"}.get(sport, sport.upper())
+    return (f'<div class="tsearch"><input id="tsearch" type="search" list="tsearch-l" placeholder="Search {e(label)} teams on '
+            f'this page" autocomplete="off" aria-label="Search teams"><span id="tsearch-n" class="eyebrow"></span>'
+            f'<datalist id="tsearch-l">{opts}</datalist></div>{SEARCH_JS}')
+
+
 def board(sport: str, title: str, lede: str, cards: list[dict], names: dict, records: dict | None = None,
           stats: list[dict] | None = None, nav: str = "", game_prefix: str = "game/", links: bool = True,
           newest_first: bool = False, tier_record: list | None = None) -> str:
     """newest_first: for boards of games already played (replays, past weeks) the latest day and latest
     game come first; live boards of upcoming games stay in schedule order."""
     tier1 = EDGE_TIERS[sport][0]
+    records = records or RECORDS.get(sport, {})
     tiles = "".join(f'<a class="tile" href="{s.get("href", "#board")}"><span class="k">{e(s["k"])}</span>'
                     f'<span class="v">{e(s["v"])}</span><span class="s">{e(s.get("s", ""))}</span></a>' for s in (stats or []))
     days: dict[str, list] = {}
@@ -439,6 +472,7 @@ def board(sport: str, title: str, lede: str, cards: list[dict], names: dict, rec
            + ("" if newest_first else _gaps_box(cards, sport, names, tier_record))
            + ('' if sport in ML_SPORTS else '<p class="mkey">On each card the line shows where the spread lands, from the away team on the '
               'left to the home team on the right:<i class="b"></i>the book<i class="o"></i>our number. The shaded stretch between them is the gap.</p>')
+           + _search_box(sport, cards, names)
            + '<div id="board"></div>']
     items = list(days.items())                 # cards arrive in schedule order
     if newest_first:
@@ -451,7 +485,8 @@ def board(sport: str, title: str, lede: str, cards: list[dict], names: dict, rec
             rec = (records or {})
             ab = names.get(c["away"], c["away"]), names.get(c["home"], c["home"])
             out.append(
-                f'<article class="game{" hot" if hot else ""}{" hot2" if strong else ""}"{_live_attrs(c, sport)}>'
+                f'<article class="game{" hot" if hot else ""}{" hot2" if strong else ""}"{_live_attrs(c, sport)}'
+                f' data-teams="{e(_team_keys(c, names))}">'
                 f'<div class="ghead"><span>{e(str(c.get("kickoff") or ""))}{", " + e(c["venue"]) if c.get("venue") else ""}</span>'
                 f'{_gap_badge(c, sport)}</div>'
                 f'<div class="teamrow"><span class="t">{e(ab[0])}<small>{e(rec.get(c["away"], ""))}</small></span>'
@@ -814,7 +849,7 @@ def game_page(c: dict, names: dict) -> str:
                  f'<th>SP quality allowed</th><th>Bullpen quality allowed</th></tr>{rows}</table></div>')
     return (f'<p><a class="more" href="../index.html">Back to the board</a>'
             + (f' · <a class="more" href="../props/{e(str(c["game_id"]))}.html">Player props ({c["props_n"]})</a>' if c.get("props_n") else "")
-            + f'</p><h1>{e(a)} at {e(h)}</h1>'
+            + f'</p><h1>{e(a)}{_rec_small(c, "away")} at {e(h)}{_rec_small(c, "home")}</h1>'
             f'<p class="eyebrow">{e(str(c.get("date", "")))} {e(str(c.get("kickoff") or ""))} {("· " + e(c["venue"])) if c.get("venue") else ""}</p>'
             + (f'<p class="note" style="border-left:3px solid var(--edge);padding-left:10px">{e(c["note"])}</p>' if c.get("note") else "")
             + (f'<p class="note" style="border-left:3px solid var(--loss);padding-left:10px"><b>HOLD.</b> {e(c["hold"])}</p>' if c.get("hold") else "")
