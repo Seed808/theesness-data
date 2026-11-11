@@ -34,17 +34,6 @@ event_id,athlete_id,team_id,type_id,market,line,price,open_line,open_price,n,upd
 401873055,4360689,,16,Total Passing Attempts (incl. overtime),36.5,,36.5,,2,2026-11-11T02:57Z
 401873055,4685720,,16,Total Passing Attempts (incl. overtime),36.5,,36.5,,1,2026-11-11T02:57Z
 401873055,4685720,,16,Total Passing Attempts (incl. overtime),36.5,,36.5,,2,2026-11-11T02:57Z
-401873055,3054850,,29,First Touchdown Scorer,,,,,1,2026-11-11T08:35Z
-401873055,4241416,,29,First Touchdown Scorer,,,,,1,2026-11-11T08:35Z
-401873055,4360689,,29,First Touchdown Scorer,,,,,1,2026-11-11T08:35Z
-401873055,4361370,,29,First Touchdown Scorer,,,,,1,2026-11-11T08:35Z
-401873055,4569682,,29,First Touchdown Scorer,,,,,1,2026-11-11T08:35Z
-401873055,4685472,,29,First Touchdown Scorer,,,,,1,2026-11-11T08:35Z
-401873055,4685720,,29,First Touchdown Scorer,,,,,1,2026-11-11T08:35Z
-401873055,4695883,,29,First Touchdown Scorer,,,,,1,2026-11-11T08:35Z
-401873055,,18,29,First Touchdown Scorer,,,,,1,2026-11-11T08:35Z
-401873055,,29,29,First Touchdown Scorer,,,,,1,2026-11-11T08:35Z
-401873055,,,29,First Touchdown Scorer,,,,,1,2026-08-04T19:56Z
 401873055,3054850,,31,Anytime Touchdown Scorer,,,,,1,2026-11-09T18:06Z
 401873055,4241416,,31,Anytime Touchdown Scorer,,,,,1,2026-11-09T18:24Z
 401873055,4360689,,31,Anytime Touchdown Scorer,,,,,1,2026-11-11T02:57Z
@@ -165,7 +154,6 @@ event_id,athlete_id,team_id,type_id,market,line,price,open_line,open_price,n,upd
 401873055,4695883,,195,Receiving Yards Milestones,100.0,,50.0,,1,2026-11-11T02:57Z
 401873055,4695883,,195,Receiving Yards Milestones,110.0,,50.0,,1,2026-11-11T02:57Z
 401873055,4695883,,195,Receiving Yards Milestones,120.0,,50.0,,1,2026-11-11T02:57Z
-401873055,4695883,,195,Receiving Yards Milestones,10.0,,50.0,,1,2026-11-11T08:35Z
 401873055,4695883,,195,Receiving Yards Milestones,51.0,,50.0,,1,2026-11-11T04:03Z
 401873055,4241416,,196,Rushing Yards Milestones,40.0,,74.0,,1,2026-11-11T02:57Z
 401873055,4241416,,196,Rushing Yards Milestones,50.0,,74.0,,1,2026-11-11T02:57Z
@@ -205,6 +193,7 @@ event_id,athlete_id,team_id,type_id,market,line,price,open_line,open_price,n,upd
 401873055,4241416,,201,Rushing Attempts Milestones,24.0,,18.0,,1,2026-11-11T02:57Z
 401873055,4241416,,201,Rushing Attempts Milestones,26.0,,18.0,,1,2026-11-11T02:57Z
 401873055,4241416,,201,Rushing Attempts Milestones,28.0,,18.0,,1,2026-11-11T02:57Z
+401873055,4241416,,201,Rushing Attempts Milestones,30.0,,18.0,,1,2026-11-11T08:35Z
 401873055,4241416,,201,Rushing Attempts Milestones,10.0,,18.0,,1,2026-11-11T02:57Z
 401873055,4361370,,202,Receptions Milestones,3.0,,7.0,,1,2026-11-11T03:07Z
 401873055,4361370,,202,Receptions Milestones,4.0,,7.0,,1,2026-11-11T02:57Z
