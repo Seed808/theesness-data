@@ -30,6 +30,14 @@ def health(sport: str, key: str, msg: str) -> None:
 
 def check_board(sport: str, cards: list[dict]) -> None:
     """Cheap checks that catch a broken model: many games with the identical projected total or margin."""
+    if sport in ("nhl", "mlb"):
+        # low-scoring moneyline sports: margins near a pick'em and clustered totals are normal; a flat model shows
+        # up as every win chance sitting at ~50%
+        ps = [float(c["p_home"]) for c in cards if c.get("p_home") is not None]
+        if len(ps) >= 4 and max(abs(p - 0.5) for p in ps) < 0.04:
+            health(sport, "flat_lines", f"All {len(ps)} win chances are within 4 points of 50%. "
+                                        "The ratings look flat; check before trusting any pick.")
+        return
     proj = [c for c in cards if c.get("model_total") is not None]
     if len(proj) >= 4:
         from collections import Counter

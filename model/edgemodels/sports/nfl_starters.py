@@ -109,6 +109,10 @@ class Starters:
         if espn1 and not out_espn and any(w in note.lower() for w in START_WORDS):
             return dict(info, status="confirmed", starter_id=espn1, starter=self.name.get(espn1),
                         why=f'ESPN QB1, and ESPN injury note ({when[:10]}): "{note}"')
+        if last_id and espn1 and last_id == espn1 and out_last:
+            return dict(info, status="hold", starter_id=None, starter=None,
+                        why=f"{self.name.get(last_id, last_id)} is the starter by both sources but is listed {out_last} on the "
+                            "injury report; no pick until that is settled")
         return dict(info, status="hold", starter_id=None, starter=None,
                     why=f"sources disagree: last game {self.name.get(last_id, last_id)}, ESPN QB1 {espn1_name}; "
                         "no pick until they agree or the injury report settles it")
