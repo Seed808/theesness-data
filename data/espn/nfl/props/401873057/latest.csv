@@ -1,8 +1,8 @@
 event_id,athlete_id,team_id,type_id,market,line,price,open_line,open_price,n,updated
 401873057,4360310,,8,Total Passing Yards (incl. overtime),233.5,,233.5,,1,2026-11-11T07:16Z
 401873057,4360310,,8,Total Passing Yards (incl. overtime),233.5,,233.5,,2,2026-11-11T07:16Z
-401873057,4688380,,8,Total Passing Yards (incl. overtime),205.5,,204.5,,1,2026-11-11T13:11Z
-401873057,4688380,,8,Total Passing Yards (incl. overtime),205.5,,204.5,,2,2026-11-11T13:11Z
+401873057,4688380,,8,Total Passing Yards (incl. overtime),205.5,,204.5,,1,2026-11-12T00:58Z
+401873057,4688380,,8,Total Passing Yards (incl. overtime),205.5,,204.5,,2,2026-11-12T00:58Z
 401873057,4360310,,9,Total Pass Completions (incl. overtime),19.5,,19.5,,1,2026-11-11T07:16Z
 401873057,4360310,,9,Total Pass Completions (incl. overtime),19.5,,19.5,,2,2026-11-11T07:16Z
 401873057,4688380,,9,Total Pass Completions (incl. overtime),20.5,,20.5,,1,2026-11-11T06:34Z
@@ -314,7 +314,7 @@ event_id,athlete_id,team_id,type_id,market,line,price,open_line,open_price,n,upd
 401873057,4688380,,194,Passing Yards Milestones,350.0,,210.0,,1,2026-11-11T06:33Z
 401873057,4688380,,194,Passing Yards Milestones,360.0,,210.0,,1,2026-11-11T06:33Z
 401873057,4688380,,194,Passing Yards Milestones,370.0,,210.0,,1,2026-11-11T07:28Z
-401873057,4688380,,194,Passing Yards Milestones,206.0,,210.0,,1,2026-11-11T12:45Z
+401873057,4688380,,194,Passing Yards Milestones,206.0,,210.0,,1,2026-11-12T00:27Z
 401873057,4430539,,195,Receiving Yards Milestones,10.0,,33.0,,1,2026-11-11T07:30Z
 401873057,4430539,,195,Receiving Yards Milestones,15.0,,33.0,,1,2026-11-11T07:30Z
 401873057,4430539,,195,Receiving Yards Milestones,20.0,,33.0,,1,2026-11-11T07:30Z
@@ -429,6 +429,7 @@ event_id,athlete_id,team_id,type_id,market,line,price,open_line,open_price,n,upd
 401873057,4360310,,200,Passing Attempts Milestones,38.0,,30.0,,1,2026-11-11T07:16Z
 401873057,4360310,,200,Passing Attempts Milestones,40.0,,30.0,,1,2026-11-11T07:16Z
 401873057,4360310,,200,Passing Attempts Milestones,42.0,,30.0,,1,2026-11-11T07:28Z
+401873057,4688380,,200,Passing Attempts Milestones,24.0,,34.0,,1,2026-11-12T00:29Z
 401873057,4688380,,200,Passing Attempts Milestones,26.0,,34.0,,1,2026-11-11T06:33Z
 401873057,4688380,,200,Passing Attempts Milestones,28.0,,34.0,,1,2026-11-11T06:33Z
 401873057,4688380,,200,Passing Attempts Milestones,30.0,,34.0,,1,2026-11-11T06:33Z
@@ -440,7 +441,6 @@ event_id,athlete_id,team_id,type_id,market,line,price,open_line,open_price,n,upd
 401873057,4688380,,200,Passing Attempts Milestones,42.0,,34.0,,1,2026-11-11T06:33Z
 401873057,4688380,,200,Passing Attempts Milestones,44.0,,34.0,,1,2026-11-11T06:33Z
 401873057,4688380,,200,Passing Attempts Milestones,46.0,,34.0,,1,2026-11-11T06:33Z
-401873057,4688380,,200,Passing Attempts Milestones,48.0,,34.0,,1,2026-11-11T07:11Z
 401873057,4882093,,201,Rushing Attempts Milestones,10.0,,16.0,,1,2026-11-11T07:18Z
 401873057,4882093,,201,Rushing Attempts Milestones,12.0,,16.0,,1,2026-11-11T07:18Z
 401873057,4882093,,201,Rushing Attempts Milestones,14.0,,16.0,,1,2026-11-11T07:18Z
