@@ -70,10 +70,16 @@ event_id,athlete_id,team_id,type_id,market,line,price,open_line,open_price,n,upd
 401873057,4688380,,21,Longest Rush (incl. overtime),8.5,,8.5,,2,2026-11-12T11:39Z
 401873057,4882093,,21,Longest Rush (incl. overtime),14.5,,14.5,,1,2026-11-12T11:39Z
 401873057,4882093,,21,Longest Rush (incl. overtime),14.5,,14.5,,2,2026-11-12T11:39Z
+401873057,3124084,,22,Total Kicking Points (incl. overtime),5.5,,5.5,,1,2026-11-12T21:01Z
+401873057,3124084,,22,Total Kicking Points (incl. overtime),5.5,,5.5,,2,2026-11-12T21:01Z
 401873057,4686361,,22,Total Kicking Points (incl. overtime),9.5,,9.5,,1,2026-11-12T11:47Z
 401873057,4686361,,22,Total Kicking Points (incl. overtime),9.5,,9.5,,2,2026-11-12T11:47Z
+401873057,3124084,,23,Total Extra Points Made (incl. overtime),1.5,,1.5,,1,2026-11-12T21:01Z
+401873057,3124084,,23,Total Extra Points Made (incl. overtime),1.5,,1.5,,2,2026-11-12T21:01Z
 401873057,4686361,,23,Total Extra Points Made (incl. overtime),2.5,,2.5,,1,2026-11-12T11:47Z
 401873057,4686361,,23,Total Extra Points Made (incl. overtime),2.5,,2.5,,2,2026-11-12T11:47Z
+401873057,3124084,,24,Total Field Goals Made (incl. overtime),1.5,,1.5,,1,2026-11-12T21:01Z
+401873057,3124084,,24,Total Field Goals Made (incl. overtime),1.5,,1.5,,2,2026-11-12T21:01Z
 401873057,4686361,,24,Total Field Goals Made (incl. overtime),2.5,,2.5,,1,2026-11-12T11:47Z
 401873057,4686361,,24,Total Field Goals Made (incl. overtime),2.5,,2.5,,2,2026-11-12T11:47Z
 401873057,2576336,,29,First Touchdown Scorer,,,,,1,2026-11-11T07:38Z
@@ -478,8 +484,8 @@ event_id,athlete_id,team_id,type_id,market,line,price,open_line,open_price,n,upd
 401873057,4688380,,191,1st Quarter Total Passing Yards,37.5,,36.5,,2,2026-11-12T14:24Z
 401873057,3916433,,192,1st Quarter Total Receiving Yards,7.5,,7.5,,1,2026-11-12T11:34Z
 401873057,3916433,,192,1st Quarter Total Receiving Yards,7.5,,7.5,,2,2026-11-12T11:34Z
-401873057,4430539,,192,1st Quarter Total Receiving Yards,4.5,,5.5,,1,2026-11-12T15:12Z
-401873057,4430539,,192,1st Quarter Total Receiving Yards,4.5,,5.5,,2,2026-11-12T15:12Z
+401873057,4430539,,192,1st Quarter Total Receiving Yards,5.5,,5.5,,1,2026-11-12T21:01Z
+401873057,4430539,,192,1st Quarter Total Receiving Yards,5.5,,5.5,,2,2026-11-12T21:01Z
 401873057,4432620,,192,1st Quarter Total Receiving Yards,11.5,,11.5,,1,2026-11-12T11:34Z
 401873057,4432620,,192,1st Quarter Total Receiving Yards,11.5,,11.5,,2,2026-11-12T11:34Z
 401873057,3916148,,193,1st Quarter Total Rushing Yards,15.5,,15.5,,1,2026-11-12T11:24Z
@@ -749,11 +755,17 @@ event_id,athlete_id,team_id,type_id,market,line,price,open_line,open_price,n,upd
 401873057,4882093,,202,Receptions Milestones,4.0,,3.0,,1,2026-11-11T07:30Z
 401873057,4882093,,202,Receptions Milestones,5.0,,3.0,,1,2026-11-11T07:30Z
 401873057,4882093,,202,Receptions Milestones,6.0,,3.0,,1,2026-11-11T07:30Z
+401873057,3124084,,203,Kicking Points Milestones,6.0,,6.0,,1,2026-11-12T21:01Z
+401873057,3124084,,203,Kicking Points Milestones,13.0,,6.0,,1,2026-11-12T21:01Z
 401873057,4686361,,203,Kicking Points Milestones,4.0,,10.0,,1,2026-11-12T11:47Z
 401873057,4686361,,203,Kicking Points Milestones,6.0,,10.0,,1,2026-11-12T11:47Z
 401873057,4686361,,203,Kicking Points Milestones,8.0,,10.0,,1,2026-11-12T11:47Z
 401873057,4686361,,203,Kicking Points Milestones,10.0,,10.0,,1,2026-11-12T11:47Z
 401873057,4686361,,203,Kicking Points Milestones,13.0,,10.0,,1,2026-11-12T11:47Z
+401873057,3124084,,205,Field Goals Made Milestones,1.0,,2.0,,1,2026-11-12T21:01Z
+401873057,3124084,,205,Field Goals Made Milestones,2.0,,2.0,,1,2026-11-12T21:01Z
+401873057,3124084,,205,Field Goals Made Milestones,3.0,,2.0,,1,2026-11-12T21:01Z
+401873057,3124084,,205,Field Goals Made Milestones,4.0,,2.0,,1,2026-11-12T21:01Z
 401873057,4686361,,205,Field Goals Made Milestones,1.0,,3.0,,1,2026-11-12T11:47Z
 401873057,4686361,,205,Field Goals Made Milestones,2.0,,3.0,,1,2026-11-12T11:47Z
 401873057,4686361,,205,Field Goals Made Milestones,3.0,,3.0,,1,2026-11-12T11:47Z
