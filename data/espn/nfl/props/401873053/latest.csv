@@ -25,8 +25,8 @@ event_id,athlete_id,team_id,type_id,market,line,price,open_line,open_price,n,upd
 401873053,4431431,,12,Total Rushing Yards (incl. overtime),51.5,,54.5,,2,2026-11-11T07:16Z
 401873053,4431452,,12,Total Rushing Yards (incl. overtime),26.5,,25.5,,1,2026-11-11T03:22Z
 401873053,4431452,,12,Total Rushing Yards (incl. overtime),26.5,,25.5,,2,2026-11-11T03:22Z
-401873053,4912274,,12,Total Rushing Yards (incl. overtime),14.5,,13.5,,1,2026-11-12T02:14Z
-401873053,4912274,,12,Total Rushing Yards (incl. overtime),14.5,,13.5,,2,2026-11-12T02:14Z
+401873053,4912274,,12,Total Rushing Yards (incl. overtime),13.5,,13.5,,1,2026-11-12T08:10Z
+401873053,4912274,,12,Total Rushing Yards (incl. overtime),13.5,,13.5,,2,2026-11-12T08:10Z
 401873053,4374302,,13,Total Receiving Yards (incl. overtime),78.5,,77.5,,1,2026-11-11T23:22Z
 401873053,4426388,,13,Total Receiving Yards (incl. overtime),56.5,,53.5,,1,2026-11-10T16:24Z
 401873053,4426388,,13,Total Receiving Yards (incl. overtime),56.5,,53.5,,2,2026-11-10T16:24Z
@@ -495,6 +495,7 @@ event_id,athlete_id,team_id,type_id,market,line,price,open_line,open_price,n,upd
 401873053,4912274,,196,Rushing Yards Milestones,40.0,,15.0,,1,2026-11-10T16:24Z
 401873053,4912274,,196,Rushing Yards Milestones,50.0,,15.0,,1,2026-11-10T16:24Z
 401873053,4912274,,196,Rushing Yards Milestones,60.0,,15.0,,1,2026-11-10T16:24Z
+401873053,4912274,,196,Rushing Yards Milestones,14.0,,15.0,,1,2026-11-12T04:29Z
 401873053,4912274,,196,Rushing Yards Milestones,70.0,,15.0,,1,2026-11-10T16:24Z
 401873053,4912274,,196,Rushing Yards Milestones,80.0,,15.0,,1,2026-11-10T16:24Z
 401873053,4429795,,197,Rushing + Receiving Yards Milestones,70.0,,140.0,,1,2026-11-10T13:16Z
@@ -768,7 +769,6 @@ event_id,athlete_id,team_id,type_id,market,line,price,open_line,open_price,n,upd
 401873053,4431452,,212,Rushing Yards Milestones - 1st Quarter,20.0,,5.0,,1,2026-11-11T07:16Z
 401873053,4431452,,212,Rushing Yards Milestones - 1st Quarter,25.0,,5.0,,1,2026-11-11T07:16Z
 401873053,4431452,,212,Rushing Yards Milestones - 1st Quarter,30.0,,5.0,,1,2026-11-11T07:16Z
-401873053,4431452,,212,Rushing Yards Milestones - 1st Quarter,35.0,,5.0,,1,2026-11-12T04:27Z
 401873053,4374302,,213,Receiving Yards Milestones - 1st Quarter,5.0,,15.0,,1,2026-11-11T07:33Z
 401873053,4374302,,213,Receiving Yards Milestones - 1st Quarter,10.0,,15.0,,1,2026-11-11T07:33Z
 401873053,4374302,,213,Receiving Yards Milestones - 1st Quarter,15.0,,15.0,,1,2026-11-11T07:33Z
