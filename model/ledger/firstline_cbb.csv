@@ -432,10 +432,10 @@ game_id,sport,date,away,home,kickoff_utc,first_line,model_line,pick,pick_line,ed
 401928996,cbb,"Wednesday, November 11",VAL,SDST,2026-11-12 01:00:00+00:00,2.5,-1.9,home,2.5,4.4,False,False,2026-11-10T23:20:35+00:00,live,69.0,81.0,WIN
 401925863,cbb,"Wednesday, November 11",ORU,TLSA,2026-11-12 01:00:00+00:00,-19.5,-36.1,home,-19.5,16.6,False,False,2026-11-10T23:20:35+00:00,live,71.0,80.0,LOSS
 401917522,cbb,"Wednesday, November 11",SCU,UNT,2026-11-12 01:00:00+00:00,1.5,-9.6,home,1.5,11.1,False,False,2026-11-10T23:20:35+00:00,live,76.0,71.0,LOSS
-401926062,cbb,"Wednesday, November 11",LIN,NEB,2026-11-12 02:00:00+00:00,-34.5,-16.0,away,34.5,18.5,False,False,2026-11-10T23:20:35+00:00,live,,,
-401925915,cbb,"Wednesday, November 11",PRST,CSU,2026-11-12 02:00:00+00:00,-14.5,-7.0,away,14.5,7.5,False,False,2026-11-10T23:20:35+00:00,live,,,
-401911454,cbb,"Wednesday, November 11",NEV,UCSB,2026-11-12 02:00:00+00:00,1.5,8.7,away,-1.5,7.2,False,False,2026-11-10T23:20:35+00:00,live,,,
-401911346,cbb,"Wednesday, November 11",CP,GCU,2026-11-12 02:00:00+00:00,-18.5,-10.5,away,18.5,8.0,False,False,2026-11-10T23:20:35+00:00,live,,,
+401926062,cbb,"Wednesday, November 11",LIN,NEB,2026-11-12 02:00:00+00:00,-34.5,-16.0,away,34.5,18.5,False,False,2026-11-10T23:20:35+00:00,live,60.0,94.0,WIN
+401925915,cbb,"Wednesday, November 11",PRST,CSU,2026-11-12 02:00:00+00:00,-14.5,-7.0,away,14.5,7.5,False,False,2026-11-10T23:20:35+00:00,live,71.0,87.0,LOSS
+401911454,cbb,"Wednesday, November 11",NEV,UCSB,2026-11-12 02:00:00+00:00,1.5,8.7,away,-1.5,7.2,False,False,2026-11-10T23:20:35+00:00,live,63.0,76.0,LOSS
+401911346,cbb,"Wednesday, November 11",CP,GCU,2026-11-12 02:00:00+00:00,-18.5,-10.5,away,18.5,8.0,False,False,2026-11-10T23:20:35+00:00,live,71.0,99.0,LOSS
 401920234,cbb,"Wednesday, November 11",DART,UALB,2026-11-11 18:00:00+00:00,1.5,2.6,away,-1.5,1.1,False,False,2026-11-11T02:31:25+00:00,live,85.0,76.0,WIN
 401925717,cbb,"Wednesday, November 11",BCU,SDSU,2026-11-11 22:00:00+00:00,-17.5,-29.2,home,-17.5,11.7,False,False,2026-11-11T02:31:25+00:00,live,75.0,88.0,LOSS
 401921181,cbb,"Wednesday, November 11",PENN,NAVY,2026-11-11 22:30:00+00:00,9.5,7.6,home,9.5,1.9,False,False,2026-11-11T02:31:25+00:00,live,76.0,81.0,WIN
@@ -452,8 +452,8 @@ game_id,sport,date,away,home,kickoff_utc,first_line,model_line,pick,pick_line,ed
 401920680,cbb,"Wednesday, November 11",COLG,SJU,2026-11-12 00:00:00+00:00,-28.5,-28.9,home,-28.5,0.4,True,False,2026-11-11T03:50:27+00:00,live,59.0,90.0,WIN
 401925895,cbb,"Wednesday, November 11",ODU,NORF,2026-11-12 00:00:00+00:00,5.5,14.1,away,-5.5,8.6,False,False,2026-11-11T03:50:27+00:00,live,71.0,60.0,WIN
 401917901,cbb,"Wednesday, November 11",UNCA,WGA,2026-11-12 00:00:00+00:00,-1.5,-9.6,home,-1.5,8.1,False,False,2026-11-11T03:50:27+00:00,live,73.0,70.0,LOSS
-401930177,cbb,"Wednesday, November 11",UAPB,UCLA,2026-11-12 02:00:00+00:00,-43.5,-54.0,home,-43.5,10.5,False,False,2026-11-11T03:50:27+00:00,live,,,
-401928814,cbb,"Wednesday, November 11",OAK,BOIS,2026-11-12 02:00:00+00:00,-16.5,-25.7,home,-16.5,9.2,False,False,2026-11-11T03:50:27+00:00,live,,,
+401930177,cbb,"Wednesday, November 11",UAPB,UCLA,2026-11-12 02:00:00+00:00,-43.5,-54.0,home,-43.5,10.5,False,False,2026-11-11T03:50:27+00:00,live,37.0,106.0,WIN
+401928814,cbb,"Wednesday, November 11",OAK,BOIS,2026-11-12 02:00:00+00:00,-16.5,-25.7,home,-16.5,9.2,False,False,2026-11-11T03:50:27+00:00,live,79.0,111.0,WIN
 401917963,cbb,"Wednesday, November 11",SFA,ACU,2026-11-12 02:00:00+00:00,3.5,8.4,away,-3.5,4.9,False,False,2026-11-11T03:50:27+00:00,live,76.0,71.0,WIN
 401925738,cbb,"Wednesday, November 11",MVSU,ORE,2026-11-12 03:00:00+00:00,-37.5,-35.7,away,37.5,1.8,False,False,2026-11-11T03:50:27+00:00,live,,,
 401919734,cbb,"Wednesday, November 11",CHST,CBU,2026-11-12 03:00:00+00:00,-10.5,-5.3,away,10.5,5.2,False,False,2026-11-11T03:50:27+00:00,live,,,
