@@ -243,9 +243,9 @@ game_id,sport,date,away,home,kickoff_utc,first_line,model_line,pick,pick_line,ed
 401856888,ncaaf,"Friday, November 13",Tennessee,Texas A&M,2026-11-14 05:00:00+00:00,3.0,-2.7,home,3.0,5.7,False,False,2026-11-08T07:41:15+00:00,live,,,
 401856863,ncaaf,"Friday, November 13",Texas Tech,Oklahoma State,2026-11-14 05:00:00+00:00,1.5,11.0,away,-1.5,9.5,False,False,2026-11-08T07:41:15+00:00,live,,,
 401858298,ncaaf,"Friday, November 13",Louisville,North Carolina,2026-11-14 05:00:00+00:00,2.5,9.5,away,-2.5,7.0,False,False,2026-11-08T07:41:15+00:00,live,,,
-401858296,ncaaf,"Saturday, November 14",Duke,Miami,2026-11-14 17:00:00+00:00,-15.5,-20.4,home,-15.5,4.9,False,False,2026-11-08T07:41:15+00:00,live,,,
-401858522,ncaaf,"Saturday, November 14",Northwestern,Ohio State,2026-11-14 17:00:00+00:00,-10.5,-21.0,home,-10.5,10.5,False,False,2026-11-08T07:41:15+00:00,live,,,
-401858301,ncaaf,"Saturday, November 14",Wake Forest,SMU,2026-11-14 17:00:00+00:00,2.5,-2.3,home,2.5,4.8,False,False,2026-11-08T07:41:15+00:00,live,,,
+401858296,ncaaf,"Saturday, November 14",Duke,Miami,2026-11-14 17:00:00+00:00,-15.5,-20.4,home,-15.5,4.9,False,False,2026-11-08T07:41:15+00:00,live,25.0,36.0,LOSS
+401858522,ncaaf,"Saturday, November 14",Northwestern,Ohio State,2026-11-14 17:00:00+00:00,-10.5,-21.0,home,-10.5,10.5,False,False,2026-11-08T07:41:15+00:00,live,19.0,28.0,LOSS
+401858301,ncaaf,"Saturday, November 14",Wake Forest,SMU,2026-11-14 17:00:00+00:00,2.5,-2.3,home,2.5,4.8,False,False,2026-11-08T07:41:15+00:00,live,49.0,7.0,LOSS
 401856889,ncaaf,"Saturday, November 14",Alabama,Vanderbilt,2026-11-14 17:45:00+00:00,19.5,13.6,home,19.5,5.9,False,False,2026-11-08T07:41:15+00:00,live,,,
 401858518,ncaaf,"Saturday, November 14",USC,Indiana,2026-11-14 20:30:00+00:00,-7.0,-17.4,home,-7.0,10.4,False,False,2026-11-08T07:41:15+00:00,live,,,
 401858523,ncaaf,"Saturday, November 14",Michigan,Oregon,2026-11-14 20:30:00+00:00,-9.5,-9.8,home,-9.5,0.3,True,False,2026-11-08T07:41:15+00:00,live,,,
@@ -254,15 +254,15 @@ game_id,sport,date,away,home,kickoff_utc,first_line,model_line,pick,pick_line,ed
 401856882,ncaaf,"Saturday, November 14",South Carolina,Arkansas,2026-11-15 00:45:00+00:00,8.5,6.0,home,8.5,2.5,False,False,2026-11-08T07:41:15+00:00,live,,,
 401858294,ncaaf,"Saturday, November 14",Boston College,Notre Dame,2026-11-14 20:30:00+00:00,-31.5,-40.9,home,-31.5,9.4,False,False,2026-11-08T11:20:27+00:00,live,,,
 401856857,ncaaf,"Friday, November 13",Arizona State,UCF,2026-11-14 05:00:00+00:00,-2.5,-1.6,away,2.5,0.9,False,False,2026-11-08T16:52:51+00:00,live,,,
-401856859,ncaaf,"Friday, November 13",Cincinnati,Iowa State,2026-11-14 05:00:00+00:00,-1.5,-8.4,home,-1.5,6.9,False,False,2026-11-08T16:52:51+00:00,live,,,
+401856859,ncaaf,"Friday, November 13",Cincinnati,Iowa State,2026-11-14 05:00:00+00:00,-1.5,-8.4,home,-1.5,6.9,False,False,2026-11-08T16:52:51+00:00,live,13.0,41.0,WIN
 401856861,ncaaf,"Friday, November 13",Kansas,West Virginia,2026-11-14 05:00:00+00:00,-2.5,7.4,away,2.5,9.9,False,False,2026-11-08T16:52:51+00:00,live,,,
 401856862,ncaaf,"Friday, November 13",Kansas State,TCU,2026-11-14 05:00:00+00:00,-9.5,-8.4,away,9.5,1.1,False,False,2026-11-08T16:52:51+00:00,live,,,
 401856886,ncaaf,"Saturday, November 14",Auburn,Mississippi State,2026-11-14 17:00:00+00:00,3.5,-3.3,home,3.5,6.8,False,False,2026-11-08T16:52:51+00:00,live,,,
-401858300,ncaaf,"Saturday, November 14",Syracuse,NC State,2026-11-14 17:00:00+00:00,1.5,-8.8,home,1.5,10.3,False,False,2026-11-08T16:52:51+00:00,live,,,
-401858520,ncaaf,"Saturday, November 14",Wisconsin,Maryland,2026-11-14 17:00:00+00:00,7.5,8.9,away,-7.5,1.4,False,False,2026-11-08T16:52:51+00:00,live,,,
-401861967,ncaaf,"Saturday, November 14",James Madison,UConn,2026-11-14 17:00:00+00:00,3.0,11.7,away,-3.0,8.7,False,False,2026-11-08T16:52:51+00:00,live,,,
+401858300,ncaaf,"Saturday, November 14",Syracuse,NC State,2026-11-14 17:00:00+00:00,1.5,-8.8,home,1.5,10.3,False,False,2026-11-08T16:52:51+00:00,live,34.0,31.0,LOSS
+401858520,ncaaf,"Saturday, November 14",Wisconsin,Maryland,2026-11-14 17:00:00+00:00,7.5,8.9,away,-7.5,1.4,False,False,2026-11-08T16:52:51+00:00,live,21.0,24.0,LOSS
+401861967,ncaaf,"Saturday, November 14",James Madison,UConn,2026-11-14 17:00:00+00:00,3.0,11.7,away,-3.0,8.7,False,False,2026-11-08T16:52:51+00:00,live,22.0,46.0,LOSS
 401858297,ncaaf,"Saturday, November 14",Georgia Tech,Clemson,2026-11-14 17:30:00+00:00,-13.5,-12.2,away,13.5,1.3,False,False,2026-11-08T16:52:51+00:00,live,,,
-401858525,ncaaf,"Saturday, November 14",Nebraska,Rutgers,2026-11-14 17:30:00+00:00,12.5,15.6,away,-12.5,3.1,False,False,2026-11-08T16:52:51+00:00,live,,,
+401858525,ncaaf,"Saturday, November 14",Nebraska,Rutgers,2026-11-14 17:30:00+00:00,12.5,15.6,away,-12.5,3.1,False,False,2026-11-08T16:52:51+00:00,live,31.0,0.0,WIN
 401862825,ncaaf,"Saturday, November 14",East Carolina,Charlotte,2026-11-14 18:00:00+00:00,11.5,20.0,away,-11.5,8.5,False,False,2026-11-08T16:52:51+00:00,live,,,
 401862829,ncaaf,"Saturday, November 14",UAB,Temple,2026-11-14 18:00:00+00:00,-2.5,-3.9,home,-2.5,1.4,False,False,2026-11-08T16:52:51+00:00,live,,,
 401869937,ncaaf,"Saturday, November 14",Arkansas State,Coastal Carolina,2026-11-14 18:00:00+00:00,-1.5,-3.0,home,-1.5,1.5,False,False,2026-11-08T16:52:51+00:00,live,,,
