@@ -1,63 +1,63 @@
-Linux ip-10-0-134-247 7.0.0-1016-aws #17-Ubuntu SMP PREEMPT Mon Oct 19 17:36:33 UTC 2026 x86_64 GNU/Linux
+Linux runnervmccnms 7.0.0-1019-azure #20-Ubuntu SMP PREEMPT Mon Oct 19 22:41:16 UTC 2026 x86_64 GNU/Linux
 Python 3.12.16
                total        used        free      shared  buff/cache   available
-Mem:           15700        1090        2056          46       12936       14610
+Mem:           15983        1113        2252          47       13009       14869
 Swap:           3071           0        3071
-/dev/mapper/cow-root  145G   66G   80G  46% /
+/dev/root       145G   69G   76G  48% /
 /home/runner/work/theesness-data/data_raw/cbb/:
-total 56912
-drwxr-xr-x 2 runner runner     4096 Nov 16 06:58 .
-drwxr-xr-x 7 runner runner     4096 Nov 16 06:58 ..
--rw-r--r-- 1 runner runner 45698931 Nov 16 06:58 play_by_play_2026.parquet
--rw-r--r-- 1 runner runner 12566787 Nov 16 06:58 play_by_play_2027.parquet
+total 57400
+drwxr-xr-x 2 runner runner     4096 Nov 16 16:30 .
+drwxr-xr-x 7 runner runner     4096 Nov 16 16:29 ..
+-rw-r--r-- 1 runner runner 45698931 Nov 16 16:29 play_by_play_2026.parquet
+-rw-r--r-- 1 runner runner 13066687 Nov 16 16:30 play_by_play_2027.parquet
 
 /home/runner/work/theesness-data/data_raw/nba/:
-total 24464
-drwxr-xr-x 2 runner runner     4096 Nov 16 06:58 .
-drwxr-xr-x 7 runner runner     4096 Nov 16 06:58 ..
--rw-r--r-- 1 runner runner 10302152 Nov 16 06:58 play_by_play_2025.parquet
--rw-r--r-- 1 runner runner 10681187 Nov 16 06:58 play_by_play_2026.parquet
--rw-r--r-- 1 runner runner  3287711 Nov 16 06:58 play_by_play_2027.parquet
--rw-r--r-- 1 runner runner   606444 Nov 16 06:58 player_box_2026.parquet
--rw-r--r-- 1 runner runner   124285 Nov 16 06:58 player_box_2027.parquet
--rw-r--r-- 1 runner runner    21286 Nov 16 06:58 player_impact_2026.csv
--rw-r--r-- 1 runner runner      139 Nov 16 06:58 player_impact_meta.json
+total 24600
+drwxr-xr-x 2 runner runner     4096 Nov 16 16:30 .
+drwxr-xr-x 7 runner runner     4096 Nov 16 16:29 ..
+-rw-r--r-- 1 runner runner 10302152 Nov 16 16:29 play_by_play_2025.parquet
+-rw-r--r-- 1 runner runner 10681187 Nov 16 16:29 play_by_play_2026.parquet
+-rw-r--r-- 1 runner runner  3421709 Nov 16 16:29 play_by_play_2027.parquet
+-rw-r--r-- 1 runner runner   606444 Nov 16 16:30 player_box_2026.parquet
+-rw-r--r-- 1 runner runner   128195 Nov 16 16:30 player_box_2027.parquet
+-rw-r--r-- 1 runner runner    21286 Nov 16 16:29 player_impact_2026.csv
+-rw-r--r-- 1 runner runner      139 Nov 16 16:29 player_impact_meta.json
 
 /home/runner/work/theesness-data/data_raw/ncaaf/:
 total 11772
-drwxr-xr-x 2 runner runner    4096 Nov 16 06:58 .
-drwxr-xr-x 7 runner runner    4096 Nov 16 06:58 ..
--rw-r--r-- 1 runner runner   92072 Nov 16 06:58 elo_games_2025.csv
--rw-r--r-- 1 runner runner   42755 Nov 16 06:58 elo_games_2026.csv
--rw-r--r-- 1 runner runner 8025753 Nov 16 06:58 play_by_play_2025.parquet
--rw-r--r-- 1 runner runner 3876255 Nov 16 06:58 play_by_play_2026.parquet
+drwxr-xr-x 2 runner runner    4096 Nov 16 16:29 .
+drwxr-xr-x 7 runner runner    4096 Nov 16 16:29 ..
+-rw-r--r-- 1 runner runner   92072 Nov 16 16:29 elo_games_2025.csv
+-rw-r--r-- 1 runner runner   42755 Nov 16 16:29 elo_games_2026.csv
+-rw-r--r-- 1 runner runner 8025753 Nov 16 16:29 play_by_play_2025.parquet
+-rw-r--r-- 1 runner runner 3876255 Nov 16 16:29 play_by_play_2026.parquet
 
 /home/runner/work/theesness-data/data_raw/nfl/:
-total 52588
-drwxr-xr-x 2 runner runner     4096 Nov 16 06:58 .
-drwxr-xr-x 7 runner runner     4096 Nov 16 06:58 ..
--rw-r--r-- 1 runner runner      378 Nov 16 06:58 games.csv
--rw-r--r-- 1 runner runner    97472 Nov 16 06:58 injuries_2025.parquet
--rw-r--r-- 1 runner runner    65722 Nov 16 06:58 injuries_2026.parquet
--rw-r--r-- 1 runner runner 20597560 Nov 16 06:58 play_by_play_2024.parquet
--rw-r--r-- 1 runner runner 20337029 Nov 16 06:58 play_by_play_2025.parquet
--rw-r--r-- 1 runner runner 11054538 Nov 16 06:58 play_by_play_2026.parquet
--rw-r--r-- 1 runner runner   850871 Nov 16 06:58 roster_weekly_2025.parquet
--rw-r--r-- 1 runner runner   819454 Nov 16 06:58 roster_weekly_2026.parquet
+total 52584
+drwxr-xr-x 2 runner runner     4096 Nov 16 16:29 .
+drwxr-xr-x 7 runner runner     4096 Nov 16 16:29 ..
+-rw-r--r-- 1 runner runner      378 Nov 16 16:29 games.csv
+-rw-r--r-- 1 runner runner    97472 Nov 16 16:29 injuries_2025.parquet
+-rw-r--r-- 1 runner runner    65722 Nov 16 16:29 injuries_2026.parquet
+-rw-r--r-- 1 runner runner 20597560 Nov 16 16:29 play_by_play_2024.parquet
+-rw-r--r-- 1 runner runner 20337029 Nov 16 16:29 play_by_play_2025.parquet
+-rw-r--r-- 1 runner runner 11054538 Nov 16 16:29 play_by_play_2026.parquet
+-rw-r--r-- 1 runner runner   850871 Nov 16 16:29 roster_weekly_2025.parquet
+-rw-r--r-- 1 runner runner   818849 Nov 16 16:29 roster_weekly_2026.parquet
 
 /home/runner/work/theesness-data/data_raw/sam/:
 total 56
-drwxr-xr-x 2 runner runner 4096 Nov 16 06:58 .
-drwxr-xr-x 7 runner runner 4096 Nov 16 06:58 ..
--rw-r--r-- 1 runner runner 3187 Nov 16 06:58 first_td_wk5.csv
--rw-r--r-- 1 runner runner 8239 Nov 16 06:58 ncaaf_record.csv
--rw-r--r-- 1 runner runner 5022 Nov 16 06:58 ncaaf_wk7_board.csv
--rw-r--r-- 1 runner runner 1696 Nov 16 06:58 nfl_record.csv
--rw-r--r-- 1 runner runner  479 Nov 16 06:58 nfl_wk5_bars.csv
--rw-r--r-- 1 runner runner  449 Nov 16 06:58 nfl_wk5_board.csv
--rw-r--r-- 1 runner runner  505 Nov 16 06:58 nfl_wk5_extra.csv
--rw-r--r-- 1 runner runner 3469 Nov 16 06:58 nfl_wk5_ratings.csv
--rw-r--r-- 1 runner runner 1696 Nov 16 06:58 nfl_wk6_board.csv
+drwxr-xr-x 2 runner runner 4096 Nov 16 16:29 .
+drwxr-xr-x 7 runner runner 4096 Nov 16 16:29 ..
+-rw-r--r-- 1 runner runner 3187 Nov 16 16:29 first_td_wk5.csv
+-rw-r--r-- 1 runner runner 8239 Nov 16 16:29 ncaaf_record.csv
+-rw-r--r-- 1 runner runner 5022 Nov 16 16:29 ncaaf_wk7_board.csv
+-rw-r--r-- 1 runner runner 1696 Nov 16 16:29 nfl_record.csv
+-rw-r--r-- 1 runner runner  479 Nov 16 16:29 nfl_wk5_bars.csv
+-rw-r--r-- 1 runner runner  449 Nov 16 16:29 nfl_wk5_board.csv
+-rw-r--r-- 1 runner runner  505 Nov 16 16:29 nfl_wk5_extra.csv
+-rw-r--r-- 1 runner runner 3469 Nov 16 16:29 nfl_wk5_ratings.csv
+-rw-r--r-- 1 runner runner 1696 Nov 16 16:29 nfl_wk6_board.csv
 /home/runner/work/theesness-data/theesness-data/model/edgemodels/sports/football.py:102: FutureWarning: Downcasting object dtype arrays on .fillna, .ffill, .bfill is deprecated and will change in a future version. Call result.infer_objects(copy=False) instead. To opt-in to the future behavior, set `pd.set_option('future.no_silent_downcasting', True)`
   "neutral_site": p["neutral_site"].fillna(False).astype(bool),
 /home/runner/work/theesness-data/theesness-data/model/run_all.py:856: FutureWarning: The behavior of DataFrame concatenation with empty or all-NA entries is deprecated. In a future version, this will no longer exclude empty or all-NA columns when determining the result dtypes. To retain the old behavior, exclude the relevant entries before the concat operation.
@@ -74,15 +74,388 @@ drwxr-xr-x 7 runner runner 4096 Nov 16 06:58 ..
   sl["date"] = pd.to_datetime(sl["date"], errors="coerce").dt.strftime("%A, %B %-d").fillna("Date not in feed")
 /home/runner/work/theesness-data/theesness-data/model/run_all.py:560: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
   sl["date"] = pd.to_datetime(sl["date"], errors="coerce").dt.strftime("%A, %B %-d").fillna("Date not in feed")
-Traceback (most recent call last):
-  File "/home/runner/work/theesness-data/theesness-data/model/run_all.py", line 1360, in <module>
-    r = run(Path(a.data), Path(a.nfldata), Path(a.out), Path(a.ledger))
-        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "/home/runner/work/theesness-data/theesness-data/model/run_all.py", line 1253, in run
-    klive = klive.assign(week=[(pd.Timestamp(kev[str(g)]["kickoff_utc"]) - pd.Timedelta(hours=10)).strftime("%m/%d")
-                                             ~~~~~~~~~~~^^^^^^^^^^^^^^^
-KeyError: 'kickoff_utc'
-exit code: 1
+/home/runner/work/theesness-data/theesness-data/model/edgemodels/core/ledger.py:80: FutureWarning: The behavior of DataFrame concatenation with empty or all-NA entries is deprecated. In a future version, this will no longer exclude empty or all-NA columns when determining the result dtypes. To retain the old behavior, exclude the relevant entries before the concat operation.
+  out = pd.concat([led, pd.DataFrame(new)], ignore_index=True)
+/opt/hostedtoolcache/Python/3.12.16/x64/lib/python3.12/site-packages/sklearn/linear_model/_logistic.py:469: ConvergenceWarning: lbfgs failed to converge (status=1):
+STOP: TOTAL NO. of ITERATIONS REACHED LIMIT.
+
+Increase the number of iterations (max_iter) or scale the data as shown in:
+    https://scikit-learn.org/stable/modules/preprocessing.html
+Please also refer to the documentation for alternative solver options:
+    https://scikit-learn.org/stable/modules/linear_model.html#logistic-regression
+  n_iter_i = _check_optimize_result(
+{
+ "built_at": "2026-11-16T16:30:10+00:00",
+ "nfl_key_numbers": {
+  "source": "nflverse games 2010-2025, 4363 games, closing spread as expectation",
+  "top": [
+   {
+    "margin": 3,
+    "weight": 2.687529878986892
+   },
+   {
+    "margin": 38,
+    "weight": 2.067242485480769
+   },
+   {
+    "margin": 35,
+    "weight": 2.0106954158647357
+   },
+   {
+    "margin": 31,
+    "weight": 1.978398508323249
+   },
+   {
+    "margin": 7,
+    "weight": 1.7663919913184858
+   },
+   {
+    "margin": 28,
+    "weight": 1.7459164695216642
+   },
+   {
+    "margin": 34,
+    "weight": 1.5354974750205879
+   },
+   {
+    "margin": 24,
+    "weight": 1.4853741664463254
+   }
+  ]
+ },
+ "nfl_backtest": {
+  "summary": [
+   {
+    "label": "All picks",
+    "W": 150,
+    "L": 147,
+    "P": 6,
+    "pct": 0.5050505050505051,
+    "units": -10.6
+   },
+   {
+    "label": "Edge 3.0+",
+    "W": 43,
+    "L": 45,
+    "P": 2,
+    "pct": 0.48863636363636365,
+    "units": -5.9
+   },
+   {
+    "label": "Edge 6.0+",
+    "W": 7,
+    "L": 7,
+    "P": 0,
+    "pct": 0.5,
+    "units": -0.6
+   },
+   {
+    "label": "Edge 10.0+",
+    "W": 0,
+    "L": 4,
+    "P": 0,
+    "pct": 0.0,
+    "units": -4.0
+   }
+  ],
+  "accuracy": {
+   "games": 303,
+   "model_mae": 10.255445544554455,
+   "model_sd": 13.098033894526703,
+   "market_mae": 9.935643564356436,
+   "market_sd": 12.502357874353967,
+   "lined": 303
+  }
+ },
+ "nfl_live_week": 10,
+ "nfl_questionable_active_rate": 0.6941176470588235,
+ "nfl_pickbook": {
+  "locked": 0,
+  "updated": 0,
+  "held": 0
+ },
+ "nfl_locked_now": 0,
+ "nfl_chain_ok": true,
+ "nfl_2026_replay": [
+  {
+   "label": "All picks",
+   "W": 48,
+   "L": 45,
+   "P": 6,
+   "pct": 0.5161290322580645,
+   "units": -1.4
+  },
+  {
+   "label": "Edge 3.0+",
+   "W": 13,
+   "L": 8,
+   "P": 1,
+   "pct": 0.6190476190476191,
+   "units": 3.8
+  },
+  {
+   "label": "Edge 6.0+",
+   "W": 0,
+   "L": 1,
+   "P": 0,
+   "pct": 0.0,
+   "units": -1.0
+  },
+  {
+   "label": "Edge 10.0+",
+   "W": 0,
+   "L": 1,
+   "P": 0,
+   "pct": 0.0,
+   "units": -1.0
+  }
+ ],
+ "nfl_live": [
+  {
+   "label": "All picks",
+   "W": 23,
+   "L": 23,
+   "P": 0,
+   "pct": 0.5,
+   "units": -2.1
+  },
+  {
+   "label": "Edge 3.0+",
+   "W": 7,
+   "L": 4,
+   "P": 0,
+   "pct": 0.6363636363636364,
+   "units": 2.4
+  },
+  {
+   "label": "Edge 6.0+",
+   "W": 0,
+   "L": 0,
+   "P": 0,
+   "pct": NaN,
+   "units": 0.0
+  },
+  {
+   "label": "Edge 10.0+",
+   "W": 0,
+   "L": 0,
+   "P": 0,
+   "pct": NaN,
+   "units": 0.0
+  }
+ ],
+ "cfbd_elo_unmatched": [
+  "Air Force",
+  "Army",
+  "Hawai'i",
+  "Navy",
+  "New Mexico State",
+  "UNLV"
+ ],
+ "ncaaf_backtest": {
+  "summary": [
+   {
+    "label": "All picks",
+    "W": 830,
+    "L": 775,
+    "P": 23,
+    "pct": 0.5171339563862928,
+    "units": -20.5
+   },
+   {
+    "label": "Edge 3.0+",
+    "W": 580,
+    "L": 521,
+    "P": 12,
+    "pct": 0.5267938237965486,
+    "units": 6.3
+   },
+   {
+    "label": "Edge 6.0+",
+    "W": 380,
+    "L": 313,
+    "P": 7,
+    "pct": 0.5483405483405484,
+    "units": 32.5
+   },
+   {
+    "label": "Edge 10.0+",
+    "W": 190,
+    "L": 166,
+    "P": 5,
+    "pct": 0.5337078651685393,
+    "units": 6.7
+   }
+  ],
+  "accuracy": {
+   "games": 1678,
+   "model_mae": 13.83218116805721,
+   "model_sd": 17.79182292339755,
+   "market_mae": 11.801597051597051,
+   "market_sd": 15.030748581180159,
+   "lined": 1628
+  }
+ },
+ "ncaaf_live_week": 12,
+ "ncaaf_2026_replay": [
+  {
+   "label": "All picks",
+   "W": 390,
+   "L": 364,
+   "P": 7,
+   "pct": 0.5172413793103449,
+   "units": -9.5
+  },
+  {
+   "label": "Edge 3.0+",
+   "W": 281,
+   "L": 256,
+   "P": 3,
+   "pct": 0.5232774674115456,
+   "units": -0.5
+  },
+  {
+   "label": "Edge 6.0+",
+   "W": 196,
+   "L": 167,
+   "P": 1,
+   "pct": 0.5399449035812672,
+   "units": 11.2
+  },
+  {
+   "label": "Edge 10.0+",
+   "W": 104,
+   "L": 89,
+   "P": 1,
+   "pct": 0.538860103626943,
+   "units": 5.5
+  }
+ ],
+ "ncaaf_locked_now": 14,
+ "ncaaf_chain_ok": true,
+ "nba_backtest": {
+  "summary": [
+   {
+    "label": "All picks",
+    "W": 496,
+    "L": 539,
+    "P": 8,
+    "pct": 0.4792270531400966,
+    "units": -88.1
+   },
+   {
+    "label": "Edge 2.5+",
+    "W": 230,
+    "L": 260,
+    "P": 4,
+    "pct": 0.46938775510204084,
+    "units": -50.9
+   },
+   {
+    "label": "Edge 5.0+",
+    "W": 93,
+    "L": 91,
+    "P": 3,
+    "pct": 0.5054347826086957,
+    "units": -6.5
+   },
+   {
+    "label": "Edge 8.0+",
+    "W": 27,
+    "L": 29,
+    "P": 2,
+    "pct": 0.48214285714285715,
+    "units": -4.5
+   }
+  ],
+  "accuracy": {
+   "games": 1048,
+   "model_mae": 11.45925572519084,
+   "model_sd": 14.687268107483163,
+   "market_mae": 10.88686481303931,
+   "market_sd": 13.96647154710555,
+   "lined": 1043
+  }
+ },
+ "nba_locked_now": 6,
+ "nba_chain_ok": true,
+ "cbb_backtest": {
+  "accuracy": {
+   "games": 3446,
+   "model_mae": 9.164074289030761,
+   "model_sd": 11.472312742700403
+  }
+ },
+ "cbb_locked_now": 21,
+ "cbb_chain_ok": true,
+ "cbb_live": true,
+ "mlb_backtest": {
+  "apr14_sep28": {
+   "games": 2186,
+   "winner_pct": 0.55032021957914,
+   "log_loss": 0.6836553006835437,
+   "log_loss_home_rate_only": 0.6918805834642537,
+   "brier": 0.2453163965290485,
+   "total_mae": 3.518881189128427,
+   "total_mae_league_avg": 3.5489156229151826,
+   "margin_mae": 3.4877352637459498,
+   "avg_proj_total": 8.859083528724822,
+   "avg_actual_total": 8.970265324794145
+  },
+  "jul_sep": {
+   "games": 1148,
+   "winner_pct": 0.5618466898954704,
+   "log_loss": 0.6780298441894848,
+   "log_loss_home_rate_only": 0.6910681981294204,
+   "brier": 0.24258424700566203,
+   "total_mae": 3.5604009932306315,
+   "total_mae_league_avg": 3.557946557564132,
+   "margin_mae": 3.445371227089188,
+   "avg_proj_total": 8.871707079445654,
+   "avg_actual_total": 8.931184668989546
+  }
+ },
+ "mlb_locked_now": 0,
+ "mlb_chain_ok": true,
+ "mlb_live": [
+  {
+   "label": "All picks",
+   "W": 5,
+   "L": 4,
+   "P": 0,
+   "pct": 0.5555555555555556,
+   "units": 0.6
+  },
+  {
+   "label": "Edge 3.0+",
+   "W": 4,
+   "L": 2,
+   "P": 0,
+   "pct": 0.6666666666666666,
+   "units": 1.1
+  },
+  {
+   "label": "Edge 5.0+",
+   "W": 3,
+   "L": 1,
+   "P": 0,
+   "pct": 0.75,
+   "units": 1.4
+  },
+  {
+   "label": "Edge 8.0+",
+   "W": 0,
+   "L": 0,
+   "P": 0,
+   "pct": NaN,
+   "units": 0.0
+  }
+ ],
+ "nhl_locked_now": 2,
+ "nhl_chain_ok": true,
+ "nhl_live": true
+}
+exit code: 0
                total        used        free      shared  buff/cache   available
-Mem:           15700        1074        2758          47       12250       14626
+Mem:           15983        1003        3666          48       11706       14979
 Swap:           3071           0        3071
