@@ -24,6 +24,10 @@ from edgemodels.sports.nhl_model import NHLModel
 
 NHL_RECORD_FROM = pd.Timestamp("2026-11-10").date()     # one preview week, then the record starts at 0-0
 LOCK_EXTRA = ["market", "odds"]
+# NO EDGE: no pick unless our win chance beats the market's by this many points. Until Nov 16, 2026 every game with a
+# line was a pick; over 241 games (Oct 13 - Nov 15) DraftKings' closing price predicted winners better than the model,
+# and the model's small disagreements lost money at every size, so they are no longer picks.
+NO_EDGE_ML = 3.0
 
 
 def _clean(o):
@@ -78,6 +82,12 @@ def espn_events(repo: Path) -> dict:
                 if st.get("completed"):
                     row["final"] = (float(t["away"]["score"]), float(t["home"]["score"]))
                 if st.get("state") == "pre":
+                    # ESPN's probable starting goalie: "Confirmed" started all 431 such games Oct 13 - Nov 15, 2026,
+                    # "Expected" 51 of 61; our own guess from each team's last 10 starts named the starter 58% of the time
+                    for sd in ("away", "home"):
+                        pg = [q for q in (t[sd].get("probables") or []) if q.get("name") == "probableStartingGoalie"]
+                        if pg and (pg[0].get("athlete") or {}).get("fullName"):
+                            row.setdefault("probables", {})[sd] = (pg[0]["athlete"]["fullName"], (pg[0].get("status") or {}).get("name") or "Expected")
                     o = (c.get("odds") or [{}])[0]
                     ml, tot = o.get("moneyline") or {}, o.get("total") or {}
                     hm, am = _odds(ml.get("home")), _odds(ml.get("away"))
@@ -98,6 +108,7 @@ def nhl_section(out: Path, repo: Path, ledger_dir: Path, report: dict, now: date
     allg = pd.concat([gl, gc]) if gc is not None else gl
     byname = {_norm(n): a for a, n in list(zip(allg["home"], allg["home_name"])) + list(zip(allg["away"], allg["away_name"]))}
     ev = espn_events(repo)
+    g_ids = {_norm(n): int(i) for i, n in gnames.items()}
     today = (pd.Timestamp(now) - pd.Timedelta(hours=10)).date()
     live = today >= NHL_RECORD_FROM
     hst = lambda v: (pd.Timestamp(v["kickoff_utc"]) - pd.Timedelta(hours=10)).date()
@@ -121,17 +132,27 @@ def nhl_section(out: Path, repo: Path, ledger_dir: Path, report: dict, now: date
              "date_utc": v["kickoff_utc"], "home_b2b": (d - pd.Timedelta(days=1)) in played.get(v["home"], set()),
              "away_b2b": (d - pd.Timedelta(days=1)) in played.get(v["away"], set()),
              **{k: v.get(k) for k in ("home_ml", "away_ml", "total", "over_odds", "under_odds")}}
+        named = {}
+        for side in ("away", "home"):
+            pr = (v.get("probables") or {}).get(side)
+            if pr:
+                g[f"{side}_goalie_id"] = g_ids.get(_norm(pr[0]), -1)       # -1: no starts on file, rated league average
+                g[f"{side}_goalie_status"] = pr[1]
+                named[side] = pr
         c = M.project(R, g)
         c.update(game_id=v["game_id"], away=v["away"], home=v["home"], date=g["date"], venue=v.get("venue", ""),
                  kickoff=(ko - pd.Timedelta(hours=10)).strftime("%-I:%M %p HST") if v.get("time_valid", True) else "Time TBD")
         sp = {}
         for side in ("away", "home"):
             gw = sorted(c["goalies"].get(side, []), key=lambda x: -x[1])
-            sp[side] = (f'{gnames.get(str(gw[0][0]), gw[0][0])} ({100 * gw[0][1]:.0f}% likely)' if gw else None)
+            if side in named:
+                sp[side] = f'{named[side][0]} ({"confirmed" if named[side][1] == "Confirmed" else "expected"})'
+            else:
+                sp[side] = (f'{gnames.get(str(gw[0][0]), gw[0][0])} ({100 * gw[0][1]:.0f}% likely)' if gw else None)
         c["sp_names"] = sp
         c["inputs_used"] = {"line": "ESPN/DraftKings" + (f', seen {v["line_seen"]}' if v.get("line_seen") else "") if c.get("home_ml") else "no line yet",
-                            "goalies": "expected starters from each team's last 10 starts; a back-to-back shifts weight to the backup. "
-                                       "Starters are confirmed only at puck drop."}
+                            "goalies": "ESPN's probable starter when it names one (confirmed or expected); otherwise each team's "
+                                       "last 10 starts, with a back-to-back shifting weight to the backup."}
         if g["home_b2b"] or g["away_b2b"]:
             c["note"] = "Back-to-back: " + ", ".join(names.get(t, t) for t, b in ((v["away"], g["away_b2b"]), (v["home"], g["home_b2b"])) if b) + \
                         " played yesterday; the backup goalie is weighted more."
@@ -139,15 +160,22 @@ def nhl_section(out: Path, repo: Path, ledger_dir: Path, report: dict, now: date
     kick = {v["game_id"]: v["kickoff_utc"] for v in window}
     lname = "nhl_locks.csv" if live else "nhl_preview_locks.csv"
     led = Ledger(ledger_dir / lname, extra_cols=LOCK_EXTRA)
+    no_edge = {str(c["game_id"]): (f'our win chance is {c["ml_edge"]:.1f} points from the market\'s, under {NO_EDGE_ML:g}')
+               for c in cards if c.get("ml_edge") is not None and c["ml_edge"] < NO_EDGE_ML}
     sync = pickbook.sync(led, cards, kick, ledger_dir / "cards" / ("nhl" if live else "nhl_preview"), now, _clean, "nhl",
-                         rows_for=lambda c: [r for r in mp.lock_rows(c) if r["market"] == "moneyline"])
+                         rows_for=lambda c: [r for r in mp.lock_rows(c) if r["market"] == "moneyline"], no_edge=no_edge)
     if live:
         alerts.collect("nhl", cards, names, kick, now)
     fin = {k: v["final"] for k, v in ev.items() if v.get("final")}
     for c in cards:
         f = fin.get(str(c["game_id"]))
-        if f and c.get("ml_pick"):
+        if f:
             c["final_away"], c["final_home"] = f
+        if f and not c.get("locked"):        # started without a pick (NO EDGE or no line): the final shows, nothing is graded
+            last = (c.get("history") or [{}])[-1]
+            if last.get("event") == "no edge":
+                c["no_edge"] = last.get("why") or "no edge"
+        if f and c.get("ml_pick") and c.get("locked"):
             won = (f[1] > f[0]) == (c["ml_pick"] == "home")
             c["ml_result"] = "WIN" if won else "LOSS"
             c["result_label"] = "ML"

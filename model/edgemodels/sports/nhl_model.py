@@ -23,6 +23,13 @@ from ..core.ratings import solve_adjusted
 PRIOR_KEEP = 0.6
 PRIOR_GAMES = 10.0
 GOALIE_PRIOR_SHOTS = 800.0
+METRICS = ("xg", "sog", "gf")
+GOALS_BLEND = 0.0            # share of each team's rating taken from actual goals instead of expected goals
+GOALS_PRIOR_GAMES = 25.0     # goals are noisier than xG, so last season counts for more
+GOALIE_SCALE = 1.0           # multiplier on the goalie term
+HOME_SCALE = 1.0             # multiplier on home ice
+B2B_GOALS = 0.0              # goal-margin cost of playing the second night of a back-to-back
+EXPECTED_W = 0.85            # weight on ESPN's "Expected" starter (it started 51 of 61 such games, Oct 13 - Nov 15, 2026)
 N_SIMS = 40000
 RNG = np.random.default_rng(11)
 
@@ -69,7 +76,7 @@ class NHLModel:
     @staticmethod
     def _team_games(s: pd.DataFrame) -> pd.DataFrame:
         ne = s[s["empty_net"] == 0]
-        tg = ne.groupby(["game_id", "team", "opp"]).agg(xg=("xg", "sum"), sog=("on_goal", "sum"), date=("date", "first"),
+        tg = ne.groupby(["game_id", "team", "opp"]).agg(xg=("xg", "sum"), sog=("on_goal", "sum"), gf=("goal", "sum"), date=("date", "first"),
                                                         home=("is_home", "max")).reset_index()
         tg["is_home"] = np.where(tg["home"] == 1, 1, -1)
         tg["one"] = 1.0
@@ -77,16 +84,18 @@ class NHLModel:
 
     def ratings(self, before=None) -> dict:
         cur = self.cur if before is None else self.cur[self.cur["date"] < pd.Timestamp(before)]
-        tl = self._team_games(self.last)
-        prior = {m: solve_adjusted(tl, m, "o", "d", "one", ["is_home"], None, None, 4.0) for m in ("xg", "sog")}
+        if getattr(self, "_prior", None) is None:          # last season's ratings never change: solve them once
+            tl = self._team_games(self.last)
+            self._prior = {m: solve_adjusted(tl, m, "o", "d", "one", ["is_home"], None, None, 4.0) for m in METRICS}
+        prior = self._prior
         if len(cur):
             tc = self._team_games(cur)
             r = {m: solve_adjusted(tc, m, "o", "d", "one", ["is_home"], prior[m].off * PRIOR_KEEP, prior[m].deff * PRIOR_KEEP,
-                                   PRIOR_GAMES) for m in ("xg", "sog")}
+                                   PRIOR_GAMES if m != "gf" else GOALS_PRIOR_GAMES) for m in METRICS}
             n_cur = tc.groupby("o").size()
         else:
             from dataclasses import replace
-            r = {m: replace(prior[m], off=prior[m].off * PRIOR_KEEP, deff=prior[m].deff * PRIOR_KEEP) for m in ("xg", "sog")}
+            r = {m: replace(prior[m], off=prior[m].off * PRIOR_KEEP, deff=prior[m].deff * PRIOR_KEEP) for m in METRICS}
             n_cur = pd.Series(dtype=float)
         # goalies: GSAx per shot on goal, last season at half weight
         on = pd.concat([self.last.assign(w=0.5), cur.assign(w=1.0)])
@@ -96,7 +105,7 @@ class NHLModel:
         # expected goals on shots that reached the net, scaled so the league's goalies sum to zero GSAx
         k_on = float(gq["ga"].sum() / gq["xg"].sum())
         gsax = (gq["xg"] * k_on - gq["ga"]) / (gq["n"] + GOALIE_PRIOR_SHOTS)
-        return {"xg": r["xg"], "sog": r["sog"], "gsax": gsax, "n_games": n_cur, "shots_faced": gq["n"]}
+        return {"xg": r["xg"], "sog": r["sog"], "gf": r["gf"], "gsax": gsax, "n_games": n_cur, "shots_faced": gq["n"]}
 
     def expected_goalie(self, team: str, before, b2b: bool) -> list[tuple[int, float]]:
         """[(goalie id, weight)] from the team's last 10 starts before this game."""
@@ -132,16 +141,35 @@ class NHLModel:
             shots = sog.mu + sog.off.get(o, 0.0) + sog.deff.get(d, 0.0) + sgn * sog.covariates.get("is_home", 0.0)
             opp_side = "away" if side == "home" else "home"
             gw = self.expected_goalie(d, g["date_utc"], bool(g.get(f"{opp_side}_b2b")))
+            named = g.get(f"{opp_side}_goalie_id")         # ESPN's probable starter, when the feed names one
+            if named is not None and not pd.isna(named):
+                named = int(named)
+                if g.get(f"{opp_side}_goalie_status") == "Confirmed":
+                    gw = [(named, 1.0)]
+                else:                                      # "Expected": right about 85% of the time
+                    rest = [(i, w) for i, w in gw if i != named]
+                    tot = sum(w for _, w in rest)
+                    gw = [(named, EXPECTED_W)] + ([(i, (1 - EXPECTED_W) * w / tot) for i, w in rest] if tot > 0 else [])
+                    if tot <= 0:
+                        gw = [(named, 1.0)]
             goalies[opp_side] = gw
             g_term = -sum(w * float(gsax.get(gid, 0.0)) for gid, w in gw) * shots
             k = self.goals_per_xg
-            parts[side] = {"Offence (xG created)": k * xg.off.get(o, 0.0), "Defence (xG allowed)": k * xg.deff.get(d, 0.0),
-                           "Goaltending": g_term}
-        base = self.goals_per_xg * xg.mu + self.extra_goals
+            gb, gf = GOALS_BLEND, R["gf"]
+            parts[side] = {"Offence (xG created)": (1 - gb) * k * xg.off.get(o, 0.0) + gb * gf.off.get(o, 0.0),
+                           "Defence (xG allowed)": (1 - gb) * k * xg.deff.get(d, 0.0) + gb * gf.deff.get(d, 0.0),
+                           "Goaltending": (1 - gb) * GOALIE_SCALE * g_term}
+            b2b = B2B_GOALS / 2 * (int(bool(g.get(f"{opp_side}_b2b"))) - int(bool(g.get(f"{side}_b2b"))))
+            if b2b:
+                parts[side]["Rest (back-to-back)"] = b2b
+        gb, gf = GOALS_BLEND, R["gf"]
+        ha = HOME_SCALE * ((1 - gb) * ha + gb * gf.covariates.get("is_home", 0.0) / self.goals_per_xg)
+        base = (1 - gb) * self.goals_per_xg * xg.mu + gb * gf.mu + self.extra_goals
         gp = GameProjection("nhl", str(g["game_id"]), str(g.get("date", "")), a, h, base, parts["away"], parts["home"],
                             {"Home ice": 2 * self.goals_per_xg * ha})
         mh_, ma_ = gp.proj_home, gp.proj_away
         c = gp.card(None, g.get("total"), None, None)
+        c["_mh"], c["_ma"] = float(mh_), float(ma_)          # unrounded means (keys starting "_" are not published)
         ga, gh = RNG.poisson(max(ma_, 0.2), N_SIMS), RNG.poisson(max(mh_, 0.2), N_SIMS)
         tie = ga == gh
         home_ot = RNG.random(N_SIMS) < mh_ / (mh_ + ma_)

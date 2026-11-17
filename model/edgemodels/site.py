@@ -243,7 +243,12 @@ def _mlb_lines(c, names):
            f'{e(str(c.get("sp_names", {}).get("home") or "TBD"))}</dd>'
            f'<dt>Book</dt><dd>{e(h)} {_ml(c.get("home_ml"))} / {e(a)} {_ml(c.get("away_ml"))}</dd>'
            f'<dt>Ours</dt><dd>{e(h)} {100 * c["p_home"]:.1f}% · fair {_ml(c["fair_home_ml"])} / {_ml(c["fair_away_ml"])}</dd>')
-    if c.get("ml_pick"):
+    if c.get("hold"):
+        out += '<dt>Play</dt><dd><span class="res-PUSH"><b>HOLD</b></span> <span class="eyebrow">starter not confirmed</span></dd>'
+    elif c.get("no_edge") and c.get("ml_edge") is not None:
+        out += (f'<dt>Play</dt><dd><span class="res-PUSH"><b>NO EDGE</b></span> '
+                f'<span class="eyebrow">({c["ml_edge"]:.1f} pts)</span></dd>')
+    elif c.get("ml_pick"):
         hot = c["ml_edge"] >= EDGE_TIERS[c.get("sport", "mlb")][0] and c["ml_ev"] > 0
         team = names.get(c[c["ml_pick"]], c[c["ml_pick"]])
         out += (f'<dt>Play</dt><dd class="{"pick" if hot else ""}">{e(team)} {_ml(c["ml_odds"])} '
@@ -269,7 +274,7 @@ def highlight_level(c: dict, sport: str) -> int:
         return 0
     t = EDGE_TIERS[sport]
     if sport in ML_SPORTS:
-        return int(c.get("ml_edge") is not None and c["ml_edge"] >= t[0] and c.get("ml_ev", 0) > 0)
+        return int(c.get("ml_edge") is not None and c["ml_edge"] >= t[0] and c.get("ml_ev", 0) > 0 and not c.get("no_edge"))
     if c.get("no_edge") or c.get("edge") is None:
         return 0
     if sport == "cbb" and c["edge"] >= CBB_MAX_GAP:
@@ -520,7 +525,7 @@ def _live_attrs(c: dict, sport: str) -> str:
     if sport not in ESPN_PATH:
         return ""
     if sport in ML_SPORTS:
-        side, line = c.get("ml_pick"), ""
+        side, line = ("" if (c.get("no_edge") or c.get("hold")) else c.get("ml_pick")), ""
     else:
         ok = c.get("market_line") is not None and not (c.get("no_edge") or c.get("hold") or c.get("void"))
         side, line = (c.get("pick"), c.get("pick_line")) if ok else ("", "")
