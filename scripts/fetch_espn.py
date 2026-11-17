@@ -74,6 +74,32 @@ def save(dirpath: Path, obj, stamp: str) -> bool:
     return True
 
 
+def save_nhl_injuries(obj, stamp: str) -> bool:
+    """NHL injury list, saved compact (a few KB) every time it changes and never pruned, so a player-availability
+    adjustment can later be tested against real history. Rows: team, athlete id, name, position, status, date."""
+    rows = []
+    for team in obj.get("injuries", []):
+        for inj in team.get("injuries", []):
+            a = inj.get("athlete") or {}
+            aid = a.get("id")
+            if not aid:
+                for ln in a.get("links") or []:
+                    if "/id/" in ln.get("href", ""):
+                        aid = ln["href"].split("/id/")[1].split("/")[0]
+                        break
+            rows.append([team.get("displayName"), aid, a.get("displayName"), (a.get("position") or {}).get("abbreviation"),
+                         inj.get("status"), (inj.get("date") or "")[:10]])
+    d = ROOT / "nhl" / "injuries"
+    d.mkdir(parents=True, exist_ok=True)
+    fp = hashlib.sha256(json.dumps(rows, sort_keys=True, default=str).encode()).hexdigest()[:16]
+    last = d / "latest.fingerprint"
+    if not rows or (last.exists() and last.read_text() == fp):
+        return False
+    (d / f"{stamp}.json").write_text(json.dumps(rows, separators=(",", ":")))
+    last.write_text(fp)
+    return True
+
+
 def main(days: int, leagues: list[str]):
     now = datetime.now(timezone.utc)
     stamp = now.strftime("%Y%m%dT%H%MZ")
@@ -96,6 +122,11 @@ def main(days: int, leagues: list[str]):
             prune(ROOT / lg / "injuries", keep=4)
         except Exception as e:
             print(f"{lg} injuries: {e}")
+    if "nhl" in leagues:
+        try:
+            written += save_nhl_injuries(get(f"{BASE}/hockey/nhl/injuries"), stamp)
+        except Exception as e:
+            print(f"nhl injuries: {e}")
     print(f"snapshots written: {written}")
 
 
