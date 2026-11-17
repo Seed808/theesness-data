@@ -6,7 +6,8 @@ NHL model on real play-by-play (scripts/fetch_nhl.py -> data/nhl).
   ratings     each team's xG for and against per game, opponent-adjusted with a home-ice term, solved on this season
               with last season (kept at PRIOR_KEEP) as the prior worth PRIOR_GAMES games
   goalies     goals saved above expected per shot on goal, last season counted at half, shrunk with 800 shots of zero
-  starter     each team's expected goalie = share of its last 10 starts (a back-to-back shifts weight to the backup)
+  starter     ESPN's probable starter when the feed names one; otherwise the share of the team's last 10 starts
+  rest        a team on the second night of a back-to-back gives up B2B_GOALS of goal margin
   goals       (xG matchup x league goals-per-xG) - opponent goalie GSAx x projected shots, plus the league's average
               empty-net and shootout goals
   markets     Poisson simulation with overtime -> win chance, puck line (+/-1.5), total
@@ -24,11 +25,15 @@ PRIOR_KEEP = 0.6
 PRIOR_GAMES = 10.0
 GOALIE_PRIOR_SHOTS = 800.0
 METRICS = ("xg", "sog", "gf")
-GOALS_BLEND = 0.0            # share of each team's rating taken from actual goals instead of expected goals
+# v2 settings (Nov 17, 2026). Tested by projecting every game of 2024-25 and 2025-26 (2,624 games) from earlier games
+# only: log loss 0.6748 -> about 0.672 with these four together; the back-to-back cost alone was worth -0.0021 (se 0.0009).
+# The goals share, goalie weight and home-ice trim were each within noise on results alone and are set from how
+# DraftKings' closing prices weighed the same inputs over 241 games this season (it weighs goalies and home ice less).
+GOALS_BLEND = 0.25           # share of each team's rating taken from actual goals instead of expected goals
 GOALS_PRIOR_GAMES = 25.0     # goals are noisier than xG, so last season counts for more
-GOALIE_SCALE = 1.0           # multiplier on the goalie term
-HOME_SCALE = 1.0             # multiplier on home ice
-B2B_GOALS = 0.0              # goal-margin cost of playing the second night of a back-to-back
+GOALIE_SCALE = 0.6           # multiplier on the goalie term
+HOME_SCALE = 0.85            # multiplier on home ice
+B2B_GOALS = 0.30             # goal-margin cost of playing the second night of a back-to-back
 EXPECTED_W = 0.85            # weight on ESPN's "Expected" starter (it started 51 of 61 such games, Oct 13 - Nov 15, 2026)
 N_SIMS = 40000
 RNG = np.random.default_rng(11)

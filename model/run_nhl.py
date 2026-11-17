@@ -26,8 +26,9 @@ NHL_RECORD_FROM = pd.Timestamp("2026-11-10").date()     # one preview week, then
 LOCK_EXTRA = ["market", "odds"]
 # NO EDGE: no pick unless our win chance beats the market's by this many points. Until Nov 16, 2026 every game with a
 # line was a pick; over 241 games (Oct 13 - Nov 15) DraftKings' closing price predicted winners better than the model,
-# and the model's small disagreements lost money at every size, so they are no longer picks.
-NO_EDGE_ML = 3.0
+# and the model's disagreements under 5 points lost the most (gaps of 3 to 5 points went 15-40 with the v2 model),
+# so they are no longer picks.
+NO_EDGE_ML = 5.0
 
 
 def _clean(o):
@@ -199,7 +200,7 @@ def nhl_section(out: Path, repo: Path, ledger_dir: Path, report: dict, now: date
     big = max(withl, key=lambda c: c["ml_edge"]) if withl else None
     stats = [{"k": lab, "v": f'{summ[0]["W"]}-{summ[0]["L"]}-{summ[0]["P"]}',
               "s": f"{len(rows)} picks locked" + ("" if live else f" · record starts {NHL_RECORD_FROM:%b %-d}"), "href": "record.html"},
-             {"k": "Win-chance gap 3+", "v": str(sum(c["ml_edge"] >= 3 for c in withl)), "s": "points over the no-vig market"}]
+             {"k": f"Win-chance gap {NO_EDGE_ML:g}+", "v": str(sum(c["ml_edge"] >= NO_EDGE_ML for c in withl)), "s": "points over the no-vig market"}]
     if big:
         stats.append({"k": "Biggest gap", "v": f'{big["ml_edge"]:.1f}', "s": f'{names.get(big["away"], big["away"])} at '
                       f'{names.get(big["home"], big["home"])}', "href": f'game/{big["game_id"]}.html'})
@@ -207,9 +208,11 @@ def nhl_section(out: Path, repo: Path, ledger_dir: Path, report: dict, now: date
     firstline.publish(out, ledger_dir, "nhl", cards, kick, now, fin, names, stats, ledger_dir / lname)
     alerts.audit_times("nhl", cards, kick, ev, now)
     lede = ("Expected goals from every unblocked shot (distance, angle, rebound, shot type, man advantage), opponent-adjusted "
-            "team ratings for and against, and each expected starting goalie's goals saved above expected. Picks are on the "
-            "moneyline: the side where our win chance beats DraftKings' no-vig chance; highlighted at 3+ points with value at the "
-            "price. Picks update until puck drop; the last version is graded. ")
+            "team ratings for and against (a quarter from actual goals), the probable starting goalie's goals saved above "
+            "expected, and a cost for playing the second night of a back-to-back. Picks are on the moneyline, only when our "
+            f"win chance beats DraftKings' no-vig chance by {NO_EDGE_ML:g}+ points; under that the card says NO EDGE and nothing is "
+            "graded. Picks update until puck drop; the last version is graded. Model v2 from Nov 17, 2026: before that every "
+            "game with a line was a pick. ")
     lede += "" if live else (f"PREVIEW: until {NHL_RECORD_FROM:%B %-d} picks go on a separate preview tracker, not the record, and "
                              "send no alerts.")
     from edgemodels.core.espn_feed import espn_records
@@ -223,7 +226,9 @@ def nhl_section(out: Path, repo: Path, ledger_dir: Path, report: dict, now: date
         "nhl", "NHL record" if live else "NHL preview tracker",
         "Moneyline picks, locked until puck drop and graded after the final." + ("" if live else
          f" Preview picks are kept apart; the record starts at 0-0 on {NHL_RECORD_FROM:%B %-d, %Y}."),
-        [{"title": lab, "note": "Hash-chained lock file; the last version before puck drop is graded.", "summary": summ,
+        [{"title": lab, "note": "Hash-chained lock file; the last version before puck drop is graded. Through Nov 16, 2026 "
+          "every game with a line was a pick (model v1). From Nov 17 the v2 model picks only at a gap of "
+          f"{NO_EDGE_ML:g}+ points. Earlier picks stay in this record as graded.", "summary": summ,
           "graded": rows.assign(pick_line=rows["odds"]).sort_values("locked_at", ascending=False).to_dict("records")
           if len(rows) else []}], names), 1, "nhl"))
     (out / "nhl" / "cards.json").write_text(json.dumps(_clean(cards), indent=1, default=str))
