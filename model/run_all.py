@@ -624,682 +624,752 @@ def season_pages(out, sport, label, model, season, weeks, slate_fn, names, margi
     return rows
 
 
+def _finish_preview(path: Path, finals: dict, extra_cols=None) -> None:
+    """Grade what is still open on a retired preview ledger (picks made just before the live record started)."""
+    try:
+        if not path.exists():
+            return
+        led = Ledger(path, extra_cols=extra_cols) if extra_cols else Ledger(path)
+        g = led.load_graded()
+        if len(g) and (g["result"].fillna("") == "").any():
+            led.grade(pd.DataFrame([{"game_id": k, "away_score": a, "home_score": h} for k, (a, h) in finals.items()],
+                                   columns=["game_id", "away_score", "home_score"]))
+    except Exception as ex:
+        print(f"[preview] {path.name}: {type(ex).__name__}: {ex}")
+
+
+_DOWN = "Board failed to build: last good version shown"
+
+
+def _test_fail(sport: str) -> None:
+    """Test hook: ESNESS_FAIL=cbb makes that board crash on purpose, to prove the others still build."""
+    import os
+    if sport in os.environ.get("ESNESS_FAIL", "").split(","):
+        raise RuntimeError(f"test failure injected for {sport}")
+
+
+def _board_failed(sport: str, ex: Exception, report: dict) -> None:
+    """A board crashed: log it, warn on Telegram, and let every other sport build. The site workflow then keeps the
+    last published pages for this sport (see .github/workflows/site.yml), and its locked picks stay untouched."""
+    import traceback
+    traceback.print_exc()
+    print(f"[board failed] {sport}: {type(ex).__name__}: {ex}")
+    report.setdefault("failed_sports", []).append(sport)
+    alerts.health(sport, "board_error", f"The {alerts.SPORT_LABEL.get(sport, sport)} board failed to build "
+                  f"({type(ex).__name__}: {str(ex)[:140]}). Its pages show the last good version and its picks are not "
+                  "updating or being graded until this is fixed. Every other sport is unaffected.")
+
+
 def run(data: Path, nfldata: Path, out: Path, ledger_dir: Path):
     out.mkdir(parents=True, exist_ok=True)
     now = datetime.now(timezone.utc)
     report = {"built_at": now.isoformat(timespec="seconds")}
     site.BUILT_AT = now
     home_tiles = []
+    live_rows = pd.DataFrame({"result": []})     # NFL live picks (the home page counts them); empty if the NFL board fails
 
     # ------------------------------------------------------------------ NFL
-    plays = {y: fb.standardize(pd.read_parquet(data / f"nfl/play_by_play_{y}.parquet"), "nfl", fb.NFL_SAM) for y in (2024, 2025, 2026)}
-    games = pd.read_csv(nfldata / "games.csv")
-    games = fill_nfl_finals_from_espn(games, Path(__file__).resolve().parents[1], now)
-    # key-number margin weights, each fitted only on seasons before the one being priced
-    nfl_dists = {2025: nfl_from_nflverse(games, range(2010, 2025)), 2026: nfl_from_nflverse(games, range(2010, 2026))}
-    report["nfl_key_numbers"] = {"source": nfl_dists[2026].source, "top": nfl_dists[2026].table(8)}
-    M = FootballModel("nfl", plays, fb.NFL_SAM, margin_dists=nfl_dists)   # Sam-matched settings + engine
-    teams = pd.read_csv(nfldata / "teams.csv")
-    names = dict(teams[teams["season"] == teams["season"].max()][["team", "full"]].values)
-    g26 = games[(games["season"] == 2026) & games["result"].notna()]
-    rec = {}
-    for t in names:
-        w = ((g26["home_team"] == t) & (g26["result"] > 0)).sum() + ((g26["away_team"] == t) & (g26["result"] < 0)).sum()
-        l = ((g26["home_team"] == t) & (g26["result"] < 0)).sum() + ((g26["away_team"] == t) & (g26["result"] > 0)).sum()
-        tie = (((g26["home_team"] == t) | (g26["away_team"] == t)) & (g26["result"] == 0)).sum()
-        rec[t] = f"{w}-{l}" + (f"-{tie}" if tie else "")
-    bt = pd.concat([M.backtest(2025, list(range(3, 19))).assign(date="2025"),
-                    M.backtest(2026, [2, 3, 4, 5]).assign(date="2026")])
-    acc = accuracy(bt)
-    summ, graded = bt_summary(bt, EDGE_TIERS["nfl"])
-    report["nfl_backtest"] = {"summary": summ, "accuracy": acc}
-    NFL_W = nfl_current_week(games, now)
-    report["nfl_live_week"] = NFL_W
-    slate = nfl_slate(games, 2026, NFL_W)
-    repo = data.parent / "theesness-data"
-    pbp26 = pd.read_parquet(data / "nfl/play_by_play_2026.parquet")
-    ST = Starters(repo, pbp26, pd.read_parquet(data / "nfl/injuries_2026.parquet"),
-                  pd.read_parquet(data / "nfl/roster_weekly_2026.parquet"), NFL_W)
-    held, starters = {}, {}
-    for i, r in slate.iterrows():
-        for side in ("away", "home"):
-            x = ST.resolve(r[side], ESPN_ABBR_REV.get(r[side], r[side]), r[f"{side}_qb_name"])
-            starters[(r["game_id"], side)] = x
-            if x["status"] == "confirmed":
-                slate.at[i, f"{side}_qb_id"], slate.at[i, f"{side}_qb_name"] = x["starter_id"], x["starter"]
-            else:
-                held[r["game_id"]] = f'{r[side]} starting quarterback not confirmed: {x["why"]}'
-    # current line: the newest ESPN snapshot with a line (nflverse line only if ESPN has none)
-    cur_lines = espn_lines_nfl(repo, pd.to_datetime(slate["date"]).dt.date.unique())
-    line_seen = {}
-    for i, r in slate.iterrows():
-        fl = cur_lines.get((r["away"], r["home"]))
-        if fl and fl[0] is not None:
-            slate.at[i, "spread_home"] = fl[0]
-            if fl[1] is not None:
-                slate.at[i, "total"] = fl[1]
-            line_seen[r["game_id"]] = f"ESPN/DraftKings, seen {fl[2]}"
-        else:
-            line_seen[r["game_id"]] = "nflverse schedule"
-    g6 = games[(games["season"] == 2026) & (games["week"] == NFL_W)]
-    kick = {r.game_id: str(pd.Timestamp(f"{r.gameday} {r.gametime}", tz="America/New_York").tz_convert("UTC"))
-            for r in g6.itertuples()}
-    # one source of truth for start times on every board: ESPN's newest copy (the nflverse schedule file lags flex
-    # and time changes, e.g. LV @ SF Week 10 listed 4:05 ET while ESPN had 4:25)
-    _es = nfl_espn_status(repo, [{"game_id": r.game_id, "away": r.away_team, "home": r.home_team} for r in g6.itertuples()], kick)
-    for gid, e in _es.items():
-        if e.get("time_valid", True):
-            kick[gid] = str(pd.Timestamp(e["kickoff_utc"]))
-    slate["date"] = pd.to_datetime(slate["date"]).dt.strftime("%A, %B %-d")
-    built = M.build(2026, NFL_W)
-    cards = M.project_slate(2026, NFL_W, slate, margin_sd=acc["model_sd"], built=built)
-    P = FootballProps(built[4], built[0], acc["model_sd"], 13.1)
-    AV = nfl_injuries.Availability(*nfl_injuries.load(2026, data / "nfl"))
-    report["nfl_questionable_active_rate"] = AV.q
-    for c in cards:
-        c["records"] = rec
-        if kick.get(c["game_id"]):
-            _k = pd.Timestamp(kick[c["game_id"]]) - pd.Timedelta(hours=10)
-            c["kickoff"] = _k.strftime("%-I:%M %p HST")
-            c["date"] = _k.strftime("%A, %B %-d")
-        c["props"] = nfl_props(c, P, AV)
-        sa, sh = starters[(c["game_id"], "away")], starters[(c["game_id"], "home")]
-        c["starters"] = f'{sa.get("starter") or "?"} / {sh.get("starter") or "?"}'
-        c["inputs_used"] = {"qb": [sa, sh], "line": line_seen.get(c["game_id"]),
-                            "injury_report": f"nflverse Week {NFL_W} report + ESPN injury list"}
-    # picks update until kickoff: newest roster + newest line; the last version before kickoff is graded
-    led = Ledger(ledger_dir / "nfl_locks.csv")
-    sync_stats = pickbook.sync(led, cards, kick, ledger_dir / "cards" / "nfl", now, _clean, "nfl", held=held,
-                               no_edge=no_edge_map(cards))
-    alerts.collect("nfl", cards, names, kick, now)
     try:
-        from edgemodels.props import board_props as BP
-        ros = pd.read_parquet(data / "nfl/roster_weekly_2026.parquet", columns=["espn_id", "gsis_id"]).dropna()
-        espn2gsis = {str(int(float(a))): g for a, g in zip(ros["espn_id"], ros["gsis_id"])}
-        nath = json.loads((repo / "data/espn/nfl/athletes.json").read_text()) if (repo / "data/espn/nfl/athletes.json").exists() else {}
-        nlogs = nfl_logs(pbp26)
-        eids = BP.espn_ids_nfl(repo, pd.to_datetime(g6["gameday"]).unique())
-        for c in cards:
-            c["_kick"] = kick.get(c["game_id"])
-
-        def _nfl_make(c):
-            eid = eids.get((c["away"], c["home"]))
-            if not eid or not (c.get("props") or {}).get("_all"):
-                return None
-            mkt, seen = BP.load_market(repo, "nfl", eid)
-            if mkt.empty:
-                return None
-            pl = BP.nfl_players(c, c["props"]["_all"], mkt, espn2gsis, nath, nlogs)
-            return BP.build_game("nfl", mkt, pl, seen)
-        _nact = nfl_actuals(pbp26)
-        _g26 = games[(games["season"] == 2026) & games["home_score"].notna() & games["away_score"].notna()]
-        _nfin_ids = set(_g26["game_id"].astype(str))
-        write_props(out, "nfl", cards, names, ledger_dir, now, _nfl_make,
-                    actual=lambda c, gp: BP.nfl_actual(gp, _nact[str(c["game_id"])])
-                    if str(c["game_id"]) in _nact and str(c["game_id"]) in _nfin_ids else None)
-    except Exception as ex:
-        print(f"[props] nfl: {type(ex).__name__}: {ex}")
-    report["nfl_pickbook"] = sync_stats
-    n_new = sync_stats["locked"] + sync_stats["updated"]
-    fin = games[games["season"] == 2026][["game_id", "away_score", "home_score"]]
-    led.grade(fin)
-    report["nfl_locked_now"] = n_new
-    report["nfl_chain_ok"] = led.verify_chain()
-    live_rows = led.load_graded()      # superseded (corrected before kickoff) rows are not shown
-    live_rows = live_rows.assign(week=live_rows["game_id"].str[5:7].astype(int))
-    actuals = nfl_actuals(pd.read_parquet(data / "nfl/play_by_play_2026.parquet"))
-    for c in cards:
-        attach_actuals(c, actuals)
-
-    def replay_props(w, wcards, wbuilt):
-        """Props for a replayed week, from data before that week, then the actual results beside them."""
-        WP = FootballProps(wbuilt[4], wbuilt[0], acc["model_sd"], 13.1)
-        for c in wcards:
-            if not (c.get("locked") and c.get("props")):      # a locked card keeps the props it was locked with
-                c["props"] = nfl_props(c, WP, AV)
-            attach_actuals(c, actuals)
-    live_graded = live_rows[live_rows["result"].isin(["WIN", "LOSS", "PUSH"])]
-    live_summ = record_summary(live_graded, EDGE_TIERS["nfl"])
-    site.RECORDS["nfl"] = rec
-    _nfl_np, _nfl_ids = nopick_map(ledger_dir, "nfl", "nfl_locks.csv")
-    _nfl_lw = {int(str(g)[5:7]) for g in _nfl_ids if str(g)[:4] == "2026"}
-    replay_rows = season_pages(out, "nfl", "NFL", M, 2026, list(range(1, NFL_W)),
-                               lambda w: nfl_slate(games, 2026, w), names, acc["model_sd"], f"Wk {NFL_W} · live", True, None,
-                               locked=live_rows, archive_dir=ledger_dir / "cards" / "nfl", props_fn=replay_props,
-                               nopick=_nfl_np, live_weeks=_nfl_lw)
-    rp = pd.DataFrame(replay_rows)
-    rp_summ = record_summary(rp, EDGE_TIERS["nfl"])
-    report["nfl_2026_replay"] = rp_summ
-    report["nfl_live"] = live_summ
-    hot = [c for c in cards if c.get("edge") and c["edge"] >= 3]
-    big = max(cards, key=lambda c: c.get("edge") or 0)
-    stats = [{"k": "Live locked record", "v": f'{live_summ[0]["W"]}-{live_summ[0]["L"]}-{live_summ[0]["P"]}',
-              "s": f'{len(live_rows)} picks locked, {len(live_graded)} graded', "href": "record.html"},
-             {"k": f"2026 replay, Wk 1–{NFL_W - 1}", "v": f'{rp_summ[0]["W"]}-{rp_summ[0]["L"]}-{rp_summ[0]["P"]}',
-              "s": f'{rp_summ[1]["W"]}-{rp_summ[1]["L"]} on 3+ edges · not live', "href": f"week/{NFL_W - 1}.html"},
-             {"k": "Model disagrees 3+", "v": str(len(hot)), "s": "points off the market this week"},
-             {"k": "Biggest gap", "v": f'{big["edge"]:.1f}', "s": f'{names[big["away"]]} at {names[big["home"]]}',
-              "href": f'game/{big["game_id"]}.html'}]
-    nfin = {str(r.game_id): (r.away_score, r.home_score) for r in games[games["season"] == 2026].itertuples()
-            if pd.notna(r.home_score) and pd.notna(r.away_score)}
-    totals_tracker.publish(out, ledger_dir, "nfl", cards, kick, now, nfin, names, stats)
-    firstline.publish(out, ledger_dir, "nfl", cards, kick, now, nfin, names, stats, ledger_dir / "nfl_locks.csv")
-    alerts.audit_times("nfl", cards, kick, _es, now)
-    # finished games on the live board: final score on every card, result from the ledger (the graded locked pick)
-    lr = live_rows.copy()
-    lr["game_id"] = lr["game_id"].astype(str)
-    led_res = {g: r for g, r in zip(lr["game_id"], lr["result"])}
-    for c in cards:
-        fs = nfin.get(str(c["game_id"]))
-        if fs:
-            c["final_away"], c["final_home"] = float(fs[0]), float(fs[1])
-            r = led_res.get(str(c["game_id"]))
-            c["result"] = r if isinstance(r, str) and r in ("WIN", "LOSS", "PUSH", "VOID") else None
-    nav = site.week_nav([(x, f"Wk {x}") for x in range(1, NFL_W)] + [("live", f"Wk {NFL_W} · live")], "live",
-                        lambda x: "index.html" if x == "live" else f"week/{x}.html")
-    site.write(out, "nfl/index.html", site.page("NFL Model Board", site.board(
-        "nfl", f"Week {NFL_W} projections", "Locked against the line seen at build time and graded after each game. "
-        "Past weeks, including every locked pick and its result, are in the tabs above.",
-        cards, names, rec, stats, nav=nav, tier_record=summ), 1, "nfl"))
-    for c in cards:
-        site.write(out, f"nfl/game/{c['game_id']}.html", site.page(f"{names[c['away']]} at {names[c['home']]}", site.game_page(c, names), 2, "nfl"))
-    site.write(out, "nfl/record.html", site.page("NFL Model Record", site.record_page("nfl", "NFL record",
-        "Three records, kept apart so the live one is never mixed with hindsight.", [
-            {"title": "Live locked record", "note": f"Started {first_lock_date(ledger_dir / 'nfl_locks.csv')}. Every pick written to the hash-chained lock file before "
-             "kickoff, against the line seen at lock time, never re-priced.", "summary": live_summ,
-             "graded": live_rows.sort_values("week", ascending=False).to_dict("records")},
-            {"title": f"2026 season replay, Weeks 1–{NFL_W - 1}", "note": "Each week projected using only games played before it, graded "
-             "against the nflverse line. Generated today, not locked at the time, so treat it as a test.",
-             "summary": rp_summ, "graded": rp.sort_values("week", ascending=False).to_dict("records")},
-            {"title": "Backtest, 2025 Weeks 3–18 and 2026 Weeks 2–5", "note": "Same method over a larger sample.",
-             "summary": summ, "graded": []}], names), 1, "nfl"))
-    (out / "nfl" / "cards.json").write_text(json.dumps(_clean(cards), indent=1))
-    home_tiles.append(("nfl", rp_summ, f"Week {NFL_W} board is live"))
-
-    # ------------------------------------------------------------------ NCAAF
-    cplays = {y: fb.standardize(pd.read_parquet(data / f"ncaaf/play_by_play_{y}.parquet"), "ncaaf", fb.NCAAF_SAM) for y in (2025, 2026)}
-    cs = pd.concat([slate_from_plays(fb.team_games(cplays[2025]), w) for w in sorted(cplays[2025]["week"].unique())])
-    cs = cs.dropna(subset=["spread_home", "home_score"])
-    ncaaf_dist = MarginDist.fit(-cs["spread_home"], cs["home_score"] - cs["away_score"],
-                                source=f"cfbfastR 2025, {len(cs)} games, closing spread as expectation")
-    # Elo ("track record", as on Sam's college pages): CFBD pregame Elo from the play-by-play, carried forward
-    # past the last play-by-play week with ESPN finals (see edgemodels/sports/cfb_elo.py)
-    elo_games = {y: pd.read_csv(data / f"ncaaf/elo_games_{y}.csv") for y in (2025, 2026)}
-    _elo_cache = {}
-
-    elo_src = {}
-
-    def cfb_elo_fn(season, week):
-        if (season, week) not in _elo_cache:
-            got = cfb_elo.cfbd_week(data.parent / "theesness-data", season, week)
-            elo_src[(season, week)] = (f"CollegeFootballData Elo through Week {int(elo_games[season]['week'].max())}, "
-                                       "carried forward with final scores")
-            later = []
-            if season == 2026:
-                for w in range(int(elo_games[2026]["week"].max()) + 1, week):
-                    wsl, wfin = espn_ncaaf_slate(data.parent / "theesness-data", w)
-                    for r in wsl.itertuples():
-                        if r.game_id in wfin:
-                            a, h = wfin[r.game_id]
-                            later.append({"week": w, "home": r.home, "away": r.away, "home_score": h,
-                                          "away_score": a, "neutral_site": r.neutral_site})
-            carried = cfb_elo.elo_before(elo_games[season], week, later)
-            if got:
-                # CFBD's own numbers win; a team CFBD names differently keeps the carried-forward value
-                elo_src[(season, week)] = f"CollegeFootballData Elo going into Week {week}"
-                report.setdefault("cfbd_elo_unmatched", sorted(set(carried) - set(got)))
-                carried = {**carried, **got}
-            _elo_cache[(season, week)] = carried
-        return _elo_cache[(season, week)]
-
-    C = FootballModel("ncaaf", cplays, cfg=fb.NCAAF_SAM, margin_dists={2026: ncaaf_dist}, elo_fn=cfb_elo_fn)
-    cbt = pd.concat([C.backtest(2025, list(range(4, 15))).assign(date="2025"), C.backtest(2026, [3, 4, 5, 6]).assign(date="2026")])
-    cacc = accuracy(cbt)
-    csumm, cgraded = bt_summary(cbt, EDGE_TIERS["ncaaf"])
-    report["ncaaf_backtest"] = {"summary": csumm, "accuracy": cacc}
-    crepo = data.parent / "theesness-data"
-    cevents = espn_ncaaf_events(crepo)
-    PBP_LAST = int(C.tg[2026]["week"].max())
-
-    def cslate(w):
-        """Past-week slate: from the play-by-play while it covers the week, otherwise from the ESPN scoreboards."""
-        sl = slate_from_plays(C.tg[2026], w)
-        if not sl.empty or w <= PBP_LAST:
-            return sl
-        sl, _ = espn_ncaaf_slate(crepo, w)
-        if sl.empty:
-            return sl
-        fin = {k: v["final"] for k, v in cevents.items() if v.get("final")}
-        return sl.assign(date=pd.to_datetime(sl["kickoff_utc"]).dt.tz_convert("Pacific/Honolulu").dt.strftime("%Y-%m-%d"),
-                         away_score=[fin.get(g, (np.nan, np.nan))[0] for g in sl["game_id"]],
-                         home_score=[fin.get(g, (np.nan, np.nan))[1] for g in sl["game_id"]])
-    cnames = {t: t for t in set(C.tg[2026]["off"])}
-    # live week: slate and first-seen lines from the collected ESPN scoreboards (ESPN ids = cfbfastR game ids)
-    LIVE_W = ncaaf_current_week(cevents, now, default=7)      # rolls on its own once the week's games are over
-    report["ncaaf_live_week"] = LIVE_W
-    cslate_live, _ = espn_ncaaf_slate(crepo, LIVE_W)
-    cfinal = {k: v["final"] for k, v in cevents.items() if v.get("final")}     # every finished game, any week
-    cled = Ledger(ledger_dir / "ncaaf_locks.csv")
-    clocked = cled.load()
-    replay_weeks = list(range(1, LIVE_W))
-    _cfs = cfb_season_results(Path(__file__).resolve().parents[1])
-    site.RECORDS["ncaaf"] = {t: f'{sum(x["pf"] > x["pa"] for x in gs)}-{sum(x["pf"] < x["pa"] for x in gs)}' for t, gs in _cfs.items()}
-    _cf_np, _cf_ids = nopick_map(ledger_dir, "ncaaf", "ncaaf_locks.csv")
-    _cf_lw = {int(cevents[g]["week"]) for g in _cf_ids if g in cevents and cevents[g].get("week")}
-    crows = season_pages(out, "ncaaf", "NCAAF", C, 2026, replay_weeks, cslate, cnames, cacc["model_sd"],
-                         f"Wk {LIVE_W} · live", game_pages=False, locked=clocked, archive_dir=ledger_dir / "cards" / "ncaaf",
-                         nopick=_cf_np, live_weeks=_cf_lw)
-    crp = pd.DataFrame(crows)
-    crp_summ = record_summary(crp, EDGE_TIERS["ncaaf"])
-    report["ncaaf_2026_replay"] = crp_summ
-    cb = C.build(2026, LIVE_W)
-    ccards = C.project_slate(2026, LIVE_W, cslate_live, margin_sd=cacc["model_sd"], built=cb)
-    carch = ledger_dir / "cards" / "ncaaf"
-    carch.mkdir(parents=True, exist_ok=True)
-    started = {r.game_id for r in cslate_live.itertuples() if pd.Timestamp(r.kickoff_utc) <= pd.Timestamp(now)}
-    # FBS vs FCS: too little play-by-play on FCS teams to rate them; shown, never locked (rule from 2026-10-15)
-    fcs = {c["game_id"] for c in ccards if (c["away"] in cb[0].lower) != (c["home"] in cb[0].lower)}
-    cvoids_all = cled.voids()
-    voided_ids = set(cvoids_all.loc[cvoids_all["kind"] == "void", "game_id"].astype(str)) if len(cvoids_all) else set()
-    ckick = {r.game_id: r.kickoff_utc for r in cslate_live.itertuples()}
-    for c in ccards:
-        el = c.get("elo") or {}
-        c["inputs_used"] = {"line": "ESPN/DraftKings, newest snapshot with a line",
-                            "elo": f'{c["away"]} {el.get("away") or 0:.0f} · {c["home"]} {el.get("home") or 0:.0f} '
-                                   f'({elo_src.get((2026, LIVE_W), "")})'}
-    syncable = [c for c in ccards if c["game_id"] not in fcs and c["game_id"] not in voided_ids]
-    csync = pickbook.sync(cled, syncable, ckick, carch, now, _clean, "ncaaf", no_edge=no_edge_map(syncable))
-    alerts.collect("ncaaf", syncable, cnames, ckick, now)        # FBS-vs-FCS and voided games are never picks
-    n_new = csync["locked"] + csync["updated"]
-    by_id = {c["game_id"]: c for c in syncable}
-    carch.mkdir(parents=True, exist_ok=True)
-    for i, c in enumerate(ccards):
-        if c["game_id"] in by_id:
-            ccards[i] = c = by_id[c["game_id"]]
-        elif c["game_id"] in voided_ids and (carch / f'{c["game_id"]}.json').exists():
-            saved = json.loads((carch / f'{c["game_id"]}.json').read_text())
-            saved.update(date=c["date"], kickoff=c.get("kickoff"), locked=True)
-            ccards[i] = c = saved
-        if c["game_id"] in started and not c.get("locked"):
-            c["kickoff"] = f'{c.get("kickoff") or ""} · started before it could be locked'
-        elif c["game_id"] in fcs:
-            c["kickoff"] = f'{c.get("kickoff") or ""} · FBS vs FCS, not locked'
-    cvoids = {str(r["game_id"]): r for r in cled.voids().to_dict("records") if r.get("kind", "void") == "void"}
-    for c in ccards:
-        v = cvoids.get(str(c["game_id"]))
-        if v:
-            at = (pd.Timestamp(v["voided_at"]) - pd.Timedelta(hours=10)).strftime("%b %-d, %-I:%M %p HST")
-            c["void"] = {"at": at, "reason": v["reason"]}
-            c["note"] = f"VOID, voided {at} before kickoff. {v['reason']} The original locked pick is shown for the record."
-            c["kickoff"] = f'{c.get("kickoff") or ""} · VOID'
-    ccards = grade_cards(ccards, cfinal)
-    for c in ccards:
-        if c.get("void"):
-            c["result"] = "VOID"
-    cled.grade(pd.DataFrame([{"game_id": k, "away_score": v[0], "home_score": v[1]} for k, v in cfinal.items()],
-                            columns=["game_id", "away_score", "home_score"]))
-    clive = cled.load_graded()
-    clive = clive.assign(week=[cevents.get(str(g), {}).get("week") or LIVE_W for g in clive["game_id"]])
-    cvoid_rows = clive[clive["result"] == "VOID"]
-    clive_summ = record_summary(clive[clive["result"].isin(["WIN", "LOSS", "PUSH"])], EDGE_TIERS["ncaaf"])
-    report.update(ncaaf_locked_now=n_new, ncaaf_chain_ok=cled.verify_chain())
-    with_line = [c for c in ccards if c.get("market_line") is not None and c["game_id"] not in fcs and not c.get("void")
-                 and not c.get("no_edge")]
-    big = max(with_line, key=lambda c: c.get("edge") or 0) if with_line else None
-    stats = [{"k": "Live locked record", "v": f'{clive_summ[0]["W"]}-{clive_summ[0]["L"]}-{clive_summ[0]["P"]}',
-              "s": f'Model {NCAAF_MODEL} · {len(clive)} picks locked', "href": "record.html"},
-             {"k": f"2026 replay, Wk 1–{LIVE_W - 1}", "v": f'{crp_summ[0]["W"]}-{crp_summ[0]["L"]}-{crp_summ[0]["P"]}',
-              "s": f'{crp_summ[1]["W"]}-{crp_summ[1]["L"]} on 3+ edges · not live', "href": "record.html"},
-             {"k": "Model disagrees 3+", "v": str(sum((c.get("edge") or 0) >= 3 for c in ccards)), "s": "points off the market this week"}]
-    if big:
-        stats.append({"k": "Biggest gap", "v": f'{big["edge"]:.1f}', "s": f'{big["away"]} at {big["home"]}', "href": f'game/{big["game_id"]}.html'})
-    totals_tracker.publish(out, ledger_dir, "ncaaf", syncable, ckick, now, cfinal, cnames, stats)
-    firstline.publish(out, ledger_dir, "ncaaf", syncable, ckick, now, cfinal, cnames, stats, ledger_dir / "ncaaf_locks.csv")
-    alerts.audit_times("ncaaf", ccards, ckick, cevents, now)
-    nav = site.week_nav([(x, f"Wk {x}") for x in replay_weeks] + [("live", f"Wk {LIVE_W} · live")], "live",
-                        lambda x: "index.html" if x == "live" else f"week/{x}.html")
-    site.write(out, "ncaaf/index.html", site.page("NCAAF Model Board", site.board(
-        "ncaaf", f"Week {LIVE_W} projections", f"FBS games. Opponent-adjusted ratings from every play of "
-        f"Weeks 1–{PBP_LAST} (shrunk toward 2025) plus CollegeFootballData Elo. Picks update with the newest line and data until "
-        "kickoff; the last version before kickoff is graded. NO EDGE = model within 0.5 points of the line (no side, not graded). "
-        "Highlighted cards have a gap of 3+ points, darker 6+.", ccards, cnames, None, stats, nav=nav, tier_record=csumm), 1, "ncaaf"))
-    season = cfb_season_results(Path(__file__).resolve().parents[1])
-    for c in ccards:
-        c["season"] = {side: [g for g in season.get(c[side], []) if g["start"] < str(c.get("kickoff_utc") or "9999")]
-                       for side in ("away", "home")}
-    for c in ccards:
-        site.write(out, f"ncaaf/game/{c['game_id']}.html", site.page(f"{c['away']} at {c['home']}", site.game_page(c, cnames), 2, "ncaaf"))
-    site.write(out, "ncaaf/record.html", site.page("NCAAF Model Record", site.record_page("ncaaf", "NCAAF record",
-        "Live and replayed records are kept apart.", [
-            {"title": f"Live locked record · model {NCAAF_MODEL}", "note": "Every pick is written to the hash-chained lock file "
-             "and updates with the newest line and data until kickoff; the last version before kickoff is graded. Model v2 "
-             "(efficiency plus CollegeFootballData Elo) replaced v1 on Oct 16, 2026 before public release; v1's "
-             "picks (1-4) are archived in the ledger, not counted here.",
-             "summary": clive_summ, "graded": clive[clive["result"] != "VOID"].to_dict("records")},
-            {"title": "Voided", "note": "Locked picks voided before kickoff, with the reason. Each void is a separate "
-             "hash-chained entry citing the original lock; the lock row is never edited. Voids are not in any record. "
-             + " ".join(f"{r['away']} at {r['home']}: {cvoids[str(r['game_id'])]['reason']}" for r in cvoid_rows.to_dict("records")[:1]),
-             "summary": [], "graded": cvoid_rows.to_dict("records")},
-            {"title": f"2026 season replay, Weeks 1–{LIVE_W - 1}", "note": "Each week projected using only games before it "
-             "(Week 1 from 2025 ratings alone), graded against the line in the cfbfastR feed. Generated after the fact, not locked.",
-             "summary": crp_summ, "graded": crp.sort_values("week", ascending=False).to_dict("records")},
-            {"title": "Backtest, 2025 Weeks 4–14 and 2026 Weeks 3–6", "note": "Same method over a larger sample.",
-             "summary": csumm, "graded": []}], cnames), 1, "ncaaf"))
-    (out / "ncaaf" / "cards.json").write_text(json.dumps(_clean(ccards), indent=1))
-    home_tiles.append(("ncaaf", crp_summ, f"Week {LIVE_W} board is live"))
-
-    # ------------------------------------------------------------------ NBA
-    nba_raw = {y: pd.read_parquet(data / f"nba/play_by_play_{y}.parquet") for y in (2025, 2026, 2027)
-               if (data / f"nba/play_by_play_{y}.parquet").exists()}       # 2027 = this season, once the feed has it
-    tg = {y: bb.team_games(p, "nba") for y, p in nba_raw.items()}
-    if 2027 in tg:
-        tg[2027] = tg[2027][tg[2027]["season_type"] == 2]            # regular season only (no preseason)
-    N = BasketballModel("nba", tg)
-    nbt = N.backtest(2026, "2025-11-15")
-    nbt = nbt[pd.to_datetime(nbt["date"]) < "2026-04-13"]       # regular season only
-    nacc = accuracy(nbt)
-    nsumm, ngraded = bt_summary(nbt, EDGE_TIERS["nba"])
-    report["nba_backtest"] = {"summary": nsumm, "accuracy": nacc}
-    p26 = nba_raw[2026]
-    nnames = {r.home_team_abbrev: f"{r.home_team_name} {r.home_team_mascot}" for r in p26.drop_duplicates("home_team_abbrev").itertuples()}
-    ids = dict(zip(p26["home_team_abbrev"], p26["home_team_id"]))
-    day = "2026-04-10"
-    br = N.build(2026, day)
-    d = tg[2026][(tg[2026]["date"] == pd.Timestamp(day)) & (tg[2026]["is_home"] == 1)]
-    sl = pd.DataFrame({"game_id": d["game_id"], "date": "Friday, April 10, 2026 (replay)", "away": d["away"], "home": d["home"],
-                       "neutral_site": False, "home_b2b": d["b2b"], "away_b2b": d["opp_b2b"], "spread_home": d["market_home_line"]})
-    ncards = N.project_slate(br, sl, nacc["model_sd"])
-    pre = p26[pd.to_datetime(p26["game_date"]) < pd.Timestamp(day)]
-    es, q, tip = first_basket_table(pre)
-    BP = BasketballProps(player_games(pre), br, ids, es, q, tip)
-    for c, (_, g) in zip(ncards, d.iterrows()):
-        c["kickoff"] = f"Final {g['opp_pts']:.0f}–{g['pts']:.0f}"
-        c["_total_sd"] = 18
-        pr = BP.game_props(c, top_n=4)
-        pr["note"] = (f"Per-game rates from each player's last 15 team games, scaled by projected pace and the opponent's adjusted defence. "
-                      f"First basket = P(team scores the first field goal) x the player's share of his team's FGs in the first 6 minutes; "
-                      f"the opening-tip winner scored first in {100 * q:.0f}% of games.")
-        c["props"] = pr
-    big = max(ncards, key=lambda c: c.get("edge") or 0)
-    stats = [{"k": "Backtest ATS, 2025–26", "v": f'{nsumm[0]["W"]}-{nsumm[0]["L"]}-{nsumm[0]["P"]}',
-              "s": f'{100 * nsumm[0]["pct"]:.1f}% · {nsumm[1]["W"]}-{nsumm[1]["L"]} on 2.5+', "href": "record.html"},
-             {"k": "Margin error, model", "v": f'{nacc["model_mae"]:.1f}', "s": f'market {nacc["market_mae"]:.1f} (mean abs. error)'},
-             {"k": "Games", "v": str(len(ncards)), "s": "replay of April 10"},
-             {"k": "Biggest gap", "v": f'{big["edge"]:.1f}', "s": f'{nnames[big["away"]]} at {nnames[big["home"]]}', "href": f'game/{big["game_id"]}.html'}]
-    site.write(out, "nba/index.html", site.page("NBA Model Board", site.board(
-        "nba", "In season soon", "The 2026–27 season has not started. This board replays April 10, 2026 with ratings built only from "
-        "games before that date, so you can see the full card format, four-factor breakdown and prop simulations.",
-        ncards, nnames, None, stats, newest_first=True), 1, "nba"))
-    for c in ncards:
-        site.write(out, f"nba/game/{c['game_id']}.html", site.page(f"{nnames[c['away']]} at {nnames[c['home']]}", site.game_page(c, nnames), 2, "nba"))
-    site.write(out, "nba/record.html", site.page("NBA Model Record", site.record_page(
-        "nba", "NBA record", "Rolling out-of-sample backtest, November 15, 2025 to the end of the regular season: each day projected from "
-        "games before it, graded against the ESPN line in the play-by-play feed.",
-        [{"title": "Live locked record", "note": "Starts when the 2026-27 season tips off.",
-          "summary": record_summary(ngraded.iloc[0:0], EDGE_TIERS["nba"]), "graded": []},
-         {"title": "2025-26 replay", "note": "Generated today from games before each date, not locked at the time.",
-          "summary": nsumm, "graded": ngraded.assign(week=pd.to_datetime(ngraded["date"]).dt.strftime("%m/%d"))
-          .sort_values("date", ascending=False).head(400).to_dict("records")}], nnames), 1, "nba"))
-    # ---- live board (2026-27): today and the next two days in Hawaii, from the ESPN scoreboards
-    nrepo = data.parent / "theesness-data"
-    nev = espn_nba_events(nrepo)
-    today = (pd.Timestamp(now) - pd.Timedelta(hours=10)).date()
-    hst_date = lambda v: (pd.Timestamp(v["kickoff_utc"]) - pd.Timedelta(hours=10)).date()
-    window = [v for v in nev.values() if v.get("kickoff_utc") and v.get("season_type") == 2
-              and today - pd.Timedelta(days=1) <= hst_date(v) <= today + pd.Timedelta(days=2)]
-    nba_tile = (nsumm, "Tips off later this month")
-    if window:
-        # back-to-back: the team also played the day before (Hawaii dates), from the same scoreboards
-        played = {}
-        for v in nev.values():
-            if v.get("kickoff_utc"):
-                for t in (v.get("away"), v.get("home")):
-                    played.setdefault(t, set()).add(hst_date(v))
-        rows = []
-        for v in sorted(window, key=lambda v: v["kickoff_utc"]):
-            ko = pd.Timestamp(v["kickoff_utc"])
-            d = hst_date(v)
-            rows.append({"game_id": v["game_id"], "date": (ko - pd.Timedelta(hours=10)).strftime("%A, %B %-d"),
-                         "kickoff": (ko - pd.Timedelta(hours=10)).strftime("%-I:%M %p HST") if v.get("time_valid", True) else "Time TBD", "away": v["away"],
-                         "home": v["home"], "neutral_site": v["neutral_site"], "venue": v["venue"],
-                         "home_b2b": int((d - pd.Timedelta(days=1)) in played.get(v["home"], set())),
-                         "away_b2b": int((d - pd.Timedelta(days=1)) in played.get(v["away"], set())),
-                         "spread_home": v.get("spread_home"), "total": v.get("total")})
-        # injuries: newest ESPN report x each player's impact (see edgemodels/sports/nba_injuries.py)
-        from edgemodels.sports import nba_injuries as NI
-        itab, irepl = NI.load_table(data)
-        injs = NI.espn_injuries(nrepo)
-        ab2id = dict(zip(nba_raw[2026]["home_team_abbrev"], nba_raw[2026]["home_team_id"].astype(int)))
-        inj_rows = {}
-        for r in rows:
-            for side in ("home", "away"):
-                tid = ab2id.get(r[side])
-                d, lst = NI.team_adjustment(tid, injs, itab, irepl, now) if tid is not None else (0.0, [])
-                r[f"inj_{side}"] = d
-                inj_rows[(r["game_id"], side)] = lst
-        nsl = pd.DataFrame(rows)
-        nbr = N.build(2027, str(today))
-        _miss = sorted({t for r in rows for t in (r["home"], r["away"])} - set(map(str, nbr.ortg.off.index)))
-        if _miss:
-            alerts.health("nba", "missing_ratings", f"No rating for {', '.join(_miss)}: those teams are projected as league average.")
-        lcards = N.project_slate(nbr, nsl, nacc["model_sd"])
-        lnames = dict(nnames)
-        for v in window:
-            lnames.update({k: n for k, n in v["names"].items() if n})
-        for c, r in zip(lcards, rows):
-            c.update(date=r["date"], kickoff=r["kickoff"], venue=r["venue"], rest={"away": r["away_b2b"], "home": r["home_b2b"]})
-            txt = []
+        _test_fail("nfl")
+        plays = {y: fb.standardize(pd.read_parquet(data / f"nfl/play_by_play_{y}.parquet"), "nfl", fb.NFL_SAM) for y in (2024, 2025, 2026)}
+        games = pd.read_csv(nfldata / "games.csv")
+        games = fill_nfl_finals_from_espn(games, Path(__file__).resolve().parents[1], now)
+        # key-number margin weights, each fitted only on seasons before the one being priced
+        nfl_dists = {2025: nfl_from_nflverse(games, range(2010, 2025)), 2026: nfl_from_nflverse(games, range(2010, 2026))}
+        report["nfl_key_numbers"] = {"source": nfl_dists[2026].source, "top": nfl_dists[2026].table(8)}
+        M = FootballModel("nfl", plays, fb.NFL_SAM, margin_dists=nfl_dists)   # Sam-matched settings + engine
+        teams = pd.read_csv(nfldata / "teams.csv")
+        names = dict(teams[teams["season"] == teams["season"].max()][["team", "full"]].values)
+        g26 = games[(games["season"] == 2026) & games["result"].notna()]
+        rec = {}
+        for t in names:
+            w = ((g26["home_team"] == t) & (g26["result"] > 0)).sum() + ((g26["away_team"] == t) & (g26["result"] < 0)).sum()
+            l = ((g26["home_team"] == t) & (g26["result"] < 0)).sum() + ((g26["away_team"] == t) & (g26["result"] > 0)).sum()
+            tie = (((g26["home_team"] == t) | (g26["away_team"] == t)) & (g26["result"] == 0)).sum()
+            rec[t] = f"{w}-{l}" + (f"-{tie}" if tie else "")
+        bt = pd.concat([M.backtest(2025, list(range(3, 19))).assign(date="2025"),
+                        M.backtest(2026, [2, 3, 4, 5]).assign(date="2026")])
+        acc = accuracy(bt)
+        summ, graded = bt_summary(bt, EDGE_TIERS["nfl"])
+        report["nfl_backtest"] = {"summary": summ, "accuracy": acc}
+        NFL_W = nfl_current_week(games, now)
+        report["nfl_live_week"] = NFL_W
+        slate = nfl_slate(games, 2026, NFL_W)
+        repo = data.parent / "theesness-data"
+        pbp26 = pd.read_parquet(data / "nfl/play_by_play_2026.parquet")
+        ST = Starters(repo, pbp26, pd.read_parquet(data / "nfl/injuries_2026.parquet"),
+                      pd.read_parquet(data / "nfl/roster_weekly_2026.parquet"), NFL_W)
+        held, starters = {}, {}
+        for i, r in slate.iterrows():
             for side in ("away", "home"):
-                for x in inj_rows.get((c["game_id"], side), []):
-                    if x["status"].startswith("day-to-day, not") or "old note" in x["status"]:
-                        continue
-                    txt.append(f'{c[side]} {x["name"]} ({x["status"]}, {x["pts100"]:+.1f} per 100; {x["note"]})')
-            seen = nev[c["game_id"]].get("line_seen")
-            try:
-                seen = (pd.Timestamp(str(seen).replace("Z", ""), tz="UTC") - pd.Timedelta(hours=10)).strftime("%b %-d %-I:%M %p HST")
-            except (ValueError, TypeError):
-                pass
-            c["inputs_used"] = {"line": f'ESPN/DraftKings, seen {seen or "—"}'
-                                if c.get("market_line") is not None else "no line yet",
-                                "injury_report": ("; ".join(txt) or "nobody listed out") + f' (ESPN injury list, {injs[0]["snapshot"] if injs else "none"})'}
-        nkick = {v["game_id"]: v["kickoff_utc"] for v in window}
-        nled = Ledger(ledger_dir / "nba_locks.csv")
-        narch = ledger_dir / "cards" / "nba"
-        nsync = pickbook.sync(nled, lcards, nkick, narch, now, _clean, "nba", no_edge=no_edge_map(lcards))
-        alerts.collect("nba", lcards, lnames, nkick, now)
+                x = ST.resolve(r[side], ESPN_ABBR_REV.get(r[side], r[side]), r[f"{side}_qb_name"])
+                starters[(r["game_id"], side)] = x
+                if x["status"] == "confirmed":
+                    slate.at[i, f"{side}_qb_id"], slate.at[i, f"{side}_qb_name"] = x["starter_id"], x["starter"]
+                else:
+                    held[r["game_id"]] = f'{r[side]} starting quarterback not confirmed: {x["why"]}'
+        # current line: the newest ESPN snapshot with a line (nflverse line only if ESPN has none)
+        cur_lines = espn_lines_nfl(repo, pd.to_datetime(slate["date"]).dt.date.unique())
+        line_seen = {}
+        for i, r in slate.iterrows():
+            fl = cur_lines.get((r["away"], r["home"]))
+            if fl and fl[0] is not None:
+                slate.at[i, "spread_home"] = fl[0]
+                if fl[1] is not None:
+                    slate.at[i, "total"] = fl[1]
+                line_seen[r["game_id"]] = f"ESPN/DraftKings, seen {fl[2]}"
+            else:
+                line_seen[r["game_id"]] = "nflverse schedule"
+        g6 = games[(games["season"] == 2026) & (games["week"] == NFL_W)]
+        kick = {r.game_id: str(pd.Timestamp(f"{r.gameday} {r.gametime}", tz="America/New_York").tz_convert("UTC"))
+                for r in g6.itertuples()}
+        # one source of truth for start times on every board: ESPN's newest copy (the nflverse schedule file lags flex
+        # and time changes, e.g. LV @ SF Week 10 listed 4:05 ET while ESPN had 4:25)
+        _es = nfl_espn_status(repo, [{"game_id": r.game_id, "away": r.away_team, "home": r.home_team} for r in g6.itertuples()], kick)
+        for gid, e in _es.items():
+            if e.get("time_valid", True):
+                kick[gid] = str(pd.Timestamp(e["kickoff_utc"]))
+        slate["date"] = pd.to_datetime(slate["date"]).dt.strftime("%A, %B %-d")
+        built = M.build(2026, NFL_W)
+        cards = M.project_slate(2026, NFL_W, slate, margin_sd=acc["model_sd"], built=built)
+        P = FootballProps(built[4], built[0], acc["model_sd"], 13.1)
+        AV = nfl_injuries.Availability(*nfl_injuries.load(2026, data / "nfl"))
+        report["nfl_questionable_active_rate"] = AV.q
+        for c in cards:
+            c["records"] = rec
+            if kick.get(c["game_id"]):
+                _k = pd.Timestamp(kick[c["game_id"]]) - pd.Timedelta(hours=10)
+                c["kickoff"] = _k.strftime("%-I:%M %p HST")
+                c["date"] = _k.strftime("%A, %B %-d")
+            c["props"] = nfl_props(c, P, AV)
+            sa, sh = starters[(c["game_id"], "away")], starters[(c["game_id"], "home")]
+            c["starters"] = f'{sa.get("starter") or "?"} / {sh.get("starter") or "?"}'
+            c["inputs_used"] = {"qb": [sa, sh], "line": line_seen.get(c["game_id"]),
+                                "injury_report": f"nflverse Week {NFL_W} report + ESPN injury list"}
+        # picks update until kickoff: newest roster + newest line; the last version before kickoff is graded
+        led = Ledger(ledger_dir / "nfl_locks.csv")
+        sync_stats = pickbook.sync(led, cards, kick, ledger_dir / "cards" / "nfl", now, _clean, "nfl", held=held,
+                                   no_edge=no_edge_map(cards))
+        alerts.collect("nfl", cards, names, kick, now)
         try:
             from edgemodels.props import board_props as BP
-            from edgemodels.props.nba_player import NBAPlayers
-            bx = {y: pd.read_parquet(data / f"nba/player_box_{y}.parquet") for y in (2026, 2027)
-                  if (data / f"nba/player_box_{y}.parquet").exists()}
-            if 2026 in bx:
-                NP = NBAPlayers(bx[2026][bx[2026]["season_type"] == 2],
-                                bx[2027][bx[2027]["season_type"] == 2] if 2027 in bx else bx[2026].iloc[0:0])
-                bath = json.loads((nrepo / "data/espn/nba/athletes.json").read_text()) if (nrepo / "data/espn/nba/athletes.json").exists() else {}
-                for c in lcards:
-                    c["_kick"] = nkick.get(c["game_id"])
+            ros = pd.read_parquet(data / "nfl/roster_weekly_2026.parquet", columns=["espn_id", "gsis_id"]).dropna()
+            espn2gsis = {str(int(float(a))): g for a, g in zip(ros["espn_id"], ros["gsis_id"])}
+            nath = json.loads((repo / "data/espn/nfl/athletes.json").read_text()) if (repo / "data/espn/nfl/athletes.json").exists() else {}
+            nlogs = nfl_logs(pbp26)
+            eids = BP.espn_ids_nfl(repo, pd.to_datetime(g6["gameday"]).unique())
+            for c in cards:
+                c["_kick"] = kick.get(c["game_id"])
 
-                def _nba_make(c):
-                    mkt, seen = BP.load_market(nrepo, "nba", c["game_id"])
-                    if mkt.empty:
-                        return None
-                    pace = float(nbr.pace_matchup(c["home"], c["away"]) / nbr.pace.mu)
-                    pl = BP.nba_players(c, NP, mkt, bath, injs, pace, now)
-                    return BP.build_game("nba", mkt, pl, seen)
-                write_props(out, "nba", lcards, lnames, ledger_dir, now, _nba_make,
-                            actual=lambda c, gp: BP.nba_actual(bx[2027], c["game_id"]) if 2027 in bx else None)
+            def _nfl_make(c):
+                eid = eids.get((c["away"], c["home"]))
+                if not eid or not (c.get("props") or {}).get("_all"):
+                    return None
+                mkt, seen = BP.load_market(repo, "nfl", eid)
+                if mkt.empty:
+                    return None
+                pl = BP.nfl_players(c, c["props"]["_all"], mkt, espn2gsis, nath, nlogs)
+                return BP.build_game("nfl", mkt, pl, seen)
+            _nact = nfl_actuals(pbp26)
+            _g26 = games[(games["season"] == 2026) & games["home_score"].notna() & games["away_score"].notna()]
+            _nfin_ids = set(_g26["game_id"].astype(str))
+            write_props(out, "nfl", cards, names, ledger_dir, now, _nfl_make,
+                        actual=lambda c, gp: BP.nfl_actual(gp, _nact[str(c["game_id"])])
+                        if str(c["game_id"]) in _nact and str(c["game_id"]) in _nfin_ids else None)
         except Exception as ex:
-            print(f"[props] nba: {type(ex).__name__}: {ex}")
-        nvoids = {str(r["game_id"]): r for r in nled.voids().to_dict("records") if r.get("kind", "void") == "void"}
-        for c in lcards:
-            v = nvoids.get(str(c["game_id"]))
+            print(f"[props] nfl: {type(ex).__name__}: {ex}")
+        report["nfl_pickbook"] = sync_stats
+        n_new = sync_stats["locked"] + sync_stats["updated"]
+        fin = games[games["season"] == 2026][["game_id", "away_score", "home_score"]]
+        led.grade(fin)
+        report["nfl_locked_now"] = n_new
+        report["nfl_chain_ok"] = led.verify_chain()
+        live_rows = led.load_graded()      # superseded (corrected before kickoff) rows are not shown
+        live_rows = live_rows.assign(week=live_rows["game_id"].str[5:7].astype(int))
+        actuals = nfl_actuals(pd.read_parquet(data / "nfl/play_by_play_2026.parquet"))
+        for c in cards:
+            attach_actuals(c, actuals)
+
+        def replay_props(w, wcards, wbuilt):
+            """Props for a replayed week, from data before that week, then the actual results beside them."""
+            WP = FootballProps(wbuilt[4], wbuilt[0], acc["model_sd"], 13.1)
+            for c in wcards:
+                if not (c.get("locked") and c.get("props")):      # a locked card keeps the props it was locked with
+                    c["props"] = nfl_props(c, WP, AV)
+                attach_actuals(c, actuals)
+        live_graded = live_rows[live_rows["result"].isin(["WIN", "LOSS", "PUSH"])]
+        live_summ = record_summary(live_graded, EDGE_TIERS["nfl"])
+        site.RECORDS["nfl"] = rec
+        _nfl_np, _nfl_ids = nopick_map(ledger_dir, "nfl", "nfl_locks.csv")
+        _nfl_lw = {int(str(g)[5:7]) for g in _nfl_ids if str(g)[:4] == "2026"}
+        replay_rows = season_pages(out, "nfl", "NFL", M, 2026, list(range(1, NFL_W)),
+                                   lambda w: nfl_slate(games, 2026, w), names, acc["model_sd"], f"Wk {NFL_W} · live", True, None,
+                                   locked=live_rows, archive_dir=ledger_dir / "cards" / "nfl", props_fn=replay_props,
+                                   nopick=_nfl_np, live_weeks=_nfl_lw)
+        rp = pd.DataFrame(replay_rows)
+        rp_summ = record_summary(rp, EDGE_TIERS["nfl"])
+        report["nfl_2026_replay"] = rp_summ
+        report["nfl_live"] = live_summ
+        hot = [c for c in cards if c.get("edge") and c["edge"] >= 3]
+        big = max(cards, key=lambda c: c.get("edge") or 0)
+        stats = [{"k": "Live locked record", "v": f'{live_summ[0]["W"]}-{live_summ[0]["L"]}-{live_summ[0]["P"]}',
+                  "s": f'{len(live_rows)} picks locked, {len(live_graded)} graded', "href": "record.html"},
+                 {"k": f"2026 replay, Wk 1–{NFL_W - 1}", "v": f'{rp_summ[0]["W"]}-{rp_summ[0]["L"]}-{rp_summ[0]["P"]}',
+                  "s": f'{rp_summ[1]["W"]}-{rp_summ[1]["L"]} on 3+ edges · not live', "href": f"week/{NFL_W - 1}.html"},
+                 {"k": "Model disagrees 3+", "v": str(len(hot)), "s": "points off the market this week"},
+                 {"k": "Biggest gap", "v": f'{big["edge"]:.1f}', "s": f'{names[big["away"]]} at {names[big["home"]]}',
+                  "href": f'game/{big["game_id"]}.html'}]
+        nfin = {str(r.game_id): (r.away_score, r.home_score) for r in games[games["season"] == 2026].itertuples()
+                if pd.notna(r.home_score) and pd.notna(r.away_score)}
+        totals_tracker.publish(out, ledger_dir, "nfl", cards, kick, now, nfin, names, stats)
+        firstline.publish(out, ledger_dir, "nfl", cards, kick, now, nfin, names, stats, ledger_dir / "nfl_locks.csv")
+        alerts.audit_times("nfl", cards, kick, _es, now)
+        # finished games on the live board: final score on every card, result from the ledger (the graded locked pick)
+        lr = live_rows.copy()
+        lr["game_id"] = lr["game_id"].astype(str)
+        led_res = {g: r for g, r in zip(lr["game_id"], lr["result"])}
+        for c in cards:
+            fs = nfin.get(str(c["game_id"]))
+            if fs:
+                c["final_away"], c["final_home"] = float(fs[0]), float(fs[1])
+                r = led_res.get(str(c["game_id"]))
+                c["result"] = r if isinstance(r, str) and r in ("WIN", "LOSS", "PUSH", "VOID") else None
+        nav = site.week_nav([(x, f"Wk {x}") for x in range(1, NFL_W)] + [("live", f"Wk {NFL_W} · live")], "live",
+                            lambda x: "index.html" if x == "live" else f"week/{x}.html")
+        site.write(out, "nfl/index.html", site.page("NFL Model Board", site.board(
+            "nfl", f"Week {NFL_W} projections", "Locked against the line seen at build time and graded after each game. "
+            "Past weeks, including every locked pick and its result, are in the tabs above.",
+            cards, names, rec, stats, nav=nav, tier_record=summ), 1, "nfl"))
+        for c in cards:
+            site.write(out, f"nfl/game/{c['game_id']}.html", site.page(f"{names[c['away']]} at {names[c['home']]}", site.game_page(c, names), 2, "nfl"))
+        site.write(out, "nfl/record.html", site.page("NFL Model Record", site.record_page("nfl", "NFL record",
+            "Three records, kept apart so the live one is never mixed with hindsight.", [
+                {"title": "Live locked record", "note": f"Started {first_lock_date(ledger_dir / 'nfl_locks.csv')}. Every pick written to the hash-chained lock file before "
+                 "kickoff, against the line seen at lock time, never re-priced.", "summary": live_summ,
+                 "graded": live_rows.sort_values("week", ascending=False).to_dict("records")},
+                {"title": f"2026 season replay, Weeks 1–{NFL_W - 1}", "note": "Each week projected using only games played before it, graded "
+                 "against the nflverse line. Generated today, not locked at the time, so treat it as a test.",
+                 "summary": rp_summ, "graded": rp.sort_values("week", ascending=False).to_dict("records")},
+                {"title": "Backtest, 2025 Weeks 3–18 and 2026 Weeks 2–5", "note": "Same method over a larger sample.",
+                 "summary": summ, "graded": []}], names), 1, "nfl"))
+        (out / "nfl" / "cards.json").write_text(json.dumps(_clean(cards), indent=1))
+        home_tiles.append(("nfl", rp_summ, f"Week {NFL_W} board is live"))
+    except Exception as ex:                      # one board failing never stops the others
+        _board_failed("nfl", ex, report)
+        home_tiles.append(("nfl", None, _DOWN))
+
+
+    # ------------------------------------------------------------------ NCAAF
+    try:
+        _test_fail("ncaaf")
+        cplays = {y: fb.standardize(pd.read_parquet(data / f"ncaaf/play_by_play_{y}.parquet"), "ncaaf", fb.NCAAF_SAM) for y in (2025, 2026)}
+        cs = pd.concat([slate_from_plays(fb.team_games(cplays[2025]), w) for w in sorted(cplays[2025]["week"].unique())])
+        cs = cs.dropna(subset=["spread_home", "home_score"])
+        ncaaf_dist = MarginDist.fit(-cs["spread_home"], cs["home_score"] - cs["away_score"],
+                                    source=f"cfbfastR 2025, {len(cs)} games, closing spread as expectation")
+        # Elo ("track record", as on Sam's college pages): CFBD pregame Elo from the play-by-play, carried forward
+        # past the last play-by-play week with ESPN finals (see edgemodels/sports/cfb_elo.py)
+        elo_games = {y: pd.read_csv(data / f"ncaaf/elo_games_{y}.csv") for y in (2025, 2026)}
+        _elo_cache = {}
+
+        elo_src = {}
+
+        def cfb_elo_fn(season, week):
+            if (season, week) not in _elo_cache:
+                got = cfb_elo.cfbd_week(data.parent / "theesness-data", season, week)
+                elo_src[(season, week)] = (f"CollegeFootballData Elo through Week {int(elo_games[season]['week'].max())}, "
+                                           "carried forward with final scores")
+                later = []
+                if season == 2026:
+                    for w in range(int(elo_games[2026]["week"].max()) + 1, week):
+                        wsl, wfin = espn_ncaaf_slate(data.parent / "theesness-data", w)
+                        for r in wsl.itertuples():
+                            if r.game_id in wfin:
+                                a, h = wfin[r.game_id]
+                                later.append({"week": w, "home": r.home, "away": r.away, "home_score": h,
+                                              "away_score": a, "neutral_site": r.neutral_site})
+                carried = cfb_elo.elo_before(elo_games[season], week, later)
+                if got:
+                    # CFBD's own numbers win; a team CFBD names differently keeps the carried-forward value
+                    elo_src[(season, week)] = f"CollegeFootballData Elo going into Week {week}"
+                    report.setdefault("cfbd_elo_unmatched", sorted(set(carried) - set(got)))
+                    carried = {**carried, **got}
+                _elo_cache[(season, week)] = carried
+            return _elo_cache[(season, week)]
+
+        C = FootballModel("ncaaf", cplays, cfg=fb.NCAAF_SAM, margin_dists={2026: ncaaf_dist}, elo_fn=cfb_elo_fn)
+        cbt = pd.concat([C.backtest(2025, list(range(4, 15))).assign(date="2025"), C.backtest(2026, [3, 4, 5, 6]).assign(date="2026")])
+        cacc = accuracy(cbt)
+        csumm, cgraded = bt_summary(cbt, EDGE_TIERS["ncaaf"])
+        report["ncaaf_backtest"] = {"summary": csumm, "accuracy": cacc}
+        crepo = data.parent / "theesness-data"
+        cevents = espn_ncaaf_events(crepo)
+        PBP_LAST = int(C.tg[2026]["week"].max())
+
+        def cslate(w):
+            """Past-week slate: from the play-by-play while it covers the week, otherwise from the ESPN scoreboards."""
+            sl = slate_from_plays(C.tg[2026], w)
+            if not sl.empty or w <= PBP_LAST:
+                return sl
+            sl, _ = espn_ncaaf_slate(crepo, w)
+            if sl.empty:
+                return sl
+            fin = {k: v["final"] for k, v in cevents.items() if v.get("final")}
+            return sl.assign(date=pd.to_datetime(sl["kickoff_utc"]).dt.tz_convert("Pacific/Honolulu").dt.strftime("%Y-%m-%d"),
+                             away_score=[fin.get(g, (np.nan, np.nan))[0] for g in sl["game_id"]],
+                             home_score=[fin.get(g, (np.nan, np.nan))[1] for g in sl["game_id"]])
+        cnames = {t: t for t in set(C.tg[2026]["off"])}
+        # live week: slate and first-seen lines from the collected ESPN scoreboards (ESPN ids = cfbfastR game ids)
+        LIVE_W = ncaaf_current_week(cevents, now, default=7)      # rolls on its own once the week's games are over
+        report["ncaaf_live_week"] = LIVE_W
+        cslate_live, _ = espn_ncaaf_slate(crepo, LIVE_W)
+        cfinal = {k: v["final"] for k, v in cevents.items() if v.get("final")}     # every finished game, any week
+        cled = Ledger(ledger_dir / "ncaaf_locks.csv")
+        clocked = cled.load()
+        replay_weeks = list(range(1, LIVE_W))
+        _cfs = cfb_season_results(Path(__file__).resolve().parents[1])
+        site.RECORDS["ncaaf"] = {t: f'{sum(x["pf"] > x["pa"] for x in gs)}-{sum(x["pf"] < x["pa"] for x in gs)}' for t, gs in _cfs.items()}
+        _cf_np, _cf_ids = nopick_map(ledger_dir, "ncaaf", "ncaaf_locks.csv")
+        _cf_lw = {int(cevents[g]["week"]) for g in _cf_ids if g in cevents and cevents[g].get("week")}
+        crows = season_pages(out, "ncaaf", "NCAAF", C, 2026, replay_weeks, cslate, cnames, cacc["model_sd"],
+                             f"Wk {LIVE_W} · live", game_pages=False, locked=clocked, archive_dir=ledger_dir / "cards" / "ncaaf",
+                             nopick=_cf_np, live_weeks=_cf_lw)
+        crp = pd.DataFrame(crows)
+        crp_summ = record_summary(crp, EDGE_TIERS["ncaaf"])
+        report["ncaaf_2026_replay"] = crp_summ
+        cb = C.build(2026, LIVE_W)
+        ccards = C.project_slate(2026, LIVE_W, cslate_live, margin_sd=cacc["model_sd"], built=cb)
+        carch = ledger_dir / "cards" / "ncaaf"
+        carch.mkdir(parents=True, exist_ok=True)
+        started = {r.game_id for r in cslate_live.itertuples() if pd.Timestamp(r.kickoff_utc) <= pd.Timestamp(now)}
+        # FBS vs FCS: too little play-by-play on FCS teams to rate them; shown, never locked (rule from 2026-10-15)
+        fcs = {c["game_id"] for c in ccards if (c["away"] in cb[0].lower) != (c["home"] in cb[0].lower)}
+        cvoids_all = cled.voids()
+        voided_ids = set(cvoids_all.loc[cvoids_all["kind"] == "void", "game_id"].astype(str)) if len(cvoids_all) else set()
+        ckick = {r.game_id: r.kickoff_utc for r in cslate_live.itertuples()}
+        for c in ccards:
+            el = c.get("elo") or {}
+            c["inputs_used"] = {"line": "ESPN/DraftKings, newest snapshot with a line",
+                                "elo": f'{c["away"]} {el.get("away") or 0:.0f} · {c["home"]} {el.get("home") or 0:.0f} '
+                                       f'({elo_src.get((2026, LIVE_W), "")})'}
+        syncable = [c for c in ccards if c["game_id"] not in fcs and c["game_id"] not in voided_ids]
+        csync = pickbook.sync(cled, syncable, ckick, carch, now, _clean, "ncaaf", no_edge=no_edge_map(syncable))
+        alerts.collect("ncaaf", syncable, cnames, ckick, now)        # FBS-vs-FCS and voided games are never picks
+        n_new = csync["locked"] + csync["updated"]
+        by_id = {c["game_id"]: c for c in syncable}
+        carch.mkdir(parents=True, exist_ok=True)
+        for i, c in enumerate(ccards):
+            if c["game_id"] in by_id:
+                ccards[i] = c = by_id[c["game_id"]]
+            elif c["game_id"] in voided_ids and (carch / f'{c["game_id"]}.json').exists():
+                saved = json.loads((carch / f'{c["game_id"]}.json').read_text())
+                saved.update(date=c["date"], kickoff=c.get("kickoff"), locked=True)
+                ccards[i] = c = saved
+            if c["game_id"] in started and not c.get("locked"):
+                c["kickoff"] = f'{c.get("kickoff") or ""} · started before it could be locked'
+            elif c["game_id"] in fcs:
+                c["kickoff"] = f'{c.get("kickoff") or ""} · FBS vs FCS, not locked'
+        cvoids = {str(r["game_id"]): r for r in cled.voids().to_dict("records") if r.get("kind", "void") == "void"}
+        for c in ccards:
+            v = cvoids.get(str(c["game_id"]))
             if v:
                 at = (pd.Timestamp(v["voided_at"]) - pd.Timedelta(hours=10)).strftime("%b %-d, %-I:%M %p HST")
-                when = "after the game" if pd.Timestamp(v["voided_at"]) > pd.Timestamp(v["kickoff_utc"]) else "before tip-off"
                 c["void"] = {"at": at, "reason": v["reason"]}
-                c["note"] = f"VOID, voided {at} ({when}). {v['reason']} The original locked pick is shown for the record."
+                c["note"] = f"VOID, voided {at} before kickoff. {v['reason']} The original locked pick is shown for the record."
                 c["kickoff"] = f'{c.get("kickoff") or ""} · VOID'
-        nfin = {k: v["final"] for k, v in nev.items() if v.get("final")}
-        lcards = grade_cards(lcards, nfin)
-        nled.grade(pd.DataFrame([{"game_id": k, "away_score": a, "home_score": h} for k, (a, h) in nfin.items()],
+        ccards = grade_cards(ccards, cfinal)
+        for c in ccards:
+            if c.get("void"):
+                c["result"] = "VOID"
+        cled.grade(pd.DataFrame([{"game_id": k, "away_score": v[0], "home_score": v[1]} for k, v in cfinal.items()],
                                 columns=["game_id", "away_score", "home_score"]))
-        nlive = nled.load_graded()
-        nlive = nlive.assign(week=[(pd.Timestamp(nev[str(g)]["kickoff_utc"]) - pd.Timedelta(hours=10)).strftime("%m/%d")
-                                   if str(g) in nev else "" for g in nlive["game_id"]]) if len(nlive) else nlive
-        nlive_summ = record_summary(nlive[nlive["result"].isin(["WIN", "LOSS", "PUSH"])] if len(nlive) else nlive, EDGE_TIERS["nba"])
-        report.update(nba_locked_now=nsync["locked"] + nsync["updated"], nba_chain_ok=nled.verify_chain())
-        withl = [c for c in lcards if c.get("market_line") is not None and not c.get("no_edge")]
-        big = max(withl, key=lambda c: c.get("edge") or 0) if withl else None
-        nstats = [{"k": "Live locked record", "v": f'{nlive_summ[0]["W"]}-{nlive_summ[0]["L"]}-{nlive_summ[0]["P"]}',
-                   "s": f'{len(nlive)} picks locked', "href": "record.html"},
-                  {"k": "Replay ATS, 2025–26", "v": f'{nsumm[0]["W"]}-{nsumm[0]["L"]}-{nsumm[0]["P"]}',
-                   "s": f'{100 * nsumm[0]["pct"]:.1f}% · not live', "href": "record.html"},
-                  {"k": "Model disagrees 2.5+", "v": str(sum((c.get("edge") or 0) >= 2.5 for c in withl)), "s": "points off the book, next 3 days"}]
+        clive = cled.load_graded()
+        clive = clive.assign(week=[cevents.get(str(g), {}).get("week") or LIVE_W for g in clive["game_id"]])
+        cvoid_rows = clive[clive["result"] == "VOID"]
+        clive_summ = record_summary(clive[clive["result"].isin(["WIN", "LOSS", "PUSH"])], EDGE_TIERS["ncaaf"])
+        report.update(ncaaf_locked_now=n_new, ncaaf_chain_ok=cled.verify_chain())
+        with_line = [c for c in ccards if c.get("market_line") is not None and c["game_id"] not in fcs and not c.get("void")
+                     and not c.get("no_edge")]
+        big = max(with_line, key=lambda c: c.get("edge") or 0) if with_line else None
+        stats = [{"k": "Live locked record", "v": f'{clive_summ[0]["W"]}-{clive_summ[0]["L"]}-{clive_summ[0]["P"]}',
+                  "s": f'Model {NCAAF_MODEL} · {len(clive)} picks locked', "href": "record.html"},
+                 {"k": f"2026 replay, Wk 1–{LIVE_W - 1}", "v": f'{crp_summ[0]["W"]}-{crp_summ[0]["L"]}-{crp_summ[0]["P"]}',
+                  "s": f'{crp_summ[1]["W"]}-{crp_summ[1]["L"]} on 3+ edges · not live', "href": "record.html"},
+                 {"k": "Model disagrees 3+", "v": str(sum((c.get("edge") or 0) >= 3 for c in ccards)), "s": "points off the market this week"}]
         if big:
-            nstats.append({"k": "Biggest gap", "v": f'{big["edge"]:.1f}', "s": f'{lnames[big["away"]]} at {lnames[big["home"]]}',
-                           "href": f'game/{big["game_id"]}.html'})
-        totals_tracker.publish(out, ledger_dir, "nba", lcards, nkick, now, nfin, lnames, nstats)
-        firstline.publish(out, ledger_dir, "nba", lcards, nkick, now, nfin, lnames, nstats, ledger_dir / "nba_locks.csv")
-        alerts.audit_times("nba", lcards, nkick, nev, now)
-        from edgemodels.core.espn_feed import espn_records
-        site.RECORDS["nba"] = espn_records(nrepo / "data" / "espn" / "nba" / "scoreboard")
+            stats.append({"k": "Biggest gap", "v": f'{big["edge"]:.1f}', "s": f'{big["away"]} at {big["home"]}', "href": f'game/{big["game_id"]}.html'})
+        totals_tracker.publish(out, ledger_dir, "ncaaf", syncable, ckick, now, cfinal, cnames, stats)
+        firstline.publish(out, ledger_dir, "ncaaf", syncable, ckick, now, cfinal, cnames, stats, ledger_dir / "ncaaf_locks.csv")
+        alerts.audit_times("ncaaf", ccards, ckick, cevents, now)
+        nav = site.week_nav([(x, f"Wk {x}") for x in replay_weeks] + [("live", f"Wk {LIVE_W} · live")], "live",
+                            lambda x: "index.html" if x == "live" else f"week/{x}.html")
+        site.write(out, "ncaaf/index.html", site.page("NCAAF Model Board", site.board(
+            "ncaaf", f"Week {LIVE_W} projections", f"FBS games. Opponent-adjusted ratings from every play of "
+            f"Weeks 1–{PBP_LAST} (shrunk toward 2025) plus CollegeFootballData Elo. Picks update with the newest line and data until "
+            "kickoff; the last version before kickoff is graded. NO EDGE = model within 0.5 points of the line (no side, not graded). "
+            "Highlighted cards have a gap of 3+ points, darker 6+.", ccards, cnames, None, stats, nav=nav, tier_record=csumm), 1, "ncaaf"))
+        season = cfb_season_results(Path(__file__).resolve().parents[1])
+        for c in ccards:
+            c["season"] = {side: [g for g in season.get(c[side], []) if g["start"] < str(c.get("kickoff_utc") or "9999")]
+                           for side in ("away", "home")}
+        for c in ccards:
+            site.write(out, f"ncaaf/game/{c['game_id']}.html", site.page(f"{c['away']} at {c['home']}", site.game_page(c, cnames), 2, "ncaaf"))
+        site.write(out, "ncaaf/record.html", site.page("NCAAF Model Record", site.record_page("ncaaf", "NCAAF record",
+            "Live and replayed records are kept apart.", [
+                {"title": f"Live locked record · model {NCAAF_MODEL}", "note": "Every pick is written to the hash-chained lock file "
+                 "and updates with the newest line and data until kickoff; the last version before kickoff is graded. Model v2 "
+                 "(efficiency plus CollegeFootballData Elo) replaced v1 on Oct 16, 2026 before public release; v1's "
+                 "picks (1-4) are archived in the ledger, not counted here.",
+                 "summary": clive_summ, "graded": clive[clive["result"] != "VOID"].to_dict("records")},
+                {"title": "Voided", "note": "Locked picks voided before kickoff, with the reason. Each void is a separate "
+                 "hash-chained entry citing the original lock; the lock row is never edited. Voids are not in any record. "
+                 + " ".join(f"{r['away']} at {r['home']}: {cvoids[str(r['game_id'])]['reason']}" for r in cvoid_rows.to_dict("records")[:1]),
+                 "summary": [], "graded": cvoid_rows.to_dict("records")},
+                {"title": f"2026 season replay, Weeks 1–{LIVE_W - 1}", "note": "Each week projected using only games before it "
+                 "(Week 1 from 2025 ratings alone), graded against the line in the cfbfastR feed. Generated after the fact, not locked.",
+                 "summary": crp_summ, "graded": crp.sort_values("week", ascending=False).to_dict("records")},
+                {"title": "Backtest, 2025 Weeks 4–14 and 2026 Weeks 3–6", "note": "Same method over a larger sample.",
+                 "summary": csumm, "graded": []}], cnames), 1, "ncaaf"))
+        (out / "ncaaf" / "cards.json").write_text(json.dumps(_clean(ccards), indent=1))
+        home_tiles.append(("ncaaf", crp_summ, f"Week {LIVE_W} board is live"))
+    except Exception as ex:                      # one board failing never stops the others
+        _board_failed("ncaaf", ex, report)
+        home_tiles.append(("ncaaf", None, _DOWN))
+
+
+    # ------------------------------------------------------------------ NBA
+    try:
+        _test_fail("nba")
+        nba_raw = {y: pd.read_parquet(data / f"nba/play_by_play_{y}.parquet") for y in (2025, 2026, 2027)
+                   if (data / f"nba/play_by_play_{y}.parquet").exists()}       # 2027 = this season, once the feed has it
+        tg = {y: bb.team_games(p, "nba") for y, p in nba_raw.items()}
+        if 2027 in tg:
+            tg[2027] = tg[2027][tg[2027]["season_type"] == 2]            # regular season only (no preseason)
+        N = BasketballModel("nba", tg)
+        nbt = N.backtest(2026, "2025-11-15")
+        nbt = nbt[pd.to_datetime(nbt["date"]) < "2026-04-13"]       # regular season only
+        nacc = accuracy(nbt)
+        nsumm, ngraded = bt_summary(nbt, EDGE_TIERS["nba"])
+        report["nba_backtest"] = {"summary": nsumm, "accuracy": nacc}
+        p26 = nba_raw[2026]
+        nnames = {r.home_team_abbrev: f"{r.home_team_name} {r.home_team_mascot}" for r in p26.drop_duplicates("home_team_abbrev").itertuples()}
+        ids = dict(zip(p26["home_team_abbrev"], p26["home_team_id"]))
+        day = "2026-04-10"
+        br = N.build(2026, day)
+        d = tg[2026][(tg[2026]["date"] == pd.Timestamp(day)) & (tg[2026]["is_home"] == 1)]
+        sl = pd.DataFrame({"game_id": d["game_id"], "date": "Friday, April 10, 2026 (replay)", "away": d["away"], "home": d["home"],
+                           "neutral_site": False, "home_b2b": d["b2b"], "away_b2b": d["opp_b2b"], "spread_home": d["market_home_line"]})
+        ncards = N.project_slate(br, sl, nacc["model_sd"])
+        pre = p26[pd.to_datetime(p26["game_date"]) < pd.Timestamp(day)]
+        es, q, tip = first_basket_table(pre)
+        BP = BasketballProps(player_games(pre), br, ids, es, q, tip)
+        for c, (_, g) in zip(ncards, d.iterrows()):
+            c["kickoff"] = f"Final {g['opp_pts']:.0f}–{g['pts']:.0f}"
+            c["_total_sd"] = 18
+            pr = BP.game_props(c, top_n=4)
+            pr["note"] = (f"Per-game rates from each player's last 15 team games, scaled by projected pace and the opponent's adjusted defence. "
+                          f"First basket = P(team scores the first field goal) x the player's share of his team's FGs in the first 6 minutes; "
+                          f"the opening-tip winner scored first in {100 * q:.0f}% of games.")
+            c["props"] = pr
+        big = max(ncards, key=lambda c: c.get("edge") or 0)
+        stats = [{"k": "Backtest ATS, 2025–26", "v": f'{nsumm[0]["W"]}-{nsumm[0]["L"]}-{nsumm[0]["P"]}',
+                  "s": f'{100 * nsumm[0]["pct"]:.1f}% · {nsumm[1]["W"]}-{nsumm[1]["L"]} on 2.5+', "href": "record.html"},
+                 {"k": "Margin error, model", "v": f'{nacc["model_mae"]:.1f}', "s": f'market {nacc["market_mae"]:.1f} (mean abs. error)'},
+                 {"k": "Games", "v": str(len(ncards)), "s": "replay of April 10"},
+                 {"k": "Biggest gap", "v": f'{big["edge"]:.1f}', "s": f'{nnames[big["away"]]} at {nnames[big["home"]]}', "href": f'game/{big["game_id"]}.html'}]
         site.write(out, "nba/index.html", site.page("NBA Model Board", site.board(
-            "nba", "NBA projections", "Each team scores its points per 100 possessions against the opponent's defence, at the "
-            "matchup's pace, plus home court. Early in the season the ratings are still half last season by design. Picks update "
-            "with the newest line until tip-off; the last version before tip is graded. NO EDGE under 0.5 points. Highlighted "
-            "cards have a gap of 2.5+ points, darker 5+. Injuries from the latest ESPN report are priced in by each missing "
-            "player's impact; roster moves since last season are not yet.",
-            lcards, lnames, None, nstats, tier_record=nsumm), 1, "nba"))
-        for c in lcards:
-            site.write(out, f"nba/game/{c['game_id']}.html", site.page(f"{lnames[c['away']]} at {lnames[c['home']]}",
-                                                                      site.game_page(c, lnames), 2, "nba"))
+            "nba", "In season soon", "The 2026–27 season has not started. This board replays April 10, 2026 with ratings built only from "
+            "games before that date, so you can see the full card format, four-factor breakdown and prop simulations.",
+            ncards, nnames, None, stats, newest_first=True), 1, "nba"))
+        for c in ncards:
+            site.write(out, f"nba/game/{c['game_id']}.html", site.page(f"{nnames[c['away']]} at {nnames[c['home']]}", site.game_page(c, nnames), 2, "nba"))
         site.write(out, "nba/record.html", site.page("NBA Model Record", site.record_page(
-            "nba", "NBA record", "Live picks and the replay are kept apart.",
-            [{"title": "Live locked record, 2026-27", "note": "Every pick is written to the hash-chained lock file and updates "
-              "until tip-off; the last version before tip is graded.", "summary": nlive_summ,
-              "graded": nlive.sort_values("locked_at", ascending=False).to_dict("records") if len(nlive) else []},
-             {"title": "2025-26 replay", "note": "Same formula, each day projected from games before it, graded against the ESPN "
-              "line in the play-by-play feed. Generated after the fact, not locked.",
+            "nba", "NBA record", "Rolling out-of-sample backtest, November 15, 2025 to the end of the regular season: each day projected from "
+            "games before it, graded against the ESPN line in the play-by-play feed.",
+            [{"title": "Live locked record", "note": "Starts when the 2026-27 season tips off.",
+              "summary": record_summary(ngraded.iloc[0:0], EDGE_TIERS["nba"]), "graded": []},
+             {"title": "2025-26 replay", "note": "Generated today from games before each date, not locked at the time.",
               "summary": nsumm, "graded": ngraded.assign(week=pd.to_datetime(ngraded["date"]).dt.strftime("%m/%d"))
-              .sort_values("date", ascending=False).head(400).to_dict("records")}], lnames), 1, "nba"))
-        (out / "nba" / "cards.json").write_text(json.dumps(_clean(lcards), indent=1))
-        nba_tile = (nlive_summ if len(nlive) else nsumm, "Live: today's board")
-    home_tiles.append(("nba", *nba_tile))
+              .sort_values("date", ascending=False).head(400).to_dict("records")}], nnames), 1, "nba"))
+        # ---- live board (2026-27): today and the next two days in Hawaii, from the ESPN scoreboards
+        nrepo = data.parent / "theesness-data"
+        nev = espn_nba_events(nrepo)
+        today = (pd.Timestamp(now) - pd.Timedelta(hours=10)).date()
+        hst_date = lambda v: (pd.Timestamp(v["kickoff_utc"]) - pd.Timedelta(hours=10)).date()
+        window = [v for v in nev.values() if v.get("kickoff_utc") and v.get("season_type") == 2
+                  and today - pd.Timedelta(days=1) <= hst_date(v) <= today + pd.Timedelta(days=2)]
+        nba_tile = (nsumm, "Tips off later this month")
+        if window:
+            # back-to-back: the team also played the day before (Hawaii dates), from the same scoreboards
+            played = {}
+            for v in nev.values():
+                if v.get("kickoff_utc"):
+                    for t in (v.get("away"), v.get("home")):
+                        played.setdefault(t, set()).add(hst_date(v))
+            rows = []
+            for v in sorted(window, key=lambda v: v["kickoff_utc"]):
+                ko = pd.Timestamp(v["kickoff_utc"])
+                d = hst_date(v)
+                rows.append({"game_id": v["game_id"], "date": (ko - pd.Timedelta(hours=10)).strftime("%A, %B %-d"),
+                             "kickoff": (ko - pd.Timedelta(hours=10)).strftime("%-I:%M %p HST") if v.get("time_valid", True) else "Time TBD", "away": v["away"],
+                             "home": v["home"], "neutral_site": v["neutral_site"], "venue": v["venue"],
+                             "home_b2b": int((d - pd.Timedelta(days=1)) in played.get(v["home"], set())),
+                             "away_b2b": int((d - pd.Timedelta(days=1)) in played.get(v["away"], set())),
+                             "spread_home": v.get("spread_home"), "total": v.get("total")})
+            # injuries: newest ESPN report x each player's impact (see edgemodels/sports/nba_injuries.py)
+            from edgemodels.sports import nba_injuries as NI
+            itab, irepl = NI.load_table(data)
+            injs = NI.espn_injuries(nrepo)
+            ab2id = dict(zip(nba_raw[2026]["home_team_abbrev"], nba_raw[2026]["home_team_id"].astype(int)))
+            inj_rows = {}
+            for r in rows:
+                for side in ("home", "away"):
+                    tid = ab2id.get(r[side])
+                    d, lst = NI.team_adjustment(tid, injs, itab, irepl, now) if tid is not None else (0.0, [])
+                    r[f"inj_{side}"] = d
+                    inj_rows[(r["game_id"], side)] = lst
+            nsl = pd.DataFrame(rows)
+            nbr = N.build(2027, str(today))
+            _miss = sorted({t for r in rows for t in (r["home"], r["away"])} - set(map(str, nbr.ortg.off.index)))
+            if _miss:
+                alerts.health("nba", "missing_ratings", f"No rating for {', '.join(_miss)}: those teams are projected as league average.")
+            lcards = N.project_slate(nbr, nsl, nacc["model_sd"])
+            lnames = dict(nnames)
+            for v in window:
+                lnames.update({k: n for k, n in v["names"].items() if n})
+            for c, r in zip(lcards, rows):
+                c.update(date=r["date"], kickoff=r["kickoff"], venue=r["venue"], rest={"away": r["away_b2b"], "home": r["home_b2b"]})
+                txt = []
+                for side in ("away", "home"):
+                    for x in inj_rows.get((c["game_id"], side), []):
+                        if x["status"].startswith("day-to-day, not") or "old note" in x["status"]:
+                            continue
+                        txt.append(f'{c[side]} {x["name"]} ({x["status"]}, {x["pts100"]:+.1f} per 100; {x["note"]})')
+                seen = nev[c["game_id"]].get("line_seen")
+                try:
+                    seen = (pd.Timestamp(str(seen).replace("Z", ""), tz="UTC") - pd.Timedelta(hours=10)).strftime("%b %-d %-I:%M %p HST")
+                except (ValueError, TypeError):
+                    pass
+                c["inputs_used"] = {"line": f'ESPN/DraftKings, seen {seen or "—"}'
+                                    if c.get("market_line") is not None else "no line yet",
+                                    "injury_report": ("; ".join(txt) or "nobody listed out") + f' (ESPN injury list, {injs[0]["snapshot"] if injs else "none"})'}
+            nkick = {v["game_id"]: v["kickoff_utc"] for v in window}
+            nled = Ledger(ledger_dir / "nba_locks.csv")
+            narch = ledger_dir / "cards" / "nba"
+            nsync = pickbook.sync(nled, lcards, nkick, narch, now, _clean, "nba", no_edge=no_edge_map(lcards))
+            alerts.collect("nba", lcards, lnames, nkick, now)
+            try:
+                from edgemodels.props import board_props as BP
+                from edgemodels.props.nba_player import NBAPlayers
+                bx = {y: pd.read_parquet(data / f"nba/player_box_{y}.parquet") for y in (2026, 2027)
+                      if (data / f"nba/player_box_{y}.parquet").exists()}
+                if 2026 in bx:
+                    NP = NBAPlayers(bx[2026][bx[2026]["season_type"] == 2],
+                                    bx[2027][bx[2027]["season_type"] == 2] if 2027 in bx else bx[2026].iloc[0:0])
+                    bath = json.loads((nrepo / "data/espn/nba/athletes.json").read_text()) if (nrepo / "data/espn/nba/athletes.json").exists() else {}
+                    for c in lcards:
+                        c["_kick"] = nkick.get(c["game_id"])
+
+                    def _nba_make(c):
+                        mkt, seen = BP.load_market(nrepo, "nba", c["game_id"])
+                        if mkt.empty:
+                            return None
+                        pace = float(nbr.pace_matchup(c["home"], c["away"]) / nbr.pace.mu)
+                        pl = BP.nba_players(c, NP, mkt, bath, injs, pace, now)
+                        return BP.build_game("nba", mkt, pl, seen)
+                    write_props(out, "nba", lcards, lnames, ledger_dir, now, _nba_make,
+                                actual=lambda c, gp: BP.nba_actual(bx[2027], c["game_id"]) if 2027 in bx else None)
+            except Exception as ex:
+                print(f"[props] nba: {type(ex).__name__}: {ex}")
+            nvoids = {str(r["game_id"]): r for r in nled.voids().to_dict("records") if r.get("kind", "void") == "void"}
+            for c in lcards:
+                v = nvoids.get(str(c["game_id"]))
+                if v:
+                    at = (pd.Timestamp(v["voided_at"]) - pd.Timedelta(hours=10)).strftime("%b %-d, %-I:%M %p HST")
+                    when = "after the game" if pd.Timestamp(v["voided_at"]) > pd.Timestamp(v["kickoff_utc"]) else "before tip-off"
+                    c["void"] = {"at": at, "reason": v["reason"]}
+                    c["note"] = f"VOID, voided {at} ({when}). {v['reason']} The original locked pick is shown for the record."
+                    c["kickoff"] = f'{c.get("kickoff") or ""} · VOID'
+            nfin = {k: v["final"] for k, v in nev.items() if v.get("final")}
+            lcards = grade_cards(lcards, nfin)
+            nled.grade(pd.DataFrame([{"game_id": k, "away_score": a, "home_score": h} for k, (a, h) in nfin.items()],
+                                    columns=["game_id", "away_score", "home_score"]))
+            nlive = nled.load_graded()
+            nlive = nlive.assign(week=[(pd.Timestamp(nev[str(g)]["kickoff_utc"]) - pd.Timedelta(hours=10)).strftime("%m/%d")
+                                       if nev.get(str(g), {}).get("kickoff_utc") else "" for g in nlive["game_id"]]) if len(nlive) else nlive
+            nlive_summ = record_summary(nlive[nlive["result"].isin(["WIN", "LOSS", "PUSH"])] if len(nlive) else nlive, EDGE_TIERS["nba"])
+            report.update(nba_locked_now=nsync["locked"] + nsync["updated"], nba_chain_ok=nled.verify_chain())
+            withl = [c for c in lcards if c.get("market_line") is not None and not c.get("no_edge")]
+            big = max(withl, key=lambda c: c.get("edge") or 0) if withl else None
+            nstats = [{"k": "Live locked record", "v": f'{nlive_summ[0]["W"]}-{nlive_summ[0]["L"]}-{nlive_summ[0]["P"]}',
+                       "s": f'{len(nlive)} picks locked', "href": "record.html"},
+                      {"k": "Replay ATS, 2025–26", "v": f'{nsumm[0]["W"]}-{nsumm[0]["L"]}-{nsumm[0]["P"]}',
+                       "s": f'{100 * nsumm[0]["pct"]:.1f}% · not live', "href": "record.html"},
+                      {"k": "Model disagrees 2.5+", "v": str(sum((c.get("edge") or 0) >= 2.5 for c in withl)), "s": "points off the book, next 3 days"}]
+            if big:
+                nstats.append({"k": "Biggest gap", "v": f'{big["edge"]:.1f}', "s": f'{lnames[big["away"]]} at {lnames[big["home"]]}',
+                               "href": f'game/{big["game_id"]}.html'})
+            totals_tracker.publish(out, ledger_dir, "nba", lcards, nkick, now, nfin, lnames, nstats)
+            firstline.publish(out, ledger_dir, "nba", lcards, nkick, now, nfin, lnames, nstats, ledger_dir / "nba_locks.csv")
+            alerts.audit_times("nba", lcards, nkick, nev, now)
+            from edgemodels.core.espn_feed import espn_records
+            site.RECORDS["nba"] = espn_records(nrepo / "data" / "espn" / "nba" / "scoreboard")
+            site.write(out, "nba/index.html", site.page("NBA Model Board", site.board(
+                "nba", "NBA projections", "Each team scores its points per 100 possessions against the opponent's defence, at the "
+                "matchup's pace, plus home court. Early in the season the ratings are still half last season by design. Picks update "
+                "with the newest line until tip-off; the last version before tip is graded. NO EDGE under 0.5 points. Highlighted "
+                "cards have a gap of 2.5+ points, darker 5+. Injuries from the latest ESPN report are priced in by each missing "
+                "player's impact; roster moves since last season are not yet.",
+                lcards, lnames, None, nstats, tier_record=nsumm), 1, "nba"))
+            for c in lcards:
+                site.write(out, f"nba/game/{c['game_id']}.html", site.page(f"{lnames[c['away']]} at {lnames[c['home']]}",
+                                                                          site.game_page(c, lnames), 2, "nba"))
+            site.write(out, "nba/record.html", site.page("NBA Model Record", site.record_page(
+                "nba", "NBA record", "Live picks and the replay are kept apart.",
+                [{"title": "Live locked record, 2026-27", "note": "Every pick is written to the hash-chained lock file and updates "
+                  "until tip-off; the last version before tip is graded.", "summary": nlive_summ,
+                  "graded": nlive.sort_values("locked_at", ascending=False).to_dict("records") if len(nlive) else []},
+                 {"title": "2025-26 replay", "note": "Same formula, each day projected from games before it, graded against the ESPN "
+                  "line in the play-by-play feed. Generated after the fact, not locked.",
+                  "summary": nsumm, "graded": ngraded.assign(week=pd.to_datetime(ngraded["date"]).dt.strftime("%m/%d"))
+                  .sort_values("date", ascending=False).head(400).to_dict("records")}], lnames), 1, "nba"))
+            (out / "nba" / "cards.json").write_text(json.dumps(_clean(lcards), indent=1))
+            nba_tile = (nlive_summ if len(nlive) else nsumm, "Live: today's board")
+        home_tiles.append(("nba", *nba_tile))
+    except Exception as ex:                      # one board failing never stops the others
+        _board_failed("nba", ex, report)
+        home_tiles.append(("nba", None, _DOWN))
+
 
     # ------------------------------------------------------------------ CBB live board (ESPN / DraftKings lines)
     # PREVIEW until CBB_RECORD_FROM: picks are locked and graded on a separate preview tracker (not the record) and
     # send no Telegram alerts, because early-season ratings lean on last season and rosters turn over heavily.
-    cbb_raw = pd.read_parquet(data / "cbb/play_by_play_2026.parquet")
-    ctg = {2026: bb.team_games(cbb_raw, "cbb")}
-    ctg[2026] = ctg[2026][ctg[2026]["season_type"] == 2]
-    if (data / "cbb/play_by_play_2027.parquet").exists():
-        try:
-            t27 = bb.team_games(pd.read_parquet(data / "cbb/play_by_play_2027.parquet"), "cbb")
-            if len(t27):
-                ctg[2027] = t27[t27["season_type"] == 2]
-        except Exception as ex:
-            print(f"[cbb] 2026-27 play-by-play skipped: {type(ex).__name__}: {ex}")
-    K = BasketballModel("cbb", ctg)
-    kbt = K.backtest(2026, "2026-01-01")
-    kacc = accuracy(kbt)
-    report["cbb_backtest"] = {"accuracy": kacc}
-    knames = {r.home_team_abbrev: r.home_team_name for r in cbb_raw.drop_duplicates("home_team_abbrev").itertuples()}
-    krepo = data.parent / "theesness-data"
-    kev = espn_nba_events(krepo, "cbb")
-    ktoday = (pd.Timestamp(now) - pd.Timedelta(hours=10)).date()
-    k_live = ktoday >= CBB_RECORD_FROM
-    k_hst = lambda v: (pd.Timestamp(v["kickoff_utc"]) - pd.Timedelta(hours=10)).date()
-    kwin = [v for v in kev.values() if v.get("kickoff_utc") and v.get("season_type") == 2
-            and ktoday - pd.Timedelta(days=1) <= k_hst(v) <= ktoday + pd.Timedelta(days=1)]
-    kb = K.build(2027, str(ktoday))
-    rated = set(map(str, kb.ortg.off.index))
-    krows = []
-    for v in sorted(kwin, key=lambda v: v["kickoff_utc"]):
-        if v.get("spread_home") is None or v["away"] not in rated or v["home"] not in rated:
-            continue                                     # board shows games with a line between two rated teams
-        ko = pd.Timestamp(v["kickoff_utc"])
-        krows.append({"game_id": v["game_id"], "date": (ko - pd.Timedelta(hours=10)).strftime("%A, %B %-d"),
-                      "kickoff": (ko - pd.Timedelta(hours=10)).strftime("%-I:%M %p HST") if v.get("time_valid", True) else "Time TBD",
-                      "away": v["away"], "home": v["home"],
-                      "neutral_site": v["neutral_site"], "venue": v["venue"], "home_b2b": 0, "away_b2b": 0,
-                      "spread_home": v.get("spread_home"), "total": v.get("total")})
-    for v in kwin:
-        knames.update({k: n for k, n in v["names"].items() if n})
-    kcards = K.project_slate(kb, pd.DataFrame(krows), kacc["model_sd"]) if krows else []
-    for c, r in zip(kcards, krows):
-        c.update(date=r["date"], kickoff=r["kickoff"], venue=r["venue"])
-        seen = kev[c["game_id"]].get("line_seen")
-        try:
-            seen = (pd.Timestamp(str(seen).replace("Z", ""), tz="UTC") - pd.Timedelta(hours=10)).strftime("%b %-d %-I:%M %p HST")
-        except (ValueError, TypeError):
-            pass
-        c["inputs_used"] = {"line": f'ESPN/DraftKings, seen {seen or "—"}',
-                            "ratings": kb.through if hasattr(kb, "through") else ""}
-        if c.get("edge") is not None and c["edge"] >= site.CBB_MAX_GAP:
-            c["note"] = (f"Gap of {c['edge']:.1f} points: in big mismatches our ratings still run short of the market early in "
-                         "the season, so a gap this large is more likely our limit than an edge. Not highlighted.")
-    kkick = {v["game_id"]: v["kickoff_utc"] for v in kwin}
-    kled_name = "cbb_locks.csv" if k_live else "cbb_preview_locks.csv"
-    kled = Ledger(ledger_dir / kled_name)
-    ksync = pickbook.sync(kled, kcards, kkick, ledger_dir / "cards" / ("cbb" if k_live else "cbb_preview"), now, _clean, "cbb",
-                          no_edge=no_edge_map(kcards))
-    if k_live:
-        alerts.collect("cbb", kcards, knames, kkick, now)
-    kfin = {k: v["final"] for k, v in kev.items() if v.get("final")}
-    kcards = grade_cards(kcards, kfin)
-    kled.grade(pd.DataFrame([{"game_id": k, "away_score": a, "home_score": h} for k, (a, h) in kfin.items()],
-                            columns=["game_id", "away_score", "home_score"]))
-    klive = kled.load_graded()
-    klive = klive.assign(week=[(pd.Timestamp(kev[str(g)]["kickoff_utc"]) - pd.Timedelta(hours=10)).strftime("%m/%d")
-                               if str(g) in kev else "" for g in klive["game_id"]]) if len(klive) else klive
-    kgraded = klive[klive["result"].isin(["WIN", "LOSS", "PUSH"])] if len(klive) else klive
-    ksumm = record_summary(kgraded, EDGE_TIERS["cbb"])
-    report.update(cbb_locked_now=ksync["locked"] + ksync["updated"], cbb_chain_ok=kled.verify_chain(), cbb_live=k_live)
-    kwl = [c for c in kcards if c.get("market_line") is not None and not c.get("no_edge")]
-    kbig = max(kwl, key=lambda c: c.get("edge") or 0) if kwl else None
-    rec_label = "Live locked record" if k_live else "Preview tracker (not the record)"
-    kstats = [{"k": rec_label, "v": f'{ksumm[0]["W"]}-{ksumm[0]["L"]}-{ksumm[0]["P"]}',
-               "s": f'{len(klive)} picks locked' + ("" if k_live else f' · record starts {CBB_RECORD_FROM:%b %-d}'),
-               "href": "record.html"},
-              {"k": "Games with a line", "v": str(len(kcards)), "s": "yesterday, today and tomorrow"},
-              {"k": "Model disagrees 3+", "v": str(sum((c.get("edge") or 0) >= 3 for c in kwl)), "s": "points off the book"}]
-    if kbig:
-        kstats.append({"k": "Biggest gap", "v": f'{kbig["edge"]:.1f}', "s": f'{knames.get(kbig["away"], kbig["away"])} at '
-                       f'{knames.get(kbig["home"], kbig["home"])}', "href": f'game/{kbig["game_id"]}.html'})
-    totals_tracker.publish(out, ledger_dir, "cbb", kcards, kkick, now, kfin, knames, kstats)
-    firstline.publish(out, ledger_dir, "cbb", kcards, kkick, now, kfin, knames, kstats, ledger_dir / kled_name)
-    alerts.audit_times("cbb", kcards, kkick, kev, now)
-    klede = ("Each team scores its points per 100 possessions against the opponent's defence at the matchup's pace, plus "
-             "home court. Ratings start from last season, regressed halfway to average, and update as this season's games come in. "
-             "Only games with a DraftKings line between two rated teams are shown. Picks update with the newest line until "
-             "tip-off; the last version before tip is graded. NO EDGE under 0.5 points. Highlighted cards have a gap of 3+ "
-             "points, darker 6+. ")
-    klede += ("" if k_live else f"PREVIEW: until {CBB_RECORD_FROM:%B %-d} picks are graded on a separate preview tracker, not "
-              "the record, and send no alerts, because early-season ratings lean heavily on last season.")
-    from edgemodels.core.espn_feed import espn_records
-    site.RECORDS["cbb"] = espn_records(krepo / "data" / "espn" / "cbb" / "scoreboard")
-    site.write(out, "cbb/index.html", site.page("CBB Model Board", site.board(
-        "cbb", "College basketball projections" + ("" if k_live else " (preview)"), klede, kcards, knames, None, kstats,
-        tier_record=None), 1, "cbb"))
-    for c in kcards:
-        site.write(out, f"cbb/game/{c['game_id']}.html", site.page(f"{knames.get(c['away'], c['away'])} at "
-                   f"{knames.get(c['home'], c['home'])}", site.game_page(c, knames), 2, "cbb"))
-    site.write(out, "cbb/record.html", site.page("CBB Model Record", site.record_page(
-        "cbb", "College basketball record" if k_live else "College basketball preview tracker",
-        ("Live picks, locked and graded." if k_live else f"Preview picks: locked and graded exactly like the record, but kept "
-         f"apart. The record starts at 0-0 on {CBB_RECORD_FROM:%B %-d, %Y}."),
-        [{"title": rec_label + ", 2026-27", "note": "Every pick is written to a hash-chained lock file and updates until "
-          "tip-off; the last version before tip is graded.", "summary": ksumm,
-          "graded": klive.sort_values("locked_at", ascending=False).to_dict("records") if len(klive) else []}], knames), 1, "cbb"))
-    (out / "cbb" / "cards.json").write_text(json.dumps(_clean(kcards), indent=1))
-    home_tiles.append(("cbb", ksumm if (k_live and len(kgraded)) else None,       # the preview never counts in the totals
-                       "Live record" if k_live else f"Preview: record starts {CBB_RECORD_FROM:%b %-d}"))
+    try:
+        _test_fail("cbb")
+        cbb_raw = pd.read_parquet(data / "cbb/play_by_play_2026.parquet")
+        ctg = {2026: bb.team_games(cbb_raw, "cbb")}
+        ctg[2026] = ctg[2026][ctg[2026]["season_type"] == 2]
+        if (data / "cbb/play_by_play_2027.parquet").exists():
+            try:
+                t27 = bb.team_games(pd.read_parquet(data / "cbb/play_by_play_2027.parquet"), "cbb")
+                if len(t27):
+                    ctg[2027] = t27[t27["season_type"] == 2]
+            except Exception as ex:
+                print(f"[cbb] 2026-27 play-by-play skipped: {type(ex).__name__}: {ex}")
+        K = BasketballModel("cbb", ctg)
+        kbt = K.backtest(2026, "2026-01-01")
+        kacc = accuracy(kbt)
+        report["cbb_backtest"] = {"accuracy": kacc}
+        knames = {r.home_team_abbrev: r.home_team_name for r in cbb_raw.drop_duplicates("home_team_abbrev").itertuples()}
+        krepo = data.parent / "theesness-data"
+        kev = espn_nba_events(krepo, "cbb")
+        ktoday = (pd.Timestamp(now) - pd.Timedelta(hours=10)).date()
+        k_live = ktoday >= CBB_RECORD_FROM
+        k_hst = lambda v: (pd.Timestamp(v["kickoff_utc"]) - pd.Timedelta(hours=10)).date()
+        kwin = [v for v in kev.values() if v.get("kickoff_utc") and v.get("season_type") == 2
+                and ktoday - pd.Timedelta(days=1) <= k_hst(v) <= ktoday + pd.Timedelta(days=1)]
+        kb = K.build(2027, str(ktoday))
+        rated = set(map(str, kb.ortg.off.index))
+        krows = []
+        for v in sorted(kwin, key=lambda v: v["kickoff_utc"]):
+            if v.get("spread_home") is None or v["away"] not in rated or v["home"] not in rated:
+                continue                                     # board shows games with a line between two rated teams
+            ko = pd.Timestamp(v["kickoff_utc"])
+            krows.append({"game_id": v["game_id"], "date": (ko - pd.Timedelta(hours=10)).strftime("%A, %B %-d"),
+                          "kickoff": (ko - pd.Timedelta(hours=10)).strftime("%-I:%M %p HST") if v.get("time_valid", True) else "Time TBD",
+                          "away": v["away"], "home": v["home"],
+                          "neutral_site": v["neutral_site"], "venue": v["venue"], "home_b2b": 0, "away_b2b": 0,
+                          "spread_home": v.get("spread_home"), "total": v.get("total")})
+        for v in kwin:
+            knames.update({k: n for k, n in v["names"].items() if n})
+        kcards = K.project_slate(kb, pd.DataFrame(krows), kacc["model_sd"]) if krows else []
+        for c, r in zip(kcards, krows):
+            c.update(date=r["date"], kickoff=r["kickoff"], venue=r["venue"])
+            seen = kev[c["game_id"]].get("line_seen")
+            try:
+                seen = (pd.Timestamp(str(seen).replace("Z", ""), tz="UTC") - pd.Timedelta(hours=10)).strftime("%b %-d %-I:%M %p HST")
+            except (ValueError, TypeError):
+                pass
+            c["inputs_used"] = {"line": f'ESPN/DraftKings, seen {seen or "—"}',
+                                "ratings": kb.through if hasattr(kb, "through") else ""}
+            if c.get("edge") is not None and c["edge"] >= site.CBB_MAX_GAP:
+                c["note"] = (f"Gap of {c['edge']:.1f} points: in big mismatches our ratings still run short of the market early in "
+                             "the season, so a gap this large is more likely our limit than an edge. Not highlighted.")
+        kkick = {v["game_id"]: v["kickoff_utc"] for v in kwin}
+        kled_name = "cbb_locks.csv" if k_live else "cbb_preview_locks.csv"
+        kled = Ledger(ledger_dir / kled_name)
+        ksync = pickbook.sync(kled, kcards, kkick, ledger_dir / "cards" / ("cbb" if k_live else "cbb_preview"), now, _clean, "cbb",
+                              no_edge=no_edge_map(kcards))
+        if k_live:
+            alerts.collect("cbb", kcards, knames, kkick, now)
+        kfin = {k: v["final"] for k, v in kev.items() if v.get("final")}
+        kcards = grade_cards(kcards, kfin)
+        kled.grade(pd.DataFrame([{"game_id": k, "away_score": a, "home_score": h} for k, (a, h) in kfin.items()],
+                                columns=["game_id", "away_score", "home_score"]))
+        if k_live:          # the preview tracker's last picks still get their results (it stopped taking new ones)
+            _finish_preview(ledger_dir / "cbb_preview_locks.csv", kfin)
+        klive = kled.load_graded()
+        klive = klive.assign(week=[(pd.Timestamp(kev[str(g)]["kickoff_utc"]) - pd.Timedelta(hours=10)).strftime("%m/%d")
+                                   if kev.get(str(g), {}).get("kickoff_utc") else "" for g in klive["game_id"]]) if len(klive) else klive
+        kgraded = klive[klive["result"].isin(["WIN", "LOSS", "PUSH"])] if len(klive) else klive
+        ksumm = record_summary(kgraded, EDGE_TIERS["cbb"])
+        report.update(cbb_locked_now=ksync["locked"] + ksync["updated"], cbb_chain_ok=kled.verify_chain(), cbb_live=k_live)
+        kwl = [c for c in kcards if c.get("market_line") is not None and not c.get("no_edge")]
+        kbig = max(kwl, key=lambda c: c.get("edge") or 0) if kwl else None
+        rec_label = "Live locked record" if k_live else "Preview tracker (not the record)"
+        kstats = [{"k": rec_label, "v": f'{ksumm[0]["W"]}-{ksumm[0]["L"]}-{ksumm[0]["P"]}',
+                   "s": f'{len(klive)} picks locked' + ("" if k_live else f' · record starts {CBB_RECORD_FROM:%b %-d}'),
+                   "href": "record.html"},
+                  {"k": "Games with a line", "v": str(len(kcards)), "s": "yesterday, today and tomorrow"},
+                  {"k": "Model disagrees 3+", "v": str(sum((c.get("edge") or 0) >= 3 for c in kwl)), "s": "points off the book"}]
+        if kbig:
+            kstats.append({"k": "Biggest gap", "v": f'{kbig["edge"]:.1f}', "s": f'{knames.get(kbig["away"], kbig["away"])} at '
+                           f'{knames.get(kbig["home"], kbig["home"])}', "href": f'game/{kbig["game_id"]}.html'})
+        totals_tracker.publish(out, ledger_dir, "cbb", kcards, kkick, now, kfin, knames, kstats)
+        firstline.publish(out, ledger_dir, "cbb", kcards, kkick, now, kfin, knames, kstats, ledger_dir / kled_name)
+        alerts.audit_times("cbb", kcards, kkick, kev, now)
+        klede = ("Each team scores its points per 100 possessions against the opponent's defence at the matchup's pace, plus "
+                 "home court. Ratings start from last season, regressed halfway to average, and update as this season's games come in. "
+                 "Only games with a DraftKings line between two rated teams are shown. Picks update with the newest line until "
+                 "tip-off; the last version before tip is graded. NO EDGE under 0.5 points. Highlighted cards have a gap of 3+ "
+                 "points, darker 6+. ")
+        klede += ("" if k_live else f"PREVIEW: until {CBB_RECORD_FROM:%B %-d} picks are graded on a separate preview tracker, not "
+                  "the record, and send no alerts, because early-season ratings lean heavily on last season.")
+        from edgemodels.core.espn_feed import espn_records
+        site.RECORDS["cbb"] = espn_records(krepo / "data" / "espn" / "cbb" / "scoreboard")
+        site.write(out, "cbb/index.html", site.page("CBB Model Board", site.board(
+            "cbb", "College basketball projections" + ("" if k_live else " (preview)"), klede, kcards, knames, None, kstats,
+            tier_record=None), 1, "cbb"))
+        for c in kcards:
+            site.write(out, f"cbb/game/{c['game_id']}.html", site.page(f"{knames.get(c['away'], c['away'])} at "
+                       f"{knames.get(c['home'], c['home'])}", site.game_page(c, knames), 2, "cbb"))
+        site.write(out, "cbb/record.html", site.page("CBB Model Record", site.record_page(
+            "cbb", "College basketball record" if k_live else "College basketball preview tracker",
+            ("Live picks, locked and graded." if k_live else f"Preview picks: locked and graded exactly like the record, but kept "
+             f"apart. The record starts at 0-0 on {CBB_RECORD_FROM:%B %-d, %Y}."),
+            [{"title": rec_label + ", 2026-27", "note": "Every pick is written to a hash-chained lock file and updates until "
+              "tip-off; the last version before tip is graded.", "summary": ksumm,
+              "graded": klive.sort_values("locked_at", ascending=False).to_dict("records") if len(klive) else []}], knames), 1, "cbb"))
+        (out / "cbb" / "cards.json").write_text(json.dumps(_clean(kcards), indent=1))
+        home_tiles.append(("cbb", ksumm if (k_live and len(kgraded)) else None,       # the preview never counts in the totals
+                           "Live record" if k_live else f"Preview: record starts {CBB_RECORD_FROM:%b %-d}"))
+    except Exception as ex:                      # one board failing never stops the others
+        _board_failed("cbb", ex, report)
+        home_tiles.append(("cbb", None, _DOWN))
+
 
     # ------------------------------------------------------------------ MLB (real Statcast + collected lines)
-    mlb_tile = mlb_section(out, data.parent / "theesness-data", ledger_dir, report, now)
+    try:
+        _test_fail("mlb")
+        mlb_tile = mlb_section(out, data.parent / "theesness-data", ledger_dir, report, now)
+    except Exception as ex:                      # one board failing never stops the others
+        _board_failed("mlb", ex, report)
+        mlb_tile = {"k": "MLB", "v": "—", "s": _DOWN, "href": "mlb/index.html"}
+
 
     # ------------------------------------------------------------------ NHL (real play-by-play, preview first)
     try:
+        _test_fail("nhl")
         from run_nhl import nhl_section
         nhl_summ, nhl_note = nhl_section(out, data.parent / "theesness-data", ledger_dir, report, now)
     except Exception as ex:                      # hockey never breaks the other boards
@@ -1331,7 +1401,7 @@ def run(data: Path, nfldata: Path, out: Path, ledger_dir: Path):
             f'<span class="s">{len(live_rows)} NFL spreads, {int((ncaaf_live["result"] != "VOID").sum())} college spreads and '
             f'{len(mlb_live)} MLB moneyline{"s" if len(mlb_live) != 1 else ""}</span></div>'
             f'<div class="tile"><span class="k">Replayed against the spread (not live)</span><span class="v" {big}>{allw}-{alll}-{allp}</span>'
-            f'<span class="s">{100 * allw / (allw + alll):.1f}% on NFL 2026 Wk 1–{report.get("nfl_live_week", 6) - 1}, college 2026 Wk 1–{report.get("ncaaf_live_week", 7) - 1} and NBA 2025-26; '
+            f'<span class="s">{100 * allw / max(allw + alll, 1):.1f}% on NFL 2026 Wk 1–{report.get("nfl_live_week", 6) - 1}, college 2026 Wk 1–{report.get("ncaaf_live_week", 7) - 1} and NBA 2025-26; '
             f'52.4% breaks even at -110</span></div></div>'
             '<h2>Pick a sport</h2><div class="tiles">' + "".join(
                 f'<a class="tile" href="{t["href"]}"><span class="k">{site.e(t["k"])}</span><span class="v">{t["v"]}</span>'

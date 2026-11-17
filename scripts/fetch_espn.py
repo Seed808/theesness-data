@@ -52,6 +52,14 @@ def fingerprint(obj) -> str:
     return hashlib.sha256(json.dumps(keep, sort_keys=True, default=str).encode()).hexdigest()[:16]
 
 
+def prune(dirpath: Path, keep: int) -> None:
+    """Keep first.json and the newest `keep` snapshots. Used for the injury lists only: the model reads the newest
+    one, and each is several MB (919 NFL snapshots had grown to 7.5 GB, slowing every job's checkout). Older copies
+    stay in the git history. Scoreboard snapshots are never pruned: first-seen lines are read from them."""
+    for f in sorted(dirpath.glob("2*.json"))[:-keep]:
+        f.unlink()
+
+
 def save(dirpath: Path, obj, stamp: str) -> bool:
     dirpath.mkdir(parents=True, exist_ok=True)
     fp = fingerprint(obj)
@@ -85,6 +93,7 @@ def main(days: int, leagues: list[str]):
             continue
         try:
             written += save(ROOT / lg / "injuries", get(f"{BASE}/{path}/injuries"), stamp)
+            prune(ROOT / lg / "injuries", keep=4)
         except Exception as e:
             print(f"{lg} injuries: {e}")
     print(f"snapshots written: {written}")

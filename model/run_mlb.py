@@ -150,10 +150,12 @@ def _sched_finals(repo: Path) -> pd.DataFrame:
     for f in sorted((repo / "data" / "mlb" / "schedule").glob("20*-*-[0-9][0-9].json")):
         for d in json.loads(f.read_text()).get("dates", []):
             for g in d["games"]:
-                if g["status"].get("abstractGameState") == "Final":
+                # a postponed game is also "Final" in MLB's feed, with no score: only a played game has both scores
+                if g["status"].get("abstractGameState") == "Final" and g["teams"]["away"].get("score") is not None \
+                        and g["teams"]["home"].get("score") is not None:
                     rows.append({"game_id": str(g["gamePk"]), "away_score": g["teams"]["away"].get("score"),
                                  "home_score": g["teams"]["home"].get("score")})
-    return pd.DataFrame(rows, columns=["game_id", "away_score", "home_score"])
+    return pd.DataFrame(rows, columns=["game_id", "away_score", "home_score"]).drop_duplicates("game_id", keep="last")
 
 
 def _acc_table(acc: dict, label: str) -> str:

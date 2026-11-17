@@ -1,9 +1,10 @@
 name: build-site
-# Every 30 minutes: re-project every game that has not started with the newest roster, injuries and lines,
-# update picks until kickoff, grade finished games, and publish the site to GitHub Pages.
+# Every 30 minutes (started by the clock workflow, .github/workflows/clock.yml): re-project every game that has not
+# started with the newest roster, injuries and lines, update picks until kickoff, grade finished games, and publish
+# the site to GitHub Pages. The cron here is only a fallback in case the clock stops.
 on:
   schedule:
-    - cron: "19,49 * * * *"
+    - cron: "19 */3 * * *"
   workflow_dispatch:
     inputs:
       test_alert:
@@ -62,6 +63,11 @@ jobs:
           tail -c 20000 $W/run_out.txt >> $L
           (echo "exit code: $rc"; free -m) >> $L 2>&1 || true
           [ $rc -eq 0 ]
+          # a board that failed to build (the others still built): keep its last published pages instead of 404s
+          for sp in $(python -c "import json; print(' '.join(json.load(open('$W/site/report.json')).get('failed_sports', [])))" 2>/dev/null); do
+            echo "board failed: $sp, keeping its last published pages" | tee -a $L
+            wget -q -r -np -nH --cut-dirs=1 -l 4 -e robots=off -P $W/site "https://seed808.github.io/theesness-data/$sp/" || true
+          done
           cp -r $W/site $GITHUB_WORKSPACE/_site
           touch $GITHUB_WORKSPACE/_site/.nojekyll
           (date -u; find $GITHUB_WORKSPACE/_site -maxdepth 2 | sed "s|$GITHUB_WORKSPACE/||" | sort | head -60; du -sh $GITHUB_WORKSPACE/_site) > $GITHUB_WORKSPACE/model/site_listing.txt || true      # head closes the pipe early; never fail the build over a listing

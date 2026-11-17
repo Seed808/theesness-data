@@ -153,6 +153,15 @@ def nhl_section(out: Path, repo: Path, ledger_dir: Path, report: dict, now: date
             c["result_label"] = "ML"
     led.grade(pd.DataFrame([{"game_id": k, "away_score": a, "home_score": h} for k, (a, h) in fin.items()],
                            columns=["game_id", "away_score", "home_score"]))
+    if live and (ledger_dir / "nhl_preview_locks.csv").exists():      # finish grading the retired preview's last picks
+        try:
+            pv = Ledger(ledger_dir / "nhl_preview_locks.csv", extra_cols=LOCK_EXTRA)
+            pg = pv.load_graded()
+            if len(pg) and (pg["result"].fillna("") == "").any():
+                pv.grade(pd.DataFrame([{"game_id": k, "away_score": a, "home_score": h} for k, (a, h) in fin.items()],
+                                      columns=["game_id", "away_score", "home_score"]))
+        except Exception as ex:
+            print(f"[nhl] preview grading: {type(ex).__name__}: {ex}")
     rows = led.load_graded()
     graded = rows[rows["result"].isin(["WIN", "LOSS", "PUSH"])] if len(rows) else rows
     summ = record_summary(graded, EDGE_TIERS["nhl"])

@@ -7,6 +7,7 @@ State lives in ledger/build_status.json (committed with the ledger), so there is
   first failure after a good build        -> "SITE BUILD FAILED" with the last error line
   still failing                           -> a reminder at most every 3 hours
   first good build after failures         -> "site is building again", with how long it was down
+  good build 100+ minutes after the last  -> "rebuilds running late" (at most every 6 hours)
 Reads TELEGRAM_BOT_TOKEN / TELEGRAM_CHAT_ID from the environment, never prints them, always exits 0.
 """
 from __future__ import annotations
@@ -21,6 +22,8 @@ from pathlib import Path
 HERE = Path(__file__).parent
 STATE = HERE / "ledger" / "build_status.json"
 REMIND = timedelta(hours=3)
+LATE = timedelta(minutes=100)          # a good build this long after the previous good one counts as late
+LATE_REMIND = timedelta(hours=6)
 
 
 def hst(t: datetime) -> str:
@@ -51,7 +54,18 @@ def main():
             h = (now - since).total_seconds() / 3600
             tg_send(f"<b>SPORTS · ✅ SITE BUILDING AGAIN</b>\nBuilds failed from {hst(since)} ({h:.1f} h). "
                     "Picks, grading and alerts are running again.")
-        st = {"failing_since": None, "last_alert": None}
+        # builds are meant to run every 30 minutes: say so when the gap since the last good one is far longer
+        # (GitHub ran the schedule only 3-4 times a day from Nov 13, 2026 and nothing reported it)
+        last_ok = datetime.fromisoformat(st["last_ok"]) if st.get("last_ok") else None
+        late = datetime.fromisoformat(st["late_alert"]) if st.get("late_alert") else None
+        if last_ok and not st.get("failing_since") and now - last_ok > LATE and (late is None or now - late >= LATE_REMIND):
+            h = (now - last_ok).total_seconds() / 3600
+            if tg_send(f"<b>SPORTS · ⚠️ SITE REBUILDS RUNNING LATE</b>\nThe last rebuild before this one was {hst(last_ok)} "
+                       f"({h:.1f} h ago). They are meant to run every 30 minutes. Picks, grades and alerts were not "
+                       "updated in that gap."):
+                late = now
+        st = {"failing_since": None, "last_alert": None, "last_ok": now.isoformat(timespec="seconds"),
+              "late_alert": late.isoformat(timespec="seconds") if late else None}
     elif outcome == "failure":
         first = not st.get("failing_since")
         if first:

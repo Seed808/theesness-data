@@ -1,9 +1,9 @@
 name: collect-lines-and-injuries
-# Every 30 minutes: ESPN schedules + betting lines (NFL, NCAAF, NBA, CBB, MLB, NHL) and NBA/NFL injury lists,
+# Every 30 minutes (started by the clock workflow; the cron here is only a fallback): ESPN schedules + betting lines (NFL, NCAAF, NBA, CBB, MLB, NHL) and NBA/NFL injury lists,
 # plus the newest official NBA injury report PDF. Only changed snapshots are committed.
 on:
   schedule:
-    - cron: "7,37 * * * *"
+    - cron: "37 */3 * * *"
   workflow_dispatch: {}
 permissions:
   contents: write

@@ -1,0 +1,70 @@
+name: clock
+# Keeps the site on its 30-minute rhythm without depending on GitHub's scheduler, which from Nov 13, 2026 ran the
+# scheduled jobs only 3-4 times a day instead of every 30 minutes. One long job loops for about 5.5 hours:
+#   every 30 minutes  start the collector (lines, injuries, props), then 10 minutes later a site build
+#   every 5 minutes   check for games that just went final and start a site build right away to grade them
+# When the loop ends it starts the next clock run itself. The cron below only restarts the clock if it ever stops.
+on:
+  schedule:
+    - cron: "11,41 * * * *"
+  workflow_dispatch: {}
+permissions:
+  contents: read
+  actions: write
+jobs:
+  tick:
+    runs-on: ubuntu-latest
+    timeout-minutes: 355
+    env:
+      GH_TOKEN: ${{ github.token }}
+    steps:
+      - name: only one clock at a time
+        id: gate
+        run: |
+          others() { gh run list -R "$GITHUB_REPOSITORY" -w clock.yml -L 20 --json databaseId,status \
+                       -q "[.[] | select(.status != \"completed\" and .databaseId < $GITHUB_RUN_ID)] | length" 2>/dev/null || echo 0; }
+          n=$(others)
+          if [ "${n:-0}" -gt 0 ] && [ "$GITHUB_EVENT_NAME" = "workflow_dispatch" ]; then
+            for i in $(seq 1 18); do sleep 10; n=$(others); [ "${n:-0}" -eq 0 ] && break; done   # the previous clock is handing over
+          fi
+          if [ "${n:-0}" -gt 0 ]; then echo "a clock is already running"; echo "go=false" >> $GITHUB_OUTPUT; else echo "go=true" >> $GITHUB_OUTPUT; fi
+      - uses: actions/checkout@v4
+        if: steps.gate.outputs.go == 'true'
+        with:
+          sparse-checkout: |
+            model/ledger
+            scripts
+          sparse-checkout-cone-mode: true
+          filter: blob:none
+      - uses: actions/setup-python@v5
+        if: steps.gate.outputs.go == 'true'
+        with: { python-version: "3.12" }
+      - name: loop
+        if: steps.gate.outputs.go == 'true'
+        run: |
+          pip install -q requests==2.32.3
+          R="$GITHUB_REPOSITORY"
+          site_busy() { gh run list -R "$R" -w site.yml -L 5 --json status,createdAt \
+                          -q "[.[] | select(.status != \"completed\" or ((now - (.createdAt|fromdate)) < $1))] | length" 2>/dev/null || echo 1; }
+          end=$(( $(date +%s) + 335*60 ))
+          i=0
+          while [ $(date +%s) -lt $end ]; do
+            k=$(( i % 6 ))
+            if [ $k -eq 0 ]; then
+              gh workflow run collect.yml -R "$R" --ref main && echo "$(date -u +%H:%M) collector started" || true
+            elif [ $k -eq 2 ]; then
+              if [ "$(site_busy 0)" -gt 0 ]; then echo "$(date -u +%H:%M) site build already running"; else
+                gh workflow run site.yml -R "$R" --ref main && echo "$(date -u +%H:%M) site build started" || true; fi
+            else
+              git pull -q --no-rebase 2>/dev/null || true
+              out=$(mktemp)
+              GITHUB_OUTPUT=$out python scripts/watch_results.py || true
+              if grep -q "trigger=true" $out; then
+                if [ "$(site_busy 480)" -gt 0 ]; then echo "a site build is running or just started"; else
+                  gh workflow run site.yml -R "$R" --ref main && echo "$(date -u +%H:%M) site build started (a game went final)" || true; fi
+              fi
+            fi
+            i=$(( i + 1 ))
+            sleep 300
+          done
+          gh workflow run clock.yml -R "$R" --ref main && echo "next clock started"
