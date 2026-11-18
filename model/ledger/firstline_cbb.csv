@@ -650,7 +650,7 @@ game_id,sport,date,away,home,kickoff_utc,first_line,model_line,pick,pick_line,ed
 401918970,cbb,"Tuesday, November 17",ORU,SMU,2026-11-18 01:00:00+00:00,-25.5,-9.6,away,25.5,15.9,False,False,2026-11-17T00:32:15+00:00,live,72.0,76.0,WIN
 401909504,cbb,"Tuesday, November 17",UMES,DEP,2026-11-18 01:00:00+00:00,-34.5,-24.0,away,34.5,10.5,False,False,2026-11-17T00:32:15+00:00,live,39.0,83.0,LOSS
 401925064,cbb,"Tuesday, November 17",NICH,MISS,2026-11-18 01:30:00+00:00,-30.5,-29.1,away,30.5,1.4,False,False,2026-11-17T00:32:15+00:00,live,41.0,76.0,LOSS
-401920720,cbb,"Tuesday, November 17",EWU,UTAH,2026-11-18 01:30:00+00:00,-11.5,-7.9,away,11.5,3.6,False,False,2026-11-17T00:32:15+00:00,live,,,
+401920720,cbb,"Tuesday, November 17",EWU,UTAH,2026-11-18 01:30:00+00:00,-11.5,-7.9,away,11.5,3.6,False,False,2026-11-17T00:32:15+00:00,live,71.0,67.0,WIN
 401906851,cbb,"Tuesday, November 17",MSU,TENN,2026-11-18 02:00:00+00:00,3.5,17.6,away,-3.5,14.1,False,False,2026-11-17T00:32:15+00:00,live,,,
 401920426,cbb,"Tuesday, November 17",ODU,UVA,2026-11-18 02:00:00+00:00,-27.5,-17.5,away,27.5,10.0,False,False,2026-11-17T00:32:15+00:00,live,,,
 401911521,cbb,"Tuesday, November 17",ALST,UCD,2026-11-18 02:00:00+00:00,-10.5,-8.7,away,10.5,1.8,False,False,2026-11-17T00:32:15+00:00,live,,,
@@ -662,7 +662,7 @@ game_id,sport,date,away,home,kickoff_utc,first_line,model_line,pick,pick_line,ed
 401929358,cbb,"Tuesday, November 17",UTA,USM,2026-11-18 01:00:00+00:00,-3.5,-8.5,home,-3.5,5.0,False,False,2026-11-17T01:47:07+00:00,live,83.0,72.0,LOSS
 401927388,cbb,"Tuesday, November 17",LIN,UNI,2026-11-18 01:00:00+00:00,-12.5,-14.4,home,-12.5,1.9,False,False,2026-11-17T01:47:07+00:00,live,74.0,81.0,LOSS
 401921027,cbb,"Tuesday, November 17",MTSU,GASO,2026-11-18 01:00:00+00:00,2.5,-3.7,home,2.5,6.2,False,False,2026-11-17T01:47:07+00:00,live,85.0,78.0,LOSS
-401924922,cbb,"Tuesday, November 17",SHSU,WYO,2026-11-18 01:30:00+00:00,-11.5,-16.5,home,-11.5,5.0,False,False,2026-11-17T01:47:07+00:00,live,,,
+401924922,cbb,"Tuesday, November 17",SHSU,WYO,2026-11-18 01:30:00+00:00,-11.5,-16.5,home,-11.5,5.0,False,False,2026-11-17T01:47:07+00:00,live,79.0,81.0,LOSS
 401920953,cbb,"Tuesday, November 17",LIB,SIU,2026-11-17 23:00:00+00:00,-1.5,-6.8,home,-1.5,5.3,False,False,2026-11-17T03:43:24+00:00,live,87.0,78.0,LOSS
 401923325,cbb,"Tuesday, November 17",SPU,UML,2026-11-17 23:00:00+00:00,-5.5,-24.0,home,-5.5,18.5,False,False,2026-11-17T04:18:29+00:00,live,51.0,66.0,WIN
 401912230,cbb,"Tuesday, November 17",MRST,ARMY,2026-11-17 23:00:00+00:00,1.5,-9.4,home,1.5,10.9,False,False,2026-11-17T04:18:29+00:00,live,73.0,68.0,LOSS
@@ -725,3 +725,13 @@ game_id,sport,date,away,home,kickoff_utc,first_line,model_line,pick,pick_line,ed
 401919735,cbb,"Wednesday, November 18",CHST,UIC,2026-11-19 00:00:00+00:00,-23.5,-23.8,home,-23.5,0.3,True,False,2026-11-18T03:42:13+00:00,live,,,
 401911377,cbb,"Wednesday, November 18",WOF,CHSO,2026-11-19 00:00:00+00:00,2.5,-12.4,home,2.5,14.9,False,False,2026-11-18T03:42:13+00:00,live,,,
 401911309,cbb,"Wednesday, November 18",BRWN,HC,2026-11-19 00:00:00+00:00,6.5,3.4,home,6.5,3.1,False,False,2026-11-18T03:42:13+00:00,live,,,
+401928347,cbb,"Wednesday, November 18",MER,PRES,2026-11-19 00:00:00+00:00,-2.5,0.2,away,2.5,2.7,False,False,2026-11-18T03:51:58+00:00,live,,,
+401919808,cbb,"Wednesday, November 18",UNCW,LIU,2026-11-19 00:00:00+00:00,10.5,13.1,away,-10.5,2.6,False,False,2026-11-18T03:51:58+00:00,live,,,
+401911277,cbb,"Wednesday, November 18",BING,LAF,2026-11-19 00:00:00+00:00,-2.5,-12.4,home,-2.5,9.9,False,False,2026-11-18T03:51:58+00:00,live,,,
+401929420,cbb,"Wednesday, November 18",FAMU,UTSA,2026-11-19 01:00:00+00:00,-15.5,-28.9,home,-15.5,13.4,False,False,2026-11-18T03:51:58+00:00,live,,,
+401929201,cbb,"Wednesday, November 18",UIW,TXST,2026-11-19 01:00:00+00:00,-17.5,-31.0,home,-17.5,13.5,False,False,2026-11-18T03:51:58+00:00,live,,,
+401928398,cbb,"Wednesday, November 18",UAPB,ARST,2026-11-19 01:00:00+00:00,-25.5,-39.3,home,-25.5,13.8,False,False,2026-11-18T03:51:58+00:00,live,,,
+401919848,cbb,"Wednesday, November 18",UNH,STO,2026-11-19 01:00:00+00:00,1.5,9.1,away,-1.5,7.6,False,False,2026-11-18T03:51:58+00:00,live,,,
+401911393,cbb,"Wednesday, November 18",UNCG,GWEB,2026-11-19 01:00:00+00:00,2.5,6.5,away,-2.5,4.0,False,False,2026-11-18T03:51:58+00:00,live,,,
+401921816,cbb,"Wednesday, November 18",ALCN,MIZ,2026-11-19 02:00:00+00:00,-44.5,-48.0,home,-44.5,3.5,False,False,2026-11-18T03:51:58+00:00,live,,,
+401909494,cbb,"Wednesday, November 18",BCU,CREI,2026-11-19 02:00:00+00:00,-23.5,-18.3,away,23.5,5.2,False,False,2026-11-18T03:51:58+00:00,live,,,
