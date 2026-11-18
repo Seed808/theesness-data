@@ -55,10 +55,32 @@ event_id,athlete_id,team_id,type_id,market,line,price,open_line,open_price,n,upd
 401873070,3918298,,16,Total Passing Attempts (incl. overtime),26.5,,26.5,,2,2026-11-17T23:17Z
 401873070,4433971,,16,Total Passing Attempts (incl. overtime),29.5,,30.5,,1,2026-11-17T23:17Z
 401873070,4433971,,16,Total Passing Attempts (incl. overtime),29.5,,30.5,,2,2026-11-17T23:17Z
+401873070,3918298,,17,Longest Passing Completion (incl. overtime),39.5,,39.5,,1,2026-11-18T13:54Z
+401873070,3918298,,17,Longest Passing Completion (incl. overtime),39.5,,39.5,,2,2026-11-18T13:54Z
+401873070,4433971,,17,Longest Passing Completion (incl. overtime),31.5,,31.5,,1,2026-11-18T13:54Z
+401873070,4433971,,17,Longest Passing Completion (incl. overtime),31.5,,31.5,,2,2026-11-18T13:54Z
 401873070,3918298,,18,Total Passing Plus Rushing Yards (incl. overtime),262.5,,267.5,,1,2026-11-18T04:06Z
 401873070,3918298,,18,Total Passing Plus Rushing Yards (incl. overtime),262.5,,267.5,,2,2026-11-18T04:06Z
+401873070,3915416,,19,Longest Reception (incl. overtime),21.5,,21.5,,1,2026-11-18T13:56Z
+401873070,3915416,,19,Longest Reception (incl. overtime),21.5,,21.5,,2,2026-11-18T13:56Z
+401873070,4373678,,19,Longest Reception (incl. overtime),17.5,,17.5,,1,2026-11-18T13:56Z
+401873070,4373678,,19,Longest Reception (incl. overtime),17.5,,17.5,,2,2026-11-18T13:56Z
+401873070,4379399,,19,Longest Reception (incl. overtime),7.5,,7.5,,1,2026-11-18T13:56Z
+401873070,4379399,,19,Longest Reception (incl. overtime),7.5,,7.5,,2,2026-11-18T13:56Z
+401873070,4385690,,19,Longest Reception (incl. overtime),17.5,,17.5,,1,2026-11-18T13:56Z
+401873070,4385690,,19,Longest Reception (incl. overtime),17.5,,17.5,,2,2026-11-18T13:56Z
+401873070,4569603,,19,Longest Reception (incl. overtime),15.5,,15.5,,1,2026-11-18T13:57Z
+401873070,4569603,,19,Longest Reception (incl. overtime),15.5,,15.5,,2,2026-11-18T13:57Z
+401873070,4869645,,19,Longest Reception (incl. overtime),20.5,,20.5,,1,2026-11-18T13:57Z
+401873070,4869645,,19,Longest Reception (incl. overtime),20.5,,20.5,,2,2026-11-18T13:57Z
 401873070,4379399,,20,Total Rushing Plus Receiving Yards (incl. overtime),111.5,,113.5,,1,2026-11-18T04:06Z
 401873070,4379399,,20,Total Rushing Plus Receiving Yards (incl. overtime),111.5,,113.5,,2,2026-11-18T04:06Z
+401873070,3918298,,21,Longest Rush (incl. overtime),12.5,,12.5,,1,2026-11-18T13:55Z
+401873070,3918298,,21,Longest Rush (incl. overtime),12.5,,12.5,,2,2026-11-18T13:55Z
+401873070,4379399,,21,Longest Rush (incl. overtime),18.5,,18.5,,1,2026-11-18T13:55Z
+401873070,4379399,,21,Longest Rush (incl. overtime),18.5,,18.5,,2,2026-11-18T13:55Z
+401873070,4711533,,21,Longest Rush (incl. overtime),13.5,,13.5,,1,2026-11-18T13:55Z
+401873070,4711533,,21,Longest Rush (incl. overtime),13.5,,13.5,,2,2026-11-18T13:55Z
 401873070,3915411,,29,First Touchdown Scorer,,,,,1,2026-11-17T08:06Z
 401873070,3915416,,29,First Touchdown Scorer,,,,,1,2026-11-17T08:06Z
 401873070,3918298,,29,First Touchdown Scorer,,,,,1,2026-11-17T08:06Z
@@ -257,8 +279,8 @@ event_id,athlete_id,team_id,type_id,market,line,price,open_line,open_price,n,upd
 401873070,,,72,1st Half Total,23.5,,24.5,,2,2026-11-16T13:32Z
 401873070,,2,73,1st Half Moneyline,,,,,1,2026-11-16T06:59Z
 401873070,,15,73,1st Half Moneyline,,,,,1,2026-11-16T06:59Z
-401873070,,2,74,1st Half Spread,-9.5,,-9.5,,1,2026-11-18T12:15Z
-401873070,,15,74,1st Half Spread,9.5,,9.5,,1,2026-11-18T12:15Z
+401873070,,2,74,1st Half Spread,-9.5,,-9.5,,1,2026-11-18T13:54Z
+401873070,,15,74,1st Half Spread,9.5,,9.5,,1,2026-11-18T13:54Z
 401873070,,,75,1st Quarter Total,9.5,,9.5,,1,2026-11-16T06:59Z
 401873070,,,75,1st Quarter Total,9.5,,9.5,,2,2026-11-16T06:59Z
 401873070,,2,76,1st Quarter Moneyline,,,,,1,2026-11-16T06:59Z
