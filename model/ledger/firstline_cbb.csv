@@ -652,7 +652,7 @@ game_id,sport,date,away,home,kickoff_utc,first_line,model_line,pick,pick_line,ed
 401925064,cbb,"Tuesday, November 17",NICH,MISS,2026-11-18 01:30:00+00:00,-30.5,-29.1,away,30.5,1.4,False,False,2026-11-17T00:32:15+00:00,live,41.0,76.0,LOSS
 401920720,cbb,"Tuesday, November 17",EWU,UTAH,2026-11-18 01:30:00+00:00,-11.5,-7.9,away,11.5,3.6,False,False,2026-11-17T00:32:15+00:00,live,71.0,67.0,WIN
 401906851,cbb,"Tuesday, November 17",MSU,TENN,2026-11-18 02:00:00+00:00,3.5,17.6,away,-3.5,14.1,False,False,2026-11-17T00:32:15+00:00,live,,,
-401920426,cbb,"Tuesday, November 17",ODU,UVA,2026-11-18 02:00:00+00:00,-27.5,-17.5,away,27.5,10.0,False,False,2026-11-17T00:32:15+00:00,live,,,
+401920426,cbb,"Tuesday, November 17",ODU,UVA,2026-11-18 02:00:00+00:00,-27.5,-17.5,away,27.5,10.0,False,False,2026-11-17T00:32:15+00:00,live,65.0,85.0,WIN
 401911521,cbb,"Tuesday, November 17",ALST,UCD,2026-11-18 02:00:00+00:00,-10.5,-8.7,away,10.5,1.8,False,False,2026-11-17T00:32:15+00:00,live,,,
 401909787,cbb,"Tuesday, November 17",UNLV,KU,2026-11-18 02:30:00+00:00,-16.5,-23.3,home,-16.5,6.8,False,False,2026-11-17T00:32:15+00:00,live,,,
 401921729,cbb,"Tuesday, November 17",UCI,STAN,2026-11-18 03:00:00+00:00,-8.5,-3.9,away,8.5,4.6,False,False,2026-11-17T00:32:15+00:00,live,,,
@@ -735,3 +735,5 @@ game_id,sport,date,away,home,kickoff_utc,first_line,model_line,pick,pick_line,ed
 401911393,cbb,"Wednesday, November 18",UNCG,GWEB,2026-11-19 01:00:00+00:00,2.5,6.5,away,-2.5,4.0,False,False,2026-11-18T03:51:58+00:00,live,,,
 401921816,cbb,"Wednesday, November 18",ALCN,MIZ,2026-11-19 02:00:00+00:00,-44.5,-48.0,home,-44.5,3.5,False,False,2026-11-18T03:51:58+00:00,live,,,
 401909494,cbb,"Wednesday, November 18",BCU,CREI,2026-11-19 02:00:00+00:00,-23.5,-18.3,away,23.5,5.2,False,False,2026-11-18T03:51:58+00:00,live,,,
+401921134,cbb,"Wednesday, November 18",NOLA,TTU,2026-11-19 00:30:00+00:00,-34.5,-34.2,away,34.5,0.3,True,False,2026-11-18T04:17:33+00:00,live,,,
+401929146,cbb,"Wednesday, November 18",TXSO,SDSU,2026-11-19 03:00:00+00:00,-26.5,-22.3,away,26.5,4.2,False,False,2026-11-18T04:17:33+00:00,live,,,
