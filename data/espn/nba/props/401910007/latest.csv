@@ -79,8 +79,8 @@ event_id,athlete_id,team_id,type_id,market,line,price,open_line,open_price,n,upd
 401910007,5112087,,4,Total 3-Point Field Goals,1.5,+127,1.5,+127,2,2026-11-18T11:22Z
 401910007,3992,,87,Total Points and Assists,24.5,-111,24.5,-112,1,2026-11-18T11:15Z
 401910007,3992,,87,Total Points and Assists,24.5,-119,24.5,-118,2,2026-11-18T11:15Z
-401910007,2991070,,87,Total Points and Assists,14.5,-118,14.5,-118,1,2026-11-18T12:10Z
-401910007,2991070,,87,Total Points and Assists,14.5,-112,14.5,-112,2,2026-11-18T12:10Z
+401910007,2991070,,87,Total Points and Assists,14.5,-122,14.5,-118,1,2026-11-18T12:10Z
+401910007,2991070,,87,Total Points and Assists,14.5,-108,14.5,-112,2,2026-11-18T12:10Z
 401910007,3908809,,87,Total Points and Assists,30.5,-117,30.5,-118,1,2026-11-18T11:15Z
 401910007,3908809,,87,Total Points and Assists,30.5,-112,30.5,-111,2,2026-11-18T11:15Z
 401910007,4066328,,87,Total Points and Assists,16.5,-113,16.5,-122,1,2026-11-18T11:15Z
@@ -160,7 +160,12 @@ event_id,athlete_id,team_id,type_id,market,line,price,open_line,open_price,n,upd
 401910007,4576087,,92,To Record a Double Double,,+2300,,+2200,1,2026-11-18T11:14Z
 401910007,4600663,,92,To Record a Double Double,,+260,,+382,1,2026-11-18T11:14Z
 401910007,4903027,,92,To Record a Double Double,,+246,,+386,1,2026-11-18T11:14Z
+401910007,5023693,,92,To Record a Double Double,,+3100,,+3100,1,2026-11-18T12:35Z
 401910007,5041935,,92,To Record a Double Double,,+131,,+251,1,2026-11-18T11:14Z
+401910007,3992,,93,To Record a Triple Double,,+4800,,+4800,1,2026-11-18T12:34Z
+401910007,3908809,,93,To Record a Triple Double,,+6400,,+6400,1,2026-11-18T12:34Z
+401910007,4433083,,93,To Record a Triple Double,,+7100,,+7100,1,2026-11-18T12:35Z
+401910007,4903027,,93,To Record a Triple Double,,+6200,,+6200,1,2026-11-18T12:35Z
 401910007,5041935,,93,To Record a Triple Double,,+2600,,+3600,1,2026-11-18T11:14Z
 401910007,3992,,94,First Basket,,+900,,+920,1,2026-11-18T11:10Z
 401910007,3908809,,94,First Basket,,+495,,+503,1,2026-11-18T11:10Z
@@ -819,4 +824,4 @@ event_id,athlete_id,team_id,type_id,market,line,price,open_line,open_price,n,upd
 401910007,5041935,,327,Rebounds + Assists Milestones,20.0,+650,15.0,+120,1,2026-11-18T12:10Z
 401910007,5041935,,327,Rebounds + Assists Milestones,22.0,+1200,15.0,+120,1,2026-11-18T12:10Z
 401910007,5041935,,327,Rebounds + Assists Milestones,14.0,-120,15.0,+120,1,2026-11-18T12:10Z
-401910007,5041935,,327,Rebounds + Assists Milestones,25.0,+2500,15.0,+120,1,2026-11-18T12:27Z
+401910007,5041935,,327,Rebounds + Assists Milestones,25.0,+2500,15.0,+120,1,2026-11-18T12:35Z
