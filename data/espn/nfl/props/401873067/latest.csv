@@ -17,8 +17,8 @@ event_id,athlete_id,team_id,type_id,market,line,price,open_line,open_price,n,upd
 401873067,3139477,,12,Total Rushing Yards (incl. overtime),9.5,,8.5,,2,2026-11-18T06:44Z
 401873067,4373626,,12,Total Rushing Yards (incl. overtime),28.5,,32.5,,1,2026-11-18T15:21Z
 401873067,4373626,,12,Total Rushing Yards (incl. overtime),28.5,,32.5,,2,2026-11-18T15:21Z
-401873067,4427728,,12,Total Rushing Yards (incl. overtime),24.5,,23.5,,1,2026-11-18T14:47Z
-401873067,4427728,,12,Total Rushing Yards (incl. overtime),24.5,,23.5,,2,2026-11-18T14:47Z
+401873067,4427728,,12,Total Rushing Yards (incl. overtime),25.5,,23.5,,1,2026-11-18T17:02Z
+401873067,4427728,,12,Total Rushing Yards (incl. overtime),25.5,,23.5,,2,2026-11-18T17:02Z
 401873067,4430841,,12,Total Rushing Yards (incl. overtime),8.5,,8.5,,1,2026-11-18T14:47Z
 401873067,4430841,,12,Total Rushing Yards (incl. overtime),8.5,,8.5,,2,2026-11-18T14:47Z
 401873067,15847,,13,Total Receiving Yards (incl. overtime),45.5,,46.5,,1,2026-11-18T16:34Z
@@ -103,10 +103,10 @@ event_id,athlete_id,team_id,type_id,market,line,price,open_line,open_price,n,upd
 401873067,4912218,,19,Longest Reception (incl. overtime),11.5,,10.5,,2,2026-11-18T16:10Z
 401873067,4373626,,20,Total Rushing Plus Receiving Yards (incl. overtime),39.5,,46.5,,1,2026-11-18T15:32Z
 401873067,4373626,,20,Total Rushing Plus Receiving Yards (incl. overtime),39.5,,46.5,,2,2026-11-18T15:32Z
-401873067,3139477,,21,Longest Rush (incl. overtime),8.5,,7.5,,1,2026-11-18T16:34Z
-401873067,3139477,,21,Longest Rush (incl. overtime),8.5,,7.5,,2,2026-11-18T16:34Z
-401873067,4373626,,21,Longest Rush (incl. overtime),10.5,,10.5,,1,2026-11-18T16:34Z
-401873067,4373626,,21,Longest Rush (incl. overtime),10.5,,10.5,,2,2026-11-18T16:34Z
+401873067,3139477,,21,Longest Rush (incl. overtime),7.5,,7.5,,1,2026-11-18T16:34Z
+401873067,3139477,,21,Longest Rush (incl. overtime),7.5,,7.5,,2,2026-11-18T16:34Z
+401873067,4373626,,21,Longest Rush (incl. overtime),9.5,,10.5,,1,2026-11-18T16:34Z
+401873067,4373626,,21,Longest Rush (incl. overtime),9.5,,10.5,,2,2026-11-18T16:34Z
 401873067,4430841,,21,Longest Rush (incl. overtime),6.5,,6.5,,1,2026-11-18T14:49Z
 401873067,4430841,,21,Longest Rush (incl. overtime),6.5,,6.5,,2,2026-11-18T14:49Z
 401873067,15847,,29,First Touchdown Scorer,,,,,1,2026-11-17T23:08Z
@@ -396,8 +396,8 @@ event_id,athlete_id,team_id,type_id,market,line,price,open_line,open_price,n,upd
 401873067,,22,98,Team Total Points,7.5,,12.5,,2,2026-11-17T16:38Z
 401873067,,22,98,Team Total Points,8.5,,12.5,,2,2026-11-17T16:38Z
 401873067,,22,98,Team Total Points,9.5,,12.5,,2,2026-11-17T16:38Z
-401873067,,12,99,Team 1st Half Total Points,14.5,,15.5,,1,2026-11-18T16:24Z
-401873067,,12,99,Team 1st Half Total Points,14.5,,15.5,,2,2026-11-18T16:24Z
+401873067,,12,99,Team 1st Half Total Points,15.5,,15.5,,1,2026-11-18T16:35Z
+401873067,,12,99,Team 1st Half Total Points,15.5,,15.5,,2,2026-11-18T16:35Z
 401873067,,22,99,Team 1st Half Total Points,6.5,,5.5,,1,2026-11-18T15:09Z
 401873067,,22,99,Team 1st Half Total Points,6.5,,5.5,,2,2026-11-18T15:09Z
 401873067,,12,104,Team Total Touchdowns,3.5,,3.5,,1,2026-11-17T16:38Z
@@ -657,6 +657,7 @@ event_id,athlete_id,team_id,type_id,market,line,price,open_line,open_price,n,upd
 401873067,4427728,,196,Rushing Yards Milestones,70.0,,25.0,,1,2026-11-18T14:46Z
 401873067,4427728,,196,Rushing Yards Milestones,80.0,,25.0,,1,2026-11-18T14:46Z
 401873067,4427728,,196,Rushing Yards Milestones,90.0,,25.0,,1,2026-11-18T14:46Z
+401873067,4427728,,196,Rushing Yards Milestones,26.0,,25.0,,1,2026-11-18T17:02Z
 401873067,4430841,,196,Rushing Yards Milestones,10.0,,10.0,,1,2026-11-18T14:13Z
 401873067,4430841,,196,Rushing Yards Milestones,15.0,,10.0,,1,2026-11-18T14:13Z
 401873067,4430841,,196,Rushing Yards Milestones,20.0,,10.0,,1,2026-11-18T14:13Z
