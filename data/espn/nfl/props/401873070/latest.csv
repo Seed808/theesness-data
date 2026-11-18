@@ -1,6 +1,6 @@
 event_id,athlete_id,team_id,type_id,market,line,price,open_line,open_price,n,updated
-401873070,3918298,,8,Total Passing Yards (incl. overtime),229.5,,231.5,,1,2026-11-18T19:58Z
-401873070,3918298,,8,Total Passing Yards (incl. overtime),229.5,,231.5,,2,2026-11-18T19:58Z
+401873070,3918298,,8,Total Passing Yards (incl. overtime),230.5,,231.5,,1,2026-11-18T21:35Z
+401873070,3918298,,8,Total Passing Yards (incl. overtime),230.5,,231.5,,2,2026-11-18T21:35Z
 401873070,4433971,,8,Total Passing Yards (incl. overtime),185.5,,180.5,,1,2026-11-18T15:46Z
 401873070,4433971,,8,Total Passing Yards (incl. overtime),185.5,,180.5,,2,2026-11-18T15:46Z
 401873070,3918298,,9,Total Pass Completions (incl. overtime),18.5,,18.5,,1,2026-11-17T23:17Z
@@ -45,8 +45,8 @@ event_id,athlete_id,team_id,type_id,market,line,price,open_line,open_price,n,upd
 401873070,4385690,,14,Total Receptions (incl. overtime),2.5,,2.5,,2,2026-11-17T23:17Z
 401873070,4569603,,14,Total Receptions (incl. overtime),4.5,,3.5,,1,2026-11-18T20:57Z
 401873070,4569603,,14,Total Receptions (incl. overtime),4.5,,3.5,,2,2026-11-18T20:57Z
-401873070,4869645,,14,Total Receptions (incl. overtime),4.5,,4.5,,1,2026-11-17T23:17Z
-401873070,4869645,,14,Total Receptions (incl. overtime),4.5,,4.5,,2,2026-11-17T23:17Z
+401873070,4869645,,14,Total Receptions (incl. overtime),3.5,,4.5,,1,2026-11-18T21:35Z
+401873070,4869645,,14,Total Receptions (incl. overtime),3.5,,4.5,,2,2026-11-18T21:35Z
 401873070,3918298,,15,Total Passing Interceptions (incl. overtime),0.5,,0.5,,1,2026-11-18T03:50Z
 401873070,3918298,,15,Total Passing Interceptions (incl. overtime),0.5,,0.5,,2,2026-11-18T03:50Z
 401873070,4433971,,15,Total Passing Interceptions (incl. overtime),0.5,,0.5,,1,2026-11-18T03:51Z
@@ -284,8 +284,8 @@ event_id,athlete_id,team_id,type_id,market,line,price,open_line,open_price,n,upd
 401873070,,,75,1st Quarter Total,9.5,,9.5,,2,2026-11-16T06:59Z
 401873070,,2,76,1st Quarter Moneyline,,,,,1,2026-11-16T06:59Z
 401873070,,15,76,1st Quarter Moneyline,,,,,1,2026-11-16T06:59Z
-401873070,,2,77,1st Quarter Spread,-3.5,,-3.5,,1,2026-11-18T18:30Z
-401873070,,15,77,1st Quarter Spread,3.5,,3.5,,1,2026-11-18T18:30Z
+401873070,,2,77,1st Quarter Spread,-3.5,,-3.5,,1,2026-11-18T21:23Z
+401873070,,15,77,1st Quarter Spread,3.5,,3.5,,1,2026-11-18T21:23Z
 401873070,,,78,2nd Quarter Total,13.5,,13.5,,1,2026-11-17T16:38Z
 401873070,,,78,2nd Quarter Total,13.5,,13.5,,2,2026-11-17T16:38Z
 401873070,,2,79,2nd Quarter Moneyline,,,,,1,2026-11-17T16:38Z
@@ -445,6 +445,7 @@ event_id,athlete_id,team_id,type_id,market,line,price,open_line,open_price,n,upd
 401873070,3918298,,194,Passing Yards Milestones,370.0,,240.0,,1,2026-11-17T23:17Z
 401873070,3918298,,194,Passing Yards Milestones,380.0,,240.0,,1,2026-11-17T23:17Z
 401873070,3918298,,194,Passing Yards Milestones,390.0,,240.0,,1,2026-11-17T23:17Z
+401873070,3918298,,194,Passing Yards Milestones,231.0,,240.0,,1,2026-11-18T19:58Z
 401873070,4433971,,194,Passing Yards Milestones,150.0,,190.0,,1,2026-11-17T23:17Z
 401873070,4433971,,194,Passing Yards Milestones,160.0,,190.0,,1,2026-11-17T23:17Z
 401873070,4433971,,194,Passing Yards Milestones,170.0,,190.0,,1,2026-11-17T23:17Z
