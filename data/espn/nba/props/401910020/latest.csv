@@ -217,8 +217,8 @@ event_id,athlete_id,team_id,type_id,market,line,price,open_line,open_price,n,upd
 401910020,4683678,,90,"Total Points, Rebounds, and Assists",16.5,-122,16.5,-117,2,2026-11-19T12:17Z
 401910020,5081727,,90,"Total Points, Rebounds, and Assists",13.5,-110,13.5,-121,1,2026-11-19T12:17Z
 401910020,5081727,,90,"Total Points, Rebounds, and Assists",13.5,-119,13.5,-109,2,2026-11-19T12:17Z
-401910020,5082206,,90,"Total Points, Rebounds, and Assists",18.5,-129,19.5,-102,1,2026-11-19T21:20Z
-401910020,5082206,,90,"Total Points, Rebounds, and Assists",18.5,-102,19.5,-129,2,2026-11-19T21:20Z
+401910020,5082206,,90,"Total Points, Rebounds, and Assists",19.5,-102,19.5,-102,1,2026-11-19T21:24Z
+401910020,5082206,,90,"Total Points, Rebounds, and Assists",19.5,-129,19.5,-129,2,2026-11-19T21:24Z
 401910020,5105565,,90,"Total Points, Rebounds, and Assists",27.5,-126,27.5,-115,1,2026-11-19T20:35Z
 401910020,5105565,,90,"Total Points, Rebounds, and Assists",27.5,-105,27.5,-114,2,2026-11-19T20:35Z
 401910020,3995,,92,To Record a Double Double,,+1500,,+1540,1,2026-11-19T12:26Z
@@ -235,15 +235,15 @@ event_id,athlete_id,team_id,type_id,market,line,price,open_line,open_price,n,upd
 401910020,4395725,,93,To Record a Triple Double,,+9300,,+8400,1,2026-11-19T18:31Z
 401910020,4683021,,93,To Record a Triple Double,,+2800,,+3400,1,2026-11-19T12:26Z
 401910020,6606,,94,First Basket,,+493,,+482,1,2026-11-19T11:59Z
-401910020,3133628,,94,First Basket,,+1140,,+1000,1,2026-11-19T12:00Z
-401910020,3134907,,94,First Basket,,+960,,+940,1,2026-11-19T12:00Z
-401910020,4277922,,94,First Basket,,+1460,,+1060,1,2026-11-19T12:00Z
-401910020,4395725,,94,First Basket,,+650,,+660,1,2026-11-19T12:00Z
+401910020,3133628,,94,First Basket,,+1120,,+1000,1,2026-11-19T12:00Z
+401910020,3134907,,94,First Basket,,+1040,,+940,1,2026-11-19T12:00Z
+401910020,4277922,,94,First Basket,,+1440,,+1060,1,2026-11-19T12:00Z
+401910020,4395725,,94,First Basket,,+640,,+660,1,2026-11-19T12:00Z
 401910020,4431736,,94,First Basket,,+910,,+1020,1,2026-11-19T11:59Z
 401910020,4683021,,94,First Basket,,+469,,+496,1,2026-11-19T11:59Z
 401910020,5081727,,94,First Basket,,+790,,+950,1,2026-11-19T11:59Z
-401910020,5082206,,94,First Basket,,+1120,,+1020,1,2026-11-19T12:00Z
-401910020,5105565,,94,First Basket,,+508,,+566,1,2026-11-19T11:59Z
+401910020,5082206,,94,First Basket,,+1100,,+1020,1,2026-11-19T12:00Z
+401910020,5105565,,94,First Basket,,+507,,+566,1,2026-11-19T11:59Z
 401910020,6606,,96,1st Team FG Scorer,,+295,,+300,1,2026-11-19T19:03Z
 401910020,3133628,,96,1st Team FG Scorer,,+390,,+360,1,2026-11-19T19:03Z
 401910020,3134907,,96,1st Team FG Scorer,,+390,,+380,1,2026-11-19T19:03Z
@@ -814,7 +814,6 @@ event_id,athlete_id,team_id,type_id,market,line,price,open_line,open_price,n,upd
 401910020,5082206,,225,Points + Assists + Rebounds Milestones,25.0,+303,20.0,-102,1,2026-11-19T12:08Z
 401910020,5082206,,225,Points + Assists + Rebounds Milestones,30.0,+840,20.0,-102,1,2026-11-19T12:08Z
 401910020,5082206,,225,Points + Assists + Rebounds Milestones,35.0,+1940,20.0,-102,1,2026-11-19T12:08Z
-401910020,5082206,,225,Points + Assists + Rebounds Milestones,19.0,-129,20.0,-102,1,2026-11-19T21:20Z
 401910020,5105565,,225,Points + Assists + Rebounds Milestones,20.0,-830,28.0,-115,1,2026-11-19T12:17Z
 401910020,5105565,,225,Points + Assists + Rebounds Milestones,25.0,-233,28.0,-115,1,2026-11-19T12:17Z
 401910020,5105565,,225,Points + Assists + Rebounds Milestones,30.0,+121,28.0,-115,1,2026-11-19T12:17Z
@@ -960,9 +959,9 @@ event_id,athlete_id,team_id,type_id,market,line,price,open_line,open_price,n,upd
 401910020,4683678,,227,Points + Rebounds Milestones,25.0,+790,15.0,+100,1,2026-11-19T12:17Z
 401910020,4683678,,227,Points + Rebounds Milestones,30.0,+1720,15.0,+100,1,2026-11-19T12:17Z
 401910020,4683678,,227,Points + Rebounds Milestones,14.0,-118,15.0,+100,1,2026-11-19T12:25Z
-401910020,5081727,,227,Points + Rebounds Milestones,5.0,-2300,12.0,-116,1,2026-11-19T12:17Z
-401910020,5081727,,227,Points + Rebounds Milestones,10.0,-202,12.0,-116,1,2026-11-19T12:17Z
-401910020,5081727,,227,Points + Rebounds Milestones,15.0,+210,12.0,-116,1,2026-11-19T12:17Z
+401910020,5081727,,227,Points + Rebounds Milestones,5.0,-2500,12.0,-116,1,2026-11-19T12:17Z
+401910020,5081727,,227,Points + Rebounds Milestones,10.0,-208,12.0,-116,1,2026-11-19T12:17Z
+401910020,5081727,,227,Points + Rebounds Milestones,15.0,+214,12.0,-116,1,2026-11-19T12:17Z
 401910020,5081727,,227,Points + Rebounds Milestones,20.0,+760,12.0,-116,1,2026-11-19T12:17Z
 401910020,5081727,,227,Points + Rebounds Milestones,25.0,+2100,12.0,-116,1,2026-11-19T12:17Z
 401910020,5081727,,227,Points + Rebounds Milestones,12.0,-110,12.0,-116,1,2026-11-19T12:17Z
@@ -999,6 +998,7 @@ event_id,athlete_id,team_id,type_id,market,line,price,open_line,open_price,n,upd
 401910020,3133628,,228,Points Milestones - 1st Quarter,6.0,+291,3.0,-134,1,2026-11-19T12:08Z
 401910020,3133628,,228,Points Milestones - 1st Quarter,7.0,+497,3.0,-134,1,2026-11-19T12:08Z
 401910020,3133628,,228,Points Milestones - 1st Quarter,8.0,+680,3.0,-134,1,2026-11-19T12:08Z
+401910020,3134907,,228,Points Milestones - 1st Quarter,2.0,-504,4.0,-108,1,2026-11-19T12:08Z
 401910020,3134907,,228,Points Milestones - 1st Quarter,3.0,-195,4.0,-108,1,2026-11-19T12:08Z
 401910020,3134907,,228,Points Milestones - 1st Quarter,4.0,-114,4.0,-108,1,2026-11-19T12:08Z
 401910020,3134907,,228,Points Milestones - 1st Quarter,5.0,+130,4.0,-108,1,2026-11-19T12:08Z
