@@ -760,7 +760,7 @@ game_id,sport,date,away,home,kickoff_utc,first_line,model_line,pick,pick_line,ed
 401916318,cbb,"Thursday, November 19",UMBC,OSU,2026-11-20 00:00:00+00:00,-33.5,-25.4,away,33.5,8.1,False,False,2026-11-19T02:54:26+00:00,live,,,
 401918950,cbb,"Thursday, November 19",STET,LOU,2026-11-20 01:00:00+00:00,-34.5,-31.3,away,34.5,3.2,False,False,2026-11-19T02:54:26+00:00,live,,,
 401918056,cbb,"Thursday, November 19",ETAM,CAL,2026-11-20 03:00:00+00:00,-14.5,-17.1,home,-14.5,2.6,False,False,2026-11-19T02:54:26+00:00,live,,,
-401920517,cbb,"Thursday, November 19",FLA,WVU,2026-11-19 19:30:00+00:00,9.5,1.0,home,9.5,8.5,False,False,2026-11-19T04:40:42+00:00,live,,,
+401920517,cbb,"Thursday, November 19",FLA,WVU,2026-11-19 19:30:00+00:00,9.5,1.0,home,9.5,8.5,False,False,2026-11-19T04:40:42+00:00,live,85.0,72.0,LOSS
 401923304,cbb,"Thursday, November 19",ME,QUIN,2026-11-20 00:00:00+00:00,-10.5,-9.9,away,10.5,0.6,False,False,2026-11-19T04:40:42+00:00,live,,,
 401920413,cbb,"Thursday, November 19",MTST,HPU,2026-11-20 00:00:00+00:00,-13.5,-11.3,away,13.5,2.2,False,False,2026-11-19T04:40:42+00:00,live,,,
 401921028,cbb,"Thursday, November 19",GASO,HCU,2026-11-20 01:00:00+00:00,-3.5,-16.2,home,-3.5,12.7,False,False,2026-11-19T04:40:42+00:00,live,,,
@@ -768,3 +768,4 @@ game_id,sport,date,away,home,kickoff_utc,first_line,model_line,pick,pick_line,ed
 401917536,cbb,"Thursday, November 19",VCU,SCU,2026-11-20 03:30:00+00:00,-1.5,-6.8,home,-1.5,5.3,False,False,2026-11-19T05:51:31+00:00,live,,,
 401920519,cbb,"Thursday, November 19",ND,AUB,2026-11-19 22:00:00+00:00,-3.5,0.9,away,3.5,4.4,False,False,2026-11-19T06:56:39+00:00,live,,,
 401920520,cbb,"Thursday, November 19",RUTG,UNLV,2026-11-20 01:30:00+00:00,3.5,6.3,away,-3.5,2.8,False,False,2026-11-19T06:56:39+00:00,live,,,
+401920380,cbb,"Friday, November 20",NU,VT,2026-11-20 20:00:00+00:00,-11.5,-12.7,home,-11.5,1.2,False,False,2026-11-19T21:42:38+00:00,live,,,
