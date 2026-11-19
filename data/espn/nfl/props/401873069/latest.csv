@@ -93,6 +93,10 @@ event_id,athlete_id,team_id,type_id,market,line,price,open_line,open_price,n,upd
 401873069,4360310,,16,Total Passing Attempts (incl. overtime),30.5,,31.5,,2,2026-11-18T00:23Z
 401873069,4433970,,16,Total Passing Attempts (incl. overtime),32.5,,31.5,,1,2026-11-18T05:31Z
 401873069,4433970,,16,Total Passing Attempts (incl. overtime),32.5,,31.5,,2,2026-11-18T05:31Z
+401873069,4360310,,17,Longest Passing Completion (incl. overtime),38.5,,38.5,,1,2026-11-19T13:33Z
+401873069,4360310,,17,Longest Passing Completion (incl. overtime),38.5,,38.5,,2,2026-11-19T13:33Z
+401873069,4433970,,17,Longest Passing Completion (incl. overtime),34.5,,34.5,,1,2026-11-19T13:33Z
+401873069,4433970,,17,Longest Passing Completion (incl. overtime),34.5,,34.5,,2,2026-11-19T13:33Z
 401873069,4360310,,18,Total Passing Plus Rushing Yards (incl. overtime),257.5,,255.5,,1,2026-11-18T12:07Z
 401873069,4360310,,18,Total Passing Plus Rushing Yards (incl. overtime),257.5,,255.5,,2,2026-11-18T12:07Z
 401873069,4433970,,18,Total Passing Plus Rushing Yards (incl. overtime),236.5,,236.5,,1,2026-11-18T13:55Z
@@ -139,6 +143,18 @@ event_id,athlete_id,team_id,type_id,market,line,price,open_line,open_price,n,upd
 401873069,4696981,,21,Longest Rush (incl. overtime),12.5,,12.5,,2,2026-11-19T04:32Z
 401873069,4882093,,21,Longest Rush (incl. overtime),15.5,,15.5,,1,2026-11-19T04:31Z
 401873069,4882093,,21,Longest Rush (incl. overtime),15.5,,15.5,,2,2026-11-19T04:31Z
+401873069,4686361,,22,Total Kicking Points (incl. overtime),8.5,,8.5,,1,2026-11-19T13:35Z
+401873069,4686361,,22,Total Kicking Points (incl. overtime),8.5,,8.5,,2,2026-11-19T13:35Z
+401873069,5082424,,22,Total Kicking Points (incl. overtime),5.5,,5.5,,1,2026-11-19T13:35Z
+401873069,5082424,,22,Total Kicking Points (incl. overtime),5.5,,5.5,,2,2026-11-19T13:35Z
+401873069,4686361,,23,Total Extra Points Made (incl. overtime),2.5,,2.5,,1,2026-11-19T13:35Z
+401873069,4686361,,23,Total Extra Points Made (incl. overtime),2.5,,2.5,,2,2026-11-19T13:35Z
+401873069,5082424,,23,Total Extra Points Made (incl. overtime),1.5,,1.5,,1,2026-11-19T13:35Z
+401873069,5082424,,23,Total Extra Points Made (incl. overtime),1.5,,1.5,,2,2026-11-19T13:35Z
+401873069,4686361,,24,Total Field Goals Made (incl. overtime),1.5,,1.5,,1,2026-11-19T13:35Z
+401873069,4686361,,24,Total Field Goals Made (incl. overtime),1.5,,1.5,,2,2026-11-19T13:35Z
+401873069,5082424,,24,Total Field Goals Made (incl. overtime),1.5,,1.5,,1,2026-11-19T13:35Z
+401873069,5082424,,24,Total Field Goals Made (incl. overtime),1.5,,1.5,,2,2026-11-19T13:35Z
 401873069,2531358,,29,First Touchdown Scorer,,,,,1,2026-11-17T23:20Z
 401873069,2576336,,29,First Touchdown Scorer,,,,,1,2026-11-17T23:20Z
 401873069,2969939,,29,First Touchdown Scorer,,,,,1,2026-11-18T05:27Z
@@ -924,7 +940,7 @@ event_id,athlete_id,team_id,type_id,market,line,price,open_line,open_price,n,upd
 401873069,4433970,,199,Interceptions Thrown Milestones,1.0,,1.0,,1,2026-11-18T12:12Z
 401873069,4433970,,199,Interceptions Thrown Milestones,2.0,,1.0,,1,2026-11-18T12:12Z
 401873069,4433970,,199,Interceptions Thrown Milestones,3.0,,1.0,,1,2026-11-18T12:12Z
-401873069,4360310,,200,Passing Attempts Milestones,22.0,,32.0,,1,2026-11-19T03:09Z
+401873069,4360310,,200,Passing Attempts Milestones,22.0,,32.0,,1,2026-11-19T13:33Z
 401873069,4360310,,200,Passing Attempts Milestones,24.0,,32.0,,1,2026-11-17T23:26Z
 401873069,4360310,,200,Passing Attempts Milestones,26.0,,32.0,,1,2026-11-17T23:26Z
 401873069,4360310,,200,Passing Attempts Milestones,28.0,,32.0,,1,2026-11-17T23:26Z
@@ -1052,6 +1068,15 @@ event_id,athlete_id,team_id,type_id,market,line,price,open_line,open_price,n,upd
 401873069,4882093,,202,Receptions Milestones,4.0,,3.0,,1,2026-11-17T23:26Z
 401873069,4882093,,202,Receptions Milestones,5.0,,3.0,,1,2026-11-17T23:26Z
 401873069,4882093,,202,Receptions Milestones,6.0,,3.0,,1,2026-11-17T23:26Z
+401873069,4686361,,203,Kicking Points Milestones,4.0,,10.0,,1,2026-11-19T13:35Z
+401873069,4686361,,203,Kicking Points Milestones,6.0,,10.0,,1,2026-11-19T13:35Z
+401873069,4686361,,203,Kicking Points Milestones,8.0,,10.0,,1,2026-11-19T13:35Z
+401873069,4686361,,203,Kicking Points Milestones,10.0,,10.0,,1,2026-11-19T13:35Z
+401873069,5082424,,203,Kicking Points Milestones,6.0,,6.0,,1,2026-11-19T13:35Z
+401873069,5082424,,203,Kicking Points Milestones,10.0,,6.0,,1,2026-11-19T13:35Z
+401873069,4686361,,205,Field Goals Made Milestones,3.0,,3.0,,1,2026-11-19T13:35Z
+401873069,5082424,,205,Field Goals Made Milestones,2.0,,2.0,,1,2026-11-19T13:35Z
+401873069,5082424,,205,Field Goals Made Milestones,4.0,,2.0,,1,2026-11-19T13:35Z
 401873069,4360310,,207,Passing Completions Milestones,14.0,,21.0,,1,2026-11-17T23:26Z
 401873069,4360310,,207,Passing Completions Milestones,16.0,,21.0,,1,2026-11-17T23:26Z
 401873069,4360310,,207,Passing Completions Milestones,18.0,,21.0,,1,2026-11-17T23:26Z
