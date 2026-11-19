@@ -75,8 +75,8 @@ event_id,athlete_id,team_id,type_id,market,line,price,open_line,open_price,n,upd
 401873067,4430841,,16,Total Passing Attempts (incl. overtime),31.5,,31.5,,2,2026-11-18T06:37Z
 401873067,3139477,,17,Longest Passing Completion (incl. overtime),36.5,,36.5,,1,2026-11-18T14:49Z
 401873067,3139477,,17,Longest Passing Completion (incl. overtime),36.5,,36.5,,2,2026-11-18T14:49Z
-401873067,4430841,,17,Longest Passing Completion (incl. overtime),27.5,,26.5,,1,2026-11-19T13:33Z
-401873067,4430841,,17,Longest Passing Completion (incl. overtime),27.5,,26.5,,2,2026-11-19T13:33Z
+401873067,4430841,,17,Longest Passing Completion (incl. overtime),26.5,,26.5,,1,2026-11-19T13:33Z
+401873067,4430841,,17,Longest Passing Completion (incl. overtime),26.5,,26.5,,2,2026-11-19T13:33Z
 401873067,3139477,,18,Total Passing Plus Rushing Yards (incl. overtime),262.5,,265.5,,1,2026-11-19T07:45Z
 401873067,3139477,,18,Total Passing Plus Rushing Yards (incl. overtime),262.5,,265.5,,2,2026-11-19T07:45Z
 401873067,4430841,,18,Total Passing Plus Rushing Yards (incl. overtime),182.5,,183.5,,1,2026-11-19T11:08Z
@@ -211,6 +211,7 @@ event_id,athlete_id,team_id,type_id,market,line,price,open_line,open_price,n,upd
 401873067,4361307,,32,Player to score 2 or more touchdowns,,,,,1,2026-11-17T23:08Z
 401873067,4372070,,32,Player to score 2 or more touchdowns,,,,,1,2026-11-18T13:24Z
 401873067,4373626,,32,Player to score 2 or more touchdowns,,,,,1,2026-11-17T23:08Z
+401873067,4374045,,32,Player to score 2 or more touchdowns,,,,,1,2026-11-19T13:33Z
 401873067,4426844,,32,Player to score 2 or more touchdowns,,,,,1,2026-11-18T06:33Z
 401873067,4427728,,32,Player to score 2 or more touchdowns,,,,,1,2026-11-18T06:37Z
 401873067,4428331,,32,Player to score 2 or more touchdowns,,,,,1,2026-11-17T23:08Z
@@ -999,7 +1000,6 @@ event_id,athlete_id,team_id,type_id,market,line,price,open_line,open_price,n,upd
 401873067,4688813,,213,Receiving Yards Milestones - 1st Quarter,40.0,,5.0,,1,2026-11-18T14:52Z
 401873067,4688813,,213,Receiving Yards Milestones - 1st Quarter,45.0,,5.0,,1,2026-11-18T14:52Z
 401873067,3139477,,214,Passing Yards Milestones - 1st Half,90.0,,150.0,,1,2026-11-19T11:08Z
-401873067,3139477,,214,Passing Yards Milestones - 1st Half,90.0,,150.0,,2,2026-11-19T11:08Z
 401873067,3139477,,214,Passing Yards Milestones - 1st Half,95.0,,150.0,,1,2026-11-18T14:51Z
 401873067,3139477,,214,Passing Yards Milestones - 1st Half,100.0,,150.0,,1,2026-11-18T14:51Z
 401873067,3139477,,214,Passing Yards Milestones - 1st Half,105.0,,150.0,,1,2026-11-18T14:51Z
