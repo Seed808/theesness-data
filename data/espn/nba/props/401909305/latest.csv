@@ -65,8 +65,8 @@ event_id,athlete_id,team_id,type_id,market,line,price,open_line,open_price,n,upd
 401909305,4433249,,3,Total Rebounds,10.5,-119,10.5,-137,2,2026-11-20T21:20Z
 401909305,4433287,,3,Total Rebounds,4.5,+107,4.5,+110,1,2026-11-20T20:38Z
 401909305,4433287,,3,Total Rebounds,4.5,-141,4.5,-144,2,2026-11-20T20:38Z
-401909305,4602025,,3,Total Rebounds,3.5,-157,3.5,-150,1,2026-11-20T23:32Z
-401909305,4602025,,3,Total Rebounds,3.5,+119,3.5,+114,2,2026-11-20T23:32Z
+401909305,4602025,,3,Total Rebounds,4.5,+124,3.5,-150,1,2026-11-20T20:17Z
+401909305,4602025,,3,Total Rebounds,4.5,-163,3.5,+114,2,2026-11-20T20:17Z
 401909305,4701230,,3,Total Rebounds,9.5,-101,8.5,-139,1,2026-11-20T22:42Z
 401909305,4701230,,3,Total Rebounds,9.5,-131,8.5,+106,2,2026-11-20T22:42Z
 401909305,4869342,,3,Total Rebounds,6.5,-143,6.5,-150,1,2026-11-20T22:41Z
@@ -171,8 +171,8 @@ event_id,athlete_id,team_id,type_id,market,line,price,open_line,open_price,n,upd
 401909305,4433249,,88,Total Points and Rebounds,19.5,-111,19.5,-104,2,2026-11-20T22:02Z
 401909305,4433287,,88,Total Points and Rebounds,25.5,-122,24.5,-120,1,2026-11-20T20:17Z
 401909305,4433287,,88,Total Points and Rebounds,25.5,-108,24.5,-110,2,2026-11-20T20:17Z
-401909305,4602025,,88,Total Points and Rebounds,11.5,-109,12.5,+100,1,2026-11-20T21:21Z
-401909305,4602025,,88,Total Points and Rebounds,11.5,-121,12.5,-131,2,2026-11-20T21:21Z
+401909305,4602025,,88,Total Points and Rebounds,11.5,-114,12.5,+100,1,2026-11-20T21:21Z
+401909305,4602025,,88,Total Points and Rebounds,11.5,-115,12.5,-131,2,2026-11-20T21:21Z
 401909305,4701230,,88,Total Points and Rebounds,30.5,-115,29.5,-116,1,2026-11-20T23:30Z
 401909305,4701230,,88,Total Points and Rebounds,30.5,-115,29.5,-114,2,2026-11-20T23:30Z
 401909305,4869342,,88,Total Points and Rebounds,17.5,-117,17.5,-115,1,2026-11-20T22:41Z
@@ -195,8 +195,8 @@ event_id,athlete_id,team_id,type_id,market,line,price,open_line,open_price,n,upd
 401909305,4433249,,89,Total Assists and Rebounds,12.5,-107,12.5,-123,2,2026-11-20T20:17Z
 401909305,4433287,,89,Total Assists and Rebounds,7.5,-115,7.5,+103,1,2026-11-20T20:17Z
 401909305,4433287,,89,Total Assists and Rebounds,7.5,-114,7.5,-135,2,2026-11-20T20:17Z
-401909305,4602025,,89,Total Assists and Rebounds,7.5,-119,7.5,-103,1,2026-11-20T20:17Z
-401909305,4602025,,89,Total Assists and Rebounds,7.5,-110,7.5,-128,2,2026-11-20T20:17Z
+401909305,4602025,,89,Total Assists and Rebounds,7.5,-123,7.5,-103,1,2026-11-20T20:17Z
+401909305,4602025,,89,Total Assists and Rebounds,7.5,-107,7.5,-128,2,2026-11-20T20:17Z
 401909305,4701230,,89,Total Assists and Rebounds,16.5,-115,16.5,-106,1,2026-11-20T21:12Z
 401909305,4701230,,89,Total Assists and Rebounds,16.5,-114,16.5,-124,2,2026-11-20T21:12Z
 401909305,4869342,,89,Total Assists and Rebounds,12.5,-118,12.5,-115,1,2026-11-20T20:18Z
@@ -217,12 +217,12 @@ event_id,athlete_id,team_id,type_id,market,line,price,open_line,open_price,n,upd
 401909305,4397183,,90,"Total Points, Rebounds, and Assists",19.5,-120,19.5,-122,2,2026-11-20T23:19Z
 401909305,4431680,,90,"Total Points, Rebounds, and Assists",25.5,-106,25.5,-113,1,2026-11-20T21:18Z
 401909305,4431680,,90,"Total Points, Rebounds, and Assists",25.5,-125,25.5,-116,2,2026-11-20T21:18Z
-401909305,4433249,,90,"Total Points, Rebounds, and Assists",22.5,-103,22.5,-106,1,2026-11-20T23:32Z
-401909305,4433249,,90,"Total Points, Rebounds, and Assists",22.5,-128,22.5,-124,2,2026-11-20T23:32Z
+401909305,4433249,,90,"Total Points, Rebounds, and Assists",21.5,-127,22.5,-106,1,2026-11-20T23:30Z
+401909305,4433249,,90,"Total Points, Rebounds, and Assists",21.5,-104,22.5,-124,2,2026-11-20T23:30Z
 401909305,4433287,,90,"Total Points, Rebounds, and Assists",29.5,-109,27.5,-121,1,2026-11-20T22:02Z
 401909305,4433287,,90,"Total Points, Rebounds, and Assists",29.5,-120,27.5,-108,2,2026-11-20T22:02Z
-401909305,4602025,,90,"Total Points, Rebounds, and Assists",15.5,-102,15.5,-114,1,2026-11-20T23:32Z
-401909305,4602025,,90,"Total Points, Rebounds, and Assists",15.5,-129,15.5,-115,2,2026-11-20T23:32Z
+401909305,4602025,,90,"Total Points, Rebounds, and Assists",15.5,-107,15.5,-114,1,2026-11-20T23:32Z
+401909305,4602025,,90,"Total Points, Rebounds, and Assists",15.5,-123,15.5,-115,2,2026-11-20T23:32Z
 401909305,4701230,,90,"Total Points, Rebounds, and Assists",38.5,-107,36.5,-124,1,2026-11-20T23:30Z
 401909305,4701230,,90,"Total Points, Rebounds, and Assists",38.5,-123,36.5,-106,2,2026-11-20T23:30Z
 401909305,4869342,,90,"Total Points, Rebounds, and Assists",23.5,-111,23.5,-106,1,2026-11-20T20:18Z
@@ -536,20 +536,20 @@ event_id,athlete_id,team_id,type_id,market,line,price,open_line,open_price,n,upd
 401909305,4396971,,220,Rebounds Milestones,3.0,+124,9.0,+118,1,2026-11-20T20:17Z
 401909305,4396971,,220,Rebounds Milestones,4.0,+308,9.0,+118,1,2026-11-20T20:17Z
 401909305,4396971,,220,Rebounds Milestones,5.0,+760,9.0,+118,1,2026-11-20T20:17Z
-401909305,4396971,,220,Rebounds Milestones,4.0,-3100,9.0,+118,2,2026-11-20T20:17Z
-401909305,4396971,,220,Rebounds Milestones,5.0,-1100,9.0,+118,2,2026-11-20T20:17Z
-401909305,4396971,,220,Rebounds Milestones,6.0,-516,9.0,+118,1,2026-11-20T20:17Z
-401909305,4396971,,220,Rebounds Milestones,7.0,-273,9.0,+118,1,2026-11-20T20:17Z
-401909305,4396971,,220,Rebounds Milestones,8.0,-160,9.0,+118,1,2026-11-20T20:17Z
-401909305,4396971,,220,Rebounds Milestones,9.0,+103,9.0,+118,1,2026-11-20T20:17Z
-401909305,4396971,,220,Rebounds Milestones,10.0,+162,9.0,+118,1,2026-11-20T20:17Z
-401909305,4396971,,220,Rebounds Milestones,11.0,+249,9.0,+118,1,2026-11-20T20:17Z
-401909305,4396971,,220,Rebounds Milestones,12.0,+391,9.0,+118,1,2026-11-20T20:17Z
-401909305,4396971,,220,Rebounds Milestones,13.0,+610,9.0,+118,1,2026-11-20T20:17Z
-401909305,4396971,,220,Rebounds Milestones,14.0,+920,9.0,+118,1,2026-11-20T20:17Z
-401909305,4396971,,220,Rebounds Milestones,15.0,+1380,9.0,+118,1,2026-11-20T20:17Z
+401909305,4396971,,220,Rebounds Milestones,4.0,-2900,9.0,+118,2,2026-11-20T20:17Z
+401909305,4396971,,220,Rebounds Milestones,5.0,-1060,9.0,+118,2,2026-11-20T20:17Z
+401909305,4396971,,220,Rebounds Milestones,6.0,-503,9.0,+118,1,2026-11-20T20:17Z
+401909305,4396971,,220,Rebounds Milestones,7.0,-267,9.0,+118,1,2026-11-20T20:17Z
+401909305,4396971,,220,Rebounds Milestones,8.0,-156,9.0,+118,1,2026-11-20T20:17Z
+401909305,4396971,,220,Rebounds Milestones,9.0,+104,9.0,+118,1,2026-11-20T20:17Z
+401909305,4396971,,220,Rebounds Milestones,10.0,+164,9.0,+118,1,2026-11-20T20:17Z
+401909305,4396971,,220,Rebounds Milestones,11.0,+255,9.0,+118,1,2026-11-20T20:17Z
+401909305,4396971,,220,Rebounds Milestones,12.0,+403,9.0,+118,1,2026-11-20T20:17Z
+401909305,4396971,,220,Rebounds Milestones,13.0,+620,9.0,+118,1,2026-11-20T20:17Z
+401909305,4396971,,220,Rebounds Milestones,14.0,+940,9.0,+118,1,2026-11-20T20:17Z
+401909305,4396971,,220,Rebounds Milestones,15.0,+1440,9.0,+118,1,2026-11-20T20:17Z
 401909305,4396971,,220,Rebounds Milestones,16.0,+2000,9.0,+118,1,2026-11-20T20:17Z
-401909305,4396971,,220,Rebounds Milestones,17.0,+2600,9.0,+118,1,2026-11-20T22:02Z
+401909305,4396971,,220,Rebounds Milestones,17.0,+2700,9.0,+118,1,2026-11-20T22:02Z
 401909305,4397020,,220,Rebounds Milestones,3.0,-155,3.0,-144,1,2026-11-20T20:18Z
 401909305,4397020,,220,Rebounds Milestones,4.0,+147,3.0,-144,1,2026-11-20T20:18Z
 401909305,4397020,,220,Rebounds Milestones,5.0,+305,3.0,-144,1,2026-11-20T20:18Z
@@ -612,16 +612,16 @@ event_id,athlete_id,team_id,type_id,market,line,price,open_line,open_price,n,upd
 401909305,4433287,,220,Rebounds Milestones,9.0,+1060,5.0,+113,1,2026-11-20T20:17Z
 401909305,4433287,,220,Rebounds Milestones,10.0,+1720,5.0,+113,1,2026-11-20T20:17Z
 401909305,4433287,,220,Rebounds Milestones,11.0,+2400,5.0,+113,1,2026-11-20T20:17Z
-401909305,4602025,,220,Rebounds Milestones,2.0,+175,5.0,+135,1,2026-11-20T22:02Z
-401909305,4602025,,220,Rebounds Milestones,3.0,+593,5.0,+135,1,2026-11-20T22:02Z
-401909305,4602025,,220,Rebounds Milestones,3.0,-373,5.0,+135,2,2026-11-20T20:17Z
-401909305,4602025,,220,Rebounds Milestones,4.0,-158,5.0,+135,1,2026-11-20T20:17Z
-401909305,4602025,,220,Rebounds Milestones,5.0,+130,5.0,+135,1,2026-11-20T20:17Z
-401909305,4602025,,220,Rebounds Milestones,6.0,+249,5.0,+135,1,2026-11-20T20:17Z
-401909305,4602025,,220,Rebounds Milestones,7.0,+477,5.0,+135,1,2026-11-20T20:17Z
-401909305,4602025,,220,Rebounds Milestones,8.0,+880,5.0,+135,1,2026-11-20T20:17Z
-401909305,4602025,,220,Rebounds Milestones,9.0,+1540,5.0,+135,1,2026-11-20T20:17Z
-401909305,4602025,,220,Rebounds Milestones,10.0,+2500,5.0,+135,1,2026-11-20T20:17Z
+401909305,4602025,,220,Rebounds Milestones,2.0,+171,5.0,+135,1,2026-11-20T22:02Z
+401909305,4602025,,220,Rebounds Milestones,3.0,+574,5.0,+135,1,2026-11-20T22:02Z
+401909305,4602025,,220,Rebounds Milestones,3.0,-393,5.0,+135,2,2026-11-20T20:17Z
+401909305,4602025,,220,Rebounds Milestones,4.0,-167,5.0,+135,1,2026-11-20T20:17Z
+401909305,4602025,,220,Rebounds Milestones,5.0,+124,5.0,+135,1,2026-11-20T20:17Z
+401909305,4602025,,220,Rebounds Milestones,6.0,+235,5.0,+135,1,2026-11-20T20:17Z
+401909305,4602025,,220,Rebounds Milestones,7.0,+450,5.0,+135,1,2026-11-20T20:17Z
+401909305,4602025,,220,Rebounds Milestones,8.0,+830,5.0,+135,1,2026-11-20T20:17Z
+401909305,4602025,,220,Rebounds Milestones,9.0,+1460,5.0,+135,1,2026-11-20T20:17Z
+401909305,4602025,,220,Rebounds Milestones,10.0,+2300,5.0,+135,1,2026-11-20T20:17Z
 401909305,4701230,,220,Rebounds Milestones,5.0,-3500,10.0,+116,1,2026-11-20T20:18Z
 401909305,4701230,,220,Rebounds Milestones,6.0,-1140,10.0,+116,1,2026-11-20T20:18Z
 401909305,4701230,,220,Rebounds Milestones,7.0,-519,10.0,+116,1,2026-11-20T20:18Z
@@ -849,13 +849,13 @@ event_id,athlete_id,team_id,type_id,market,line,price,open_line,open_price,n,upd
 401909305,4431680,,225,Points + Assists + Rebounds Milestones,40.0,+1360,26.0,-113,1,2026-11-20T20:18Z
 401909305,4431680,,225,Points + Assists + Rebounds Milestones,26.0,-106,26.0,-113,1,2026-11-20T21:18Z
 401909305,4431680,,225,Points + Assists + Rebounds Milestones,45.0,+2600,26.0,-113,1,2026-11-20T21:20Z
-401909305,4433249,,225,Points + Assists + Rebounds Milestones,15.0,-860,23.0,-106,1,2026-11-20T20:17Z
-401909305,4433249,,225,Points + Assists + Rebounds Milestones,20.0,-205,23.0,-106,1,2026-11-20T20:17Z
-401909305,4433249,,225,Points + Assists + Rebounds Milestones,25.0,+150,23.0,-106,1,2026-11-20T20:17Z
-401909305,4433249,,225,Points + Assists + Rebounds Milestones,30.0,+440,23.0,-106,1,2026-11-20T20:17Z
-401909305,4433249,,225,Points + Assists + Rebounds Milestones,35.0,+1240,23.0,-106,1,2026-11-20T20:17Z
+401909305,4433249,,225,Points + Assists + Rebounds Milestones,15.0,-850,23.0,-106,1,2026-11-20T20:17Z
+401909305,4433249,,225,Points + Assists + Rebounds Milestones,20.0,-203,23.0,-106,1,2026-11-20T20:17Z
+401909305,4433249,,225,Points + Assists + Rebounds Milestones,22.0,-127,23.0,-106,1,2026-11-20T23:30Z
+401909305,4433249,,225,Points + Assists + Rebounds Milestones,25.0,+152,23.0,-106,1,2026-11-20T20:17Z
+401909305,4433249,,225,Points + Assists + Rebounds Milestones,30.0,+443,23.0,-106,1,2026-11-20T20:17Z
+401909305,4433249,,225,Points + Assists + Rebounds Milestones,35.0,+1260,23.0,-106,1,2026-11-20T20:17Z
 401909305,4433249,,225,Points + Assists + Rebounds Milestones,40.0,+2500,23.0,-106,1,2026-11-20T23:12Z
-401909305,4433249,,225,Points + Assists + Rebounds Milestones,23.0,-103,23.0,-106,1,2026-11-20T23:32Z
 401909305,4433287,,225,Points + Assists + Rebounds Milestones,20.0,-840,30.0,+115,1,2026-11-20T20:17Z
 401909305,4433287,,225,Points + Assists + Rebounds Milestones,25.0,-273,30.0,+115,1,2026-11-20T20:17Z
 401909305,4433287,,225,Points + Assists + Rebounds Milestones,30.0,-108,30.0,+115,1,2026-11-20T20:17Z
@@ -863,12 +863,12 @@ event_id,athlete_id,team_id,type_id,market,line,price,open_line,open_price,n,upd
 401909305,4433287,,225,Points + Assists + Rebounds Milestones,40.0,+505,30.0,+115,1,2026-11-20T20:17Z
 401909305,4433287,,225,Points + Assists + Rebounds Milestones,45.0,+1100,30.0,+115,1,2026-11-20T20:17Z
 401909305,4433287,,225,Points + Assists + Rebounds Milestones,50.0,+2000,30.0,+115,1,2026-11-20T20:17Z
-401909305,4602025,,225,Points + Assists + Rebounds Milestones,10.0,-680,16.0,-114,1,2026-11-20T20:17Z
-401909305,4602025,,225,Points + Assists + Rebounds Milestones,15.0,-132,16.0,-114,1,2026-11-20T20:17Z
-401909305,4602025,,225,Points + Assists + Rebounds Milestones,16.0,-102,16.0,-114,1,2026-11-20T22:43Z
-401909305,4602025,,225,Points + Assists + Rebounds Milestones,20.0,+271,16.0,-114,1,2026-11-20T20:17Z
-401909305,4602025,,225,Points + Assists + Rebounds Milestones,25.0,+910,16.0,-114,1,2026-11-20T20:17Z
-401909305,4602025,,225,Points + Assists + Rebounds Milestones,30.0,+2400,16.0,-114,1,2026-11-20T20:17Z
+401909305,4602025,,225,Points + Assists + Rebounds Milestones,10.0,-720,16.0,-114,1,2026-11-20T20:17Z
+401909305,4602025,,225,Points + Assists + Rebounds Milestones,15.0,-139,16.0,-114,1,2026-11-20T20:17Z
+401909305,4602025,,225,Points + Assists + Rebounds Milestones,16.0,-107,16.0,-114,1,2026-11-20T22:43Z
+401909305,4602025,,225,Points + Assists + Rebounds Milestones,20.0,+259,16.0,-114,1,2026-11-20T20:17Z
+401909305,4602025,,225,Points + Assists + Rebounds Milestones,25.0,+860,16.0,-114,1,2026-11-20T20:17Z
+401909305,4602025,,225,Points + Assists + Rebounds Milestones,30.0,+2300,16.0,-114,1,2026-11-20T20:17Z
 401909305,4701230,,225,Points + Assists + Rebounds Milestones,25.0,-1560,37.0,-125,1,2026-11-20T20:18Z
 401909305,4701230,,225,Points + Assists + Rebounds Milestones,30.0,-499,37.0,-125,1,2026-11-20T20:18Z
 401909305,4701230,,225,Points + Assists + Rebounds Milestones,35.0,-203,37.0,-125,1,2026-11-20T20:18Z
@@ -999,9 +999,6 @@ event_id,athlete_id,team_id,type_id,market,line,price,open_line,open_price,n,upd
 401909305,4396971,,227,Points + Rebounds Milestones,45.0,+1520,27.0,-121,1,2026-11-20T20:17Z
 401909305,4396971,,227,Points + Rebounds Milestones,28.0,-113,27.0,-121,1,2026-11-20T21:19Z
 401909305,4397020,,227,Points + Rebounds Milestones,5.0,-1440,11.0,-109,1,2026-11-20T20:18Z
-401909305,4397020,,227,Points + Rebounds Milestones,10.0,-179,11.0,-109,1,2026-11-20T20:18Z
-401909305,4397020,,227,Points + Rebounds Milestones,12.0,-102,11.0,-109,1,2026-11-20T21:24Z
-401909305,4397020,,227,Points + Rebounds Milestones,15.0,+213,11.0,-109,1,2026-11-20T20:18Z
 401909305,4397020,,227,Points + Rebounds Milestones,20.0,+680,11.0,-109,1,2026-11-20T20:18Z
 401909305,4397020,,227,Points + Rebounds Milestones,25.0,+1800,11.0,-109,1,2026-11-20T20:18Z
 401909305,4397183,,227,Points + Rebounds Milestones,10.0,-990,17.0,-119,1,2026-11-20T20:18Z
@@ -1018,12 +1015,12 @@ event_id,athlete_id,team_id,type_id,market,line,price,open_line,open_price,n,upd
 401909305,4431680,,227,Points + Rebounds Milestones,35.0,+1020,23.0,-116,1,2026-11-20T20:18Z
 401909305,4431680,,227,Points + Rebounds Milestones,40.0,+2200,23.0,-116,1,2026-11-20T20:18Z
 401909305,4431680,,227,Points + Rebounds Milestones,23.0,-109,23.0,-116,1,2026-11-20T20:18Z
-401909305,4433249,,227,Points + Rebounds Milestones,10.0,-4200,20.0,-126,1,2026-11-20T20:17Z
-401909305,4433249,,227,Points + Rebounds Milestones,15.0,-450,20.0,-126,1,2026-11-20T20:17Z
-401909305,4433249,,227,Points + Rebounds Milestones,20.0,-119,20.0,-126,1,2026-11-20T20:17Z
-401909305,4433249,,227,Points + Rebounds Milestones,25.0,+260,20.0,-126,1,2026-11-20T20:17Z
-401909305,4433249,,227,Points + Rebounds Milestones,30.0,+790,20.0,-126,1,2026-11-20T20:17Z
-401909305,4433249,,227,Points + Rebounds Milestones,35.0,+1960,20.0,-126,1,2026-11-20T20:17Z
+401909305,4433249,,227,Points + Rebounds Milestones,10.0,-4300,20.0,-126,1,2026-11-20T20:17Z
+401909305,4433249,,227,Points + Rebounds Milestones,15.0,-463,20.0,-126,1,2026-11-20T20:17Z
+401909305,4433249,,227,Points + Rebounds Milestones,20.0,-123,20.0,-126,1,2026-11-20T20:17Z
+401909305,4433249,,227,Points + Rebounds Milestones,25.0,+252,20.0,-126,1,2026-11-20T20:17Z
+401909305,4433249,,227,Points + Rebounds Milestones,30.0,+770,20.0,-126,1,2026-11-20T20:17Z
+401909305,4433249,,227,Points + Rebounds Milestones,35.0,+1900,20.0,-126,1,2026-11-20T20:17Z
 401909305,4433287,,227,Points + Rebounds Milestones,15.0,-1620,25.0,-120,1,2026-11-20T20:17Z
 401909305,4433287,,227,Points + Rebounds Milestones,20.0,-397,25.0,-120,1,2026-11-20T20:17Z
 401909305,4433287,,227,Points + Rebounds Milestones,25.0,-145,25.0,-120,1,2026-11-20T20:17Z
@@ -1032,12 +1029,12 @@ event_id,athlete_id,team_id,type_id,market,line,price,open_line,open_price,n,upd
 401909305,4433287,,227,Points + Rebounds Milestones,40.0,+910,25.0,-120,1,2026-11-20T20:17Z
 401909305,4433287,,227,Points + Rebounds Milestones,45.0,+1840,25.0,-120,1,2026-11-20T20:17Z
 401909305,4433287,,227,Points + Rebounds Milestones,26.0,-121,25.0,-120,1,2026-11-20T20:17Z
-401909305,4602025,,227,Points + Rebounds Milestones,5.0,-2300,13.0,+100,1,2026-11-20T20:17Z
-401909305,4602025,,227,Points + Rebounds Milestones,10.0,-202,13.0,+100,1,2026-11-20T20:17Z
-401909305,4602025,,227,Points + Rebounds Milestones,15.0,+210,13.0,+100,1,2026-11-20T20:17Z
-401909305,4602025,,227,Points + Rebounds Milestones,20.0,+770,13.0,+100,1,2026-11-20T20:17Z
+401909305,4602025,,227,Points + Rebounds Milestones,5.0,-2100,13.0,+100,1,2026-11-20T20:17Z
+401909305,4602025,,227,Points + Rebounds Milestones,10.0,-198,13.0,+100,1,2026-11-20T20:17Z
+401909305,4602025,,227,Points + Rebounds Milestones,15.0,+221,13.0,+100,1,2026-11-20T20:17Z
+401909305,4602025,,227,Points + Rebounds Milestones,20.0,+820,13.0,+100,1,2026-11-20T20:17Z
 401909305,4602025,,227,Points + Rebounds Milestones,25.0,+2200,13.0,+100,1,2026-11-20T20:17Z
-401909305,4602025,,227,Points + Rebounds Milestones,12.0,-109,13.0,+100,1,2026-11-20T21:20Z
+401909305,4602025,,227,Points + Rebounds Milestones,12.0,-105,13.0,+100,1,2026-11-20T21:20Z
 401909305,4701230,,227,Points + Rebounds Milestones,20.0,-1160,30.0,-116,1,2026-11-20T20:18Z
 401909305,4701230,,227,Points + Rebounds Milestones,25.0,-361,30.0,-116,1,2026-11-20T20:18Z
 401909305,4701230,,227,Points + Rebounds Milestones,30.0,-138,30.0,-116,1,2026-11-20T20:18Z
@@ -1162,6 +1159,7 @@ event_id,athlete_id,team_id,type_id,market,line,price,open_line,open_price,n,upd
 401909305,4396971,,327,Rebounds + Assists Milestones,15.0,+310,12.0,+105,1,2026-11-20T20:17Z
 401909305,4396971,,327,Rebounds + Assists Milestones,18.0,+900,12.0,+105,1,2026-11-20T20:17Z
 401909305,4396971,,327,Rebounds + Assists Milestones,20.0,+1700,12.0,+105,1,2026-11-20T20:17Z
+401909305,4396971,,327,Rebounds + Assists Milestones,22.0,+2500,12.0,+105,1,2026-11-20T23:30Z
 401909305,4397183,,327,Rebounds + Assists Milestones,5.0,-310,7.0,-105,1,2026-11-20T21:22Z
 401909305,4397183,,327,Rebounds + Assists Milestones,7.0,+115,7.0,-105,1,2026-11-20T21:22Z
 401909305,4397183,,327,Rebounds + Assists Milestones,8.0,+195,7.0,-105,1,2026-11-20T21:22Z
@@ -1175,11 +1173,11 @@ event_id,athlete_id,team_id,type_id,market,line,price,open_line,open_price,n,upd
 401909305,4431680,,327,Rebounds + Assists Milestones,15.0,+500,11.0,-110,1,2026-11-20T20:18Z
 401909305,4431680,,327,Rebounds + Assists Milestones,18.0,+1500,11.0,-110,1,2026-11-20T20:18Z
 401909305,4433249,,327,Rebounds + Assists Milestones,8.0,-1400,13.0,-110,1,2026-11-20T20:17Z
-401909305,4433249,,327,Rebounds + Assists Milestones,10.0,-425,13.0,-110,1,2026-11-20T20:17Z
-401909305,4433249,,327,Rebounds + Assists Milestones,12.0,-185,13.0,-110,1,2026-11-20T20:17Z
-401909305,4433249,,327,Rebounds + Assists Milestones,13.0,-125,13.0,-110,1,2026-11-20T20:17Z
-401909305,4433249,,327,Rebounds + Assists Milestones,15.0,+170,13.0,-110,1,2026-11-20T20:17Z
-401909305,4433249,,327,Rebounds + Assists Milestones,18.0,+475,13.0,-110,1,2026-11-20T20:17Z
+401909305,4433249,,327,Rebounds + Assists Milestones,10.0,-450,13.0,-110,1,2026-11-20T20:17Z
+401909305,4433249,,327,Rebounds + Assists Milestones,12.0,-190,13.0,-110,1,2026-11-20T20:17Z
+401909305,4433249,,327,Rebounds + Assists Milestones,13.0,-130,13.0,-110,1,2026-11-20T20:17Z
+401909305,4433249,,327,Rebounds + Assists Milestones,15.0,+160,13.0,-110,1,2026-11-20T20:17Z
+401909305,4433249,,327,Rebounds + Assists Milestones,18.0,+450,13.0,-110,1,2026-11-20T20:17Z
 401909305,4433249,,327,Rebounds + Assists Milestones,20.0,+900,13.0,-110,1,2026-11-20T20:17Z
 401909305,4433249,,327,Rebounds + Assists Milestones,22.0,+1600,13.0,-110,1,2026-11-20T20:17Z
 401909305,4433287,,327,Rebounds + Assists Milestones,5.0,-700,8.0,+100,1,2026-11-20T20:17Z
@@ -1187,11 +1185,11 @@ event_id,athlete_id,team_id,type_id,market,line,price,open_line,open_price,n,upd
 401909305,4433287,,327,Rebounds + Assists Milestones,10.0,+225,8.0,+100,1,2026-11-20T20:17Z
 401909305,4433287,,327,Rebounds + Assists Milestones,12.0,+550,8.0,+100,1,2026-11-20T20:17Z
 401909305,4433287,,327,Rebounds + Assists Milestones,15.0,+1800,8.0,+100,1,2026-11-20T20:17Z
-401909305,4602025,,327,Rebounds + Assists Milestones,5.0,-750,8.0,-105,1,2026-11-20T20:17Z
-401909305,4602025,,327,Rebounds + Assists Milestones,8.0,-120,8.0,-105,1,2026-11-20T20:17Z
-401909305,4602025,,327,Rebounds + Assists Milestones,10.0,+220,8.0,-105,1,2026-11-20T20:17Z
-401909305,4602025,,327,Rebounds + Assists Milestones,12.0,+550,8.0,-105,1,2026-11-20T20:17Z
-401909305,4602025,,327,Rebounds + Assists Milestones,15.0,+1800,8.0,-105,1,2026-11-20T20:17Z
+401909305,4602025,,327,Rebounds + Assists Milestones,5.0,-700,8.0,-105,1,2026-11-20T20:17Z
+401909305,4602025,,327,Rebounds + Assists Milestones,8.0,-115,8.0,-105,1,2026-11-20T20:17Z
+401909305,4602025,,327,Rebounds + Assists Milestones,10.0,+235,8.0,-105,1,2026-11-20T20:17Z
+401909305,4602025,,327,Rebounds + Assists Milestones,12.0,+600,8.0,-105,1,2026-11-20T20:17Z
+401909305,4602025,,327,Rebounds + Assists Milestones,15.0,+2000,8.0,-105,1,2026-11-20T20:17Z
 401909305,4701230,,327,Rebounds + Assists Milestones,10.0,-2000,17.0,-110,1,2026-11-20T20:18Z
 401909305,4701230,,327,Rebounds + Assists Milestones,12.0,-700,17.0,-110,1,2026-11-20T20:18Z
 401909305,4701230,,327,Rebounds + Assists Milestones,15.0,-220,17.0,-110,1,2026-11-20T20:18Z
