@@ -89,6 +89,8 @@ event_id,athlete_id,team_id,type_id,market,line,price,open_line,open_price,n,upd
 401909313,4594327,,4,Total 3-Point Field Goals,1.5,-119,1.5,-127,2,2026-11-20T10:00Z
 401909313,5142620,,4,Total 3-Point Field Goals,2.5,-171,3.5,+130,1,2026-11-20T10:01Z
 401909313,5142620,,4,Total 3-Point Field Goals,2.5,+129,3.5,-171,2,2026-11-20T10:01Z
+401909313,3945274,,5,Total Steals,1.5,+114,1.5,+104,1,2026-11-20T13:14Z
+401909313,3945274,,5,Total Steals,1.5,-151,1.5,-139,2,2026-11-20T13:14Z
 401909313,3064440,,87,Total Points and Assists,21.5,-115,21.5,-115,1,2026-11-20T12:17Z
 401909313,3064440,,87,Total Points and Assists,21.5,-114,21.5,-114,2,2026-11-20T12:17Z
 401909313,3155942,,87,Total Points and Assists,18.5,-122,18.5,-122,1,2026-11-20T12:20Z
@@ -121,6 +123,8 @@ event_id,athlete_id,team_id,type_id,market,line,price,open_line,open_price,n,upd
 401909313,4433136,,88,Total Points and Rebounds,23.5,-108,23.5,-112,2,2026-11-20T11:53Z
 401909313,4433137,,88,Total Points and Rebounds,10.5,-114,10.5,-114,1,2026-11-20T11:55Z
 401909313,4433137,,88,Total Points and Rebounds,10.5,-115,10.5,-115,2,2026-11-20T11:55Z
+401909313,4592691,,88,Total Points and Rebounds,11.5,-101,11.5,-101,1,2026-11-20T13:15Z
+401909313,4592691,,88,Total Points and Rebounds,11.5,-131,11.5,-131,2,2026-11-20T13:15Z
 401909313,4594327,,88,Total Points and Rebounds,16.5,-109,16.5,-114,1,2026-11-20T12:16Z
 401909313,4594327,,88,Total Points and Rebounds,16.5,-120,16.5,-115,2,2026-11-20T12:16Z
 401909313,5142620,,88,Total Points and Rebounds,27.5,-120,27.5,-115,1,2026-11-20T12:16Z
@@ -258,6 +262,11 @@ event_id,athlete_id,team_id,type_id,market,line,price,open_line,open_price,n,upd
 401909313,4433136,,218,Points Milestones,25.0,+1400,14.0,-103,1,2026-11-20T11:37Z
 401909313,4433136,,218,Points Milestones,14.0,-110,14.0,-103,1,2026-11-20T11:37Z
 401909313,4433137,,218,Points Milestones,8.0,-128,8.0,-128,1,2026-11-20T11:55Z
+401909313,4592691,,218,Points Milestones,6.0,-176,,,1,2026-11-20T13:15Z
+401909313,4592691,,218,Points Milestones,7.0,-119,7.0,-119,1,2026-11-20T13:15Z
+401909313,4592691,,218,Points Milestones,8.0,+121,7.0,-119,1,2026-11-20T13:15Z
+401909313,4592691,,218,Points Milestones,10.0,+235,7.0,-119,1,2026-11-20T13:15Z
+401909313,4592691,,218,Points Milestones,12.0,+443,7.0,-119,1,2026-11-20T13:15Z
 401909313,4594327,,218,Points Milestones,6.0,-910,12.0,-117,1,2026-11-20T12:16Z
 401909313,4594327,,218,Points Milestones,8.0,-389,12.0,-117,1,2026-11-20T12:16Z
 401909313,4594327,,218,Points Milestones,10.0,-201,12.0,-117,1,2026-11-20T12:16Z
@@ -415,6 +424,8 @@ event_id,athlete_id,team_id,type_id,market,line,price,open_line,open_price,n,upd
 401909313,4433137,,220,Rebounds Milestones,4.0,+228,3.0,-104,1,2026-11-20T11:55Z
 401909313,4433137,,220,Rebounds Milestones,5.0,+503,3.0,-104,1,2026-11-20T11:55Z
 401909313,4433137,,220,Rebounds Milestones,7.0,+1920,3.0,-104,1,2026-11-20T11:55Z
+401909313,4592691,,220,Rebounds Milestones,5.0,+106,5.0,+106,1,2026-11-20T13:15Z
+401909313,4592691,,220,Rebounds Milestones,6.0,+206,5.0,+106,1,2026-11-20T13:15Z
 401909313,4594327,,220,Rebounds Milestones,3.0,-610,5.0,-121,1,2026-11-20T12:16Z
 401909313,4594327,,220,Rebounds Milestones,4.0,-248,5.0,-121,1,2026-11-20T12:16Z
 401909313,4594327,,220,Rebounds Milestones,5.0,-122,5.0,-121,1,2026-11-20T12:16Z
@@ -481,6 +492,10 @@ event_id,athlete_id,team_id,type_id,market,line,price,open_line,open_price,n,upd
 401909313,4433137,,221,3-Point Field Goals Milestones,2.0,+205,2.0,+202,1,2026-11-20T11:55Z
 401909313,4433137,,221,3-Point Field Goals Milestones,3.0,+700,2.0,+202,1,2026-11-20T11:55Z
 401909313,4433137,,221,3-Point Field Goals Milestones,4.0,+1900,2.0,+202,1,2026-11-20T11:55Z
+401909313,4592691,,221,3-Point Field Goals Milestones,1.0,-145,1.0,-145,1,2026-11-20T13:15Z
+401909313,4592691,,221,3-Point Field Goals Milestones,2.0,+325,1.0,-145,1,2026-11-20T13:15Z
+401909313,4592691,,221,3-Point Field Goals Milestones,3.0,+1100,1.0,-145,1,2026-11-20T13:15Z
+401909313,4592691,,221,3-Point Field Goals Milestones,4.0,+2600,1.0,-145,1,2026-11-20T13:15Z
 401909313,4594327,,221,3-Point Field Goals Milestones,1.0,-496,2.0,-110,1,2026-11-20T12:16Z
 401909313,4594327,,221,3-Point Field Goals Milestones,2.0,-109,2.0,-110,1,2026-11-20T12:16Z
 401909313,4594327,,221,3-Point Field Goals Milestones,3.0,+275,2.0,-110,1,2026-11-20T12:16Z
@@ -494,6 +509,16 @@ event_id,athlete_id,team_id,type_id,market,line,price,open_line,open_price,n,upd
 401909313,5142620,,221,3-Point Field Goals Milestones,6.0,+571,4.0,+132,1,2026-11-20T12:16Z
 401909313,5142620,,221,3-Point Field Goals Milestones,7.0,+1100,4.0,+132,1,2026-11-20T12:16Z
 401909313,5142620,,221,3-Point Field Goals Milestones,8.0,+2000,4.0,+132,1,2026-11-20T12:16Z
+401909313,3945274,,222,Steals Milestones,1.0,-416,2.0,+105,1,2026-11-20T13:14Z
+401909313,3945274,,222,Steals Milestones,2.0,+114,2.0,+105,1,2026-11-20T13:14Z
+401909313,3945274,,222,Steals Milestones,3.0,+353,2.0,+105,1,2026-11-20T13:14Z
+401909313,3945274,,222,Steals Milestones,4.0,+980,2.0,+105,1,2026-11-20T13:14Z
+401909313,3945274,,222,Steals Milestones,5.0,+2100,2.0,+105,1,2026-11-20T13:14Z
+401909313,4592691,,222,Steals Milestones,1.0,-294,2.0,+157,1,2026-11-20T13:17Z
+401909313,4592691,,222,Steals Milestones,2.0,+157,2.0,+157,1,2026-11-20T13:17Z
+401909313,4592691,,222,Steals Milestones,3.0,+491,2.0,+157,1,2026-11-20T13:17Z
+401909313,4592691,,222,Steals Milestones,4.0,+1300,2.0,+157,1,2026-11-20T13:17Z
+401909313,4592691,,222,Steals Milestones,5.0,+2600,2.0,+157,1,2026-11-20T13:17Z
 401909313,3064440,,225,Points + Assists + Rebounds Milestones,15.0,-1400,25.0,-122,1,2026-11-20T12:17Z
 401909313,3064440,,225,Points + Assists + Rebounds Milestones,20.0,-332,25.0,-122,1,2026-11-20T12:17Z
 401909313,3064440,,225,Points + Assists + Rebounds Milestones,25.0,-120,25.0,-122,1,2026-11-20T12:17Z
@@ -687,6 +712,8 @@ event_id,athlete_id,team_id,type_id,market,line,price,open_line,open_price,n,upd
 401909313,4433136,,227,Points + Rebounds Milestones,40.0,+1760,25.0,+106,1,2026-11-20T11:53Z
 401909313,4433136,,227,Points + Rebounds Milestones,24.0,-122,25.0,+106,1,2026-11-20T11:53Z
 401909313,4433137,,227,Points + Rebounds Milestones,11.0,-115,11.0,-115,1,2026-11-20T11:55Z
+401909313,4592691,,227,Points + Rebounds Milestones,15.0,+235,12.0,-101,1,2026-11-20T13:15Z
+401909313,4592691,,227,Points + Rebounds Milestones,12.0,-101,12.0,-101,1,2026-11-20T13:15Z
 401909313,4594327,,227,Points + Rebounds Milestones,10.0,-860,17.0,-114,1,2026-11-20T12:16Z
 401909313,4594327,,227,Points + Rebounds Milestones,15.0,-181,17.0,-114,1,2026-11-20T12:16Z
 401909313,4594327,,227,Points + Rebounds Milestones,20.0,+179,17.0,-114,1,2026-11-20T12:16Z
