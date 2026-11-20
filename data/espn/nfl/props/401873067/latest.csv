@@ -41,8 +41,8 @@ event_id,athlete_id,team_id,type_id,market,line,price,open_line,open_price,n,upd
 401873067,4428331,,13,Total Receiving Yards (incl. overtime),53.5,,51.5,,2,2026-11-20T02:00Z
 401873067,4683062,,13,Total Receiving Yards (incl. overtime),24.5,,27.5,,1,2026-11-20T01:26Z
 401873067,4683062,,13,Total Receiving Yards (incl. overtime),24.5,,27.5,,2,2026-11-20T01:26Z
-401873067,4688813,,13,Total Receiving Yards (incl. overtime),37.5,,36.5,,1,2026-11-20T01:25Z
-401873067,4688813,,13,Total Receiving Yards (incl. overtime),37.5,,36.5,,2,2026-11-20T01:25Z
+401873067,4688813,,13,Total Receiving Yards (incl. overtime),35.5,,36.5,,1,2026-11-20T01:25Z
+401873067,4688813,,13,Total Receiving Yards (incl. overtime),35.5,,36.5,,2,2026-11-20T01:25Z
 401873067,4869132,,13,Total Receiving Yards (incl. overtime),13.5,,15.5,,1,2026-11-20T01:25Z
 401873067,4869132,,13,Total Receiving Yards (incl. overtime),13.5,,15.5,,2,2026-11-20T01:25Z
 401873067,4912218,,13,Total Receiving Yards (incl. overtime),12.5,,12.5,,1,2026-11-20T01:25Z
@@ -99,10 +99,12 @@ event_id,athlete_id,team_id,type_id,market,line,price,open_line,open_price,n,upd
 401873067,4361307,,19,Longest Reception (incl. overtime),16.5,,16.5,,2,2026-11-20T11:41Z
 401873067,4426844,,19,Longest Reception (incl. overtime),10.5,,11.5,,1,2026-11-18T19:13Z
 401873067,4426844,,19,Longest Reception (incl. overtime),10.5,,11.5,,2,2026-11-18T19:13Z
-401873067,4428331,,19,Longest Reception (incl. overtime),20.5,,20.5,,1,2026-11-20T01:26Z
+401873067,4428331,,19,Longest Reception (incl. overtime),21.5,,20.5,,1,2026-11-20T01:26Z
+401873067,4428331,,19,Longest Reception (incl. overtime),21.5,,20.5,,2,2026-11-20T01:26Z
 401873067,4683062,,19,Longest Reception (incl. overtime),15.5,,16.5,,1,2026-11-20T01:25Z
 401873067,4683062,,19,Longest Reception (incl. overtime),15.5,,16.5,,2,2026-11-20T01:25Z
 401873067,4688813,,19,Longest Reception (incl. overtime),17.5,,17.5,,1,2026-11-19T23:07Z
+401873067,4688813,,19,Longest Reception (incl. overtime),17.5,,17.5,,2,2026-11-19T23:07Z
 401873067,4869132,,19,Longest Reception (incl. overtime),11.5,,12.5,,1,2026-11-19T07:44Z
 401873067,4869132,,19,Longest Reception (incl. overtime),11.5,,11.5,,2,2026-11-19T07:44Z
 401873067,4912218,,19,Longest Reception (incl. overtime),10.5,,10.5,,1,2026-11-19T23:06Z
@@ -676,7 +678,7 @@ event_id,athlete_id,team_id,type_id,market,line,price,open_line,open_price,n,upd
 401873067,4688813,,195,Receiving Yards Milestones,100.0,,40.0,,1,2026-11-18T05:29Z
 401873067,4688813,,195,Receiving Yards Milestones,110.0,,40.0,,1,2026-11-18T05:29Z
 401873067,4688813,,195,Receiving Yards Milestones,120.0,,40.0,,1,2026-11-18T05:29Z
-401873067,4688813,,195,Receiving Yards Milestones,38.0,,40.0,,1,2026-11-20T00:31Z
+401873067,4688813,,195,Receiving Yards Milestones,36.0,,40.0,,1,2026-11-19T21:29Z
 401873067,4869132,,195,Receiving Yards Milestones,10.0,,16.0,,1,2026-11-18T14:11Z
 401873067,4869132,,195,Receiving Yards Milestones,15.0,,16.0,,1,2026-11-18T14:11Z
 401873067,4869132,,195,Receiving Yards Milestones,20.0,,16.0,,1,2026-11-18T14:11Z
@@ -875,7 +877,6 @@ event_id,athlete_id,team_id,type_id,market,line,price,open_line,open_price,n,upd
 401873067,4688813,,202,Receptions Milestones,6.0,,4.0,,1,2026-11-18T05:29Z
 401873067,4688813,,202,Receptions Milestones,7.0,,4.0,,1,2026-11-18T05:29Z
 401873067,4688813,,202,Receptions Milestones,8.0,,4.0,,1,2026-11-18T05:29Z
-401873067,4688813,,202,Receptions Milestones,9.0,,4.0,,1,2026-11-19T13:33Z
 401873067,4869132,,202,Receptions Milestones,2.0,,2.0,,1,2026-11-18T14:11Z
 401873067,4869132,,202,Receptions Milestones,3.0,,2.0,,1,2026-11-18T14:11Z
 401873067,4869132,,202,Receptions Milestones,4.0,,2.0,,1,2026-11-18T14:11Z
@@ -883,6 +884,7 @@ event_id,athlete_id,team_id,type_id,market,line,price,open_line,open_price,n,upd
 401873067,4912218,,202,Receptions Milestones,2.0,,2.0,,1,2026-11-18T14:03Z
 401873067,4912218,,202,Receptions Milestones,3.0,,2.0,,1,2026-11-18T14:03Z
 401873067,4912218,,202,Receptions Milestones,4.0,,2.0,,1,2026-11-18T14:03Z
+401873067,4912218,,202,Receptions Milestones,5.0,,2.0,,1,2026-11-20T13:03Z
 401873067,3055899,,203,Kicking Points Milestones,4.0,,8.0,,1,2026-11-19T11:29Z
 401873067,3055899,,203,Kicking Points Milestones,6.0,,8.0,,1,2026-11-19T11:29Z
 401873067,3055899,,203,Kicking Points Milestones,8.0,,8.0,,1,2026-11-19T11:29Z
