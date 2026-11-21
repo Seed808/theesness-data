@@ -788,7 +788,7 @@ game_id,sport,date,away,home,kickoff_utc,first_line,model_line,pick,pick_line,ed
 401920922,cbb,"Friday, November 20",WMU,MSM,2026-11-21 00:00:00+00:00,7.5,23.6,away,-7.5,16.1,False,False,2026-11-19T23:48:28+00:00,live,73.0,67.0,LOSS
 401920195,cbb,"Friday, November 20",JOES,DREX,2026-11-21 00:00:00+00:00,3.5,-2.5,home,3.5,6.0,False,False,2026-11-19T23:48:28+00:00,live,64.0,75.0,WIN
 401916290,cbb,"Friday, November 20",UK,IU,2026-11-21 01:00:00+00:00,-3.5,-7.0,home,-3.5,3.5,False,False,2026-11-19T23:48:28+00:00,live,76.0,90.0,WIN
-401916125,cbb,"Friday, November 20",UVU,ECU,2026-11-21 01:00:00+00:00,4.5,9.9,away,-4.5,5.4,False,False,2026-11-19T23:48:28+00:00,live,,,
+401916125,cbb,"Friday, November 20",UVU,ECU,2026-11-21 01:00:00+00:00,4.5,9.9,away,-4.5,5.4,False,False,2026-11-19T23:48:28+00:00,live,79.0,90.0,LOSS
 401906784,cbb,"Friday, November 20",UGA,GT,2026-11-21 01:00:00+00:00,9.5,11.9,away,-9.5,2.4,False,False,2026-11-19T23:48:28+00:00,live,88.0,82.0,LOSS
 401913529,cbb,"Friday, November 20",EIU,ILL,2026-11-21 02:00:00+00:00,-51.5,-53.5,home,-51.5,2.0,False,False,2026-11-19T23:48:28+00:00,live,,,
 401912710,cbb,"Friday, November 20",MRSH,UNC,2026-11-21 02:00:00+00:00,-21.5,-10.8,away,21.5,10.7,False,False,2026-11-19T23:48:28+00:00,live,,,
@@ -864,3 +864,7 @@ game_id,sport,date,away,home,kickoff_utc,first_line,model_line,pick,pick_line,ed
 401925065,cbb,"Saturday, November 21",USM,NICH,2026-11-21 22:00:00+00:00,3.5,-3.2,home,3.5,6.7,False,False,2026-11-21T03:29:54+00:00,live,,,
 401909517,cbb,"Saturday, November 21",COPP,GTWN,2026-11-21 23:00:00+00:00,-32.5,-24.0,away,32.5,8.5,False,False,2026-11-21T03:29:54+00:00,live,,,
 401920975,cbb,"Saturday, November 21",RAD,UTC,2026-11-22 00:00:00+00:00,-8.5,-19.3,home,-8.5,10.8,False,False,2026-11-21T03:29:54+00:00,live,,,
+401920569,cbb,"Saturday, November 21",MTSU,INST,2026-11-21 20:00:00+00:00,2.5,2.7,away,-2.5,0.2,True,False,2026-11-21T03:49:41+00:00,live,,,
+401922048,cbb,"Saturday, November 21",LONG,ETSU,2026-11-21 21:00:00+00:00,-6.5,-13.2,home,-6.5,6.7,False,False,2026-11-21T03:49:41+00:00,live,,,
+401917918,cbb,"Saturday, November 21",CARK,JAX,2026-11-21 21:00:00+00:00,3.5,8.0,away,-3.5,4.5,False,False,2026-11-21T03:49:41+00:00,live,,,
+401919849,cbb,"Saturday, November 21",NE,STO,2026-11-21 22:00:00+00:00,7.5,15.1,away,-7.5,7.6,False,False,2026-11-21T03:49:41+00:00,live,,,
