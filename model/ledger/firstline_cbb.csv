@@ -789,7 +789,7 @@ game_id,sport,date,away,home,kickoff_utc,first_line,model_line,pick,pick_line,ed
 401920195,cbb,"Friday, November 20",JOES,DREX,2026-11-21 00:00:00+00:00,3.5,-2.5,home,3.5,6.0,False,False,2026-11-19T23:48:28+00:00,live,64.0,75.0,WIN
 401916290,cbb,"Friday, November 20",UK,IU,2026-11-21 01:00:00+00:00,-3.5,-7.0,home,-3.5,3.5,False,False,2026-11-19T23:48:28+00:00,live,76.0,90.0,WIN
 401916125,cbb,"Friday, November 20",UVU,ECU,2026-11-21 01:00:00+00:00,4.5,9.9,away,-4.5,5.4,False,False,2026-11-19T23:48:28+00:00,live,,,
-401906784,cbb,"Friday, November 20",UGA,GT,2026-11-21 01:00:00+00:00,9.5,11.9,away,-9.5,2.4,False,False,2026-11-19T23:48:28+00:00,live,,,
+401906784,cbb,"Friday, November 20",UGA,GT,2026-11-21 01:00:00+00:00,9.5,11.9,away,-9.5,2.4,False,False,2026-11-19T23:48:28+00:00,live,88.0,82.0,LOSS
 401913529,cbb,"Friday, November 20",EIU,ILL,2026-11-21 02:00:00+00:00,-51.5,-53.5,home,-51.5,2.0,False,False,2026-11-19T23:48:28+00:00,live,,,
 401912710,cbb,"Friday, November 20",MRSH,UNC,2026-11-21 02:00:00+00:00,-21.5,-10.8,away,21.5,10.7,False,False,2026-11-19T23:48:28+00:00,live,,,
 401911252,cbb,"Friday, November 20",SLU,SMC,2026-11-21 04:00:00+00:00,-1.5,2.2,away,1.5,3.7,False,False,2026-11-19T23:48:28+00:00,live,,,
@@ -814,7 +814,7 @@ game_id,sport,date,away,home,kickoff_utc,first_line,model_line,pick,pick_line,ed
 401920427,cbb,"Friday, November 20",L-MD,UVA,2026-11-21 00:00:00+00:00,-43.5,-41.3,away,43.5,2.2,False,False,2026-11-20T03:35:29+00:00,live,61.0,103.0,WIN
 401925080,cbb,"Friday, November 20",UTA,NWST,2026-11-21 00:30:00+00:00,4.5,-1.9,home,4.5,6.4,False,False,2026-11-20T03:35:29+00:00,live,69.0,62.0,LOSS
 401925740,cbb,"Friday, November 20",MVSU,ARK,2026-11-21 01:00:00+00:00,-43.5,-26.5,away,43.5,17.0,False,False,2026-11-20T03:35:29+00:00,live,48.0,92.0,LOSS
-401920707,cbb,"Friday, November 20",LIP,AAMU,2026-11-21 01:00:00+00:00,5.5,6.7,away,-5.5,1.2,False,False,2026-11-20T03:35:29+00:00,live,,,
+401920707,cbb,"Friday, November 20",LIP,AAMU,2026-11-21 01:00:00+00:00,5.5,6.7,away,-5.5,1.2,False,False,2026-11-20T03:35:29+00:00,live,69.0,85.0,LOSS
 401919784,cbb,"Friday, November 20",LEM,MIZ,2026-11-21 01:00:00+00:00,-36.5,-40.9,home,-36.5,4.4,False,False,2026-11-20T03:35:29+00:00,live,64.0,91.0,LOSS
 401925664,cbb,"Friday, November 20",ALST,FRES,2026-11-21 03:00:00+00:00,-10.5,-3.4,away,10.5,7.1,False,False,2026-11-20T03:35:29+00:00,live,,,
 401921692,cbb,"Friday, November 20",WIS,MUR,2026-11-21 00:00:00+00:00,3.5,-6.7,home,3.5,10.2,False,False,2026-11-20T13:33:58+00:00,live,53.0,70.0,WIN
@@ -859,3 +859,8 @@ game_id,sport,date,away,home,kickoff_utc,first_line,model_line,pick,pick_line,ed
 401926217,cbb,"Saturday, November 21",PRES,TNTC,2026-11-22 00:30:00+00:00,-5.5,-17.8,home,-5.5,12.3,False,False,2026-11-21T02:30:42+00:00,live,,,
 401925049,cbb,"Saturday, November 21",NOLA,TXSO,2026-11-22 01:30:00+00:00,-1.5,-5.5,home,-1.5,4.0,False,False,2026-11-21T02:30:42+00:00,live,,,
 401921811,cbb,"Saturday, November 21",QUC,LSU,2026-11-21 18:00:00+00:00,-27.5,-29.8,home,-27.5,2.3,False,False,2026-11-21T02:49:30+00:00,live,,,
+401923322,cbb,"Saturday, November 21",UALB,CAN,2026-11-21 21:00:00+00:00,1.5,-5.3,home,1.5,6.8,False,False,2026-11-21T03:29:54+00:00,live,,,
+401925709,cbb,"Saturday, November 21",WIN,WOF,2026-11-21 22:00:00+00:00,-4.5,-8.8,home,-4.5,4.3,False,False,2026-11-21T03:29:54+00:00,live,,,
+401925065,cbb,"Saturday, November 21",USM,NICH,2026-11-21 22:00:00+00:00,3.5,-3.2,home,3.5,6.7,False,False,2026-11-21T03:29:54+00:00,live,,,
+401909517,cbb,"Saturday, November 21",COPP,GTWN,2026-11-21 23:00:00+00:00,-32.5,-24.0,away,32.5,8.5,False,False,2026-11-21T03:29:54+00:00,live,,,
+401920975,cbb,"Saturday, November 21",RAD,UTC,2026-11-22 00:00:00+00:00,-8.5,-19.3,home,-8.5,10.8,False,False,2026-11-21T03:29:54+00:00,live,,,
