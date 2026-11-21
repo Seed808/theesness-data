@@ -790,8 +790,8 @@ game_id,sport,date,away,home,kickoff_utc,first_line,model_line,pick,pick_line,ed
 401916290,cbb,"Friday, November 20",UK,IU,2026-11-21 01:00:00+00:00,-3.5,-7.0,home,-3.5,3.5,False,False,2026-11-19T23:48:28+00:00,live,76.0,90.0,WIN
 401916125,cbb,"Friday, November 20",UVU,ECU,2026-11-21 01:00:00+00:00,4.5,9.9,away,-4.5,5.4,False,False,2026-11-19T23:48:28+00:00,live,79.0,90.0,LOSS
 401906784,cbb,"Friday, November 20",UGA,GT,2026-11-21 01:00:00+00:00,9.5,11.9,away,-9.5,2.4,False,False,2026-11-19T23:48:28+00:00,live,88.0,82.0,LOSS
-401913529,cbb,"Friday, November 20",EIU,ILL,2026-11-21 02:00:00+00:00,-51.5,-53.5,home,-51.5,2.0,False,False,2026-11-19T23:48:28+00:00,live,,,
-401912710,cbb,"Friday, November 20",MRSH,UNC,2026-11-21 02:00:00+00:00,-21.5,-10.8,away,21.5,10.7,False,False,2026-11-19T23:48:28+00:00,live,,,
+401913529,cbb,"Friday, November 20",EIU,ILL,2026-11-21 02:00:00+00:00,-51.5,-53.5,home,-51.5,2.0,False,False,2026-11-19T23:48:28+00:00,live,52.0,114.0,WIN
+401912710,cbb,"Friday, November 20",MRSH,UNC,2026-11-21 02:00:00+00:00,-21.5,-10.8,away,21.5,10.7,False,False,2026-11-19T23:48:28+00:00,live,72.0,88.0,WIN
 401911252,cbb,"Friday, November 20",SLU,SMC,2026-11-21 04:00:00+00:00,-1.5,2.2,away,1.5,3.7,False,False,2026-11-19T23:48:28+00:00,live,,,
 401906852,cbb,"Friday, November 20",CCU,TENN,2026-11-21 00:00:00+00:00,-29.5,-27.3,away,29.5,2.2,False,False,2026-11-20T00:18:30+00:00,live,51.0,78.0,WIN
 401926134,cbb,"Friday, November 20",OAK,PUR,2026-11-21 00:00:00+00:00,-25.5,-22.2,away,25.5,3.3,False,False,2026-11-20T00:18:30+00:00,live,49.0,95.0,LOSS
@@ -803,7 +803,7 @@ game_id,sport,date,away,home,kickoff_utc,first_line,model_line,pick,pick_line,ed
 401929459,cbb,"Friday, November 20",USA,SMU,2026-11-21 01:00:00+00:00,-16.5,-12.8,away,16.5,3.7,False,False,2026-11-20T00:18:30+00:00,live,55.0,101.0,LOSS
 401909799,cbb,"Friday, November 20",CAM,KSU,2026-11-21 01:00:00+00:00,-15.5,-22.6,home,-15.5,7.1,False,False,2026-11-20T00:18:30+00:00,live,80.0,70.0,LOSS
 401928795,cbb,"Friday, November 20",SHSU,BOIS,2026-11-21 02:00:00+00:00,-11.5,-12.0,home,-11.5,0.5,False,False,2026-11-20T00:18:30+00:00,live,,,
-401920137,cbb,"Friday, November 20",CSUB,IDHO,2026-11-21 02:00:00+00:00,1.5,-1.0,home,1.5,2.5,False,False,2026-11-20T00:18:30+00:00,live,,,
+401920137,cbb,"Friday, November 20",CSUB,IDHO,2026-11-21 02:00:00+00:00,1.5,-1.0,home,1.5,2.5,False,False,2026-11-20T00:18:30+00:00,live,81.0,84.0,WIN
 401919827,cbb,"Friday, November 20",MERC,CAN,2026-11-20 22:30:00+00:00,3.5,0.4,home,3.5,3.1,False,False,2026-11-20T02:50:00+00:00,live,56.0,63.0,WIN
 401924844,cbb,"Friday, November 20",NIA,DSU,2026-11-21 00:00:00+00:00,-2.5,-8.3,home,-2.5,5.8,False,False,2026-11-20T02:50:00+00:00,live,103.0,101.0,LOSS
 401921107,cbb,"Friday, November 20",BELL,EKU,2026-11-21 00:00:00+00:00,-7.5,-8.4,home,-7.5,0.9,False,False,2026-11-20T03:05:20+00:00,live,79.0,76.0,LOSS
