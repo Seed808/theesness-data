@@ -1,8 +1,8 @@
 event_id,athlete_id,team_id,type_id,market,line,price,open_line,open_price,n,updated
-401873070,3918298,,8,Total Passing Yards (incl. overtime),227.5,,231.5,,1,2026-11-21T10:49Z
-401873070,3918298,,8,Total Passing Yards (incl. overtime),227.5,,231.5,,2,2026-11-21T10:49Z
-401873070,4433971,,8,Total Passing Yards (incl. overtime),182.5,,180.5,,1,2026-11-21T12:27Z
-401873070,4433971,,8,Total Passing Yards (incl. overtime),182.5,,180.5,,2,2026-11-21T12:27Z
+401873070,3918298,,8,Total Passing Yards (incl. overtime),227.5,,231.5,,1,2026-11-21T13:26Z
+401873070,3918298,,8,Total Passing Yards (incl. overtime),227.5,,231.5,,2,2026-11-21T13:26Z
+401873070,4433971,,8,Total Passing Yards (incl. overtime),182.5,,180.5,,1,2026-11-21T13:21Z
+401873070,4433971,,8,Total Passing Yards (incl. overtime),182.5,,180.5,,2,2026-11-21T13:21Z
 401873070,3918298,,9,Total Pass Completions (incl. overtime),18.5,,18.5,,1,2026-11-17T23:17Z
 401873070,3918298,,9,Total Pass Completions (incl. overtime),18.5,,18.5,,2,2026-11-17T23:17Z
 401873070,4433971,,9,Total Pass Completions (incl. overtime),16.5,,17.5,,1,2026-11-20T20:13Z
@@ -89,8 +89,8 @@ event_id,athlete_id,team_id,type_id,market,line,price,open_line,open_price,n,upd
 401873070,3918298,,17,Longest Passing Completion (incl. overtime),39.5,,39.5,,2,2026-11-20T21:15Z
 401873070,4433971,,17,Longest Passing Completion (incl. overtime),29.5,,31.5,,1,2026-11-20T21:13Z
 401873070,4433971,,17,Longest Passing Completion (incl. overtime),29.5,,31.5,,2,2026-11-20T21:13Z
-401873070,3918298,,18,Total Passing Plus Rushing Yards (incl. overtime),261.5,,267.5,,1,2026-11-21T12:58Z
-401873070,3918298,,18,Total Passing Plus Rushing Yards (incl. overtime),261.5,,267.5,,2,2026-11-21T12:58Z
+401873070,3918298,,18,Total Passing Plus Rushing Yards (incl. overtime),261.5,,267.5,,1,2026-11-21T13:26Z
+401873070,3918298,,18,Total Passing Plus Rushing Yards (incl. overtime),261.5,,267.5,,2,2026-11-21T13:26Z
 401873070,4433971,,18,Total Passing Plus Rushing Yards (incl. overtime),192.5,,192.5,,1,2026-11-20T21:20Z
 401873070,4433971,,18,Total Passing Plus Rushing Yards (incl. overtime),192.5,,192.5,,2,2026-11-20T21:20Z
 401873070,3915411,,19,Longest Reception (incl. overtime),9.5,,9.5,,1,2026-11-20T21:45Z
@@ -137,12 +137,42 @@ event_id,athlete_id,team_id,type_id,market,line,price,open_line,open_price,n,upd
 401873070,3051909,,24,Total Field Goals Made (incl. overtime),1.5,,1.5,,2,2026-11-19T10:30Z
 401873070,3917232,,24,Total Field Goals Made (incl. overtime),1.5,,1.5,,1,2026-11-19T10:34Z
 401873070,3917232,,24,Total Field Goals Made (incl. overtime),1.5,,1.5,,2,2026-11-19T10:34Z
+401873070,4036134,,25,Total Assists (incl. overtime),2.5,,2.5,,1,2026-11-21T13:20Z
+401873070,4036134,,25,Total Assists (incl. overtime),2.5,,2.5,,2,2026-11-21T13:20Z
+401873070,4043130,,25,Total Assists (incl. overtime),4.5,,4.5,,1,2026-11-21T13:26Z
+401873070,4043130,,25,Total Assists (incl. overtime),4.5,,4.5,,2,2026-11-21T13:26Z
 401873070,4259166,,25,Total Assists (incl. overtime),3.5,,3.5,,1,2026-11-21T12:58Z
 401873070,4259166,,25,Total Assists (incl. overtime),3.5,,3.5,,2,2026-11-21T12:58Z
+401873070,4566094,,25,Total Assists (incl. overtime),4.5,,4.5,,1,2026-11-21T13:29Z
+401873070,4566094,,25,Total Assists (incl. overtime),4.5,,4.5,,2,2026-11-21T13:29Z
+401873070,4676004,,25,Total Assists (incl. overtime),1.5,,1.5,,1,2026-11-21T13:21Z
+401873070,4676004,,25,Total Assists (incl. overtime),1.5,,1.5,,2,2026-11-21T13:21Z
+401873070,4880346,,25,Total Assists (incl. overtime),2.5,,2.5,,1,2026-11-21T13:31Z
+401873070,4880346,,25,Total Assists (incl. overtime),2.5,,2.5,,2,2026-11-21T13:31Z
+401873070,4036134,,26,Total Tackles (incl. overtime),3.5,,3.5,,1,2026-11-21T13:20Z
+401873070,4036134,,26,Total Tackles (incl. overtime),3.5,,3.5,,2,2026-11-21T13:20Z
+401873070,4043130,,26,Total Tackles (incl. overtime),5.5,,5.5,,1,2026-11-21T13:26Z
+401873070,4043130,,26,Total Tackles (incl. overtime),5.5,,5.5,,2,2026-11-21T13:26Z
 401873070,4259166,,26,Total Tackles (incl. overtime),3.5,,3.5,,1,2026-11-21T12:58Z
 401873070,4259166,,26,Total Tackles (incl. overtime),3.5,,3.5,,2,2026-11-21T12:58Z
+401873070,4566094,,26,Total Tackles (incl. overtime),4.5,,4.5,,1,2026-11-21T13:29Z
+401873070,4566094,,26,Total Tackles (incl. overtime),4.5,,4.5,,2,2026-11-21T13:29Z
+401873070,4676004,,26,Total Tackles (incl. overtime),3.5,,3.5,,1,2026-11-21T13:21Z
+401873070,4676004,,26,Total Tackles (incl. overtime),3.5,,3.5,,2,2026-11-21T13:21Z
+401873070,4880346,,26,Total Tackles (incl. overtime),3.5,,3.5,,1,2026-11-21T13:31Z
+401873070,4880346,,26,Total Tackles (incl. overtime),3.5,,3.5,,2,2026-11-21T13:31Z
+401873070,4036134,,27,Total Tackles Plus Assists (incl. overtime),5.5,,5.5,,1,2026-11-21T13:20Z
+401873070,4036134,,27,Total Tackles Plus Assists (incl. overtime),5.5,,5.5,,2,2026-11-21T13:20Z
+401873070,4043130,,27,Total Tackles Plus Assists (incl. overtime),9.5,,9.5,,1,2026-11-21T13:26Z
+401873070,4043130,,27,Total Tackles Plus Assists (incl. overtime),9.5,,9.5,,2,2026-11-21T13:26Z
 401873070,4259166,,27,Total Tackles Plus Assists (incl. overtime),6.5,,6.5,,1,2026-11-21T12:58Z
 401873070,4259166,,27,Total Tackles Plus Assists (incl. overtime),6.5,,6.5,,2,2026-11-21T12:58Z
+401873070,4566094,,27,Total Tackles Plus Assists (incl. overtime),8.5,,8.5,,1,2026-11-21T13:29Z
+401873070,4566094,,27,Total Tackles Plus Assists (incl. overtime),8.5,,8.5,,2,2026-11-21T13:29Z
+401873070,4676004,,27,Total Tackles Plus Assists (incl. overtime),4.5,,4.5,,1,2026-11-21T13:21Z
+401873070,4676004,,27,Total Tackles Plus Assists (incl. overtime),4.5,,4.5,,2,2026-11-21T13:21Z
+401873070,4880346,,27,Total Tackles Plus Assists (incl. overtime),6.5,,6.5,,1,2026-11-21T13:31Z
+401873070,4880346,,27,Total Tackles Plus Assists (incl. overtime),6.5,,6.5,,2,2026-11-21T13:31Z
 401873070,4046528,,28,Total Sacks (incl. overtime),0.25,,0.25,,1,2026-11-21T12:38Z
 401873070,4046528,,28,Total Sacks (incl. overtime),0.25,,0.25,,2,2026-11-21T12:38Z
 401873070,4362506,,28,Total Sacks (incl. overtime),0.75,,0.75,,1,2026-11-21T12:23Z
@@ -523,8 +553,8 @@ event_id,athlete_id,team_id,type_id,market,line,price,open_line,open_price,n,upd
 401873070,3915416,,192,1st Quarter Total Receiving Yards,10.5,,9.5,,2,2026-11-20T21:15Z
 401873070,4367209,,192,1st Quarter Total Receiving Yards,0.5,,0.5,,1,2026-11-20T19:37Z
 401873070,4367209,,192,1st Quarter Total Receiving Yards,0.5,,0.5,,2,2026-11-20T19:37Z
-401873070,4373678,,192,1st Quarter Total Receiving Yards,5.5,,3.5,,1,2026-11-21T12:38Z
-401873070,4373678,,192,1st Quarter Total Receiving Yards,5.5,,3.5,,2,2026-11-21T12:38Z
+401873070,4373678,,192,1st Quarter Total Receiving Yards,6.5,,3.5,,1,2026-11-21T13:26Z
+401873070,4373678,,192,1st Quarter Total Receiving Yards,6.5,,3.5,,2,2026-11-21T13:26Z
 401873070,4379399,,192,1st Quarter Total Receiving Yards,0.5,,0.5,,1,2026-11-19T11:01Z
 401873070,4379399,,192,1st Quarter Total Receiving Yards,0.5,,0.5,,2,2026-11-19T11:01Z
 401873070,4569603,,192,1st Quarter Total Receiving Yards,0.5,,0.5,,1,2026-11-19T11:04Z
@@ -566,7 +596,7 @@ event_id,athlete_id,team_id,type_id,market,line,price,open_line,open_price,n,upd
 401873070,3918298,,194,Passing Yards Milestones,370.0,,240.0,,1,2026-11-17T23:17Z
 401873070,3918298,,194,Passing Yards Milestones,380.0,,240.0,,1,2026-11-17T23:17Z
 401873070,3918298,,194,Passing Yards Milestones,390.0,,240.0,,1,2026-11-17T23:17Z
-401873070,3918298,,194,Passing Yards Milestones,228.0,,240.0,,1,2026-11-21T10:49Z
+401873070,3918298,,194,Passing Yards Milestones,228.0,,240.0,,1,2026-11-21T13:21Z
 401873070,4433971,,194,Passing Yards Milestones,150.0,,190.0,,1,2026-11-17T23:17Z
 401873070,4433971,,194,Passing Yards Milestones,160.0,,190.0,,1,2026-11-17T23:17Z
 401873070,4433971,,194,Passing Yards Milestones,170.0,,190.0,,1,2026-11-17T23:17Z
@@ -587,7 +617,7 @@ event_id,athlete_id,team_id,type_id,market,line,price,open_line,open_price,n,upd
 401873070,4433971,,194,Passing Yards Milestones,320.0,,190.0,,1,2026-11-17T23:17Z
 401873070,4433971,,194,Passing Yards Milestones,330.0,,190.0,,1,2026-11-17T23:17Z
 401873070,4433971,,194,Passing Yards Milestones,340.0,,190.0,,1,2026-11-17T23:17Z
-401873070,4433971,,194,Passing Yards Milestones,183.0,,190.0,,1,2026-11-21T12:27Z
+401873070,4433971,,194,Passing Yards Milestones,183.0,,190.0,,1,2026-11-21T13:20Z
 401873070,3915411,,195,Receiving Yards Milestones,10.0,,17.0,,1,2026-11-20T18:56Z
 401873070,3915411,,195,Receiving Yards Milestones,15.0,,17.0,,1,2026-11-20T18:56Z
 401873070,3915411,,195,Receiving Yards Milestones,20.0,,17.0,,1,2026-11-20T18:56Z
@@ -693,6 +723,7 @@ event_id,athlete_id,team_id,type_id,market,line,price,open_line,open_price,n,upd
 401873070,4635008,,195,Receiving Yards Milestones,90.0,,31.0,,1,2026-11-20T20:34Z
 401873070,4635008,,195,Receiving Yards Milestones,100.0,,31.0,,1,2026-11-20T20:34Z
 401873070,4635008,,195,Receiving Yards Milestones,110.0,,31.0,,1,2026-11-20T20:34Z
+401873070,4635008,,195,Receiving Yards Milestones,120.0,,31.0,,1,2026-11-21T12:54Z
 401873070,4685307,,195,Receiving Yards Milestones,3.0,,2.0,,1,2026-11-21T12:27Z
 401873070,4685307,,195,Receiving Yards Milestones,10.0,,2.0,,1,2026-11-21T01:22Z
 401873070,4685307,,195,Receiving Yards Milestones,15.0,,2.0,,1,2026-11-21T01:22Z
@@ -754,7 +785,6 @@ event_id,athlete_id,team_id,type_id,market,line,price,open_line,open_price,n,upd
 401873070,3918298,,196,Rushing Yards Milestones,80.0,,30.0,,1,2026-11-17T23:17Z
 401873070,3918298,,196,Rushing Yards Milestones,90.0,,30.0,,1,2026-11-17T23:17Z
 401873070,3918298,,196,Rushing Yards Milestones,100.0,,30.0,,1,2026-11-17T23:17Z
-401873070,3918298,,196,Rushing Yards Milestones,110.0,,30.0,,1,2026-11-21T12:49Z
 401873070,3918298,,196,Rushing Yards Milestones,29.0,,30.0,,1,2026-11-21T01:32Z
 401873070,4379399,,196,Rushing Yards Milestones,50.0,,100.0,,1,2026-11-17T23:17Z
 401873070,4379399,,196,Rushing Yards Milestones,60.0,,100.0,,1,2026-11-17T23:17Z
@@ -999,6 +1029,27 @@ event_id,athlete_id,team_id,type_id,market,line,price,open_line,open_price,n,upd
 401873070,3917232,,205,Field Goals Made Milestones,2.0,,2.0,,1,2026-11-19T10:34Z
 401873070,3917232,,205,Field Goals Made Milestones,3.0,,2.0,,1,2026-11-19T10:34Z
 401873070,3917232,,205,Field Goals Made Milestones,4.0,,2.0,,1,2026-11-19T10:34Z
+401873070,4036134,,206,Tackles + Assists Milestones,3.0,,7.0,,1,2026-11-21T13:20Z
+401873070,4036134,,206,Tackles + Assists Milestones,4.0,,7.0,,1,2026-11-21T13:20Z
+401873070,4036134,,206,Tackles + Assists Milestones,5.0,,7.0,,1,2026-11-21T13:20Z
+401873070,4036134,,206,Tackles + Assists Milestones,6.0,,7.0,,1,2026-11-21T13:20Z
+401873070,4036134,,206,Tackles + Assists Milestones,7.0,,7.0,,1,2026-11-21T13:20Z
+401873070,4036134,,206,Tackles + Assists Milestones,8.0,,7.0,,1,2026-11-21T13:20Z
+401873070,4036134,,206,Tackles + Assists Milestones,9.0,,7.0,,1,2026-11-21T13:20Z
+401873070,4036134,,206,Tackles + Assists Milestones,10.0,,7.0,,1,2026-11-21T13:20Z
+401873070,4036134,,206,Tackles + Assists Milestones,11.0,,7.0,,1,2026-11-21T13:20Z
+401873070,4036134,,206,Tackles + Assists Milestones,12.0,,7.0,,1,2026-11-21T13:20Z
+401873070,4043130,,206,Tackles + Assists Milestones,6.0,,11.0,,1,2026-11-21T13:26Z
+401873070,4043130,,206,Tackles + Assists Milestones,7.0,,11.0,,1,2026-11-21T13:26Z
+401873070,4043130,,206,Tackles + Assists Milestones,8.0,,11.0,,1,2026-11-21T13:26Z
+401873070,4043130,,206,Tackles + Assists Milestones,9.0,,11.0,,1,2026-11-21T13:26Z
+401873070,4043130,,206,Tackles + Assists Milestones,10.0,,11.0,,1,2026-11-21T13:26Z
+401873070,4043130,,206,Tackles + Assists Milestones,11.0,,11.0,,1,2026-11-21T13:26Z
+401873070,4043130,,206,Tackles + Assists Milestones,12.0,,11.0,,1,2026-11-21T13:26Z
+401873070,4043130,,206,Tackles + Assists Milestones,13.0,,11.0,,1,2026-11-21T13:26Z
+401873070,4043130,,206,Tackles + Assists Milestones,14.0,,11.0,,1,2026-11-21T13:29Z
+401873070,4043130,,206,Tackles + Assists Milestones,15.0,,11.0,,1,2026-11-21T13:26Z
+401873070,4043130,,206,Tackles + Assists Milestones,16.0,,11.0,,1,2026-11-21T13:26Z
 401873070,4259166,,206,Tackles + Assists Milestones,3.0,,7.0,,1,2026-11-21T12:58Z
 401873070,4259166,,206,Tackles + Assists Milestones,4.0,,7.0,,1,2026-11-21T12:58Z
 401873070,4259166,,206,Tackles + Assists Milestones,5.0,,7.0,,1,2026-11-21T12:58Z
@@ -1009,6 +1060,28 @@ event_id,athlete_id,team_id,type_id,market,line,price,open_line,open_price,n,upd
 401873070,4259166,,206,Tackles + Assists Milestones,10.0,,7.0,,1,2026-11-21T12:58Z
 401873070,4259166,,206,Tackles + Assists Milestones,11.0,,7.0,,1,2026-11-21T12:58Z
 401873070,4259166,,206,Tackles + Assists Milestones,12.0,,7.0,,1,2026-11-21T12:58Z
+401873070,4259166,,206,Tackles + Assists Milestones,13.0,,7.0,,1,2026-11-21T13:21Z
+401873070,4566094,,206,Tackles + Assists Milestones,5.0,,9.0,,1,2026-11-21T13:29Z
+401873070,4566094,,206,Tackles + Assists Milestones,6.0,,9.0,,1,2026-11-21T13:29Z
+401873070,4566094,,206,Tackles + Assists Milestones,7.0,,9.0,,1,2026-11-21T13:29Z
+401873070,4566094,,206,Tackles + Assists Milestones,8.0,,9.0,,1,2026-11-21T13:29Z
+401873070,4566094,,206,Tackles + Assists Milestones,9.0,,9.0,,1,2026-11-21T13:29Z
+401873070,4566094,,206,Tackles + Assists Milestones,10.0,,9.0,,1,2026-11-21T13:29Z
+401873070,4566094,,206,Tackles + Assists Milestones,11.0,,9.0,,1,2026-11-21T13:29Z
+401873070,4566094,,206,Tackles + Assists Milestones,12.0,,9.0,,1,2026-11-21T13:29Z
+401873070,4566094,,206,Tackles + Assists Milestones,13.0,,9.0,,1,2026-11-21T13:29Z
+401873070,4566094,,206,Tackles + Assists Milestones,14.0,,9.0,,1,2026-11-21T13:29Z
+401873070,4566094,,206,Tackles + Assists Milestones,15.0,,9.0,,1,2026-11-21T13:29Z
+401873070,4676004,,206,Tackles + Assists Milestones,2.0,,5.0,,1,2026-11-21T13:21Z
+401873070,4676004,,206,Tackles + Assists Milestones,4.0,,5.0,,1,2026-11-21T13:21Z
+401873070,4676004,,206,Tackles + Assists Milestones,5.0,,5.0,,1,2026-11-21T13:21Z
+401873070,4676004,,206,Tackles + Assists Milestones,7.0,,5.0,,1,2026-11-21T13:21Z
+401873070,4676004,,206,Tackles + Assists Milestones,8.0,,5.0,,1,2026-11-21T13:21Z
+401873070,4676004,,206,Tackles + Assists Milestones,9.0,,5.0,,1,2026-11-21T13:21Z
+401873070,4676004,,206,Tackles + Assists Milestones,10.0,,5.0,,1,2026-11-21T13:21Z
+401873070,4880346,,206,Tackles + Assists Milestones,4.0,,7.0,,1,2026-11-21T13:31Z
+401873070,4880346,,206,Tackles + Assists Milestones,6.0,,7.0,,1,2026-11-21T13:31Z
+401873070,4880346,,206,Tackles + Assists Milestones,7.0,,7.0,,1,2026-11-21T13:31Z
 401873070,3918298,,207,Passing Completions Milestones,14.0,,19.0,,1,2026-11-17T23:17Z
 401873070,3918298,,207,Passing Completions Milestones,16.0,,19.0,,1,2026-11-17T23:17Z
 401873070,3918298,,207,Passing Completions Milestones,18.0,,19.0,,1,2026-11-17T23:17Z
@@ -1026,7 +1099,40 @@ event_id,athlete_id,team_id,type_id,market,line,price,open_line,open_price,n,upd
 401873070,4433971,,207,Passing Completions Milestones,22.0,,18.0,,1,2026-11-17T23:17Z
 401873070,4433971,,207,Passing Completions Milestones,24.0,,18.0,,1,2026-11-17T23:17Z
 401873070,4433971,,207,Passing Completions Milestones,26.0,,18.0,,1,2026-11-17T23:17Z
+401873070,4036134,,208,Tackles Milestones,2.0,,4.0,,1,2026-11-21T13:20Z
+401873070,4036134,,208,Tackles Milestones,3.0,,4.0,,1,2026-11-21T13:20Z
+401873070,4036134,,208,Tackles Milestones,4.0,,4.0,,1,2026-11-21T13:20Z
+401873070,4036134,,208,Tackles Milestones,5.0,,4.0,,1,2026-11-21T13:20Z
+401873070,4036134,,208,Tackles Milestones,6.0,,4.0,,1,2026-11-21T13:20Z
+401873070,4036134,,208,Tackles Milestones,7.0,,4.0,,1,2026-11-21T13:20Z
+401873070,4036134,,208,Tackles Milestones,8.0,,4.0,,1,2026-11-21T13:20Z
+401873070,4043130,,208,Tackles Milestones,3.0,,6.0,,1,2026-11-21T13:29Z
+401873070,4043130,,208,Tackles Milestones,4.0,,6.0,,1,2026-11-21T13:26Z
+401873070,4043130,,208,Tackles Milestones,5.0,,6.0,,1,2026-11-21T13:26Z
+401873070,4043130,,208,Tackles Milestones,6.0,,6.0,,1,2026-11-21T13:26Z
+401873070,4043130,,208,Tackles Milestones,7.0,,6.0,,1,2026-11-21T13:26Z
+401873070,4043130,,208,Tackles Milestones,8.0,,6.0,,1,2026-11-21T13:26Z
+401873070,4043130,,208,Tackles Milestones,9.0,,6.0,,1,2026-11-21T13:26Z
+401873070,4043130,,208,Tackles Milestones,10.0,,6.0,,1,2026-11-21T13:26Z
+401873070,4259166,,208,Tackles Milestones,2.0,,4.0,,1,2026-11-21T12:58Z
+401873070,4259166,,208,Tackles Milestones,3.0,,4.0,,1,2026-11-21T12:58Z
 401873070,4259166,,208,Tackles Milestones,4.0,,4.0,,1,2026-11-21T12:58Z
+401873070,4259166,,208,Tackles Milestones,5.0,,4.0,,1,2026-11-21T12:58Z
+401873070,4259166,,208,Tackles Milestones,6.0,,4.0,,1,2026-11-21T12:58Z
+401873070,4259166,,208,Tackles Milestones,7.0,,4.0,,1,2026-11-21T12:58Z
+401873070,4566094,,208,Tackles Milestones,3.0,,5.0,,1,2026-11-21T13:29Z
+401873070,4566094,,208,Tackles Milestones,4.0,,5.0,,1,2026-11-21T13:29Z
+401873070,4566094,,208,Tackles Milestones,5.0,,5.0,,1,2026-11-21T13:29Z
+401873070,4566094,,208,Tackles Milestones,6.0,,5.0,,1,2026-11-21T13:29Z
+401873070,4566094,,208,Tackles Milestones,7.0,,5.0,,1,2026-11-21T13:29Z
+401873070,4566094,,208,Tackles Milestones,8.0,,5.0,,1,2026-11-21T13:29Z
+401873070,4566094,,208,Tackles Milestones,9.0,,5.0,,1,2026-11-21T13:29Z
+401873070,4676004,,208,Tackles Milestones,2.0,,4.0,,1,2026-11-21T13:21Z
+401873070,4676004,,208,Tackles Milestones,4.0,,4.0,,1,2026-11-21T13:21Z
+401873070,4676004,,208,Tackles Milestones,5.0,,4.0,,1,2026-11-21T13:21Z
+401873070,4880346,,208,Tackles Milestones,4.0,,4.0,,1,2026-11-21T13:31Z
+401873070,4880346,,208,Tackles Milestones,5.0,,4.0,,1,2026-11-21T13:31Z
+401873070,4880346,,208,Tackles Milestones,7.0,,4.0,,1,2026-11-21T13:31Z
 401873070,3918298,,209,Passing + Rushing Yards Milestones,190.0,,270.0,,1,2026-11-17T23:17Z
 401873070,3918298,,209,Passing + Rushing Yards Milestones,200.0,,270.0,,1,2026-11-17T23:17Z
 401873070,3918298,,209,Passing + Rushing Yards Milestones,210.0,,270.0,,1,2026-11-17T23:17Z
@@ -1054,8 +1160,7 @@ event_id,athlete_id,team_id,type_id,market,line,price,open_line,open_price,n,upd
 401873070,3918298,,209,Passing + Rushing Yards Milestones,430.0,,270.0,,1,2026-11-21T10:48Z
 401873070,3918298,,209,Passing + Rushing Yards Milestones,180.0,,270.0,,1,2026-11-17T23:17Z
 401873070,3918298,,209,Passing + Rushing Yards Milestones,170.0,,270.0,,1,2026-11-17T23:17Z
-401873070,3918298,,209,Passing + Rushing Yards Milestones,160.0,,270.0,,1,2026-11-21T12:49Z
-401873070,3918298,,209,Passing + Rushing Yards Milestones,262.0,,270.0,,1,2026-11-21T12:54Z
+401873070,3918298,,209,Passing + Rushing Yards Milestones,262.0,,270.0,,1,2026-11-21T13:21Z
 401873070,4433971,,209,Passing + Rushing Yards Milestones,150.0,,200.0,,1,2026-11-20T20:03Z
 401873070,4433971,,209,Passing + Rushing Yards Milestones,160.0,,200.0,,1,2026-11-20T20:03Z
 401873070,4433971,,209,Passing + Rushing Yards Milestones,170.0,,200.0,,1,2026-11-20T20:03Z
@@ -1395,5 +1500,36 @@ event_id,athlete_id,team_id,type_id,market,line,price,open_line,open_price,n,upd
 401873070,4869645,,216,Receiving Yards Milestones - 1st Half,55.0,,20.0,,1,2026-11-19T11:04Z
 401873070,4869645,,216,Receiving Yards Milestones - 1st Half,60.0,,20.0,,1,2026-11-19T11:04Z
 401873070,4869645,,216,Receiving Yards Milestones - 1st Half,65.0,,20.0,,1,2026-11-19T11:04Z
+401873070,4036134,,217,Assists Milestones (Football),1.0,,3.0,,1,2026-11-21T13:20Z
+401873070,4036134,,217,Assists Milestones (Football),2.0,,3.0,,1,2026-11-21T13:20Z
+401873070,4036134,,217,Assists Milestones (Football),3.0,,3.0,,1,2026-11-21T13:20Z
+401873070,4036134,,217,Assists Milestones (Football),4.0,,3.0,,1,2026-11-21T13:20Z
+401873070,4036134,,217,Assists Milestones (Football),5.0,,3.0,,1,2026-11-21T13:20Z
+401873070,4036134,,217,Assists Milestones (Football),6.0,,3.0,,1,2026-11-21T13:20Z
+401873070,4043130,,217,Assists Milestones (Football),3.0,,5.0,,1,2026-11-21T13:26Z
+401873070,4043130,,217,Assists Milestones (Football),4.0,,5.0,,1,2026-11-21T13:26Z
+401873070,4043130,,217,Assists Milestones (Football),5.0,,5.0,,1,2026-11-21T13:26Z
+401873070,4043130,,217,Assists Milestones (Football),6.0,,5.0,,1,2026-11-21T13:26Z
+401873070,4043130,,217,Assists Milestones (Football),7.0,,5.0,,1,2026-11-21T13:26Z
+401873070,4043130,,217,Assists Milestones (Football),8.0,,5.0,,1,2026-11-21T13:26Z
+401873070,4043130,,217,Assists Milestones (Football),9.0,,5.0,,1,2026-11-21T13:26Z
+401873070,4259166,,217,Assists Milestones (Football),2.0,,4.0,,1,2026-11-21T12:58Z
+401873070,4259166,,217,Assists Milestones (Football),3.0,,4.0,,1,2026-11-21T12:58Z
 401873070,4259166,,217,Assists Milestones (Football),4.0,,4.0,,1,2026-11-21T12:58Z
+401873070,4259166,,217,Assists Milestones (Football),5.0,,4.0,,1,2026-11-21T12:58Z
+401873070,4259166,,217,Assists Milestones (Football),6.0,,4.0,,1,2026-11-21T12:58Z
 401873070,4259166,,217,Assists Milestones (Football),7.0,,4.0,,1,2026-11-21T12:58Z
+401873070,4566094,,217,Assists Milestones (Football),3.0,,5.0,,1,2026-11-21T13:29Z
+401873070,4566094,,217,Assists Milestones (Football),4.0,,5.0,,1,2026-11-21T13:29Z
+401873070,4566094,,217,Assists Milestones (Football),5.0,,5.0,,1,2026-11-21T13:29Z
+401873070,4566094,,217,Assists Milestones (Football),6.0,,5.0,,1,2026-11-21T13:29Z
+401873070,4566094,,217,Assists Milestones (Football),7.0,,5.0,,1,2026-11-21T13:29Z
+401873070,4566094,,217,Assists Milestones (Football),8.0,,5.0,,1,2026-11-21T13:29Z
+401873070,4566094,,217,Assists Milestones (Football),9.0,,5.0,,1,2026-11-21T13:31Z
+401873070,4676004,,217,Assists Milestones (Football),2.0,,2.0,,1,2026-11-21T13:21Z
+401873070,4676004,,217,Assists Milestones (Football),3.0,,2.0,,1,2026-11-21T13:21Z
+401873070,4880346,,217,Assists Milestones (Football),2.0,,3.0,,1,2026-11-21T13:31Z
+401873070,4880346,,217,Assists Milestones (Football),3.0,,3.0,,1,2026-11-21T13:31Z
+401873070,4880346,,217,Assists Milestones (Football),4.0,,3.0,,1,2026-11-21T13:31Z
+401873070,4880346,,217,Assists Milestones (Football),5.0,,3.0,,1,2026-11-21T13:31Z
+401873070,4880346,,217,Assists Milestones (Football),6.0,,3.0,,1,2026-11-21T13:31Z
