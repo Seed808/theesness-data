@@ -1,8 +1,8 @@
 event_id,athlete_id,team_id,type_id,market,line,price,open_line,open_price,n,updated
 401873073,2577417,,8,Total Passing Yards (incl. overtime),279.5,,279.5,,1,2026-11-21T02:41Z
 401873073,2577417,,8,Total Passing Yards (incl. overtime),279.5,,279.5,,2,2026-11-21T02:41Z
-401873073,4688380,,8,Total Passing Yards (incl. overtime),233.5,,234.5,,1,2026-11-21T16:14Z
-401873073,4688380,,8,Total Passing Yards (incl. overtime),233.5,,234.5,,2,2026-11-21T16:14Z
+401873073,4688380,,8,Total Passing Yards (incl. overtime),234.5,,234.5,,1,2026-11-21T16:59Z
+401873073,4688380,,8,Total Passing Yards (incl. overtime),234.5,,234.5,,2,2026-11-21T16:59Z
 401873073,2577417,,9,Total Pass Completions (incl. overtime),23.5,,24.5,,1,2026-11-18T00:40Z
 401873073,2577417,,9,Total Pass Completions (incl. overtime),23.5,,24.5,,2,2026-11-18T00:40Z
 401873073,4688380,,9,Total Pass Completions (incl. overtime),22.5,,22.5,,1,2026-11-19T13:33Z
@@ -93,6 +93,8 @@ event_id,athlete_id,team_id,type_id,market,line,price,open_line,open_price,n,upd
 401873073,2577417,,18,Total Passing Plus Rushing Yards (incl. overtime),290.5,,288.5,,2,2026-11-21T05:05Z
 401873073,4688380,,18,Total Passing Plus Rushing Yards (incl. overtime),254.5,,249.5,,1,2026-11-21T00:41Z
 401873073,4688380,,18,Total Passing Plus Rushing Yards (incl. overtime),254.5,,249.5,,2,2026-11-21T00:41Z
+401873073,3676833,,19,Longest Reception (incl. overtime),7.5,,7.5,,1,2026-11-21T16:59Z
+401873073,3676833,,19,Longest Reception (incl. overtime),7.5,,7.5,,2,2026-11-21T16:59Z
 401873073,3916148,,19,Longest Reception (incl. overtime),9.5,,10.5,,1,2026-11-20T08:40Z
 401873073,3916148,,19,Longest Reception (incl. overtime),9.5,,10.5,,2,2026-11-20T08:40Z
 401873073,4241389,,19,Longest Reception (incl. overtime),27.5,,28.5,,1,2026-11-21T07:16Z
@@ -593,7 +595,7 @@ event_id,athlete_id,team_id,type_id,market,line,price,open_line,open_price,n,upd
 401873073,4688380,,194,Passing Yards Milestones,370.0,,240.0,,1,2026-11-18T01:35Z
 401873073,4688380,,194,Passing Yards Milestones,380.0,,240.0,,1,2026-11-18T01:35Z
 401873073,4688380,,194,Passing Yards Milestones,390.0,,240.0,,1,2026-11-18T01:35Z
-401873073,4688380,,194,Passing Yards Milestones,234.0,,240.0,,1,2026-11-21T16:14Z
+401873073,4688380,,194,Passing Yards Milestones,235.0,,240.0,,1,2026-11-21T16:30Z
 401873073,3676833,,195,Receiving Yards Milestones,10.0,,10.0,,1,2026-11-21T07:15Z
 401873073,3676833,,195,Receiving Yards Milestones,15.0,,10.0,,1,2026-11-21T07:15Z
 401873073,3676833,,195,Receiving Yards Milestones,20.0,,10.0,,1,2026-11-21T07:15Z
@@ -951,6 +953,7 @@ event_id,athlete_id,team_id,type_id,market,line,price,open_line,open_price,n,upd
 401873073,4241389,,202,Receptions Milestones,12.0,,8.0,,1,2026-11-18T04:24Z
 401873073,4241389,,202,Receptions Milestones,13.0,,8.0,,1,2026-11-18T04:24Z
 401873073,4241389,,202,Receptions Milestones,14.0,,8.0,,1,2026-11-18T04:24Z
+401873073,4241389,,202,Receptions Milestones,15.0,,8.0,,1,2026-11-21T16:30Z
 401873073,4360967,,202,Receptions Milestones,2.0,,3.0,,1,2026-11-18T04:24Z
 401873073,4360967,,202,Receptions Milestones,3.0,,3.0,,1,2026-11-18T04:24Z
 401873073,4360967,,202,Receptions Milestones,4.0,,3.0,,1,2026-11-18T04:24Z
